@@ -1,4 +1,4 @@
-// We need to make these imports conditional or use dynamic imports to work in the browser
+// Imports for server-side processing only
 import matter from 'gray-matter';
 
 // This will be true in a browser environment (client-side), false in Node.js (server-side)
@@ -11,17 +11,6 @@ export interface PostMetadata {
     description?: string;
     tags?: string[];
     [key: string]: any; // Allow other metadata fields
-}
-
-// Server-only code - will be eliminated in client builds
-async function getServerFilesystem() {
-    // Dynamically import Node.js modules only on the server
-    if (!isClient) {
-        const fs = await import('fs');
-        const path = await import('path');
-        return { fs, path };
-    }
-    return null;
 }
 
 // Mock data for development and fallback in client-side rendering
@@ -57,20 +46,22 @@ export async function getPostSlugs(): Promise<string[]> {
 
     // Server-side: Use file system
     try {
-        const fs_path = await getServerFilesystem();
-        if (!fs_path) return [];
+        // Dynamic import fs and path modules server-side only
+        const fs = await import('fs/promises');
+        const path = await import('path');
 
-        const { fs, path } = fs_path;
         const postsDirectory = path.join(process.cwd(), 'src', 'posts');
 
         // Create directory if it doesn't exist
-        if (!fs.existsSync(postsDirectory)) {
+        try {
+            await fs.access(postsDirectory);
+        } catch (error) {
             console.log("Posts directory doesn't exist, creating at:", postsDirectory);
-            fs.mkdirSync(postsDirectory, { recursive: true });
+            await fs.mkdir(postsDirectory, { recursive: true });
             return [];
         }
 
-        const files = fs.readdirSync(postsDirectory);
+        const files = await fs.readdir(postsDirectory);
         console.log("Found files in posts directory:", files);
 
         const slugs = files
@@ -107,14 +98,16 @@ export async function getPostBySlug(slug: string): Promise<{ content: string; me
 
     // Server-side: Use file system
     try {
-        const fs_path = await getServerFilesystem();
-        if (!fs_path) throw new Error("File system not available");
+        // Dynamic import fs and path modules server-side only
+        const fs = await import('fs/promises');
+        const path = await import('path');
 
-        const { fs, path } = fs_path;
         const postsDirectory = path.join(process.cwd(), 'src', 'posts');
         const fullPath = path.join(postsDirectory, `${slug}.mdx`);
 
-        if (!fs.existsSync(fullPath)) {
+        try {
+            await fs.access(fullPath);
+        } catch (error) {
             console.error("Post file does not exist:", fullPath);
             return {
                 content: "# Post not found\n\nThe requested post could not be found.",
@@ -126,7 +119,7 @@ export async function getPostBySlug(slug: string): Promise<{ content: string; me
             };
         }
 
-        const fileContents = fs.readFileSync(fullPath, 'utf8');
+        const fileContents = await fs.readFile(fullPath, 'utf8');
         const { data, content } = matter(fileContents);
 
         const metadata: PostMetadata = {

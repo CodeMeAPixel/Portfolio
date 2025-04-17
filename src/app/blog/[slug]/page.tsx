@@ -11,7 +11,9 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props) {
-    const { slug } = params;
+    // Await the params object to ensure it's fully resolved
+    const { slug } = await Promise.resolve(params);
+
     const { metadata } = await getPostBySlug(slug);
     return {
         title: metadata.title,
@@ -28,7 +30,9 @@ export async function generateMetadata({ params }: Props) {
 }
 
 export default async function BlogPost({ params }: Props) {
-    const { slug } = params;
+    // Await the params object here too for consistency
+    const { slug } = await Promise.resolve(params);
+
     const { content, metadata } = await getPostBySlug(slug);
     const readingTime = calculateReadingTime(content);
 
