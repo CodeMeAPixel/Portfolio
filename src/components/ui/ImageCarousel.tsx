@@ -13,7 +13,7 @@ export function ImageCarousel({ images, className = "" }: ImageCarouselProps) {
 
   useEffect(() => {
     if (isHovered) return;
-    
+
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % images.length);
     }, 5000);
@@ -30,14 +30,14 @@ export function ImageCarousel({ images, className = "" }: ImageCarouselProps) {
   };
 
   return (
-    <div 
+    <div
       className={`relative aspect-[16/9] ${className} group/carousel`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Subtle inner shadow */}
       <div className="absolute inset-1 shadow-[inset_0_0_15px_rgba(0,0,0,0.2)] pointer-events-none z-30"></div>
-      
+
       <AnimatePresence mode="wait">
         <motion.div
           key={currentIndex}
@@ -60,7 +60,7 @@ export function ImageCarousel({ images, className = "" }: ImageCarouselProps) {
           </div>
         </motion.div>
       </AnimatePresence>
-      
+
       {/* Navigation Controls */}
       {images.length > 1 && (
         <>
@@ -76,7 +76,7 @@ export function ImageCarousel({ images, className = "" }: ImageCarouselProps) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </motion.button>
-            
+
             <motion.button
               onClick={handleNext}
               className="h-8 w-8 rounded-full bg-card/70 backdrop-blur-sm text-color-text flex items-center justify-center hover:bg-card/90 shadow-lg border border-primary-700/30 hover:border-primary-500/40 transition-all"
@@ -90,7 +90,7 @@ export function ImageCarousel({ images, className = "" }: ImageCarouselProps) {
           </div>
 
           {/* Navigation Dots - Moved up slightly for better visibility */}
-          <motion.div 
+          <motion.div
             className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 z-20 bg-card/50 backdrop-blur-sm px-3 py-1.5 rounded-full border border-primary-700/20 shadow-lg"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -100,11 +100,10 @@ export function ImageCarousel({ images, className = "" }: ImageCarouselProps) {
               <motion.button
                 key={index}
                 onClick={() => setCurrentIndex(index)}
-                className={`rounded-full transition-all duration-300 ${
-                  index === currentIndex 
-                    ? "bg-primary-400 w-6 h-1.5" 
+                className={`rounded-full transition-all duration-300 ${index === currentIndex
+                    ? "bg-primary-400 w-6 h-1.5"
                     : "bg-primary-600/30 w-2 h-1.5 hover:bg-primary-400/50"
-                }`}
+                  }`}
                 whileHover={{ scaleX: 1.2 }}
                 whileTap={{ scaleX: 0.8 }}
               />

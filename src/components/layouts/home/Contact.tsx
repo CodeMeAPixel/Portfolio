@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { IoLogoGithub, IoLogoLinkedin, IoLogoTwitter } from "react-icons/io5";
+import { IoLogoDiscord, IoLogoGithub, IoLogoLinkedin, IoLogoTwitter } from "react-icons/io5";
 
 export default function Contact() {
   return (
@@ -14,7 +14,7 @@ export default function Contact() {
 
           <div className="flex justify-center">
             <Link href="mailto:hey@codemeapixel.dev" className="btn-primary">
-              Contact Me
+              Send me a Email
             </Link>
           </div>
 
@@ -28,6 +28,9 @@ export default function Contact() {
               </Link>
               <Link href="https://twitter.com/codemeapixel" className="btn-icon" aria-label="Twitter Profile">
                 <IoLogoTwitter className="w-5 h-5" />
+              </Link>
+              <Link href="https://discord.gg/Vv2bdC44Ge" className="btn-icon" aria-label="Twitter Profile">
+                <IoLogoDiscord className="w-5 h-5" />
               </Link>
             </div>
           </div>

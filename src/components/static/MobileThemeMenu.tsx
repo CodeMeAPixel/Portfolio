@@ -9,7 +9,7 @@ import { IoCheckmark } from "react-icons/io5";
 import { IoClose } from "react-icons/io5";
 
 type ThemeOption = {
-  name: "blue" | "purple" | "teal" | "rose" | "amber";
+  name: "blue" | "purple" | "teal" | "rose" | "amber" | "sunset" | "emerald" | "crimson" | "nord" | "cyberpunk" | "mint";
   label: string;
   color: string;
   gradient: string;
@@ -30,7 +30,7 @@ const themeOptions: ThemeOption[] = [
   },
   {
     name: "teal",
-    label: "Emerald",
+    label: "Teal",
     color: "rgb(13, 148, 136)",
     gradient: "from-teal-600 to-teal-400"
   },
@@ -46,6 +46,42 @@ const themeOptions: ThemeOption[] = [
     color: "rgb(217, 119, 6)",
     gradient: "from-amber-600 to-amber-400"
   },
+  {
+    name: "sunset",
+    label: "Sunset",
+    color: "rgb(234, 88, 12)",
+    gradient: "from-orange-600 to-orange-400"
+  },
+  {
+    name: "emerald",
+    label: "Emerald",
+    color: "rgb(5, 150, 105)",
+    gradient: "from-emerald-600 to-emerald-400"
+  },
+  {
+    name: "crimson",
+    label: "Crimson",
+    color: "rgb(220, 38, 38)",
+    gradient: "from-red-600 to-red-400"
+  },
+  {
+    name: "nord",
+    label: "Nord",
+    color: "rgb(49, 112, 179)",
+    gradient: "from-blue-700 to-blue-500"
+  },
+  {
+    name: "cyberpunk",
+    label: "Cyberpunk",
+    color: "rgb(236, 236, 0)",
+    gradient: "from-yellow-400 to-fuchsia-600"
+  },
+  {
+    name: "mint",
+    label: "Mint",
+    color: "rgb(34, 197, 94)",
+    gradient: "from-green-600 to-green-400"
+  }
 ];
 
 export default function MobileThemeMenu() {
@@ -76,7 +112,7 @@ export default function MobileThemeMenu() {
 
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
-        <Dialog.Content className="fixed left-[50%] top-[50%] z-50 grid w-full max-w-sm translate-x-[-50%] translate-y-[-50%] gap-4 bg-card border border-color-border shadow-lg rounded-xl p-6 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]">
+        <Dialog.Content className="fixed left-[50%] top-[50%] z-50 grid w-full max-w-sm max-h-[80vh] overflow-y-auto translate-x-[-50%] translate-y-[-50%] gap-4 bg-card border border-color-border shadow-lg rounded-xl p-6 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]">
           <Dialog.Title className="text-xl font-semibold bg-gradient-to-r from-primary-400 to-primary-300 bg-clip-text text-transparent">
             Choose Your Theme
           </Dialog.Title>
