@@ -4,13 +4,14 @@ export const projects: Project[] = [
   {
     id: "1",
     title: "Infinity List",
-    description: "Search our vast list of bots for an exciting start to your server.",
+    description: "Begin your Discord journey with our extensive directory, featuring a wide array of bots and servers. ",
     images: [
       "/Infinity/Home.png",
       "/Infinity/BotPages.png"
     ],
     tags: ["Next.js", "React", "Tailwind CSS", "PostgreSQL", "Go"],
     links: {
+      slug: "infinity-list",
       demo: "https://infinitybots.gg",
       github: "https://github.com/InfinityBotList"
     },
@@ -26,9 +27,10 @@ export const projects: Project[] = [
     ],
     tags: ["Next.js", "React", "TypeScript", "Framer Motion"],
     links: {
+      slug: "nodebyte-hosting",
       demo: "https://nodebyte.host",
       github: "https://github.com/NodeByteHosting/Website"
     },
     featured: true
-  }
-]; 
+  },
+];
