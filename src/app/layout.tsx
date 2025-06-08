@@ -1,8 +1,7 @@
+import "../styles/globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
-import Navbar from "@/components/static/Navbar";
 import Loader from "@/components/static/Loader";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -93,7 +92,6 @@ export default function RootLayout({
         <ThemeProvider>
           <Loader />
           <div className="loader-content">
-            <Navbar />
             {children}
           </div>
         </ThemeProvider>

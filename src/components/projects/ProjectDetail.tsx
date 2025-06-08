@@ -6,9 +6,7 @@ import { Project } from '@/types/project';
 import { useState, useEffect } from 'react';
 import { ImageCarousel } from '@/components/ui/ImageCarousel';
 import { IoArrowBack, IoCalendarOutline, IoCodeSlash, IoLogoGithub, IoGlobeOutline, IoDocumentText, IoPersonOutline, IoPeopleOutline } from 'react-icons/io5';
-import Image from 'next/image';
-import { useTheme } from "@/context/ThemeContext";
-import TechIcon from '@/components/ui/TechIcon';
+import { TechIcon } from '@/components/ui/TechIcon';
 
 interface ProjectDetailProps {
     project: Project;
@@ -17,7 +15,6 @@ interface ProjectDetailProps {
 export default function ProjectDetail({ project }: ProjectDetailProps) {
     const [activeTab, setActiveTab] = useState<'overview' | 'challenges' | 'technologies'>('overview');
     const [activeTestimonial, setActiveTestimonial] = useState(0);
-    const { themeColor } = useTheme();
 
     useEffect(() => {
         // Convert single testimonial to array format for backward compatibility
@@ -233,12 +230,12 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                                                     <div className="absolute top-0 right-0 w-32 h-32 bg-primary-500/5 rounded-full translate-x-16 -translate-y-16" />
                                                     <div className="absolute bottom-0 left-0 w-24 h-24 bg-primary-500/5 rounded-full -translate-x-12 translate-y-12" />
                                                     {/* Large quote mark backgrounds - positioned further away from content */}
-                                                    <div className="absolute top-6 left-6 text-9xl text-primary-500/10 font-serif leading-none opacity-50">"</div>
-                                                    <div className="absolute bottom-6 right-6 text-9xl text-primary-500/10 font-serif leading-none rotate-180 opacity-50">"</div>
+                                                    <div className="absolute top-6 left-6 text-9xl text-primary-500/10 font-serif leading-none opacity-50">&quot;</div>
+                                                    <div className="absolute bottom-6 right-6 text-9xl text-primary-500/10 font-serif leading-none rotate-180 opacity-50">&quot;</div>
                                                     <div className="relative z-10">
                                                         {/* Added padding to prevent overlap with quote marks */}
                                                         <blockquote className="text-xl sm:text-2xl italic text-color-text font-light leading-relaxed mb-6 pl-10 pr-10">
-                                                            "{project.testimonials[activeTestimonial].quote}"
+                                                            &quot;{project.testimonials[activeTestimonial].quote}&quot;
                                                         </blockquote>
                                                         <div className="flex items-center gap-4 mt-8">
                                                             {/* Avatar placeholder */}

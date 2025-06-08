@@ -89,7 +89,7 @@ const CustomImage = (props: React.ComponentPropsWithoutRef<"img"> & { width?: nu
     if (props.src && (props.src.startsWith('http://') || props.src.startsWith('https://'))) {
         return (
             <div className="my-8 overflow-hidden rounded-lg border border-primary-800/20 shadow-lg">
-                <img {...props} className="w-full h-auto" />
+                <img alt="MDX STUFF AND THINGS" {...props} className="w-full h-auto" />
             </div>
         );
     }

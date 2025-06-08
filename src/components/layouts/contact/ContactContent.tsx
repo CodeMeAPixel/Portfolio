@@ -142,7 +142,7 @@ export default function ContactContent() {
                                     </div>
                                     <h3 className="text-xl font-semibold text-color-text mb-2">Message Sent!</h3>
                                     <p className="text-color-text-muted mb-6">
-                                        Thank you for reaching out. I'll get back to you as soon as possible!
+                                        Thank you for reaching out. I&apos;ll get back to you as soon as possible!
                                     </p>
                                     <button
                                         className="btn-primary"

@@ -1,8 +1,17 @@
 "use client";
 
-import { DiAppcelerator, DiAndroid, DiApple } from 'react-icons/di';
-import { AiOutlineCode } from 'react-icons/ai';
-import { FaServer, FaAws, FaDatabase, FaGithub, FaNodeJs, FaJava, FaBootstrap, FaPython, FaPhp } from 'react-icons/fa';
+import Image from 'next/image';
+import { FaServer, FaDatabase, FaCode, FaEnvelope, FaKey, FaJava } from 'react-icons/fa';
+import { IconType } from 'react-icons';
+
+import {
+    DiAngularSimple, DiBootstrap, DiDjango, DiExpressjs,
+    DiFastify, DiFramer, DiGithubBadge, DiGit, DiGoogleCloudPlatform,
+    DiHtml5, DiJavascript1, DiJqueryLogo, DiLaravel, DiMaterializecss,
+    DiMicrosoft, DiNodejsSmall, DiPhp, DiPostgresql, DiRedis, DiRuby,
+    DiSass, DiServer, DiStripe, DiTwilio, DiVsCode, DiWebpack, DiAmazonAws,
+    DiVisualstudio, DiDocker, DiGithub
+} from 'react-icons/di';
 
 import {
     SiReact, SiNextdotjs, SiVuedotjs, SiAngular, SiSvelte, SiJavascript,
@@ -11,210 +20,122 @@ import {
     SiDjango, SiFlask, SiRubyonrails, SiPhp, SiLaravel, SiGo, SiSpringboot,
     SiDotnet, SiGraphql, SiNestjs, SiFastify, SiMongodb, SiMysql,
     SiPostgresql, SiSqlite, SiFirebase, SiRedis, SiSupabase,
-    SiDocker, SiKubernetes, SiGooglecloud,
+    SiDocker, SiKubernetes, SiGooglecloud, SiChakraui,
     SiTerraform, SiJenkins, SiCircleci, SiGithubactions, SiWebpack,
     SiVite, SiBabel, SiEslint, SiStripe, SiPaypal, SiCloudflare,
     SiVercel, SiNetlify, SiHeroku, SiDigitalocean, SiPython,
     SiCplusplus, SiRust, SiSwift, SiKotlin, SiRuby, SiWordpress,
     SiContentful, SiStrapi, SiSanity, SiMarkdown, SiJest, SiCypress, SiMocha,
-    SiSelenium, SiFlutter, SiIonic, SiRadixui, SiGit,
-    SiFigma, SiStorybook
+    SiSelenium, SiFlutter, SiIonic, SiRadixui, SiGit, SiFigma, SiStorybook,
+    SiAmazonwebservices, SiPrisma, SiAuth0, SiTwilio, SiMailchimp, SiReactquery,
+    SiGithub
 } from 'react-icons/si';
 
-// Tech icon mapping with properly imported icons
-const techIcons: Record<string, React.ElementType> = {
-    // Frontend
-    'React': SiReact,
-    'Next.js': SiNextdotjs,
-    'Vue': SiVuedotjs,
-    'Vue.js': SiVuedotjs,
-    'Angular': SiAngular,
-    'Svelte': SiSvelte,
-    'JavaScript': SiJavascript,
-    'TypeScript': SiTypescript,
-    'HTML': SiHtml5,
-    'HTML5': SiHtml5,
-    'CSS': SiCss3,
-    'CSS3': SiCss3,
-    'Tailwind': SiTailwindcss,
-    'Tailwind CSS': SiTailwindcss,
-    'Bootstrap': SiBootstrap,
-    'jQuery': SiJquery,
-    'SASS': SiSass,
-    'Framer': SiFramer,
-    'Framer Motion': SiFramer,
-    'Material UI': SiMui,
-    'MUI': SiMui,
-    'Redux': SiRedux,
-    'Gatsby': SiGatsby,
+import { PiFramerLogoFill } from 'react-icons/pi';
 
-    // Backend
-    'Node': SiNodedotjs,
-    'Node.js': SiNodedotjs,
-    'Express': SiExpress,
-    'Django': SiDjango,
-    'Flask': SiFlask,
-    'Ruby on Rails': SiRubyonrails,
-    'Rails': SiRubyonrails,
-    'PHP': SiPhp,
-    'Laravel': SiLaravel,
-    'Go': SiGo,
-    'Golang': SiGo,
-    'Spring': SiSpringboot,
-    'Spring Boot': SiSpringboot,
-    'ASP.NET': SiDotnet,
-    '.NET': SiDotnet,
-    'GraphQL': SiGraphql,
-    'REST': FaServer,
-    'NestJS': SiNestjs,
-    'Fastify': SiFastify,
+import { BsMicrosoft } from 'react-icons/bs';
 
-    // Database
-    'MongoDB': SiMongodb,
-    'MySQL': SiMysql,
-    'PostgreSQL': SiPostgresql,
-    'Postgres': SiPostgresql,
-    'SQLite': SiSqlite,
-    'Firebase': SiFirebase,
-    'Redis': SiRedis,
-    'Supabase': SiSupabase,
-    'DynamoDB': FaAws,
-    'Cassandra': FaDatabase,
+import { TbBrandRadixUi } from 'react-icons/tb';
 
-    // DevOps & Tools
-    'Docker': SiDocker,
-    'Kubernetes': SiKubernetes,
-    'K8s': SiKubernetes,
-    'AWS': FaAws,
-    'Amazon Web Services': FaAws,
-    'GCP': SiGooglecloud,
-    'Google Cloud': SiGooglecloud,
-    'Terraform': SiTerraform,
-    'Jenkins': SiJenkins,
-    'CircleCI': SiCircleci,
-    'GitHub Actions': SiGithubactions,
-    'Webpack': SiWebpack,
-    'Vite': SiVite,
-    'Babel': SiBabel,
-    'ESLint': SiEslint,
-
-    // Payment & Services
-    'Stripe': SiStripe,
-    'PayPal': SiPaypal,
-    'Cloudflare': SiCloudflare,
-    'Vercel': SiVercel,
-    'Netlify': SiNetlify,
-    'Heroku': SiHeroku,
-    'Digital Ocean': SiDigitalocean,
-    'DigitalOcean': SiDigitalocean,
-
-    // Languages
-    'Python': SiPython,
-    'C++': SiCplusplus,
-    'CPP': SiCplusplus,
-    'Rust': SiRust,
-    'Swift': SiSwift,
-    'Kotlin': SiKotlin,
-    'Ruby': SiRuby,
-
-    // CMS & Content
-    'WordPress': SiWordpress,
-    'Contentful': SiContentful,
-    'Strapi': SiStrapi,
-    'Sanity': SiSanity,
-    'MDX': SiMarkdown,
-    'Markdown': SiMarkdown,
-
-    // Testing
-    'Jest': SiJest,
-    'Cypress': SiCypress,
-    'Mocha': SiMocha,
-    'Selenium': SiSelenium,
-
-    // Mobile
-    'React Native': SiReact,
-    'Flutter': SiFlutter,
-    'Ionic': SiIonic,
-    'Android': DiAndroid,
-    'iOS': DiApple,
-
-    // Additional icons needed for Skills page
-    'GitHub': FaGithub,
-    'Github': FaGithub,
-    'git': SiGit,
-    'Git': SiGit,
-    'Radix UI': SiRadixui,
-    'Radix': SiRadixui,
-    'radix': SiRadixui,
-    'Figma': SiFigma,
-    'figma': SiFigma,
-    'Storybook': SiStorybook,
-    'storybook': SiStorybook,
-    'Headless UI': SiRadixui,
-    'headless': SiRadixui,
-
-    // Additional aliases for common technologies
-    'nodejs': SiNodedotjs,
-    'node': SiNodedotjs,
-    'python': SiPython,
-    'java': FaJava,
-    'php': SiPhp,
-    'api': FaServer,
-    'REST API': FaServer,
-    'rest api': FaServer,
-    'database': FaDatabase,
-    'sql': FaDatabase,
-    'SQL': FaDatabase,
-    'bootstrap': SiBootstrap,
-    'mui': SiMui,
-    'material-ui': SiMui,
-    'Material UI': SiMui,
-    'framer': SiFramer,
-    'gcp': SiGooglecloud,
-
-    // Default
-    'default': AiOutlineCode
+// Map of tech names to their corresponding icon components
+const iconMap: Record<string, IconType> = {
+    javascript: SiJavascript,
+    typescript: SiTypescript,
+    react: SiReact,
+    nextjs: SiNextdotjs,
+    vuejs: SiVuedotjs,
+    angular: SiAngular,
+    svelte: SiSvelte,
+    tailwindcss: SiTailwindcss,
+    css3: SiCss3,
+    html5: SiHtml5,
+    nodejs: SiNodedotjs,
+    express: SiExpress,
+    fastify: FaServer,
+    go: SiGo,
+    python: SiPython,
+    java: FaJava,
+    php: SiPhp,
+    graphql: SiGraphql,
+    mongodb: SiMongodb,
+    postgresql: SiPostgresql,
+    mysql: SiMysql,
+    redis: SiRedis,
+    firebase: SiFirebase,
+    docker: SiDocker,
+    kubernetes: SiKubernetes,
+    github: DiGithub,
+    git: SiGit,
+    vscode: DiVisualstudio,
+    figma: SiFigma,
+    webpack: SiWebpack,
+    jest: SiJest,
+    cypress: SiCypress,
+    storybook: SiStorybook,
+    mui: DiMaterializecss,
+    chakra: SiChakraui,
+    bootstrap: SiBootstrap,
+    aws: SiAmazonwebservices,
+    vercel: SiVercel,
+    netlify: SiNetlify,
+    gcp: SiGooglecloud,
+    prisma: SiPrisma,
+    supabase: SiSupabase,
+    auth0: SiAuth0,
+    twilio: SiTwilio,
+    mailchimp: SiMailchimp,
+    microsoft: BsMicrosoft,
+    framer: PiFramerLogoFill,
+    bun: FaCode, // Generic icon for Bun
+    nestjs: FaCode, // Generic icon for NestJS
+    drizzle: FaDatabase, // Generic icon for Drizzle
+    terraform: FaCode, // Generic icon for Terraform
+    api: FaCode,
+    database: FaDatabase,
+    headless: FaCode,
+    shadcn: FaCode,
+    hono: FaServer,
+    cicd: FaCode,
+    postmark: FaEnvelope,
+    resend: FaEnvelope,
+    sendgrid: FaEnvelope,
+    oauth: FaKey,
+    jwt: FaKey,
+    nextauth: FaKey,
+    clerk: FaKey,
+    "testing-library": FaCode,
+    playwright: FaCode,
+    vitest: FaCode,
+    radix: TbBrandRadixUi,
+    reactquery: SiReactquery,
+    "githubactions": SiGithubactions,
+    "githubapi": SiGithub,
 };
 
 interface TechIconProps {
     name: string;
-    className?: string;
     size?: number;
+    className?: string;
 }
 
-export default function TechIcon({ name, className = "", size = 24 }: TechIconProps) {
-    // Find the correct icon component
-    const Icon = findIconForTech(name);
+export function TechIcon({ name, size = 20, className = '' }: TechIconProps) {
+    // Normalize the name by converting to lowercase and removing spaces
+    const normalizedName = name.toLowerCase().replace(/\s+/g, '');
 
+    // Find the icon component
+    const IconComponent = iconMap[normalizedName];
+
+    if (IconComponent) {
+        return <IconComponent size={size} className={className} />;
+    }
+
+    // Default fallback for unknown technologies
     return (
-        <Icon className={className} style={{ width: size, height: size }} />
+        <div
+            className={`inline-flex items-center justify-center bg-primary-800/50 rounded-full ${className}`}
+            style={{ width: size, height: size, fontSize: size * 0.5 }}
+        >
+            {name.charAt(0).toUpperCase()}
+        </div>
     );
-}
-
-// Helper function to get icon for a tech name
-export function findIconForTech(techName: string): React.ElementType {
-    // Strip any extra whitespace and try exact match first
-    const normalizedName = techName.trim();
-
-    if (techIcons[normalizedName]) {
-        return techIcons[normalizedName];
-    }
-
-    // Try case-insensitive match
-    const lowerCaseName = normalizedName.toLowerCase();
-    const caseInsensitiveMatch = Object.keys(techIcons).find(
-        key => key.toLowerCase() === lowerCaseName
-    );
-
-    if (caseInsensitiveMatch) {
-        return techIcons[caseInsensitiveMatch];
-    }
-
-    // Try partial match
-    const partialMatch = Object.keys(techIcons).find(key =>
-        lowerCaseName.includes(key.toLowerCase()) ||
-        key.toLowerCase().includes(lowerCaseName)
-    );
-
-    return partialMatch ? techIcons[partialMatch] : techIcons.default;
 }

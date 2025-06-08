@@ -13,7 +13,7 @@ export default function Contact() {
           </p>
 
           <div className="flex justify-center">
-            <Link href="mailto:hey@codemeapixel.dev" className="btn-primary">
+            <Link href="/contact" className="btn-primary">
               Send me a Email
             </Link>
           </div>

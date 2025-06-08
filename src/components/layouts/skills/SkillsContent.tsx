@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { SkillCategory } from '@/data/skills';
-import TechIcon from '@/components/ui/TechIcon';
-import { IoSearch, IoChevronDown, IoBookmarkOutline, IoCodeSlashOutline, IoServerOutline, IoCloudUploadOutline, IoHammerOutline, IoLayersOutline } from 'react-icons/io5';
+import { TechIcon } from '@/components/ui/TechIcon';
+import { IoSearch, IoBookmarkOutline, IoCodeSlashOutline, IoServerOutline, IoCloudUploadOutline, IoHammerOutline, IoLayersOutline } from 'react-icons/io5';
 import * as Tabs from '@radix-ui/react-tabs';
 
 interface SkillsContentProps {
@@ -57,8 +57,8 @@ export default function SkillsContent({ skills }: SkillsContentProps) {
                         Skills & Expertise
                     </h1>
                     <p className="text-color-text-muted text-center md:text-left max-w-3xl">
-                        I've worked with a variety of technologies across the stack.
-                        Here's a comprehensive overview of my technical skills and proficiency levels.
+                        I&apos;e worked with a variety of technologies across the stack.
+                        Here&apos;s a comprehensive overview of my technical skills and proficiency levels.
                     </p>
                 </motion.div>
 
@@ -171,8 +171,8 @@ export default function SkillsContent({ skills }: SkillsContentProps) {
                                                                     <div
                                                                         key={i}
                                                                         className={`w-8 h-1.5 rounded-full transition-colors duration-300 ${i < skill.level!
-                                                                                ? 'bg-primary-500/70 group-hover:bg-primary-400'
-                                                                                : 'bg-primary-900/30'
+                                                                            ? 'bg-primary-500/70 group-hover:bg-primary-400'
+                                                                            : 'bg-primary-900/30'
                                                                             }`}
                                                                     />
                                                                 ))}
@@ -255,8 +255,8 @@ export default function SkillsContent({ skills }: SkillsContentProps) {
                                                                 <div
                                                                     key={i}
                                                                     className={`w-8 h-1.5 rounded-full transition-colors duration-300 ${i < skill.level!
-                                                                            ? 'bg-primary-500/70 group-hover:bg-primary-400'
-                                                                            : 'bg-primary-900/30'
+                                                                        ? 'bg-primary-500/70 group-hover:bg-primary-400'
+                                                                        : 'bg-primary-900/30'
                                                                         }`}
                                                                 />
                                                             ))}

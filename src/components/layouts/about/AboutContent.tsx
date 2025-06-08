@@ -56,7 +56,7 @@ export default function AboutContent() {
                         >
                             <div className="prose prose-invert max-w-none">
                                 <p className="text-lg text-color-text-muted leading-relaxed">
-                                    Hello! I'm <span className="text-primary-300 font-medium">CodeMeAPixel</span>, a passionate fullstack developer with a keen eye for design and a love for creating exceptional digital experiences.
+                                    Hello! I&apos;m <span className="text-primary-300 font-medium">Tyler</span>, a passionate fullstack developer with a keen eye for design and a love for creating exceptional digital experiences.
                                 </p>
 
                                 <p className="text-color-text-muted mt-4">
@@ -64,7 +64,11 @@ export default function AboutContent() {
                                 </p>
 
                                 <p className="text-color-text-muted mt-4">
-                                    When I'm not coding, I enjoy exploring new technologies, contributing to open-source projects, and sharing my knowledge through writing and mentoring. I believe in continuous learning and staying up-to-date with the latest trends and best practices in web development.
+                                    When I&apos;m not coding, I enjoy spending quality time with my family. I&apos;m a proud husband and father of two wonderful children who inspire me every day. Family time is precious to me, and I strive to maintain a healthy work-life balance.
+                                </p>
+
+                                <p className="text-color-text-muted mt-4">
+                                    I also enjoy exploring new technologies, contributing to open-source projects, and sharing my knowledge through writing and mentoring. I believe in continuous learning and staying up to date with the latest trends and best practices in web development.
                                 </p>
                             </div>
 
@@ -94,6 +98,13 @@ export default function AboutContent() {
 
                     <div className="grid gap-6">
                         <TimelineItem
+                            title="System Administrator"
+                            company="Purrquinox Technologies"
+                            period="Present"
+                            description="Manage and maintain the IT infrastructure, ensuring system reliability and security. I also handle network administration, server management, and user support. My role involves troubleshooting technical issues and working with the development team to implement solutions to improve system performance."
+                            delay={0.2}
+                        />
+                        <TimelineItem
                             title="Chief of Operations"
                             company="NodeByte"
                             period="2024 - Present"
@@ -102,10 +113,10 @@ export default function AboutContent() {
                         />
 
                         <TimelineItem
-                            title="Lead Developer"
-                            company="Infinity Development"
+                            title="Chief Executive Officer"
+                            company="ByteBrush Studios"
                             period="2020 - Present"
-                            description="Led a team of developers in creating web applications using React, Node.js, MongoDB, PostgreSQL, Rust and more. Collaborated with designers to implement user-friendly interfaces and optimized application performance."
+                            description="Oversee the strategic direction of the company, manage client relationships, and ensure the successful delivery of projects. I also lead business development efforts and explore new opportunities for growth."
                             delay={0.2}
                         />
                     </div>
@@ -125,9 +136,16 @@ export default function AboutContent() {
 
                     <div className="grid gap-6">
                         <TimelineItem
+                            title="Fullstack Development"
+                            company="Free Code Camp"
+                            period="2020 - 2021"
+                            description="Completed a comprehensive curriculum covering HTML, CSS, JavaScript, React, Node.js, and MongoDB. Built several fullstack applications to demonstrate skills."
+                            delay={0.2}
+                        />
+                        <TimelineItem
                             title="Frontend Development"
                             company="Free Code Camp"
-                            period="2018"
+                            period="2017-2018"
                             description="Completed a comprehensive curriculum covering HTML, CSS, JavaScript, and responsive design. Built several projects to demonstrate skills."
                             delay={0.1}
                             isLast={true}
@@ -135,7 +153,7 @@ export default function AboutContent() {
                         <TimelineItem
                             title="Backend Development"
                             company="Free Code Camp"
-                            period="2017"
+                            period="2016-2017"
                             description="Completed a curriculum focused on Node.js, Express, and MongoDB. Developed RESTful APIs and integrated them with frontend applications."
                             delay={0.1}
                             isLast={true}
@@ -175,6 +193,28 @@ export default function AboutContent() {
                             description="I enjoy exploring emerging technologies and experimenting with new tools and frameworks."
                             delay={0.3}
                         />
+
+                        <InterestCard
+                            icon={<IoSchoolOutline />}
+                            title="Mentoring"
+                            description="I love mentoring aspiring developers and sharing my knowledge to help them grow in their careers."
+                            delay={0.4}
+                        />
+
+                        <InterestCard
+                            icon={<IoRocketOutline />}
+                            title="Family Time"
+                            description="Spending quality time with my family is important to me. I cherish moments with my wife and two kids."
+                            delay={0.5}
+                        />
+
+                        <InterestCard
+                            icon={<IoCode />}
+                            title="Web Development"
+                            description="I have a passion for finding and exploring new areas in web development, from frontend to backend."
+                            delay={0.6}
+                        />
+
                     </div>
                 </motion.div>
             </div>

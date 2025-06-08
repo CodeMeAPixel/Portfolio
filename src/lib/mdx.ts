@@ -10,7 +10,7 @@ export interface PostMetadata {
     slug: string;
     description?: string;
     tags?: string[];
-    [key: string]: any; // Allow other metadata fields
+    [key: string]: any;
 }
 
 // Mock data for development and fallback in client-side rendering

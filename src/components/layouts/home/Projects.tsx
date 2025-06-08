@@ -22,7 +22,7 @@ export default function Projects() {
             Featured Projects
           </h2>
           <p className="text-color-text-muted text-center md:text-left">
-            Some of my recent work that I'm proud of
+            Some of my recent work that I&apos;m proud of
           </p>
         </motion.div>
 

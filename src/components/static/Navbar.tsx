@@ -6,10 +6,11 @@ import { useTheme } from "@/context/ThemeContext";
 import ThemeSelector from "./ThemeSelector";
 import MobileThemeMenu from "./MobileThemeMenu";
 import { motion, AnimatePresence } from "framer-motion";
-import { IoMenu, IoClose, IoHomeOutline, IoPersonOutline, IoFolderOutline, IoMailOutline, IoConstructOutline } from "react-icons/io5";
+import { IoMenu, IoClose, IoHomeOutline, IoPersonOutline, IoFolderOutline, IoMailOutline } from "react-icons/io5";
 import { CMAP } from "@/components/icons/CMAP";
-import { FaStar } from "react-icons/fa";
+import { FaRegHandPeace, FaStar, FaWaveSquare } from "react-icons/fa";
 import { usePathname } from "next/navigation";
+import packageJson from "@/../package.json";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -17,6 +18,7 @@ const navLinks = [
   { href: "/blog", label: "Blog" },
   { href: "/skills", label: "Skills" },
   { href: "/projects", label: "Projects" },
+  { href: "/referrals", label: "Referrals" },
   { href: "/contact", label: "Contact" }
 ];
 
@@ -201,8 +203,8 @@ export default function Navbar() {
                   Development Preview
                 </span>
                 <span className="flex items-center px-1.5 py-0.5 text-[10px] sm:text-xs bg-primary-900/30 border border-primary-700/30 rounded-full text-primary-300">
-                  <IoConstructOutline className="w-3 h-3 mr-1 text-primary-400" />
-                  <span>Beta - Under Active Development</span>
+                  <FaRegHandPeace className="w-3 h-3 mr-1 text-primary-400" />
+                  <span>Welcome - v{packageJson.version}</span>
                 </span>
               </div>
 
