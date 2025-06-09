@@ -3,16 +3,19 @@ import { Project } from "@/types/project";
 export const projects: Project[] = [
   {
     id: "1",
-    title: "Infinity List",
-    description: "Search our vast list of bots for an exciting start to your server.",
+    title: "NodeByte LTD",
+    description: "Helping businesses transform their digital presence with cutting edge solutions.",
     images: [
-      "/Infinity/Home.png",
-      "/Infinity/BotPages.png"
+      "/NodeByteLTD/home.png",
+      "/NodeByteLTD/about.png",
+      "/NodeByteLTD/services.png",
+      "/NodeByteLTD/discord.png"
     ],
-    tags: ["Next.js", "React", "Tailwind CSS", "PostgreSQL", "Go"],
+    tags: ["Next.js", "React", "TypeScript", "Framer Motion", "RadixUI"],
     links: {
-      demo: "https://infinitybots.gg",
-      github: "https://github.com/InfinityBotList"
+      slug: "nodebyte-ltd",
+      demo: "https://nodebyte.co.uk",
+      github: "https://github.com/NodeByteHosting"
     },
     featured: true
   },
@@ -26,9 +29,10 @@ export const projects: Project[] = [
     ],
     tags: ["Next.js", "React", "TypeScript", "Framer Motion"],
     links: {
+      slug: "nodebyte-hosting",
       demo: "https://nodebyte.host",
       github: "https://github.com/NodeByteHosting/Website"
     },
     featured: true
   }
-]; 
+];

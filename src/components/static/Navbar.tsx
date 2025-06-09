@@ -1,14 +1,64 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useTheme } from "@/context/ThemeContext";
 import ThemeSelector from "./ThemeSelector";
 import MobileThemeMenu from "./MobileThemeMenu";
 import { motion, AnimatePresence } from "framer-motion";
-import { IoMenu, IoClose, IoHomeOutline, IoPersonOutline, IoFolderOutline, IoMailOutline, IoConstructOutline } from "react-icons/io5";
+import { IoMenu, IoClose } from "react-icons/io5";
 import { CMAP } from "@/components/icons/CMAP";
-import { FaStar } from "react-icons/fa";
+import { FaRegHandPeace, FaStar } from "react-icons/fa";
+import { usePathname } from "next/navigation";
+import packageJson from "@/../package.json";
+import { IoHomeOutline, IoPersonOutline, IoNewspaperOutline, IoCodeSlashOutline, IoFolderOutline, IoStarOutline, IoMailOutline } from "react-icons/io5";
+
+const navLinks = [
+  { href: "/", label: "Home", icon: IoHomeOutline },
+  { href: "/about", label: "About", icon: IoPersonOutline },
+  { href: "/blog", label: "Blog", icon: IoNewspaperOutline },
+  { href: "/skills", label: "Skills", icon: IoCodeSlashOutline },
+  { href: "/projects", label: "Projects", icon: IoFolderOutline },
+  { href: "/referrals", label: "Referrals", icon: IoStarOutline },
+  { href: "/contact", label: "Contact", icon: IoMailOutline }
+];
+
+interface LinkComponentProps {
+  href: string;
+  className?: string;
+  children: React.ReactNode;
+  [key: string]: any;
+}
+
+export function LinkComponent({
+  href,
+  className,
+  children,
+  ...rest
+}: LinkComponentProps) {
+  const pathname = usePathname();
+  const isActive = pathname === href ||
+    (pathname === "/" && href.startsWith("/#")) ||
+    (pathname?.startsWith("/blog") && href === "/blog");
+
+  return href.startsWith("/#") || href.startsWith("http") ? (
+    <a
+      href={href}
+      className={`${className} ${isActive ? "navbar-link-active" : ""}`}
+      {...rest}
+    >
+      {children}
+    </a>
+  ) : (
+    <Link
+      href={href}
+      className={`${className} ${isActive ? "navbar-link-active" : ""}`}
+      {...rest}
+    >
+      {children}
+    </Link>
+  );
+}
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -78,19 +128,15 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <Link href="/#home" className={`navbar-link ${activeSection === "home" ? "navbar-link-active" : ""}`}>
-              Home
-            </Link>
-            <Link href="/#about" className={`navbar-link ${activeSection === "about" ? "navbar-link-active" : ""}`}>
-              About
-            </Link>
-            <Link href="/#projects" className={`navbar-link ${activeSection === "projects" ? "navbar-link-active" : ""}`}>
-              Projects
-            </Link>
-            <Link href="/#contact" className={`navbar-link ${activeSection === "contact" ? "navbar-link-active" : ""}`}>
-              Contact
-            </Link>
-
+            {navLinks.map(({ href, label }) => (
+              <LinkComponent
+                key={href}
+                href={href}
+                className="navbar-link"
+              >
+                {label}
+              </LinkComponent>
+            ))}
             <div className="ml-4">
               <ThemeSelector />
             </div>
@@ -126,54 +172,26 @@ export default function Navbar() {
             >
               <div className="max-w-lg mx-auto py-5 px-4">
                 <div className="grid gap-2">
-                  <Link
-                    href="/#home"
-                    className={`block px-4 py-3 rounded-lg ${activeSection === "home"
-                      ? "bg-primary-900/30 text-primary-300 border border-primary-700/50"
-                      : "text-color-text-muted hover:text-primary-300"}`}
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    <span className="flex items-center">
-                      <IoHomeOutline className="w-5 h-5 mr-2" />
-                      Home
-                    </span>
-                  </Link>
-                  <Link
-                    href="/#about"
-                    className={`block px-4 py-3 rounded-lg ${activeSection === "about"
-                      ? "bg-primary-900/30 text-primary-300 border border-primary-700/50"
-                      : "text-color-text-muted hover:text-primary-300"}`}
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    <span className="flex items-center">
-                      <IoPersonOutline className="w-5 h-5 mr-2" />
-                      About
-                    </span>
-                  </Link>
-                  <Link
-                    href="/#projects"
-                    className={`block px-4 py-3 rounded-lg ${activeSection === "projects"
-                      ? "bg-primary-900/30 text-primary-300 border border-primary-700/50"
-                      : "text-color-text-muted hover:text-primary-300"}`}
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    <span className="flex items-center">
-                      <IoFolderOutline className="w-5 h-5 mr-2" />
-                      Projects
-                    </span>
-                  </Link>
-                  <Link
-                    href="/#contact"
-                    className={`block px-4 py-3 rounded-lg ${activeSection === "contact"
-                      ? "bg-primary-900/30 text-primary-300 border border-primary-700/50"
-                      : "text-color-text-muted hover:text-primary-300"}`}
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    <span className="flex items-center">
-                      <IoMailOutline className="w-5 h-5 mr-2" />
-                      Contact
-                    </span>
-                  </Link>
+                  {navLinks.map(({ href, label, icon: Icon }) => (
+                    <LinkComponent
+                      key={href}
+                      href={href}
+                      className={`block px-4 py-3 rounded-lg ${activeSection === href.slice(2)
+                        ? "bg-primary-900/30 text-primary-300 border border-primary-700/50"
+                        : "text-color-text-muted hover:text-primary-300"}`}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      <span className="flex items-center">
+                        {/* Use dynamic icon based on the 'icon' property */}
+                        {Icon && (
+                          <Icon
+                            className="w-5 h-5 mr-2"
+                          />
+                        )}
+                        {label}
+                      </span>
+                    </LinkComponent>
+                  ))}
                 </div>
               </div>
             </motion.div>
@@ -195,8 +213,8 @@ export default function Navbar() {
                   Development Preview
                 </span>
                 <span className="flex items-center px-1.5 py-0.5 text-[10px] sm:text-xs bg-primary-900/30 border border-primary-700/30 rounded-full text-primary-300">
-                  <IoConstructOutline className="w-3 h-3 mr-1 text-primary-400" />
-                  <span>Beta - Under Active Development</span>
+                  <FaRegHandPeace className="w-3 h-3 mr-1 text-primary-400" />
+                  <span>Welcome - v{packageJson.version}</span>
                 </span>
               </div>
 

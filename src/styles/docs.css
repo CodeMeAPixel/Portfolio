@@ -1,0 +1,197 @@
+/* Documentation specific styles */
+
+/* Improve typography for documentation */
+.docs-content {
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+/* Override prose styles for docs */
+.docs-content .prose {
+  max-width: none;
+}
+
+.docs-content .prose h2 {
+  font-size: 1.75rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  color: rgb(var(--color-primary-300));
+  scroll-margin-top: 100px;
+  font-weight: 600;
+}
+
+.docs-content .prose h3 {
+  font-size: 1.35rem;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  color: rgb(var(--color-primary-400));
+  scroll-margin-top: 100px;
+  font-weight: 600;
+}
+
+.docs-content .prose h4 {
+  font-size: 1.15rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  scroll-margin-top: 100px;
+  font-weight: 600;
+}
+
+.docs-content .prose a {
+  color: rgb(var(--color-primary-400));
+  text-decoration: none;
+  transition: color 0.2s;
+  font-weight: 500;
+}
+
+.docs-content .prose a:hover {
+  color: rgb(var(--color-primary-300));
+}
+
+/* Code blocks with improved styling */
+.docs-content .prose pre {
+  background-color: rgb(var(--color-card-alt));
+  border: 1px solid rgba(var(--color-primary-700), 0.2);
+  border-radius: 0.5rem;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+}
+
+.docs-content .prose code {
+  font-size: 0.875em;
+  background-color: rgba(var(--color-code-bg), 0.4);
+  padding: 0.2em 0.4em;
+  border-radius: 0.25rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+.docs-content .prose pre code {
+  background-color: transparent;
+  padding: 1.25rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: rgb(235, 235, 235);
+}
+
+/* Tables with improved styling */
+.docs-content .prose table {
+  width: 100%;
+  margin: 1.5rem 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  border: 1px solid rgba(var(--color-primary-800), 0.3);
+}
+
+.docs-content .prose th {
+  background-color: rgba(var(--color-primary-900), 0.4);
+  color: rgb(var(--color-primary-300));
+  font-weight: 600;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+}
+
+.docs-content .prose td {
+  padding: 0.75rem 1rem;
+  border-top: 1px solid rgba(var(--color-primary-800), 0.2);
+  font-size: 0.875rem;
+}
+
+.docs-content .prose tr:nth-child(even) {
+  background-color: rgba(var(--color-primary-900), 0.1);
+}
+
+/* Lists with improved styling */
+.docs-content .prose ul,
+.docs-content .prose ol {
+  margin: 1.25rem 0;
+  padding-left: 1.5rem;
+}
+
+.docs-content .prose li {
+  margin-bottom: 0.5rem;
+}
+
+/* Blockquotes */
+.docs-content .prose blockquote {
+  border-left: 4px solid rgb(var(--color-primary-500));
+  background-color: rgba(var(--color-primary-900), 0.2);
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  border-radius: 0 0.5rem 0.5rem 0;
+  color: rgb(var(--color-text-muted));
+  font-style: italic;
+}
+
+/* Custom docs components styling */
+.docs-section-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(var(--color-primary-700), 0.2);
+  background-color: rgb(var(--color-card));
+  padding: 1.5rem;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.docs-section-card:hover {
+  border-color: rgba(var(--color-primary-600), 0.4);
+  transform: translateY(-2px);
+}
+
+.docs-section-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: rgba(var(--color-primary-900), 0.3);
+  border-radius: 0.5rem;
+  color: rgb(var(--color-primary-400));
+  margin-bottom: 1rem;
+}
+
+/* Documentation search result styling */
+.doc-search-result {
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s;
+}
+
+.doc-search-result:hover {
+  background-color: rgba(var(--color-primary-900), 0.2);
+}
+
+.doc-search-result-title {
+  font-weight: 500;
+  color: rgb(var(--color-text));
+}
+
+.doc-search-result-desc {
+  font-size: 0.875rem;
+  color: rgb(var(--color-text-muted));
+}
+
+.doc-search-result-section {
+  font-size: 0.75rem;
+  color: rgb(var(--color-primary-400));
+  margin-top: 0.25rem;
+}
+
+/* Add responsive styles for mobile */
+@media (max-width: 768px) {
+  .docs-content .prose h2 {
+    font-size: 1.5rem;
+  }
+  
+  .docs-content .prose h3 {
+    font-size: 1.25rem;
+  }
+  
+  .docs-content .prose pre {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+}

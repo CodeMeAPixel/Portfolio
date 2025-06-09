@@ -1,0 +1,211 @@
+---
+title: 'GraphQL with React: A Practical Guide'
+date: '2025-05-15'
+description: 'Learn how to integrate GraphQL into your React applications for efficient data fetching and management.'
+tags: ['React', 'GraphQL', 'JavaScript', 'Web Development', 'API']
+---
+
+# Introduction
+
+GraphQL has emerged as a powerful alternative to REST for building APIs. Its flexibility and efficiency make it an excellent choice for modern React applications. In this guide, I'll walk you through integrating GraphQL into your React projects, covering everything from setting up your client to handling mutations and subscriptions.
+
+---
+
+## What is GraphQL?
+
+GraphQL is a query language for your API and a server-side runtime for executing those queries. Unlike REST, where the server determines the data returned, GraphQL allows the client to specify exactly what data it needs. This leads to more efficient data fetching and reduces over-fetching.
+
+---
+
+## Setting Up a GraphQL Client
+
+To use GraphQL in a React application, you'll need a GraphQL client. Apollo Client and urql are popular choices. Here, I'll demonstrate using Apollo Client.
+
+### Installation
+
+```bash
+npm install @apollo/client graphql
+```
+
+### Configuring Apollo Client
+
+```jsx
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+
+const client = new ApolloClient({
+  uri: 'https://api.example.com/graphql', // Replace with your GraphQL API endpoint
+  cache: new InMemoryCache(),
+});
+
+const ApolloWrapper = ({ children }) => (
+  <ApolloProvider client={client}>
+    {children}
+  </ApolloProvider>
+);
+
+export default ApolloWrapper;
+```
+
+Wrap your application with `<ApolloWrapper>` to provide the client to your components.
+
+---
+
+## Fetching Data with GraphQL
+
+With Apollo Client set up, you can now fetch data using GraphQL queries.
+
+### Example: Fetching a List of Users
+
+```jsx
+import { useQuery, gql } from '@apollo/client';
+
+const GET_USERS = gql`
+  query GetUsers {
+    users {
+      id
+      name
+      email
+    }
+  }
+`;
+
+const Users = () => {
+  const { loading, error, data } = useQuery(GET_USERS);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error : {error.message}</p>;
+
+  return (
+    <div>
+      <h1>Users</h1>
+      <ul>
+        {data.users.map((user) => (
+          <li key={user.id}>
+            {user.name} ({user.email})
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default Users;
+```
+
+---
+
+## Performing Mutations
+
+Mutations are used to modify data on the server. Here's how to perform a mutation using Apollo Client.
+
+### Example: Adding a New User
+
+```jsx
+import { useMutation, gql } from '@apollo/client';
+
+const ADD_USER = gql`
+  mutation AddUser($name: String!, $email: String!) {
+    addUser(name: $name, email: $email) {
+      id
+      name
+      email
+    }
+  }
+`;
+
+const AddUserForm = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [addUser, { loading, error }] = useMutation(ADD_USER);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await addUser({ variables: { name, email } });
+    setName('');
+    setEmail('');
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" />
+      <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
+      <button type="submit" disabled={loading}>
+        {loading ? 'Adding...' : 'Add User'}
+      </button>
+      {error && <p>Error : {error.message}</p>}
+    </form>
+  );
+};
+
+export default AddUserForm;
+```
+
+---
+
+## Real-Time Updates with Subscriptions
+
+GraphQL subscriptions allow you to receive real-time updates from the server. This is useful for building features like live chat or real-time dashboards.
+
+### Setting Up Subscriptions
+
+To use subscriptions, you'll need a WebSocket-based transport. Apollo Client provides a `SubscriptionClient` for this purpose.
+
+```jsx
+import { SubscriptionClient } from 'subscriptions-transport-ws';
+
+const wsClient = new SubscriptionClient('ws://api.example.com/graphql', {
+  reconnect: true,
+});
+
+const client = new ApolloClient({
+  uri: 'https://api.example.com/graphql',
+  cache: new InMemoryCache(),
+  link: wsClient,
+});
+```
+
+### Example: Subscribing to New Messages
+
+```jsx
+import { useSubscription, gql } from '@apollo/client';
+
+const NEW_MESSAGES = gql`
+  subscription NewMessages {
+    newMessage {
+      id
+      text
+      sender
+    }
+  }
+`;
+
+const Chat = () => {
+  const { loading, error, data } = useSubscription(NEW_MESSAGES);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error : {error.message}</p>;
+
+  return (
+    <div>
+      <h1>Chat</h1>
+      <ul>
+        {data.newMessage.map((message) => (
+          <li key={message.id}>
+            {message.sender}: {message.text}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default Chat;
+```
+
+---
+
+## Conclusion
+
+GraphQL offers a powerful and efficient way to fetch and manage data in React applications. By using tools like Apollo Client, you can easily integrate GraphQL into your projects and take advantage of its benefits, including reduced over-fetching, strong typing, and real-time updates.
+
+I hope this guide has been helpful in getting you started with GraphQL in React. If you have any questions or comments, feel free to reach out. Happy coding!

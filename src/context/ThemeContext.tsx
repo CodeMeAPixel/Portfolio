@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 
-type ThemeColor = "blue" | "purple" | "teal" | "rose" | "amber";
+type ThemeColor = "blue" | "purple" | "teal" | "rose" | "amber" | "sunset" | "emerald" | "crimson" | "nord" | "cyberpunk" | "mint";
 
 interface ThemeContextType {
   themeColor: ThemeColor;
@@ -27,7 +27,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     try {
       const savedTheme = localStorage.getItem("themeColor") as ThemeColor;
-      if (savedTheme && ["blue", "purple", "teal", "rose", "amber"].includes(savedTheme)) {
+      if (savedTheme && ["blue", "purple", "teal", "rose", "amber", "sunset", "emerald", "crimson", "nord", "cyberpunk", "mint"].includes(savedTheme)) {
         setThemeColor(savedTheme);
       }
     } catch (error) {

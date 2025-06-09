@@ -10,7 +10,7 @@ import { IoChevronDown } from "react-icons/io5";
 import { IoCheckmark } from "react-icons/io5";
 
 type ThemeOption = {
-  name: "blue" | "purple" | "teal" | "rose" | "amber";
+  name: "blue" | "purple" | "teal" | "rose" | "amber" | "sunset" | "emerald" | "crimson" | "nord" | "cyberpunk" | "mint";
   label: string;
   color: string;
   gradient: string;
@@ -47,6 +47,42 @@ const themeOptions: ThemeOption[] = [
     color: "rgb(217, 119, 6)",
     gradient: "from-amber-600 to-amber-400"
   },
+  {
+    name: "sunset",
+    label: "Sunset",
+    color: "rgb(234, 88, 12)",
+    gradient: "from-orange-600 to-orange-400"
+  },
+  {
+    name: "emerald",
+    label: "Emerald",
+    color: "rgb(5, 150, 105)",
+    gradient: "from-emerald-600 to-emerald-400"
+  },
+  {
+    name: "crimson",
+    label: "Crimson",
+    color: "rgb(220, 38, 38)",
+    gradient: "from-red-600 to-red-400"
+  },
+  {
+    name: "nord",
+    label: "Nord",
+    color: "rgb(49, 112, 179)",
+    gradient: "from-blue-700 to-blue-500"
+  },
+  {
+    name: "cyberpunk",
+    label: "Cyberpunk",
+    color: "rgb(236, 236, 0)",
+    gradient: "from-yellow-400 to-fuchsia-600"
+  },
+  {
+    name: "mint",
+    label: "Mint",
+    color: "rgb(34, 197, 94)",
+    gradient: "from-green-600 to-green-400"
+  }
 ];
 
 export default function ThemeSelector({ minimal = false }: { minimal?: boolean }) {
@@ -122,7 +158,7 @@ export default function ThemeSelector({ minimal = false }: { minimal?: boolean }
         {isOpen && (
           <DropdownMenu.Portal>
             <DropdownMenu.Content
-              className="min-w-[220px] bg-card border border-color-border rounded-lg shadow-lg backdrop-blur-lg p-2 z-50"
+              className="min-w-[220px] max-h-[400px] overflow-y-auto bg-card border border-color-border rounded-lg shadow-lg backdrop-blur-lg p-2 z-50"
               sideOffset={5}
               align="center"
               asChild
