@@ -4,7 +4,7 @@ import ProjectDetail from '@/components/projects/ProjectDetail';
 
 // Generate static params for all project IDs
 export async function generateStaticParams() {
-    const ids = getAllProjectIds();
+    const ids = await getAllProjectIds();
 
     return ids.map(id => ({
         id: id
@@ -12,8 +12,9 @@ export async function generateStaticParams() {
 }
 
 // Generate metadata for each project
-export async function generateMetadata({ params }: { params: { id: string } }) {
-    const project = getProjectById(params.id);
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params;
+    const project = await getProjectById(id);
 
     if (!project) {
         return {
@@ -34,8 +35,9 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
     };
 }
 
-export default function ProjectPage({ params }: { params: { id: string } }) {
-    const project = getProjectById(params.id);
+export default async function ProjectPage({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params;
+    const project = await getProjectById(id);
 
     if (!project) {
         notFound();

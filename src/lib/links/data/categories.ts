@@ -13,7 +13,7 @@ export const categories: LinkCategory[] = [
                 url: "https://codemeapixel.dev",
                 icon: "IoGlobeOutline",
                 description: "My personal portfolio built with Next.js",
-                color: "bg-blue-500"
+                color: "bg-gray-500"
             },
             {
                 id: "nodebyte-ltd",
@@ -28,9 +28,33 @@ export const categories: LinkCategory[] = [
                 title: "NodeByte Hosting",
                 url: "https://nodebyte.host",
                 icon: "IoGlobeOutline",
-                description: "",
-                color: "bg-green-600"
-            }
+                description: "Premium game and web hosting with blazing fast performance.",
+                color: "bg-green-500"
+            },
+            {
+                id: "cordx",
+                title: "CordX",
+                url: "https://cordx.ca",
+                icon: "IoGlobeOutline",
+                description: "The next generation of Media Storage, Sharing and Metrics.",
+                color: "bg-yellow-500"
+            },
+            {
+                id: "infinity-list",
+                title: "Infinity List",
+                url: "https://infinitybots.gg",
+                icon: "IoGlobeOutline",
+                description: "Browse our vast list of Discord Bots, Servers and more.",
+                color: "bg-yellow-500"
+            },
+            {
+                id: "net-social",
+                title: "Net Social",
+                url: "https://netsocial.app",
+                icon: "IoGlobeOutline",
+                description: "Empowering communities to be who they want to be.",
+                color: "bg-red-500"
+            },
         ]
     },
     {

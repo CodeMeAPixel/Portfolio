@@ -5,6 +5,7 @@ import Link from 'next/link';
 import type { PostMetadata } from '@/lib/mdx';
 import { useState, useEffect } from 'react';
 import { IoTimeOutline, IoCalendarOutline } from 'react-icons/io5';
+import { BackgroundEffects } from '@/components/ui/BackgroundEffects';
 import { MDXContent } from '../mdx/MDXContent';
 
 interface BlogPostContentProps {
@@ -23,6 +24,9 @@ export default function BlogPostContent({ content, metadata, readingTime }: Blog
 
     return (
         <section className="py-24 bg-bg-alt relative z-10">
+            <BackgroundEffects />
+
+            {/* Background gradient overlay */}
             <div className="container-section max-w-4xl mx-auto">
                 <Link
                     href="/blog"

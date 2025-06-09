@@ -1,26 +1,34 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useTheme } from "@/context/ThemeContext";
 import ThemeSelector from "./ThemeSelector";
 import MobileThemeMenu from "./MobileThemeMenu";
 import { motion, AnimatePresence } from "framer-motion";
-import { IoMenu, IoClose, IoHomeOutline, IoPersonOutline, IoFolderOutline, IoMailOutline } from "react-icons/io5";
+import { IoMenu, IoClose } from "react-icons/io5";
 import { CMAP } from "@/components/icons/CMAP";
-import { FaRegHandPeace, FaStar, FaWaveSquare } from "react-icons/fa";
+import { FaRegHandPeace, FaStar } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 import packageJson from "@/../package.json";
+import { IoHomeOutline, IoPersonOutline, IoNewspaperOutline, IoCodeSlashOutline, IoFolderOutline, IoStarOutline, IoMailOutline } from "react-icons/io5";
 
 const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/blog", label: "Blog" },
-  { href: "/skills", label: "Skills" },
-  { href: "/projects", label: "Projects" },
-  { href: "/referrals", label: "Referrals" },
-  { href: "/contact", label: "Contact" }
+  { href: "/", label: "Home", icon: IoHomeOutline },
+  { href: "/about", label: "About", icon: IoPersonOutline },
+  { href: "/blog", label: "Blog", icon: IoNewspaperOutline },
+  { href: "/skills", label: "Skills", icon: IoCodeSlashOutline },
+  { href: "/projects", label: "Projects", icon: IoFolderOutline },
+  { href: "/referrals", label: "Referrals", icon: IoStarOutline },
+  { href: "/contact", label: "Contact", icon: IoMailOutline }
 ];
+
+interface LinkComponentProps {
+  href: string;
+  className?: string;
+  children: React.ReactNode;
+  [key: string]: any;
+}
 
 export function LinkComponent({
   href,
@@ -164,7 +172,7 @@ export default function Navbar() {
             >
               <div className="max-w-lg mx-auto py-5 px-4">
                 <div className="grid gap-2">
-                  {navLinks.map(({ href, label }) => (
+                  {navLinks.map(({ href, label, icon: Icon }) => (
                     <LinkComponent
                       key={href}
                       href={href}
@@ -174,10 +182,12 @@ export default function Navbar() {
                       onClick={() => setIsMenuOpen(false)}
                     >
                       <span className="flex items-center">
-                        {label === "Home" && <IoHomeOutline className="w-5 h-5 mr-2" />}
-                        {label === "About" && <IoPersonOutline className="w-5 h-5 mr-2" />}
-                        {label === "Projects" && <IoFolderOutline className="w-5 h-5 mr-2" />}
-                        {label === "Contact" && <IoMailOutline className="w-5 h-5 mr-2" />}
+                        {/* Use dynamic icon based on the 'icon' property */}
+                        {Icon && (
+                          <Icon
+                            className="w-5 h-5 mr-2"
+                          />
+                        )}
                         {label}
                       </span>
                     </LinkComponent>

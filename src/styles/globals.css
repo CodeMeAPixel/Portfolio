@@ -360,7 +360,7 @@ html, body {
 }
 
 /* Grid background effects */
-.pixel-grid-layer-1 {
+/* .pixel-grid-layer-1 {
   background-image: radial-gradient(rgba(var(--color-primary-500), 0.025) 1px, transparent 1px);
   background-size: 20px 20px;
 }
@@ -369,7 +369,7 @@ html, body {
   background-image: radial-gradient(rgba(var(--color-primary-400), 0.015) 1px, transparent 1px);
   background-size: 40px 40px;
   background-position: 10px 10px;
-}
+} */
 
 /* Glitch effect animations */
 @keyframes pixelGridGlitch {

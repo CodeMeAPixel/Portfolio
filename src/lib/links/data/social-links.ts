@@ -28,7 +28,7 @@ export const socialLinks: SocialLink[] = [
     {
         id: "discord",
         title: "Discord",
-        url: "https://discord.gg/codemeapixel",
+        url: "https://discord.gg/Vv2bdC44Ge",
         icon: "IoLogoDiscord",
         username: "codemeapixel",
         color: "bg-indigo-500"

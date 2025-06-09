@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { SkillCategory } from '@/data/skills';
 import { TechIcon } from '@/components/ui/TechIcon';
 import { IoSearch, IoBookmarkOutline, IoCodeSlashOutline, IoServerOutline, IoCloudUploadOutline, IoHammerOutline, IoLayersOutline } from 'react-icons/io5';
+import { BackgroundEffects } from '@/components/ui/BackgroundEffects';
 import * as Tabs from '@radix-ui/react-tabs';
 
 interface SkillsContentProps {
@@ -46,6 +47,7 @@ export default function SkillsContent({ skills }: SkillsContentProps) {
 
     return (
         <section className="py-24 bg-bg-alt relative z-10">
+            <BackgroundEffects />
             <div className="container-section">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}

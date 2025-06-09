@@ -23,7 +23,7 @@ export interface Project {
   role?: string;
   teamSize?: number;
   testimonials?: Testimonial[];
-  testimonial?: Testimonial; // For backward compatibility
+  testimonial?: Testimonial;
 }
 
 export interface Testimonial {

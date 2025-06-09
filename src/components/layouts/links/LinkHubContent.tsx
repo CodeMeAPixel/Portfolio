@@ -9,6 +9,7 @@ import * as IoIcons from 'react-icons/io5';
 import { IoArrowForward } from 'react-icons/io5';
 import PlaylistSection from './PlaylistSection';
 import { Profile, Playlist } from '@/data/linksData';
+import { BackgroundEffects } from '@/components/ui/BackgroundEffects';
 
 interface LinkHubContentProps {
     profile: Profile;
@@ -35,36 +36,9 @@ export default function LinkHubContent({ profile, playlist }: LinkHubContentProp
 
     return (
         <section className="py-16 sm:py-20 bg-bg-alt min-h-screen flex flex-col items-center relative">
-            {/* Background grid effect */}
-            <div className="absolute inset-0 z-0 pointer-events-none">
-                <div className="absolute inset-0 pixel-grid-layer-1"></div>
-                <div className="absolute inset-0 pixel-grid-layer-2"></div>
-            </div>
+            <BackgroundEffects />
 
-            {/* Decorative elements */}
-            <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden blur-lg">
-                <motion.div
-                    className="absolute text-primary-900/5 text-[10rem] md:text-[20rem] font-bold top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.8 }}
-                />
-
-                {/* Floating elements */}
-                <motion.div
-                    className="absolute top-[15%] right-[10%] w-64 h-64 bg-primary-500/5 rounded-full blur-3xl"
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, delay: 0.5 }}
-                />
-                <motion.div
-                    className="absolute bottom-[20%] left-[5%] w-80 h-80 bg-primary-400/5 rounded-full blur-3xl"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, delay: 0.7 }}
-                />
-            </div>
-
+            {/* Background gradient overlay */}
             <div className="container max-w-xl mx-auto px-4 relative z-10">
                 <div className="relative z-10">
                     {/* Profile section */}

@@ -9,6 +9,13 @@ export const categories: ReferralCategory[] = [
         color: "text-blue-500"
     },
     {
+        id: "cloud",
+        name: "Cloud Platforms",
+        description: "Cloud computing platforms and infrastructure services",
+        icon: "IoCloudOutline",
+        color: "text-cyan-500"
+    },
+    {
         id: "tools",
         name: "Development Tools",
         description: "Software and tools for developers",

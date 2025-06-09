@@ -11,6 +11,7 @@ import {
 } from 'react-icons/io5';
 import { useRef, useState, useEffect } from 'react';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import { BackgroundEffects } from '@/components/ui/BackgroundEffects';
 
 interface BlogContentProps {
     posts: Array<{ content: string; metadata: PostMetadata }>;
@@ -104,6 +105,9 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
 
     return (
         <section className="py-24 bg-bg-alt relative z-10">
+            <BackgroundEffects className="absolute inset-0 -z-10" />
+
+            {/* Header section */}
             <div className="container-section">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}

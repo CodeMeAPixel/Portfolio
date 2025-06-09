@@ -14,6 +14,7 @@ import { ImageCarousel } from '@/components/ui/ImageCarousel';
 import ComingSoon from '@/components/ui/ComingSoon';
 import { TechIcon } from '../ui/TechIcon';
 import { format } from 'date-fns';
+import { BackgroundEffects } from '@/components/ui/BackgroundEffects';
 
 type LayoutType = 'grid' | 'table';
 type SortOption = 'date-desc' | 'date-asc' | 'alphabetical';
@@ -123,6 +124,8 @@ export default function ProjectsContent({
 
     return (
         <section className="py-24 bg-bg-alt relative z-10">
+            <BackgroundEffects />
+
             <div className="container-section">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}

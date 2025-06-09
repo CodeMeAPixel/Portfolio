@@ -1,0 +1,106 @@
+---
+title: 'Modern TypeScript Patterns for 2025'
+date: '2025-06-09'
+description: 'Explore the latest TypeScript patterns and best practices for scalable, maintainable codebases in 2025.'
+tags: ['TypeScript', 'Patterns', 'Best Practices', 'Web Development', 'JavaScript']
+---
+
+# Introduction
+
+TypeScript continues to evolve, and so do the patterns we use to build robust applications. In this post, I’ll share some of the most effective TypeScript patterns and best practices I’m using in 2025.
+
+---
+
+## 1. Type-Safe API Clients with Zod
+
+Zod is a TypeScript-first schema validation library. Use it to validate API responses and ensure type safety.
+
+```typescript
+import { z } from 'zod';
+
+const UserSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  email: z.string().email(),
+});
+
+type User = z.infer<typeof UserSchema>;
+
+async function fetchUser(id: string): Promise<User> {
+  const res = await fetch(`/api/users/${id}`);
+  const data = await res.json();
+  return UserSchema.parse(data);
+}
+```
+
+---
+
+## 2. Discriminated Unions for State Machines
+
+Model complex state with discriminated unions.
+
+```typescript
+type Loading = { status: 'loading' };
+type Success<T> = { status: 'success'; data: T };
+type Error = { status: 'error'; error: string };
+
+type FetchState<T> = Loading | Success<T> | Error;
+```
+
+---
+
+## 3. Exhaustive Switch Statements
+
+Use `never` to ensure all cases are handled.
+
+```typescript
+function handleState<T>(state: FetchState<T>) {
+  switch (state.status) {
+    case 'loading':
+      return 'Loading...';
+    case 'success':
+      return `Data: ${JSON.stringify(state.data)}`;
+    case 'error':
+      return `Error: ${state.error}`;
+    default:
+      const _exhaustive: never = state;
+      return _exhaustive;
+  }
+}
+```
+
+---
+
+## 4. Utility Types for Immutability
+
+Use `Readonly` and `as const` for safer code.
+
+```typescript
+const roles = ['admin', 'user', 'guest'] as const;
+type Role = typeof roles[number];
+
+const user: Readonly<{ name: string; role: Role }> = {
+  name: 'Alice',
+  role: 'admin',
+};
+```
+
+---
+
+## 5. Template Literal Types
+
+Leverage template literals for expressive types.
+
+```typescript
+type EventName = `user:${'created' | 'updated' | 'deleted'}`;
+```
+
+---
+
+## Conclusion
+
+TypeScript’s type system is more powerful than ever. By adopting these patterns, you’ll write safer, more maintainable code in 2025 and beyond.
+
+---
+
+Let me know if you want a deep dive on any of these patterns!

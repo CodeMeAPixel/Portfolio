@@ -7,6 +7,9 @@ import { useState, useEffect } from 'react';
 import { ImageCarousel } from '@/components/ui/ImageCarousel';
 import { IoArrowBack, IoCalendarOutline, IoCodeSlash, IoLogoGithub, IoGlobeOutline, IoDocumentText, IoPersonOutline, IoPeopleOutline } from 'react-icons/io5';
 import { TechIcon } from '@/components/ui/TechIcon';
+import { MDXRemote } from 'next-mdx-remote';
+import { serialize } from 'next-mdx-remote/serialize';
+import { BackgroundEffects } from '@/components/ui/BackgroundEffects';
 
 interface ProjectDetailProps {
     project: Project;
@@ -15,16 +18,64 @@ interface ProjectDetailProps {
 export default function ProjectDetail({ project }: ProjectDetailProps) {
     const [activeTab, setActiveTab] = useState<'overview' | 'challenges' | 'technologies'>('overview');
     const [activeTestimonial, setActiveTestimonial] = useState(0);
+    const [serializedContent, setSerializedContent] = useState(null);
+    const [showAllFeatures, setShowAllFeatures] = useState(false);
 
     useEffect(() => {
         // Convert single testimonial to array format for backward compatibility
         if (project.testimonial && (!project.testimonials || project.testimonials.length === 0)) {
             project.testimonials = [project.testimonial];
         }
+
+        // Serialize markdown content
+        if (project.longDescription) {
+            serialize(project.longDescription).then(setSerializedContent);
+        }
     }, [project]);
+
+    // MDX components using your existing MDX setup
+    const mdxComponents = {
+        h1: (props: any) => <h1 className="text-3xl font-bold text-color-text mt-8 mb-4 first:mt-0" {...props} />,
+        h2: (props: any) => <h2 className="text-2xl font-semibold text-color-text mt-6 mb-3" {...props} />,
+        h3: (props: any) => <h3 className="text-xl font-medium text-color-text mt-4 mb-2" {...props} />,
+        p: (props: any) => <p className="text-color-text-muted leading-relaxed mb-4" {...props} />,
+        ul: (props: any) => <ul className="list-disc pl-6 mb-4 space-y-2 text-color-text-muted" {...props} />,
+        ol: (props: any) => <ol className="list-decimal pl-6 mb-4 space-y-2 text-color-text-muted" {...props} />,
+        li: (props: any) => <li className="leading-relaxed" {...props} />,
+        blockquote: (props: any) => (
+            <blockquote className="border-l-4 border-primary-500 pl-4 py-2 bg-primary-900/10 rounded-r-lg italic text-color-text-muted mb-4" {...props} />
+        ),
+        a: (props: any) => (
+            <a
+                className="text-primary-400 hover:text-primary-300 underline transition-colors"
+                target="_blank"
+                rel="noopener noreferrer"
+                {...props}
+            />
+        ),
+        code: (props: any) => (
+            <code className="bg-card px-1.5 py-0.5 rounded text-primary-300 text-sm" {...props} />
+        ),
+        pre: (props: any) => (
+            <pre className="bg-card p-4 rounded-lg overflow-x-auto mb-4 border border-color-border" {...props} />
+        ),
+        table: (props: any) => (
+            <div className="overflow-x-auto mb-4">
+                <table className="min-w-full border border-color-border rounded-lg" {...props} />
+            </div>
+        ),
+        thead: (props: any) => <thead className="bg-card" {...props} />,
+        th: (props: any) => (
+            <th className="px-4 py-2 text-left text-color-text font-medium border-b border-color-border" {...props} />
+        ),
+        td: (props: any) => (
+            <td className="px-4 py-2 text-color-text-muted border-b border-color-border" {...props} />
+        ),
+    };
 
     return (
         <section className="py-16 sm:py-24 bg-bg-alt relative z-10 overflow-hidden">
+            <BackgroundEffects />
             <div className="container-section max-w-6xl mx-auto px-4">
                 <Link
                     href="/projects"
@@ -81,18 +132,18 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
                         <motion.div
-                            className="lg:col-span-2 overflow-hidden rounded-xl border border-color-border shadow-lg"
+                            className="lg:col-span-2 rounded-xl border border-color-border shadow-lg self-start"
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5, delay: 0.1 }}
                         >
-                            <div className="aspect-video relative w-full">
+                            <div className="aspect-video relative w-full overflow-hidden rounded-xl">
                                 <ImageCarousel images={project.images} className="w-full h-full" />
                             </div>
                         </motion.div>
 
                         <motion.div
-                            className="flex flex-col gap-4"
+                            className="flex flex-col gap-4 self-start"
                             initial={{ opacity: 0, x: 20 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.5, delay: 0.2 }}
@@ -142,10 +193,18 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                                 <div className="card">
                                     <h2 className="heading-secondary mb-4 text-xl">Key Features</h2>
                                     <ul className="list-disc pl-5 text-color-text-muted space-y-2">
-                                        {project.keyFeatures.map((feature, index) => (
+                                        {project.keyFeatures.slice(0, showAllFeatures ? project.keyFeatures.length : 2).map((feature, index) => (
                                             <li key={index} className="leading-relaxed">{feature}</li>
                                         ))}
                                     </ul>
+                                    {project.keyFeatures.length > 2 && (
+                                        <button
+                                            onClick={() => setShowAllFeatures(!showAllFeatures)}
+                                            className="mt-3 text-sm text-primary-400 hover:text-primary-300 transition-colors underline"
+                                        >
+                                            {showAllFeatures ? 'Show less' : `View ${project.keyFeatures.length - 2} more`}
+                                        </button>
+                                    )}
                                 </div>
                             )}
                         </motion.div>
@@ -195,8 +254,17 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 
                         <div className="prose prose-lg prose-invert max-w-none overflow-x-hidden">
                             {activeTab === 'overview' && (
-                                <div className="text-color-text-muted space-y-6">
-                                    <p className="leading-relaxed text-lg">{project.longDescription || project.description}</p>
+                                <div className="space-y-6">
+                                    {/* Render MDX for long description or fallback to regular description */}
+                                    <div className="markdown-content">
+                                        {serializedContent && project.longDescription ? (
+                                            <MDXRemote {...serializedContent} components={mdxComponents} />
+                                        ) : (
+                                            <p className="text-color-text-muted leading-relaxed mb-4">
+                                                {project.description}
+                                            </p>
+                                        )}
+                                    </div>
 
                                     {/* Testimonials Section - Now supports multiple testimonials */}
                                     {project.testimonials && project.testimonials.length > 0 && (

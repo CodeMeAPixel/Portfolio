@@ -4,10 +4,14 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { IoPersonOutline, IoSchoolOutline, IoBriefcaseOutline, IoTimeOutline, IoCode, IoRocketOutline } from "react-icons/io5";
+import { BackgroundEffects } from '@/components/ui/BackgroundEffects';
 
 export default function AboutContent() {
     return (
         <section className="py-24 bg-bg-alt relative z-10">
+            <BackgroundEffects />
+
+            {/* Main content section */}
             <div className="container-section max-w-6xl">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}

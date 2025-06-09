@@ -19,10 +19,11 @@ const project: Project = {
     featured: true,
     technologies: [
         { name: "Next.js", description: "For server-side rendering and static site generation" },
+        { name: "Node.js", description: "Backend API development for upload management." },
         { name: "React", description: "Building interactive user interfaces" },
         { name: "TypeScript", description: "Type-safe code development" },
-        { name: "Framer Motion", description: "Creating smooth animations" },
-        { name: "RadixUI", description: "Accessible component primitives" }
+        { name: "Framer", description: "Creating smooth animations" },
+        { name: "Radix", description: "Accessible component primitives" }
     ],
     keyFeatures: [
         "Responsive web design",

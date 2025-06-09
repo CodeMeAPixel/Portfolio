@@ -3,10 +3,10 @@ import BlogContent from '@/components/blog/BlogContent';
 import { getAllPosts, getAllCategories, getAllTags } from '@/data/blogData';
 
 export const metadata: Metadata = {
-    title: 'Blog | Articles and Tutorials',
+    title: 'Blog',
     description: 'Explore articles and tutorials on web development, programming, and technology.',
     openGraph: {
-        title: 'Blog | Articles and Tutorials',
+        title: 'Blog',
         description: 'Explore articles and tutorials on web development, programming, and technology.',
         type: 'website',
     },

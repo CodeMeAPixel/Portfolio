@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { IoMailOutline, IoLocationOutline, IoSendOutline, IoPersonOutline, IoCheckmarkCircleOutline, IoCloseCircleOutline, IoLogoGithub, IoLogoTwitter, IoLogoLinkedin, IoCodeSlashOutline } from "react-icons/io5";
+import { BackgroundEffects } from '@/components/ui/BackgroundEffects';
 
 export default function ContactContent() {
     const [formState, setFormState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
@@ -43,6 +44,7 @@ export default function ContactContent() {
 
     return (
         <section className="py-24 bg-bg-alt relative z-10">
+            <BackgroundEffects />
             <div className="container-section max-w-6xl">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}

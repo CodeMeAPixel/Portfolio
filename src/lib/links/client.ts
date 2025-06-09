@@ -1,5 +1,14 @@
-import { LinkHubProfile, LinkItem, SocialLink, LinkCategory } from "@/types/links";
+import { LinkHubProfile, LinkItem, SocialLink, LinkCategory, Track, Playlist } from "@/types/links";
 import { linkHubProfile } from "./data";
+import {
+    playlist,
+    getTracksByGenre,
+    getAllGenres,
+    getTrackById,
+    rockTracks,
+    electronicTracks,
+    hipHopTracks
+} from "./data/playlist";
 
 export class LinksClient {
     private static instance: LinksClient;
@@ -50,6 +59,35 @@ export class LinksClient {
 
     public updateDiscordStatus(discordStatus: any): void {
         this.profile.discord = discordStatus;
+    }
+
+    public getPlaylist(): Playlist {
+        return playlist;
+    }
+
+    public getTrackById(trackId: string): Track | undefined {
+        return getTrackById(trackId);
+    }
+
+    public getTracksByGenre(genre: string): Track[] {
+        return getTracksByGenre(genre);
+    }
+
+    public getAllGenres(): string[] {
+        return getAllGenres();
+    }
+
+    // New methods to directly access genre collections
+    public getRockTracks(): Track[] {
+        return rockTracks;
+    }
+
+    public getElectronicTracks(): Track[] {
+        return electronicTracks;
+    }
+
+    public getHipHopTracks(): Track[] {
+        return hipHopTracks;
     }
 }
 

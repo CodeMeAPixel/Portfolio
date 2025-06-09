@@ -15,7 +15,7 @@ export interface BlogPostMetadata {
 export interface BlogPost {
     content: string;
     metadata: BlogPostMetadata;
-    slug?: string;
+    slug: string; // Make slug required and consistent
 }
 
 export interface BlogCategory {

@@ -32,26 +32,30 @@ import {
 } from 'react-icons/si';
 
 import { PiFramerLogoFill } from 'react-icons/pi';
-
 import { BsMicrosoft } from 'react-icons/bs';
-
 import { TbBrandRadixUi } from 'react-icons/tb';
 
-// Map of tech names to their corresponding icon components
+// Improved: More aliases, better normalization, fallback SVG, and iconMap enhancements
 const iconMap: Record<string, IconType> = {
     javascript: SiJavascript,
     typescript: SiTypescript,
     react: SiReact,
     nextjs: SiNextdotjs,
+    "next.js": SiNextdotjs,
+    vue: SiVuedotjs,
     vuejs: SiVuedotjs,
     angular: SiAngular,
     svelte: SiSvelte,
+    tailwind: SiTailwindcss,
     tailwindcss: SiTailwindcss,
+    css: SiCss3,
     css3: SiCss3,
+    html: SiHtml5,
     html5: SiHtml5,
+    node: SiNodedotjs,
     nodejs: SiNodedotjs,
     express: SiExpress,
-    fastify: FaServer,
+    fastify: SiFastify,
     go: SiGo,
     python: SiPython,
     java: FaJava,
@@ -59,12 +63,13 @@ const iconMap: Record<string, IconType> = {
     graphql: SiGraphql,
     mongodb: SiMongodb,
     postgresql: SiPostgresql,
+    postgres: SiPostgresql,
     mysql: SiMysql,
     redis: SiRedis,
     firebase: SiFirebase,
     docker: SiDocker,
     kubernetes: SiKubernetes,
-    github: DiGithub,
+    github: SiGithub,
     git: SiGit,
     vscode: DiVisualstudio,
     figma: SiFigma,
@@ -72,13 +77,17 @@ const iconMap: Record<string, IconType> = {
     jest: SiJest,
     cypress: SiCypress,
     storybook: SiStorybook,
-    mui: DiMaterializecss,
+    mui: SiMui,
     chakra: SiChakraui,
     bootstrap: SiBootstrap,
     aws: SiAmazonwebservices,
+    amazonwebservices: SiAmazonwebservices,
     vercel: SiVercel,
     netlify: SiNetlify,
+    heroku: SiHeroku,
+    digitalocean: SiDigitalocean,
     gcp: SiGooglecloud,
+    googlecloud: SiGooglecloud,
     prisma: SiPrisma,
     supabase: SiSupabase,
     auth0: SiAuth0,
@@ -86,10 +95,11 @@ const iconMap: Record<string, IconType> = {
     mailchimp: SiMailchimp,
     microsoft: BsMicrosoft,
     framer: PiFramerLogoFill,
-    bun: FaCode, // Generic icon for Bun
-    nestjs: FaCode, // Generic icon for NestJS
-    drizzle: FaDatabase, // Generic icon for Drizzle
-    terraform: FaCode, // Generic icon for Terraform
+    "framer motion": PiFramerLogoFill,
+    bun: FaCode,
+    nestjs: SiNestjs,
+    drizzle: FaDatabase,
+    terraform: SiTerraform,
     api: FaCode,
     database: FaDatabase,
     headless: FaCode,
@@ -102,15 +112,36 @@ const iconMap: Record<string, IconType> = {
     oauth: FaKey,
     jwt: FaKey,
     nextauth: FaKey,
+    "nextauth.js": FaKey,
     clerk: FaKey,
     "testing-library": FaCode,
     playwright: FaCode,
     vitest: FaCode,
     radix: TbBrandRadixUi,
+    "radix ui": TbBrandRadixUi,
     reactquery: SiReactquery,
     "githubactions": SiGithubactions,
     "githubapi": SiGithub,
+    rust: SiRust,
+    swift: SiSwift,
+    kotlin: SiKotlin,
+    ruby: SiRuby,
+    wordpress: SiWordpress,
+    contentful: SiContentful,
+    strapi: SiStrapi,
+    sanity: SiSanity,
+    markdown: SiMarkdown,
+    mocha: SiMocha,
+    selenium: SiSelenium,
+    flutter: SiFlutter,
+    ionic: SiIonic,
+    zustand: FaCode,
+    zod: FaCode,
 };
+
+function normalizeName(name: string) {
+    return name.toLowerCase().replace(/[\s\.\-]/g, '');
+}
 
 interface TechIconProps {
     name: string;
@@ -119,23 +150,22 @@ interface TechIconProps {
 }
 
 export function TechIcon({ name, size = 20, className = '' }: TechIconProps) {
-    // Normalize the name by converting to lowercase and removing spaces
-    const normalizedName = name.toLowerCase().replace(/\s+/g, '');
+    const normalizedName = normalizeName(name);
 
-    // Find the icon component
     const IconComponent = iconMap[normalizedName];
 
     if (IconComponent) {
         return <IconComponent size={size} className={className} />;
     }
 
-    // Default fallback for unknown technologies
+    // Fallback: show a generic SVG icon with the first letter
     return (
-        <div
-            className={`inline-flex items-center justify-center bg-primary-800/50 rounded-full ${className}`}
-            style={{ width: size, height: size, fontSize: size * 0.5 }}
+        <span
+            className={`inline-flex items-center justify-center bg-primary-800/50 rounded-full font-bold text-primary-300 ${className}`}
+            style={{ width: size, height: size, fontSize: size * 0.7 }}
+            title={name}
         >
             {name.charAt(0).toUpperCase()}
-        </div>
+        </span>
     );
 }
