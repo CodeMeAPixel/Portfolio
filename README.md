@@ -1,6 +1,5 @@
 # CodeMeAPixel Portfolio
 
-[![Vercel Deploy](https://img.shields.io/vercel/deploy?label=vercel&logo=vercel&style=flat-square)](https://vercel.com/codemeapixel/portfolio)
 [![Next.js](https://img.shields.io/badge/Next.js-14.0.0-blue?logo=next.js&style=flat-square)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript&style=flat-square)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.x-38bdf8?logo=tailwindcss&style=flat-square)](https://tailwindcss.com/)
