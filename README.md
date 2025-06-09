@@ -1,44 +1,55 @@
 # CodeMeAPixel Portfolio
 
-[![Next.js](https://img.shields.io/badge/Next.js-14.0.0-blue?logo=next.js&style=flat-square)](https://nextjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript&style=flat-square)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.x-38bdf8?logo=tailwindcss&style=flat-square)](https://tailwindcss.com/)
+[![Next.js](https://img.shields.io/badge/Next.js-15.3.0-black?logo=next.js&style=flat-square)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19.0.0-61DAFB?logo=react&style=flat-square&logoColor=white)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&style=flat-square&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4.17-38bdf8?logo=tailwindcss&style=flat-square&logoColor=white)](https://tailwindcss.com/)
+[![Framer Motion](https://img.shields.io/badge/Framer_Motion-11.15.0-0055FF?logo=framer&style=flat-square&logoColor=white)](https://www.framer.com/motion/)
 [![License: MIT](https://img.shields.io/github/license/CodeMeAPixel/portfolio?style=flat-square)](LICENSE)
-[![Open in GitHub Codespaces](https://img.shields.io/badge/Codespaces-Open%20in%20GitHub-222?logo=github&style=flat-square)](https://github.com/codemeapixel/portfolio/codespaces)
+[![Open in GitHub Codespaces](https://img.shields.io/badge/Codespaces-Open%20in%20GitHub-181717?logo=github&style=flat-square)](https://github.com/codemeapixel/portfolio/codespaces)
 
-> **A modern, full-stack developer portfolio built with Next.js, TypeScript, Tailwind CSS, and a focus on performance, accessibility, and developer experience.**
+> **A modern, full-stack developer portfolio built with Next.js 15, React 19, TypeScript, and Tailwind CSS. Optimized for performance, accessibility, and exceptional developer experience.**
 
 ---
 
 ## 🚀 Features
 
-- **Next.js 14+**: App Router, SSR, SSG, ISR, and API routes.
-- **TypeScript**: End-to-end type safety.
-- **Tailwind CSS**: Utility-first, responsive, and themeable design.
-- **MDX Blog**: Write posts in Markdown + JSX with syntax highlighting, line numbers, and custom components.
-- **Dynamic Projects & Referrals**: Easily add projects, referrals, and categories via TypeScript data files.
-- **Animated UI**: Framer Motion, custom CSS animations, and pixel/glitch effects.
-- **Theme Support**: Multiple color themes with instant switching and persistence.
-- **Responsive & Accessible**: Mobile-first, keyboard navigable, and WCAG-friendly.
-- **Playlist & Music Player**: Curated playlists with a custom React music player and pagination.
-- **Social & Contact Links**: Easily configurable, with icons and tooltips.
-- **SEO & Open Graph**: Optimized for sharing and discoverability.
-- **Vercel Ready**: Instant deployment with edge support.
+- **Next.js 15+**: App Router, SSR, SSG, ISR, API routes, and Turbopack acceleration.
+- **React 19**: Utilizing the latest React version with improved performance.
+- **TypeScript**: End-to-end type safety with full TypeScript integration.
+- **Tailwind CSS**: Utility-first, responsive design with multiple theme support.
+- **MDX Blog**: Write posts with Markdown + JSX featuring syntax highlighting (via Shiki/Rehype Pretty Code), line numbers, and custom components.
+- **Dynamic Projects & Referrals**: Modular TypeScript data files for easy content management.
+- **Animated UI**: Powered by Framer Motion v11, custom CSS animations, and engaging pixel/glitch effects.
+- **Theme System**: Multiple color themes (blue, purple, teal, rose, amber) with instant switching and local storage persistence.
+- **Responsive Design**: Mobile-first approach with optimized layouts for all devices.
+- **Accessibility**: WCAG-compliant with keyboard navigation, semantic HTML, and proper contrast ratios.
+- **Playlist & Music Player**: Custom React audio implementation with playlists and pagination.
+- **Social Integration**: Configurable link hub with tooltips powered by Radix UI.
+- **Advanced SEO**: Comprehensive metadata, Open Graph tags, and Twitter cards for maximum discoverability.
+- **Vercel Optimized**: Ready for edge deployment with Vercel's platform features.
+- **Developer Experience**: ESLint configuration, TypeScript strict mode, and organized project structure.
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Tool            | Description                                                                                 |
-|-----------------|--------------------------------------------------------------------------------------------|
-| [Next.js]       | React framework for SSR, SSG, ISR, and API routes                                          |
-| [TypeScript]    | Static typing for safer, scalable code                                                     |
-| [Tailwind CSS]  | Utility-first CSS framework for rapid UI development                                       |
-| [Framer Motion] | Animation library for React                                                                |
-| [MDX]           | Markdown + JSX for blog posts and documentation                                            |
-| [PrismJS]       | Syntax highlighting for code blocks                                                        |
-| [React Icons]   | Icon library for consistent iconography                                                    |
-| [Vercel]        | Hosting and edge deployment                                                                |
+| Tool                  | Version    | Description                                                  |
+|-----------------------|------------|--------------------------------------------------------------|
+| [Next.js]             | 15.3.0     | React framework with App Router, SSR, and edge capabilities  |
+| [React]               | 19.0.0     | UI library with the latest improvements and concurrent features |
+| [TypeScript]          | 5.x        | Static typing for safer, more maintainable code              |
+| [Tailwind CSS]        | 3.4.17     | Utility-first CSS framework with theming support             |
+| [Framer Motion]       | 11.15.0    | Production-ready motion library for React                    |
+| [MDX]                 | 5.0.0      | Markdown + JSX for rich content authoring                    |
+| [Radix UI]            | 1.x-2.x    | Unstyled, accessible UI primitives for custom components     |
+| [React Icons]         | 5.5.0      | Comprehensive icon library with consistent design            |
+| [Rehype Pretty Code]  | 0.14.0     | Syntax highlighting with themes and line highlighting        |
+| [Shiki]               | 3.2.1      | TextMate grammar-based syntax highlighter                    |
+| [Tailwind Merge]      | 2.6.0      | Utility for merging Tailwind CSS classes                     |
+| [date-fns]            | 4.1.0      | Modern JavaScript date utility library                       |
+| [clsx]                | 2.1.1      | Tiny utility for constructing className strings conditionally |
+| [Turbopack]           | Built-in   | Incremental bundler for faster builds and refreshes          |
 
 ---
 
@@ -129,7 +140,7 @@ npm start
 
 ## 🎨 Theming
 
-- Supports multiple color themes (blue, purple, teal, rose, etc.).
+- Supports multiple color themes (blue, purple, teal, rose, amber, etc.).
 - Theme is persisted and can be changed via the UI.
 
 ---
@@ -178,10 +189,12 @@ If you like this project, please consider starring the repo and sharing it!
 ---
 
 [Next.js]: https://nextjs.org/
+[React]: https://react.dev/
 [TypeScript]: https://www.typescriptlang.org/
 [Tailwind CSS]: https://tailwindcss.com/
 [Framer Motion]: https://www.framer.com/motion/
 [MDX]: https://mdxjs.com/
+[Radix UI]: https://www.radix-ui.com/
 [PrismJS]: https://prismjs.com/
 [React Icons]: https://react-icons.github.io/react-icons/
 [Vercel]: https://vercel.com/
