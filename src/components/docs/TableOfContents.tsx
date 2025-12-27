@@ -63,21 +63,29 @@ export default function TableOfContents() {
     }
 
     return (
-        <nav>
-            <ul className="space-y-2 text-sm">
+        <nav className="relative">
+            {/* Decorative gradient line */}
+            <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-primary-500/50 via-primary-500/20 to-transparent"></div>
+
+            <ul className="space-y-1 text-sm pl-4">
                 {headings.map((heading) => (
                     <li
                         key={heading.id}
                         style={{ paddingLeft: `${(heading.level - 2) * 12}px` }}
+                        className="relative"
                     >
+                        {/* Active indicator */}
+                        {activeId === heading.id && (
+                            <span className="absolute -left-4 top-1/2 -translate-y-1/2 w-1 h-5 rounded-full bg-gradient-to-b from-primary-400 to-accent-500 shadow-lg shadow-primary-500/50"></span>
+                        )}
                         <a
                             href={`#${heading.id}`}
                             className={`
-                block py-1 transition-colors hover:text-primary-400
-                ${activeId === heading.id
-                                    ? "text-primary-400 font-medium"
-                                    : "text-color-text-muted"}
-              `}
+                                block py-1.5 px-2 rounded-lg transition-all duration-300
+                                ${activeId === heading.id
+                                    ? "text-primary-300 font-medium bg-primary-500/10 border-l-0"
+                                    : "text-color-text-muted hover:text-primary-400 hover:bg-white/5"}
+                            `}
                             onClick={(e) => {
                                 e.preventDefault();
                                 document.getElementById(heading.id)?.scrollIntoView({

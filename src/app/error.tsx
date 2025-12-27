@@ -38,17 +38,30 @@ export default function ErrorPage({
     return (
         <>
             <Navbar />
-            <div className="min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 bg-bg-alt relative">
-                {/* Background grid effect */}
-                <div className="absolute inset-0 z-0 pointer-events-none">
-                    <div className="absolute inset-0 pixel-grid-layer-1"></div>
-                    <div className="absolute inset-0 pixel-grid-layer-2"></div>
+            <div className="min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 bg-bg relative overflow-hidden">
+                {/* Premium multi-layer background */}
+                <div className="absolute inset-0">
+                    <div className="absolute inset-0 bg-aurora opacity-40"></div>
+                    <div className="absolute inset-0 bg-dot-pattern opacity-20"></div>
                 </div>
+                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-red-500/30 to-transparent"></div>
+
+                {/* Animated floating orbs - red tinted for error */}
+                <motion.div
+                    className="absolute top-[10%] left-[10%] w-[400px] h-[400px] rounded-full bg-gradient-to-br from-red-500/15 to-primary-600/5 blur-[100px]"
+                    animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.35, 0.2] }}
+                    transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+                />
+                <motion.div
+                    className="absolute bottom-[20%] right-[10%] w-[350px] h-[350px] rounded-full bg-gradient-to-tl from-primary-400/15 to-red-500/10 blur-[80px]"
+                    animate={{ scale: [1.2, 1, 1.2], opacity: [0.15, 0.3, 0.15] }}
+                    transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+                />
 
                 {/* Decorative elements */}
-                <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden blur-lg">
+                <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
                     <motion.div
-                        className="absolute text-primary-900/10 text-[10rem] md:text-[15rem] font-bold top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                        className="absolute text-red-500/5 text-[10rem] md:text-[14rem] font-black top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none"
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.8 }}
@@ -57,12 +70,12 @@ export default function ErrorPage({
                     </motion.div>
 
                     <motion.div
-                        className="absolute top-[15%] md:top-[25%] right-[10%] md:right-[20%] text-primary-700/30 font-mono transform rotate-12 pointer-events-none z-0"
+                        className="absolute top-[20%] md:top-[25%] right-[8%] md:right-[18%] transform rotate-12"
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 1, delay: 0.5 }}
                     >
-                        <div className="text-xs md:text-base bg-primary-900/10 px-3 py-1 rounded-md border border-primary-700/20">
+                        <div className="text-xs md:text-sm glass-frost px-4 py-2 rounded-xl text-red-300 font-mono border border-red-500/20">
                             {errorId}
                         </div>
                     </motion.div>
@@ -75,23 +88,24 @@ export default function ErrorPage({
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
                     >
-                        <div className="inline-flex items-center justify-center mb-6 bg-red-900/20 text-red-300 px-4 py-2 rounded-lg border border-red-700/30">
-                            <IoClose className="w-5 h-5 mr-2" />
-                            <span className="text-sm font-medium">Something went wrong</span>
+                        <div className="inline-flex items-center justify-center mb-6 glass-frost px-5 py-2.5 rounded-full border border-red-500/20">
+                            <IoClose className="w-4 h-4 mr-2 text-red-400" />
+                            <span className="text-sm font-semibold text-red-300">Something went wrong</span>
                         </div>
                     </motion.div>
 
                     <motion.h1
-                        className="text-4xl sm:text-5xl font-bold mb-6 bg-gradient-to-r from-red-400 to-primary-300 bg-clip-text text-transparent"
+                        className="text-4xl sm:text-5xl md:text-6xl font-black mb-6"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.1 }}
                     >
-                        Application Error
+                        <span className="text-color-text">Application </span>
+                        <span className="bg-gradient-to-r from-red-400 via-primary-400 to-primary-300 bg-clip-text text-transparent">Error</span>
                     </motion.h1>
 
                     <motion.p
-                        className="text-lg sm:text-xl text-color-text-muted mb-8 max-w-xl mx-auto"
+                        className="text-base sm:text-lg md:text-xl text-color-text-muted mb-10 max-w-xl mx-auto leading-relaxed"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.2 }}
@@ -107,43 +121,41 @@ export default function ErrorPage({
                     >
                         <button
                             onClick={() => reset()}
-                            className="btn-primary group relative overflow-hidden"
+                            className="group relative px-6 py-3 rounded-xl font-semibold overflow-hidden glass-ultra border border-primary-500/30 hover:border-primary-500/50 transition-all duration-300"
                         >
-                            <span className="relative z-10 flex items-center">
-                                <IoReload className="mr-2 w-5 h-5" />
+                            <span className="absolute inset-0 bg-gradient-to-r from-primary-500/20 to-primary-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                            <span className="relative z-10 flex items-center text-primary-300 group-hover:text-primary-200">
+                                <IoReload className="mr-2 w-5 h-5 group-hover:rotate-180 transition-transform duration-500" />
                                 Try Again
                             </span>
-                            <motion.span
-                                className="absolute inset-0 bg-primary-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                                initial={{ x: "-100%" }}
-                                whileHover={{ x: 0 }}
-                                transition={{ duration: 0.3 }}
-                            />
                         </button>
 
-                        <Link href="/" className="btn-secondary flex items-center">
+                        <Link
+                            href="/"
+                            className="group px-6 py-3 rounded-xl font-semibold glass-frost border border-white/10 hover:border-white/20 transition-all duration-300 flex items-center text-color-text-muted hover:text-color-text"
+                        >
                             <IoHome className="mr-2 w-5 h-5" />
                             Back to Home
                         </Link>
                     </motion.div>
 
-                    {/* Error details console */}
+                    {/* Premium error details card */}
                     <motion.div
                         className="mx-auto max-w-xl overflow-hidden"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.5 }}
                     >
-                        <div className="bg-card border border-red-800/30 rounded-lg overflow-hidden shadow-lg text-left font-mono text-sm">
-                            <div className="flex items-center px-4 py-2 bg-card-alt border-b border-red-800/30 text-red-300">
-                                <div className="flex gap-1.5 mr-3">
-                                    <div className="w-3 h-3 rounded-full bg-red-500/70"></div>
-                                    <div className="w-3 h-3 rounded-full bg-amber-400/70"></div>
-                                    <div className="w-3 h-3 rounded-full bg-green-500/70"></div>
+                        <div className="glass-ultra rounded-2xl overflow-hidden border border-red-500/20 shadow-2xl shadow-black/20">
+                            <div className="flex items-center px-4 py-3 bg-red-500/5 border-b border-red-500/10">
+                                <div className="flex gap-2 mr-4">
+                                    <div className="w-3 h-3 rounded-full bg-red-500/80 shadow-lg shadow-red-500/20"></div>
+                                    <div className="w-3 h-3 rounded-full bg-amber-400/80 shadow-lg shadow-amber-400/20"></div>
+                                    <div className="w-3 h-3 rounded-full bg-green-500/80 shadow-lg shadow-green-500/20"></div>
                                 </div>
-                                <span className="text-xs sm:text-sm">Error Details</span>
+                                <span className="text-xs font-medium text-red-300">Error Details</span>
                             </div>
-                            <div className="p-4 space-y-2 text-color-text-muted text-xs sm:text-sm overflow-x-auto">
+                            <div className="p-5 space-y-3 font-mono text-xs sm:text-sm overflow-x-auto">
                                 <div>
                                     <span className="text-red-400">Error ID:</span>
                                     <span className="ml-2">{errorId}</span>
@@ -156,9 +168,9 @@ export default function ErrorPage({
                                     <span className="text-red-400">Location:</span>
                                     <span className="ml-2">{typeof window !== 'undefined' ? window.location.pathname : ''}</span>
                                 </div>
-                                <div className="pt-2 border-t border-red-800/20">
+                                <div className="pt-3 border-t border-white/10">
                                     <span className="text-primary-400">$</span>
-                                    <span className="ml-2">
+                                    <span className="ml-2 text-color-text-muted">
                                         <TypewriterEffect text="npm run fix-errors && refresh" delay={40} />
                                     </span>
                                 </div>

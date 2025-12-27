@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { IoMailOutline, IoLocationOutline, IoSendOutline, IoPersonOutline, IoCheckmarkCircleOutline, IoCloseCircleOutline, IoLogoGithub, IoLogoTwitter, IoLogoLinkedin, IoCodeSlashOutline } from "react-icons/io5";
-import { BackgroundEffects } from '@/components/ui/BackgroundEffects';
+import { IoMailOutline, IoLocationOutline, IoSendOutline, IoPersonOutline, IoCheckmarkCircleOutline, IoCloseCircleOutline, IoLogoGithub, IoLogoTwitter, IoLogoLinkedin, IoCodeSlashOutline, IoSparkles, IoArrowForward } from "react-icons/io5";
 
 export default function ContactContent() {
     const [formState, setFormState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
@@ -43,85 +42,133 @@ export default function ContactContent() {
     };
 
     return (
-        <section className="py-24 bg-bg-alt relative z-10">
-            <BackgroundEffects />
-            <div className="container-section max-w-6xl">
+        <section className="py-24 md:py-32 bg-bg relative z-10 overflow-hidden">
+            {/* Premium multi-layer background */}
+            <div className="absolute inset-0">
+                <div className="absolute inset-0 bg-aurora opacity-40"></div>
+                <div className="absolute inset-0 bg-dot-pattern opacity-20"></div>
+            </div>
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"></div>
+
+            {/* Animated floating orbs */}
+            <motion.div
+                className="absolute top-[10%] left-[10%] w-[600px] h-[600px] rounded-full bg-gradient-to-br from-primary-500/20 to-primary-600/5 blur-[120px]"
+                animate={{ scale: [1, 1.3, 1], opacity: [0.15, 0.3, 0.15] }}
+                transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.div
+                className="absolute bottom-[10%] right-[5%] w-[500px] h-[500px] rounded-full bg-gradient-to-tl from-primary-400/15 to-transparent blur-[100px]"
+                animate={{ scale: [1.2, 1, 1.2], opacity: [0.1, 0.25, 0.1] }}
+                transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            />
+
+            <div className="container-section max-w-6xl relative">
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="mb-12 text-center"
+                    transition={{ duration: 0.6 }}
+                    className="mb-20 text-center"
                 >
-                    <h1 className="heading-primary mb-4">Get In Touch</h1>
-                    <p className="text-color-text-muted max-w-2xl mx-auto">
+                    <motion.div
+                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full glass-frost text-primary-300 text-sm font-semibold mb-8"
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.1 }}
+                    >
+                        <IoSparkles className="w-4 h-4" />
+                        <span>Let&apos;s Connect</span>
+                    </motion.div>
+                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-color-text mb-6">
+                        Get In <span className="animated-gradient-text text-shadow-glow">Touch</span>
+                    </h1>
+                    <p className="text-color-text-muted max-w-2xl mx-auto text-lg md:text-xl leading-relaxed">
                         Have a question or want to work together? Feel free to reach out using the form below
                         or connect with me on social media.
                     </p>
                 </motion.div>
 
-                <div className="grid lg:grid-cols-5 gap-10 lg:gap-16">
+                <div className="grid lg:grid-cols-5 gap-8 lg:gap-12">
                     {/* Contact info column */}
                     <motion.div
                         className="lg:col-span-2"
-                        initial={{ opacity: 0, x: -20 }}
+                        initial={{ opacity: 0, x: -30 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.5, delay: 0.1 }}
+                        transition={{ duration: 0.6, delay: 0.1 }}
                     >
-                        <div className="space-y-8">
-                            <div className="card">
-                                <h2 className="heading-secondary mb-6">Contact Information</h2>
+                        <div className="space-y-6">
+                            {/* Contact Information Card */}
+                            <div className="relative p-8 rounded-3xl glass-ultra overflow-hidden">
+                                {/* Spotlight effect */}
+                                <div className="absolute inset-0 spotlight opacity-40"></div>
 
-                                <ul className="space-y-6">
-                                    <li className="flex items-start gap-4">
-                                        <div className="bg-primary-900/30 text-primary-300 p-3 rounded-lg flex-shrink-0 border border-primary-700/30">
-                                            <IoMailOutline className="w-6 h-6" />
-                                        </div>
-                                        <div>
-                                            <h3 className="text-lg font-semibold text-color-text mb-1">Email</h3>
-                                            <a
-                                                href="mailto:hello@codemeapixel.dev"
-                                                className="text-primary-400 hover:text-primary-300 transition-colors"
-                                            >
-                                                hey@codemeapixel.dev
+                                {/* Decorative orb */}
+                                <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary-500/20 rounded-full blur-3xl"></div>
+
+                                <div className="relative">
+                                    <h2 className="text-2xl font-bold text-color-text mb-8">Contact Information</h2>
+
+                                    <ul className="space-y-6">
+                                        <li className="group">
+                                            <a href="mailto:hey@codemeapixel.dev" className="flex items-start gap-4">
+                                                <div className="p-3 rounded-xl glass-frost text-primary-300 flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                                                    <IoMailOutline className="w-6 h-6" />
+                                                </div>
+                                                <div>
+                                                    <h3 className="text-base font-semibold text-color-text mb-1">Email</h3>
+                                                    <span className="text-primary-400 group-hover:text-primary-300 transition-colors">
+                                                        hey@codemeapixel.dev
+                                                    </span>
+                                                </div>
                                             </a>
-                                        </div>
-                                    </li>
+                                        </li>
 
-                                    <li className="flex items-start gap-4">
-                                        <div className="bg-primary-900/30 text-primary-300 p-3 rounded-lg flex-shrink-0 border border-primary-700/30">
-                                            <IoLocationOutline className="w-6 h-6" />
-                                        </div>
-                                        <div>
-                                            <h3 className="text-lg font-semibold text-color-text mb-1">Location</h3>
-                                            <p className="text-color-text-muted">Alberta, Canada</p>
-                                        </div>
-                                    </li>
-                                </ul>
+                                        <li className="flex items-start gap-4 group">
+                                            <div className="p-3 rounded-xl glass-frost text-primary-300 flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                                                <IoLocationOutline className="w-6 h-6" />
+                                            </div>
+                                            <div>
+                                                <h3 className="text-base font-semibold text-color-text mb-1">Location</h3>
+                                                <p className="text-color-text-muted">In a Igloo in Canada</p>
+                                                <div className="mt-2 flex items-center gap-2">
+                                                    <span className="relative flex h-2 w-2">
+                                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                                        <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                                                    </span>
+                                                    <span className="text-xs text-green-400 font-medium">Available for remote work</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
 
-                            <div className="card">
-                                <h2 className="heading-secondary mb-6">Connect With Me</h2>
-                                <div className="flex flex-wrap gap-3">
-                                    <SocialButton
-                                        icon={<IoLogoGithub className="w-5 h-5" />}
-                                        label="GitHub"
-                                        href="https://github.com/codemeapixel"
-                                    />
-                                    <SocialButton
-                                        icon={<IoLogoTwitter className="w-5 h-5" />}
-                                        label="Twitter"
-                                        href="https://twitter.com/codemeapixel"
-                                    />
-                                    <SocialButton
-                                        icon={<IoLogoLinkedin className="w-5 h-5" />}
-                                        label="LinkedIn"
-                                        href="https://linkedin.com/in/codemeapixel"
-                                    />
-                                    <SocialButton
-                                        icon={<IoCodeSlashOutline className="w-5 h-5" />}
-                                        label="Portfolio"
-                                        href="/"
-                                    />
+                            {/* Social Links Card */}
+                            <div className="relative p-8 rounded-3xl glass-ultra overflow-hidden">
+                                {/* Spotlight effect */}
+                                <div className="absolute inset-0 spotlight opacity-40"></div>
+
+                                <div className="relative">
+                                    <h2 className="text-2xl font-bold text-color-text mb-6">Connect With Me</h2>
+                                    <div className="flex flex-wrap gap-3">
+                                        <SocialButton
+                                            icon={<IoLogoGithub className="w-5 h-5" />}
+                                            label="GitHub"
+                                            href="https://github.com/codemeapixel"
+                                            gradient="from-gray-700 to-gray-900"
+                                        />
+                                        <SocialButton
+                                            icon={<IoLogoTwitter className="w-5 h-5" />}
+                                            label="Twitter"
+                                            href="https://twitter.com/codemeapixel"
+                                            gradient="from-sky-500 to-sky-700"
+                                        />
+                                        <SocialButton
+                                            icon={<IoLogoLinkedin className="w-5 h-5" />}
+                                            label="LinkedIn"
+                                            href="https://linkedin.com/in/codemeapixel"
+                                            gradient="from-blue-600 to-blue-800"
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -130,147 +177,174 @@ export default function ContactContent() {
                     {/* Contact form column */}
                     <motion.div
                         className="lg:col-span-3"
-                        initial={{ opacity: 0, x: 20 }}
+                        initial={{ opacity: 0, x: 30 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
                     >
-                        <div className="card">
-                            <h2 className="heading-secondary mb-6">Send Me a Message</h2>
+                        <div className="relative p-8 md:p-10 rounded-3xl glass-ultra overflow-hidden">
+                            {/* Spotlight effect */}
+                            <div className="absolute inset-0 spotlight opacity-30"></div>
 
-                            {formState === 'success' ? (
-                                <div className="flex flex-col items-center text-center py-8">
-                                    <div className="bg-primary-900/30 text-primary-300 p-4 rounded-full mb-4 border border-primary-700/30">
-                                        <IoCheckmarkCircleOutline className="w-12 h-12" />
-                                    </div>
-                                    <h3 className="text-xl font-semibold text-color-text mb-2">Message Sent!</h3>
-                                    <p className="text-color-text-muted mb-6">
-                                        Thank you for reaching out. I&apos;ll get back to you as soon as possible!
-                                    </p>
-                                    <button
-                                        className="btn-primary"
-                                        onClick={() => setFormState('idle')}
+                            {/* Decorative elements */}
+                            <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary-500/15 rounded-full blur-3xl"></div>
+                            <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-primary-400/10 rounded-full blur-3xl"></div>
+
+                            <div className="relative">
+                                <h2 className="text-2xl font-bold text-color-text mb-8">Send Me a Message</h2>
+
+                                {formState === 'success' ? (
+                                    <motion.div
+                                        className="flex flex-col items-center text-center py-12"
+                                        initial={{ opacity: 0, scale: 0.9 }}
+                                        animate={{ opacity: 1, scale: 1 }}
                                     >
-                                        Send Another Message
-                                    </button>
-                                </div>
-                            ) : formState === 'error' ? (
-                                <div className="flex flex-col items-center text-center py-8">
-                                    <div className="bg-red-900/30 text-red-300 p-4 rounded-full mb-4 border border-red-700/30">
-                                        <IoCloseCircleOutline className="w-12 h-12" />
-                                    </div>
-                                    <h3 className="text-xl font-semibold text-color-text mb-2">Something Went Wrong</h3>
-                                    <p className="text-color-text-muted mb-6">
-                                        There was an error sending your message. Please try again or contact me directly via email.
-                                    </p>
-                                    <button
-                                        className="btn-primary"
-                                        onClick={() => setFormState('idle')}
-                                    >
-                                        Try Again
-                                    </button>
-                                </div>
-                            ) : (
-                                <form onSubmit={handleSubmit} className="space-y-6">
-                                    <div className="grid sm:grid-cols-2 gap-6">
-                                        <div>
-                                            <label htmlFor="name" className="block text-color-text-muted text-sm font-medium mb-2">
-                                                Your Name
-                                            </label>
-                                            <div className="relative">
-                                                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                                    <IoPersonOutline className="text-primary-400 w-5 h-5" />
-                                                </div>
-                                                <input
-                                                    type="text"
-                                                    id="name"
-                                                    name="name"
-                                                    value={formData.name}
-                                                    onChange={handleChange}
-                                                    className="w-full p-3 pl-10 rounded-lg bg-card-alt border border-color-border focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors text-color-text"
-                                                    placeholder="John Doe"
-                                                    required
-                                                />
-                                            </div>
+                                        <div className="p-5 rounded-2xl glass-frost text-green-400 mb-6">
+                                            <IoCheckmarkCircleOutline className="w-16 h-16" />
                                         </div>
-
-                                        <div>
-                                            <label htmlFor="email" className="block text-color-text-muted text-sm font-medium mb-2">
-                                                Your Email
-                                            </label>
-                                            <div className="relative">
-                                                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                                    <IoMailOutline className="text-primary-400 w-5 h-5" />
-                                                </div>
-                                                <input
-                                                    type="email"
-                                                    id="email"
-                                                    name="email"
-                                                    value={formData.email}
-                                                    onChange={handleChange}
-                                                    className="w-full p-3 pl-10 rounded-lg bg-card-alt border border-color-border focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors text-color-text"
-                                                    placeholder="email@example.com"
-                                                    required
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <label htmlFor="subject" className="block text-color-text-muted text-sm font-medium mb-2">
-                                            Subject
-                                        </label>
-                                        <input
-                                            type="text"
-                                            id="subject"
-                                            name="subject"
-                                            value={formData.subject}
-                                            onChange={handleChange}
-                                            className="w-full p-3 rounded-lg bg-card-alt border border-color-border focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors text-color-text"
-                                            placeholder="How can I help you?"
-                                            required
-                                        />
-                                    </div>
-
-                                    <div>
-                                        <label htmlFor="message" className="block text-color-text-muted text-sm font-medium mb-2">
-                                            Message
-                                        </label>
-                                        <textarea
-                                            id="message"
-                                            name="message"
-                                            rows={6}
-                                            value={formData.message}
-                                            onChange={handleChange}
-                                            className="w-full p-3 rounded-lg bg-card-alt border border-color-border focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors text-color-text resize-y"
-                                            placeholder="Your message here..."
-                                            required
-                                        ></textarea>
-                                    </div>
-
-                                    <div>
+                                        <h3 className="text-2xl font-bold text-color-text mb-3">Message Sent!</h3>
+                                        <p className="text-color-text-muted mb-8 text-lg">
+                                            Thank you for reaching out. I&apos;ll get back to you as soon as possible!
+                                        </p>
                                         <button
-                                            type="submit"
-                                            className="btn-primary w-full sm:w-auto flex items-center gap-2 justify-center"
-                                            disabled={formState === 'submitting'}
+                                            className="group relative inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold overflow-hidden shine-sweep"
+                                            onClick={() => setFormState('idle')}
                                         >
-                                            {formState === 'submitting' ? (
-                                                <>
-                                                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                                    </svg>
-                                                    <span>Sending...</span>
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <IoSendOutline className="w-5 h-5" />
-                                                    <span>Send Message</span>
-                                                </>
-                                            )}
+                                            <span className="absolute inset-0 bg-gradient-to-r from-primary-600 to-primary-400"></span>
+                                            <span className="relative z-10 text-white flex items-center gap-2">
+                                                Send Another Message
+                                                <IoArrowForward className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                            </span>
                                         </button>
-                                    </div>
-                                </form>
-                            )}
+                                    </motion.div>
+                                ) : formState === 'error' ? (
+                                    <motion.div
+                                        className="flex flex-col items-center text-center py-12"
+                                        initial={{ opacity: 0, scale: 0.9 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                    >
+                                        <div className="p-5 rounded-2xl glass-frost text-red-400 mb-6">
+                                            <IoCloseCircleOutline className="w-16 h-16" />
+                                        </div>
+                                        <h3 className="text-2xl font-bold text-color-text mb-3">Something Went Wrong</h3>
+                                        <p className="text-color-text-muted mb-8 text-lg">
+                                            There was an error sending your message. Please try again or contact me directly via email.
+                                        </p>
+                                        <button
+                                            className="group relative inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold overflow-hidden shine-sweep"
+                                            onClick={() => setFormState('idle')}
+                                        >
+                                            <span className="absolute inset-0 bg-gradient-to-r from-primary-600 to-primary-400"></span>
+                                            <span className="relative z-10 text-white">Try Again</span>
+                                        </button>
+                                    </motion.div>
+                                ) : (
+                                    <form onSubmit={handleSubmit} className="space-y-6">
+                                        <div className="grid sm:grid-cols-2 gap-6">
+                                            <div>
+                                                <label htmlFor="name" className="block text-color-text text-sm font-semibold mb-3">
+                                                    Your Name
+                                                </label>
+                                                <div className="relative group">
+                                                    <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                                                        <IoPersonOutline className="text-primary-400 w-5 h-5" />
+                                                    </div>
+                                                    <input
+                                                        type="text"
+                                                        id="name"
+                                                        name="name"
+                                                        value={formData.name}
+                                                        onChange={handleChange}
+                                                        className="w-full p-4 pl-12 rounded-xl glass-frost border-0 focus:ring-2 focus:ring-primary-500/50 transition-all text-color-text placeholder:text-color-text-muted/50"
+                                                        placeholder="John Doe"
+                                                        required
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <label htmlFor="email" className="block text-color-text text-sm font-semibold mb-3">
+                                                    Your Email
+                                                </label>
+                                                <div className="relative group">
+                                                    <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                                                        <IoMailOutline className="text-primary-400 w-5 h-5" />
+                                                    </div>
+                                                    <input
+                                                        type="email"
+                                                        id="email"
+                                                        name="email"
+                                                        value={formData.email}
+                                                        onChange={handleChange}
+                                                        className="w-full p-4 pl-12 rounded-xl glass-frost border-0 focus:ring-2 focus:ring-primary-500/50 transition-all text-color-text placeholder:text-color-text-muted/50"
+                                                        placeholder="email@example.com"
+                                                        required
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <label htmlFor="subject" className="block text-color-text text-sm font-semibold mb-3">
+                                                Subject
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="subject"
+                                                name="subject"
+                                                value={formData.subject}
+                                                onChange={handleChange}
+                                                className="w-full p-4 rounded-xl glass-frost border-0 focus:ring-2 focus:ring-primary-500/50 transition-all text-color-text placeholder:text-color-text-muted/50"
+                                                placeholder="How can I help you?"
+                                                required
+                                            />
+                                        </div>
+
+                                        <div>
+                                            <label htmlFor="message" className="block text-color-text text-sm font-semibold mb-3">
+                                                Message
+                                            </label>
+                                            <textarea
+                                                id="message"
+                                                name="message"
+                                                rows={6}
+                                                value={formData.message}
+                                                onChange={handleChange}
+                                                className="w-full p-4 rounded-xl glass-frost border-0 focus:ring-2 focus:ring-primary-500/50 transition-all text-color-text placeholder:text-color-text-muted/50 resize-y"
+                                                placeholder="Your message here..."
+                                                required
+                                            ></textarea>
+                                        </div>
+
+                                        <div>
+                                            <button
+                                                type="submit"
+                                                className="group relative inline-flex items-center gap-3 px-10 py-4 rounded-xl font-bold text-lg overflow-hidden shine-sweep w-full sm:w-auto justify-center"
+                                                disabled={formState === 'submitting'}
+                                            >
+                                                <span className="absolute inset-0 bg-gradient-to-r from-primary-600 via-primary-500 to-primary-600 bg-[length:200%_100%] animate-[gradient-x_3s_linear_infinite]"></span>
+                                                <span className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-primary-500 to-primary-400"></span>
+                                                <span className="relative z-10 flex items-center gap-3 text-white">
+                                                    {formState === 'submitting' ? (
+                                                        <>
+                                                            <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                            </svg>
+                                                            <span>Sending...</span>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <IoSendOutline className="w-5 h-5" />
+                                                            <span>Send Message</span>
+                                                            <IoArrowForward className="w-5 h-5 group-hover:translate-x-2 transition-transform duration-300" />
+                                                        </>
+                                                    )}
+                                                </span>
+                                            </button>
+                                        </div>
+                                    </form>
+                                )}
+                            </div>
                         </div>
                     </motion.div>
                 </div>
@@ -283,18 +357,24 @@ interface SocialButtonProps {
     icon: React.ReactNode;
     label: string;
     href: string;
+    gradient: string;
 }
 
-function SocialButton({ icon, label, href }: SocialButtonProps) {
+function SocialButton({ icon, label, href, gradient }: SocialButtonProps) {
     return (
         <a
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2 bg-primary-900/30 hover:bg-primary-800/40 text-primary-300 rounded-lg transition-colors border border-primary-700/30 hover:border-primary-600/40"
+            className="group relative flex items-center gap-3 px-5 py-3 rounded-xl glass-frost overflow-hidden transition-all duration-300 hover:scale-105"
         >
-            {icon}
-            <span>{label}</span>
+            {/* Hover gradient background */}
+            <span className={`absolute inset-0 bg-gradient-to-r ${gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></span>
+
+            <span className="relative z-10 flex items-center gap-3">
+                <span className="text-primary-300 group-hover:text-white transition-colors">{icon}</span>
+                <span className="text-sm font-semibold text-color-text-muted group-hover:text-white transition-colors">{label}</span>
+            </span>
         </a>
     );
 }

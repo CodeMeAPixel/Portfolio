@@ -9,13 +9,45 @@ import { IoCheckmark } from "react-icons/io5";
 import { IoClose } from "react-icons/io5";
 
 type ThemeOption = {
-  name: "blue" | "purple" | "teal" | "rose" | "amber" | "sunset" | "emerald" | "crimson" | "nord" | "cyberpunk" | "mint";
+  name: "blue" | "purple" | "teal" | "rose" | "amber" | "sunset" | "emerald" | "crimson" | "nord" | "cyberpunk" | "mint" | "stranger" | "matrix" | "synthwave" | "dracula" | "monokai";
   label: string;
   color: string;
   gradient: string;
 };
 
 const themeOptions: ThemeOption[] = [
+  // Pop Culture Themed Themes (Featured)
+  {
+    name: "stranger",
+    label: "Stranger Things",
+    color: "rgb(230, 50, 40)",
+    gradient: "from-red-600 to-red-400"
+  },
+  {
+    name: "matrix",
+    label: "Matrix",
+    color: "rgb(0, 230, 0)",
+    gradient: "from-green-500 to-green-300"
+  },
+  {
+    name: "synthwave",
+    label: "Synthwave",
+    color: "rgb(255, 50, 180)",
+    gradient: "from-pink-500 to-cyan-400"
+  },
+  {
+    name: "dracula",
+    label: "Dracula",
+    color: "rgb(189, 147, 249)",
+    gradient: "from-purple-400 to-pink-400"
+  },
+  {
+    name: "monokai",
+    label: "Monokai",
+    color: "rgb(166, 226, 46)",
+    gradient: "from-yellow-400 to-green-400"
+  },
+  // Classic Color Themes
   {
     name: "blue",
     label: "Azure",
@@ -97,40 +129,39 @@ export default function MobileThemeMenu() {
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>
         <motion.button
-          className="btn-icon relative"
+          className="relative p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-all duration-300"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           aria-label="Change theme color"
         >
           <div
-            className="w-full h-full absolute inset-0 rounded-full opacity-75"
+            className="w-4 h-4 rounded-full ring-2 ring-white/20"
             style={{ backgroundColor: themeOptions.find(opt => opt.name === themeColor)?.color }}
           />
-          <IoColorPaletteOutline className="w-5 h-5 relative z-10 text-white mix-blend-difference" />
         </motion.button>
       </Dialog.Trigger>
 
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
-        <Dialog.Content className="fixed left-[50%] top-[50%] z-50 grid w-full max-w-sm max-h-[80vh] overflow-y-auto translate-x-[-50%] translate-y-[-50%] gap-4 bg-card border border-color-border shadow-lg rounded-xl p-6 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]">
-          <Dialog.Title className="text-xl font-semibold bg-gradient-to-r from-primary-400 to-primary-300 bg-clip-text text-transparent">
-            Choose Your Theme
+        <Dialog.Overlay className="fixed inset-0 bg-black/60 backdrop-blur-md z-50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
+        <Dialog.Content className="fixed left-[50%] top-[50%] z-50 w-full max-w-xs translate-x-[-50%] translate-y-[-50%] bg-bg/95 backdrop-blur-xl border border-white/10 shadow-2xl shadow-black/50 rounded-2xl p-5 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95">
+          <Dialog.Title className="text-lg font-bold animated-gradient-text mb-1">
+            Theme Colors
           </Dialog.Title>
 
-          <Dialog.Description className="text-color-text-muted text-sm">
-            Personalize your experience with a color theme that matches your style.
+          <Dialog.Description className="text-color-text-muted text-xs mb-4">
+            Choose a color theme
           </Dialog.Description>
 
-          <div className="grid gap-3">
+          <div className="grid grid-cols-2 gap-2 max-h-[50vh] overflow-y-auto">
             {themeOptions.map((option) => (
               <motion.button
                 key={option.name}
                 className={`
-                  flex items-center gap-3 px-3 py-3 rounded-lg border 
+                  flex items-center gap-2 px-3 py-2.5 rounded-xl
                   transition-all duration-200
                   ${themeColor === option.name
-                    ? 'border-primary-500 bg-primary-900/20'
-                    : 'border-color-border hover:border-primary-500/50'
+                    ? 'bg-gradient-to-r from-primary-500/20 to-accent-500/10 ring-1 ring-primary-500/40'
+                    : 'bg-white/5 hover:bg-white/10'
                   }
                 `}
                 onClick={() => {
@@ -140,15 +171,12 @@ export default function MobileThemeMenu() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <div className={`w-8 h-8 rounded-full bg-gradient-to-br ${option.gradient} shadow-sm`}></div>
-                <div className="text-left">
-                  <div className="font-medium">{option.label}</div>
-                  <div className="text-xs text-color-text-muted">
-                    {themeColor === option.name ? 'Currently active' : 'Click to activate'}
-                  </div>
+                <div className={`w-6 h-6 rounded-full bg-gradient-to-br ${option.gradient} ring-2 ring-white/20`}></div>
+                <div className="text-left flex-1 min-w-0">
+                  <div className="text-sm font-medium truncate">{option.label}</div>
                 </div>
                 {themeColor === option.name && (
-                  <IoCheckmark className="w-5 h-5 ml-auto text-primary-400" />
+                  <IoCheckmark className="w-4 h-4 text-primary-400 flex-shrink-0" />
                 )}
               </motion.button>
             ))}
@@ -156,10 +184,10 @@ export default function MobileThemeMenu() {
 
           <Dialog.Close asChild>
             <button
-              className="absolute top-4 right-4 rounded-full p-1 text-color-text-muted hover:text-color-text transition-colors"
+              className="absolute top-3 right-3 p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-color-text-muted hover:text-color-text transition-all duration-200"
               aria-label="Close"
             >
-              <IoClose className="w-5 h-5" />
+              <IoClose className="w-4 h-4" />
             </button>
           </Dialog.Close>
         </Dialog.Content>

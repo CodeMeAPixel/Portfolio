@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { Referral, ReferralCategory } from '@/types/referrals';
 import * as IoIcons from 'react-icons/io5';
-import { IoClipboardOutline, IoCheckmarkOutline, IoArrowForward, IoSearchOutline, IoClose } from 'react-icons/io5';
+import { IoClipboardOutline, IoCheckmarkOutline, IoArrowForward, IoSearchOutline, IoClose, IoSparkles, IoGiftOutline } from 'react-icons/io5';
 
 interface ReferralsContentProps {
     referrals: Referral[];
@@ -59,105 +59,113 @@ export default function ReferralsContent({ referrals, categories }: ReferralsCon
     };
 
     return (
-        <section className="py-16 sm:py-24 bg-bg-alt min-h-screen relative z-10 overflow-hidden">
-            {/* Background grid effect */}
-            <div className="absolute inset-0 z-0 pointer-events-none">
-                <div className="absolute inset-0 pixel-grid-layer-1"></div>
-                <div className="absolute inset-0 pixel-grid-layer-2"></div>
+        <section className="py-24 md:py-32 bg-bg min-h-screen relative z-10 overflow-hidden">
+            {/* Premium multi-layer background */}
+            <div className="absolute inset-0">
+                <div className="absolute inset-0 bg-aurora opacity-40"></div>
+                <div className="absolute inset-0 bg-dot-pattern opacity-20"></div>
             </div>
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"></div>
 
-            {/* Decorative elements */}
-            <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-                <motion.div
-                    className="absolute text-primary-900/5 text-[10rem] md:text-[16rem] font-bold top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.8 }}
-                />
-
-                {/* Floating elements */}
-                <motion.div
-                    className="absolute top-[10%] right-[5%] w-72 h-72 bg-primary-500/5 rounded-full blur-3xl"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 1, delay: 0.5 }}
-                />
-                <motion.div
-                    className="absolute bottom-[15%] left-[10%] w-96 h-96 bg-primary-400/5 rounded-full blur-3xl"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 1, delay: 0.7 }}
-                />
-            </div>
+            {/* Animated floating orbs */}
+            <motion.div
+                className="absolute top-[10%] right-[5%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-primary-500/20 to-primary-600/5 blur-[100px]"
+                animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2] }}
+                transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.div
+                className="absolute bottom-[15%] left-[10%] w-[400px] h-[400px] rounded-full bg-gradient-to-tl from-primary-400/15 to-transparent blur-[80px]"
+                animate={{ scale: [1.2, 1, 1.2], opacity: [0.15, 0.3, 0.15] }}
+                transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            />
 
             <div className="container-section relative z-10">
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="mb-12 text-center"
+                    transition={{ duration: 0.6 }}
+                    className="mb-16 text-center"
                 >
-                    <h1 className="heading-primary mb-4">Referrals & Offers</h1>
-                    <p className="text-color-text-muted max-w-3xl mx-auto">
+                    {/* Premium Badge */}
+                    <motion.div
+                        className="flex justify-center mb-8"
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.1 }}
+                    >
+                        <span className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-primary-300 glass-frost rounded-full">
+                            <IoGiftOutline className="w-4 h-4" />
+                            Exclusive Offers
+                        </span>
+                    </motion.div>
+
+                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6">
+                        <span className="text-color-text">Referrals & </span>
+                        <span className="animated-gradient-text text-shadow-glow">Offers</span>
+                    </h1>
+                    <p className="text-color-text-muted max-w-3xl mx-auto text-lg md:text-xl leading-relaxed">
                         Use these referral links and promo codes to get discounts on products and services I recommend.
                         I may receive a commission or credit when you use these links at no extra cost to you.
                     </p>
                 </motion.div>
 
-                <div className="flex flex-col items-center mb-12">
-                    {/* Search bar */}
+                <div className="flex flex-col items-center mb-14">
+                    {/* Premium Search bar */}
                     <motion.div
-                        initial={{ opacity: 0, y: 10 }}
+                        initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.1 }}
-                        className="relative max-w-md w-full mb-6"
+                        transition={{ duration: 0.6, delay: 0.1 }}
+                        className="relative max-w-lg w-full mb-8"
                     >
-                        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-color-text-muted">
-                            <IoSearchOutline className="w-5 h-5" />
+                        <div className="relative glass-ultra rounded-2xl overflow-hidden">
+                            <div className="absolute left-5 top-1/2 -translate-y-1/2 text-primary-400">
+                                <IoSearchOutline className="w-5 h-5" />
+                            </div>
+                            <input
+                                type="text"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                placeholder="Search referrals..."
+                                className="w-full pl-14 pr-12 py-4 bg-transparent border-0 text-color-text placeholder:text-color-text-muted text-sm focus:ring-0 focus:outline-none"
+                            />
+                            {searchQuery && (
+                                <button
+                                    className="absolute right-4 top-1/2 -translate-y-1/2 p-1.5 rounded-lg glass-frost text-color-text-muted hover:text-primary-400 transition-colors"
+                                    onClick={() => setSearchQuery('')}
+                                    aria-label="Clear search"
+                                >
+                                    <IoClose className="w-4 h-4" />
+                                </button>
+                            )}
                         </div>
-                        <input
-                            type="text"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            placeholder="Search referrals..."
-                            className="w-full pl-12 pr-10 py-3 rounded-xl bg-card border border-color-border text-color-text placeholder:text-color-text-muted text-sm focus:ring-1 focus:ring-primary-500 focus:border-primary-500 outline-none"
-                        />
-                        {searchQuery && (
-                            <button
-                                className="absolute right-4 top-1/2 -translate-y-1/2 text-color-text-muted hover:text-color-text"
-                                onClick={() => setSearchQuery('')}
-                                aria-label="Clear search"
-                            >
-                                <IoClose className="w-5 h-5" />
-                            </button>
-                        )}
                     </motion.div>
 
-                    {/* Category tabs */}
+                    {/* Premium Category tabs */}
                     <motion.div
-                        initial={{ opacity: 0, y: 10 }}
+                        initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
-                        className="flex flex-wrap justify-center gap-3 mb-6"
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                        className="flex flex-wrap justify-center gap-3 p-3 rounded-2xl glass-ultra"
                     >
                         <button
-                            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors
+                            className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 flex items-center gap-2
                                 ${activeCategory === null
-                                    ? 'bg-primary-800/40 text-primary-300 border border-primary-700/40'
-                                    : 'bg-card text-color-text-muted border border-color-border hover:bg-card-alt'
+                                    ? 'bg-gradient-to-r from-primary-600 to-primary-400 text-white shadow-lg shadow-primary-500/30'
+                                    : 'text-color-text-muted hover:text-color-text glass-frost hover:scale-105'
                                 }`}
                             onClick={() => setActiveCategory(null)}
                         >
+                            <IoSparkles className="w-4 h-4" />
                             All Referrals
                         </button>
 
                         {categories.map(category => (
                             <button
                                 key={category.id}
-                                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors flex items-center gap-2
+                                className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 flex items-center gap-2
                                     ${activeCategory === category.id
-                                        ? 'bg-primary-800/40 text-primary-300 border border-primary-700/40'
-                                        : 'bg-card text-color-text-muted border border-color-border hover:bg-card-alt'
+                                        ? 'bg-gradient-to-r from-primary-600 to-primary-400 text-white shadow-lg shadow-primary-500/30'
+                                        : 'text-color-text-muted hover:text-color-text glass-frost hover:scale-105'
                                     }`}
                                 onClick={() => setActiveCategory(category.id)}
                             >
@@ -199,17 +207,20 @@ export default function ReferralsContent({ referrals, categories }: ReferralsCon
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: 0.5, delay: 0.3 }}
-                        className="text-center p-10 bg-card border border-color-border rounded-xl"
+                        className="text-center p-16 glass-ultra rounded-3xl"
                     >
-                        <h3 className="text-xl font-semibold mb-2">No referrals found</h3>
-                        <p className="text-color-text-muted mb-6">
+                        <div className="w-20 h-20 mx-auto mb-6 rounded-2xl glass-frost flex items-center justify-center">
+                            <IoSearchOutline className="w-10 h-10 text-primary-400" />
+                        </div>
+                        <h3 className="text-2xl font-bold mb-3">No referrals found</h3>
+                        <p className="text-color-text-muted mb-8 text-lg">
                             Try adjusting your search or selecting a different category.
                         </p>
                         <div className="flex justify-center gap-4">
                             {searchQuery && (
                                 <button
                                     onClick={() => setSearchQuery('')}
-                                    className="btn-secondary text-sm py-2"
+                                    className="px-6 py-3 rounded-xl font-semibold glass-frost text-primary-400 hover:scale-105 transition-all duration-300"
                                 >
                                     Clear Search
                                 </button>
@@ -217,9 +228,10 @@ export default function ReferralsContent({ referrals, categories }: ReferralsCon
                             {activeCategory !== null && (
                                 <button
                                     onClick={() => setActiveCategory(null)}
-                                    className="btn-secondary text-sm py-2"
+                                    className="relative px-6 py-3 rounded-xl font-semibold overflow-hidden shine-sweep"
                                 >
-                                    Show All Referrals
+                                    <span className="absolute inset-0 bg-gradient-to-r from-primary-600 to-primary-400"></span>
+                                    <span className="relative z-10 text-white">Show All Referrals</span>
                                 </button>
                             )}
                         </div>
@@ -230,7 +242,7 @@ export default function ReferralsContent({ referrals, categories }: ReferralsCon
     );
 }
 
-// Enhanced ReferralCard component with more animation
+// Enhanced ReferralCard component with premium glassmorphism
 function ReferralCard({
     referral,
     index,
@@ -248,57 +260,55 @@ function ReferralCard({
     return (
         <motion.div
             variants={{
-                hidden: { opacity: 0, y: 20 },
-                show: { opacity: 1, y: 0 }
+                hidden: { opacity: 0, y: 30, scale: 0.95 },
+                show: { opacity: 1, y: 0, scale: 1 }
             }}
             className="flex flex-col h-full"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-            whileHover={{
-                y: -5,
-                boxShadow: '0 15px 30px -5px rgba(0, 0, 0, 0.1), 0 10px 15px -5px rgba(0, 0, 0, 0.05)'
-            }}
+            whileHover={{ y: -8, transition: { duration: 0.3 } }}
         >
-            <div className="relative h-full overflow-hidden rounded-xl bg-card border border-color-border animated-border transition-all duration-300 group hover:shadow-lg hover:shadow-primary-900/10">
-                {/* Top gradient accent bar */}
-                <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-primary-500 to-primary-400 opacity-60 group-hover:opacity-100 transition-opacity z-10"></div>
+            <div className="relative h-full overflow-hidden rounded-2xl glass-ultra transition-all duration-500 group">
+                {/* Animated glow border on hover */}
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary-500/0 via-primary-500/20 to-primary-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                {/* Spotlight effect */}
+                <div className="absolute inset-0 spotlight opacity-0 group-hover:opacity-50 transition-opacity duration-500"></div>
 
                 {/* New badge */}
                 {referral.new && (
-                    <div className="absolute top-4 right-4 z-20 px-2 py-1 bg-primary-500/10 text-primary-300 text-xs font-medium rounded-md border border-primary-500/20">
-                        New
+                    <div className="absolute top-4 right-4 z-20 px-3 py-1.5 glass-frost text-primary-300 text-xs font-semibold rounded-full">
+                        ✨ New
                     </div>
                 )}
 
                 {/* Banner image section */}
-                <div className="relative aspect-video bg-gradient-to-br from-card-alt to-card">
+                <div className="relative aspect-video overflow-hidden">
                     {referral.bannerImage && !imageError ? (
                         <>
                             <Image
                                 src={referral.bannerImage}
                                 alt={`${referral.title} banner`}
                                 fill
-                                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                className="object-cover transition-transform duration-700 group-hover:scale-110"
                                 onError={() => setImageError(true)}
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent opacity-70"></div>
+                            <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/50 to-transparent"></div>
+
+                            {/* Shine sweep effect */}
+                            <div className="absolute inset-0 shine-sweep opacity-0 group-hover:opacity-100"></div>
                         </>
                     ) : (
-                        // Fallback gradient background when no banner
-                        <div className="w-full h-full bg-gradient-to-br from-card to-card-alt">
-                            {/* Decorative background elements */}
-                            <div className="absolute top-0 left-0 w-40 h-40 bg-primary-500/5 rounded-full -translate-x-20 -translate-y-20"></div>
-                            <div className="absolute bottom-0 right-0 w-32 h-32 bg-primary-500/5 rounded-full translate-x-16 translate-y-16"></div>
-
-                            {/* Company name as text when no image */}
+                        // Premium fallback gradient background
+                        <div className="w-full h-full bg-gradient-to-br from-primary-900/40 to-bg relative">
+                            <div className="absolute inset-0 bg-dot-pattern opacity-30"></div>
+                            <motion.div
+                                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-primary-500/20 rounded-full blur-3xl"
+                                animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0.5, 0.3] }}
+                                transition={{ duration: 4, repeat: Infinity }}
+                            />
                             <div className="absolute inset-0 flex items-center justify-center">
-                                <div className={`px-6 py-3 rounded-lg text-lg font-bold ${referral.color || 'bg-primary-900/30 text-primary-300'
-                                    }`}
-                                    style={referral.color ? {
-                                        backgroundColor: `var(--${referral.color.replace('bg-', '')})25`,
-                                        color: `var(--${referral.color.replace('bg-', '')})`
-                                    } : {}}
-                                >
+                                <div className="px-6 py-3 rounded-xl glass-frost text-lg font-bold text-primary-300">
                                     {referral.company}
                                 </div>
                             </div>
@@ -306,48 +316,35 @@ function ReferralCard({
                     )}
 
                     {/* Category badge */}
-                    <div className="absolute top-4 left-4 z-20 px-3 py-1.5 bg-card/90 backdrop-blur-sm text-color-text text-xs font-medium rounded-full border border-color-border">
+                    <div className="absolute top-4 left-4 z-20 px-4 py-2 glass-frost text-primary-300 text-xs font-semibold rounded-full">
                         {referral.categoryName}
                     </div>
                 </div>
 
-                <div className="p-6">
-                    {/* Custom color accent based on referral.color if provided */}
-                    {referral.color && (
-                        <div
-                            className="absolute top-1.5 right-0 w-1.5 h-16 rounded-l-md opacity-80 group-hover:opacity-100 transition-opacity"
-                            style={{ backgroundColor: `var(--${referral.color.replace('bg-', '')})` }}
-                        ></div>
-                    )}
-
+                <div className="p-6 relative z-10">
                     {/* Title */}
-                    <motion.h2
-                        className="text-xl font-bold text-color-text group-hover:text-primary-300 transition-colors mb-2"
-                        animate={isHovered ? { scale: 1.01 } : { scale: 1 }}
-                        transition={{ duration: 0.2 }}
-                    >
+                    <h2 className="text-xl font-bold text-color-text group-hover:text-primary-300 transition-colors mb-3">
                         {referral.title}
-                    </motion.h2>
+                    </h2>
 
                     {/* Description */}
-                    <p className="text-color-text-muted mb-4 line-clamp-3">
+                    <p className="text-color-text-muted mb-5 line-clamp-3 leading-relaxed">
                         {referral.description}
                     </p>
 
-                    {/* Discount highlight with improved styling */}
+                    {/* Discount highlight */}
                     {referral.discount && (
-                        <div className="mb-4 px-4 py-3 bg-primary-900/20 border border-primary-800/30 rounded-lg relative overflow-hidden">
-                            {/* Subtle accent */}
-                            <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary-500/50 rounded-r"></div>
-                            <p className="text-primary-300 font-medium pl-2">{referral.discount}</p>
+                        <div className="mb-5 px-4 py-3 glass-frost rounded-xl relative overflow-hidden">
+                            <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-primary-500 to-primary-400 rounded-r"></div>
+                            <p className="text-primary-300 font-semibold pl-2">{referral.discount}</p>
                         </div>
                     )}
 
-                    {/* Benefits list - if available */}
+                    {/* Benefits list */}
                     {referral.benefits && referral.benefits.length > 0 && (
-                        <div className="mb-4">
-                            <p className="text-sm text-color-text-muted mb-2">Benefits:</p>
-                            <ul className="space-y-1.5 text-sm">
+                        <div className="mb-5">
+                            <p className="text-sm text-color-text-muted mb-2 font-semibold">Benefits:</p>
+                            <ul className="space-y-2 text-sm">
                                 {referral.benefits.slice(0, 2).map((benefit, i) => (
                                     <li key={i} className="flex items-start gap-2">
                                         <span className="text-primary-400 mt-0.5 flex-shrink-0">•</span>
@@ -355,7 +352,7 @@ function ReferralCard({
                                     </li>
                                 ))}
                                 {referral.benefits.length > 2 && (
-                                    <li className="text-xs text-primary-400 pl-4">
+                                    <li className="text-xs text-primary-400 pl-4 font-semibold">
                                         +{referral.benefits.length - 2} more benefits
                                     </li>
                                 )}
@@ -363,19 +360,19 @@ function ReferralCard({
                         </div>
                     )}
 
-                    {/* Promo code with improved styling */}
+                    {/* Promo code */}
                     {referral.code && (
                         <div className="mb-6">
-                            <p className="text-sm text-color-text-muted mb-2">Promo Code:</p>
+                            <p className="text-sm text-color-text-muted mb-2 font-semibold">Promo Code:</p>
                             <div className="flex">
-                                <div className="flex-grow px-4 py-2 bg-card-alt border border-color-border rounded-l-lg font-mono text-primary-300 flex items-center justify-center tracking-wider">
+                                <div className="flex-grow px-4 py-3 glass-frost rounded-l-xl font-mono text-primary-300 flex items-center justify-center tracking-wider font-semibold">
                                     {referral.code}
                                 </div>
                                 <button
                                     onClick={() => onCopyCode(referral.code!)}
-                                    className={`px-3 py-2 border border-primary-700/40 rounded-r-lg transition-colors flex items-center justify-center ${copiedCode === referral.code
-                                        ? 'bg-green-800/40 text-green-300 border-green-700/40'
-                                        : 'bg-primary-800/40 hover:bg-primary-800/60 text-primary-300'
+                                    className={`px-4 py-3 rounded-r-xl transition-all duration-300 flex items-center justify-center ${copiedCode === referral.code
+                                        ? 'bg-green-500/20 text-green-300'
+                                        : 'bg-primary-500/20 hover:bg-primary-500/30 text-primary-300'
                                         }`}
                                     title={copiedCode === referral.code ? "Copied!" : "Copy code"}
                                 >
@@ -389,39 +386,21 @@ function ReferralCard({
                         </div>
                     )}
 
-                    {/* Visit button with enhanced animation */}
+                    {/* Premium Get Offer button */}
                     <motion.a
                         href={referral.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={`w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border transition-all text-primary-300 font-medium ${referral.color || 'bg-primary-900/20 border-primary-800/30 hover:bg-primary-800/30 hover:border-primary-700/40'
-                            }`}
-                        animate={isHovered ? { y: -2, boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)' } : { y: 0, boxShadow: '0 0px 0px rgba(0, 0, 0, 0)' }}
-                        transition={{ duration: 0.2 }}
-                        style={referral.color ? {
-                            backgroundColor: `var(--${referral.color.replace('bg-', '')})15`,
-                            borderColor: `var(--${referral.color.replace('bg-', '')})30`,
-                        } : {}}
-                        whileHover={referral.color ? {
-                            backgroundColor: `var(--${referral.color.replace('bg-', '')})25`,
-                            borderColor: `var(--${referral.color.replace('bg-', '')})40`,
-                        } : {}}
+                        className="group/btn relative w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-semibold overflow-hidden shine-sweep"
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
                     >
-                        Get Offer
-                        <IoArrowForward className={`w-4 h-4 transition-all duration-300 ${isHovered ? 'translate-x-1' : ''}`} />
+                        <span className="absolute inset-0 bg-gradient-to-r from-primary-600 to-primary-400"></span>
+                        <span className="relative z-10 flex items-center gap-2 text-white">
+                            Get Offer
+                            <IoArrowForward className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                        </span>
                     </motion.a>
-                </div>
-
-                {/* Subtle hover glow effect */}
-                <div className={`absolute inset-0 pointer-events-none transition-opacity duration-300 rounded-xl ${isHovered ? 'opacity-100' : 'opacity-0'}`}
-                    style={{
-                        boxShadow: 'inset 0 0 20px rgba(var(--color-primary-500), 0.1)'
-                    }}
-                />
-
-                {/* Subtle corner decoration */}
-                <div className="absolute top-0 right-0 w-12 h-12 overflow-hidden opacity-20 group-hover:opacity-40 transition-opacity">
-                    <div className="absolute top-0 right-0 w-8 h-8 bg-primary-500 rotate-45 translate-x-[10px] -translate-y-[10px]"></div>
                 </div>
             </div>
         </motion.div>

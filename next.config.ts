@@ -1,8 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  typescript: { ignoreBuildErrors: true },
-  eslint: { ignoreDuringBuilds: true },
+  reactCompiler: true,
   turbopack: {
     resolveAlias: {
       underscore: 'lodash'
@@ -13,7 +12,11 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'i.scdn.co'
+        hostname: '**'
+      },
+      {
+        protocol: 'http',
+        hostname: '**'
       }
     ]
   },

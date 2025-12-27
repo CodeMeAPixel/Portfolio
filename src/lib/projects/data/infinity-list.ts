@@ -60,7 +60,7 @@ The platform continues to evolve, setting new standards for Discord bot and serv
         documentation: "https://docs.infinitybots.gg",
         support: "https://discord.gg/infinitybots"
     },
-    featured: true,
+    featured: false,
     technologies: [
         { name: "Next.js", description: "React framework for server-side rendering, static site generation, and high-performance frontend." },
         { name: "React", description: "Component-based UI library for building interactive user interfaces." },

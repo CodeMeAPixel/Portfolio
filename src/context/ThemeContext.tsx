@@ -2,7 +2,14 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 
-type ThemeColor = "blue" | "purple" | "teal" | "rose" | "amber" | "sunset" | "emerald" | "crimson" | "nord" | "cyberpunk" | "mint";
+// All available theme options
+export const VALID_THEMES = [
+  "blue", "purple", "teal", "rose", "amber", "sunset", "emerald", "crimson", "nord", "cyberpunk", "mint",
+  "stranger", "matrix", "synthwave", "dracula", "monokai",
+  "warzone", "valorant", "minecraft", "fortnite", "gta", "hacker", "ocean", "aurora", "blood", "neon"
+] as const;
+
+type ThemeColor = typeof VALID_THEMES[number];
 
 interface ThemeContextType {
   themeColor: ThemeColor;
@@ -10,7 +17,7 @@ interface ThemeContextType {
   isLoaded: boolean;
 }
 
-const defaultTheme: ThemeColor = "purple";
+const defaultTheme: ThemeColor = "stranger";
 
 const ThemeContext = createContext<ThemeContextType>({
   themeColor: defaultTheme,
@@ -27,7 +34,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     try {
       const savedTheme = localStorage.getItem("themeColor") as ThemeColor;
-      if (savedTheme && ["blue", "purple", "teal", "rose", "amber", "sunset", "emerald", "crimson", "nord", "cyberpunk", "mint"].includes(savedTheme)) {
+      if (savedTheme && VALID_THEMES.includes(savedTheme)) {
         setThemeColor(savedTheme);
       }
     } catch (error) {

@@ -5,85 +5,74 @@ import { motion, AnimatePresence } from "framer-motion";
 import { CMAP } from "@/components/icons/CMAP";
 
 export default function Loader() {
+  const [mounted, setMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [currentPixel, setCurrentPixel] = useState(0);
   const [showContent, setShowContent] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [forceLoading, setForceLoading] = useState(true); // Force minimum loading time
+  const [forceLoading, setForceLoading] = useState(true);
+
+  // Handle mounting to prevent hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
+    if (!mounted) return;
+
     const hasVisited = localStorage.getItem("hasVisited");
     const content = document.querySelector('.loader-content');
 
     if (!hasVisited) {
-      // Prevent scrolling while loader is active
       document.body.style.overflow = "hidden";
       if (content) content.classList.remove('loaded');
 
-      // Show content after a short delay
-      setTimeout(() => setShowContent(true), 500);
+      setTimeout(() => setShowContent(true), 300);
 
-      // Animate pixels with varying speeds and patterns
-      const pixelInterval = setInterval(() => {
-        setCurrentPixel((prev) => (prev + 1) % 16);
-      }, 80);
-
-      // Animate progress bar
+      // Smoother progress animation
       const progressInterval = setInterval(() => {
         setProgress(prev => {
-          // Slow down progress at certain points to make the animation more interesting
-          if (prev > 70 && prev < 90) {
-            return prev + (100 - prev) * 0.01; // Slow progress between 70-90%
-          }
-          return prev + (100 - prev) * 0.05;
+          if (prev >= 100) return 100;
+          const increment = (100 - prev) * 0.03;
+          return Math.min(prev + increment, 100);
         });
-      }, 50);
+      }, 40);
 
-      // Ensure minimum loading time of 4 seconds
+      // Minimum loading time of 3 seconds
       setTimeout(() => {
         setForceLoading(false);
-      }, 4000);
+      }, 3000);
 
-      // Set timeout for loader
       const timer = setTimeout(() => {
-        clearInterval(pixelInterval);
         clearInterval(progressInterval);
         setProgress(100);
 
-        // Slight delay before dismissing the loader
         setTimeout(() => {
           setIsLoading(false);
           localStorage.setItem("hasVisited", "true");
           document.body.style.overflow = "auto";
           if (content) content.classList.add('loaded');
         }, 300);
-      }, 5000);
+      }, 3500);
 
       return () => {
-        clearInterval(pixelInterval);
         clearInterval(progressInterval);
         clearTimeout(timer);
         document.body.style.overflow = "auto";
         if (content) content.classList.add('loaded');
       };
     } else {
-      // For returning visitors, show a quicker version of the loader
-      // Prevent scrolling while loader is active
+      // Quick loader for returning visitors
       document.body.style.overflow = "hidden";
       if (content) content.classList.remove('loaded');
-
-      // Show content right away
       setShowContent(true);
 
-      // Animate progress quickly
       const quickProgressInterval = setInterval(() => {
         setProgress(prev => {
-          const newProgress = prev + (100 - prev) * 0.1;
+          const newProgress = prev + (100 - prev) * 0.15;
           return newProgress > 99 ? 100 : newProgress;
         });
       }, 30);
 
-      // Ensure minimum loading time of 1.5 seconds for returning visitors
       setTimeout(() => {
         setForceLoading(false);
         clearInterval(quickProgressInterval);
@@ -94,7 +83,7 @@ export default function Loader() {
           document.body.style.overflow = "auto";
           if (content) content.classList.add('loaded');
         }, 200);
-      }, 1500);
+      }, 1000);
 
       return () => {
         clearInterval(quickProgressInterval);
@@ -102,9 +91,11 @@ export default function Loader() {
         if (content) content.classList.add('loaded');
       };
     }
-  }, []);
+  }, [mounted]);
 
-  // Always show loader until both progress completes AND minimum time passes
+  // Don't render anything on server or before mount
+  if (!mounted) return null;
+
   if (!isLoading && !forceLoading) return null;
 
   return (
@@ -116,144 +107,110 @@ export default function Loader() {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <div className="relative w-64 h-64 flex items-center justify-center">
-          {/* Background glow effect */}
-          <motion.div
-            className="absolute inset-0 bg-primary-500/5 rounded-full blur-3xl"
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.5, 0.8, 0.5]
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
+        {/* Background effects */}
+        <div className="absolute inset-0 bg-mesh-gradient opacity-50"></div>
+        <motion.div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-primary-500/10 blur-3xl"
+          animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.2, 0.1] }}
+          transition={{ duration: 4, repeat: Infinity }}
+        />
 
-          {/* Pixel grid background with improved layout */}
-          <div className="absolute inset-0 grid grid-cols-4 gap-1.5 p-2">
-            {[...Array(16)].map((_, i) => (
-              <motion.div
-                key={i}
-                className={`w-full h-full rounded-md backdrop-blur-sm
-                  ${i === currentPixel
-                    ? "bg-primary-400 shadow-lg shadow-primary-500/20"
-                    : "bg-primary-900/30 border border-primary-800/50"
-                  }`}
-                initial={{ scale: 0.9, opacity: 0.5 }}
-                animate={{
-                  scale: i === currentPixel ? 1 : 0.9,
-                  opacity: i === currentPixel ? 1 : 0.5,
-                  borderColor: i === currentPixel ? "rgb(var(--color-primary-500))" : "rgb(var(--color-primary-800) / 0.5)"
-                }}
-                transition={{
-                  duration: 0.2,
-                  ease: "easeOut"
-                }}
-              />
-            ))}
-          </div>
-
-          {/* Animated logo/brand */}
+        <div className="relative flex flex-col items-center justify-center">
+          {/* Logo container */}
           {showContent && (
             <motion.div
-              className="absolute inset-0 flex flex-col items-center justify-center z-10"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="flex flex-col items-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
             >
+              {/* Animated logo */}
               <motion.div
-                className="mb-3 relative"
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.2, duration: 0.5 }}
+                className="relative mb-6"
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
               >
-                <CMAP className="w-16 h-16 text-primary-400 fill-primary-500" />
-
-                {/* Pulse effect around logo */}
+                {/* Glow ring */}
                 <motion.div
-                  className="absolute inset-0 rounded-full border-2 border-primary-400/30"
+                  className="absolute inset-0 rounded-full"
+                  style={{
+                    background: 'radial-gradient(circle, rgba(var(--color-primary-500), 0.3) 0%, transparent 70%)',
+                    filter: 'blur(20px)',
+                  }}
                   animate={{
-                    scale: [1, 1.2, 1],
-                    opacity: [1, 0, 1],
+                    scale: [1, 1.3, 1],
+                    opacity: [0.5, 0.8, 0.5],
                   }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
+                  transition={{ duration: 2, repeat: Infinity }}
                 />
-              </motion.div>
 
-              <motion.h1
-                className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary-300 to-primary-500"
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.4, duration: 0.5 }}
-              >
-                CodeMeAPixel
-              </motion.h1>
+                <CMAP className="w-20 h-20 text-primary-400 fill-primary-500 relative z-10" />
 
-              <motion.div
-                className="flex justify-center gap-1.5 mt-3"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.6, duration: 0.5 }}
-              >
-                {[...Array(3)].map((_, i) => (
+                {/* Pulse rings */}
+                {[...Array(2)].map((_, i) => (
                   <motion.div
                     key={i}
-                    className="w-2 h-2 bg-primary-400 rounded-full"
+                    className="absolute inset-0 rounded-full border border-primary-500/30"
+                    initial={{ scale: 1, opacity: 0.5 }}
                     animate={{
-                      y: [0, -8, 0],
-                      opacity: [0.5, 1, 0.5],
+                      scale: [1, 1.5 + i * 0.3],
+                      opacity: [0.5, 0],
                     }}
                     transition={{
-                      duration: 1.2,
+                      duration: 2,
                       repeat: Infinity,
-                      delay: i * 0.2,
-                      ease: "easeInOut"
+                      delay: i * 0.5,
+                      ease: "easeOut"
                     }}
                   />
                 ))}
               </motion.div>
+
+              {/* Brand name */}
+              <motion.h1
+                className="text-2xl md:text-3xl font-bold mb-2"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.5 }}
+              >
+                <span className="animated-gradient-text">CodeMeAPixel</span>
+              </motion.h1>
+
+              {/* Tagline */}
+              <motion.p
+                className="text-sm text-color-text-muted mb-8"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.6 }}
+              >
+                Crafting Digital Experiences
+              </motion.p>
+
+              {/* Progress bar */}
+              <motion.div
+                className="w-64 md:w-72"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8 }}
+              >
+                <div className="h-1 bg-primary-900/30 rounded-full overflow-hidden mb-3">
+                  <motion.div
+                    className="h-full bg-gradient-to-r from-primary-600 via-primary-400 to-primary-500 rounded-full"
+                    style={{ width: `${progress}%` }}
+                    transition={{ duration: 0.1 }}
+                  />
+                </div>
+
+                {/* Progress text */}
+                <div className="flex justify-between items-center text-xs">
+                  <span className="text-color-text-muted">Loading...</span>
+                  <span className="text-primary-400 font-mono">{Math.round(progress)}%</span>
+                </div>
+              </motion.div>
             </motion.div>
           )}
-
-          {/* Progress indicator with percentage */}
-          <motion.div
-            className="absolute -bottom-12 flex flex-col items-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: showContent ? 1 : 0 }}
-            transition={{ delay: 0.8 }}
-          >
-            <motion.div className="w-48 h-1 bg-primary-900/30 rounded-full overflow-hidden mb-2">
-              <motion.div
-                className="h-full bg-gradient-to-r from-primary-500 to-primary-400 rounded-full"
-                style={{ width: `${progress}%` }}
-              />
-            </motion.div>
-            <motion.div
-              className="text-xs text-primary-400/70 font-mono"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1 }}
-            >
-              {Math.round(progress)}%
-            </motion.div>
-          </motion.div>
         </div>
-
-        {/* Optional tag line */}
-        <motion.p
-          className="text-xs text-primary-300/70 absolute bottom-8 tracking-wider"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: showContent ? 1 : 0 }}
-          transition={{ delay: 1, duration: 0.5 }}
-        >
-          CRAFTING DIGITAL EXPERIENCES
-        </motion.p>
       </motion.div>
     </AnimatePresence>
   );

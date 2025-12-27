@@ -2,37 +2,40 @@ import { Project } from "@/types/project";
 
 export const projects: Project[] = [
   {
-    id: "1",
-    title: "NodeByte LTD",
-    description: "Helping businesses transform their digital presence with cutting edge solutions.",
+    id: "emberly",
+    title: "Emberly",
+    description: "File Sharing, Forged in Fire.",
     images: [
-      "/NodeByteLTD/home.png",
-      "/NodeByteLTD/about.png",
-      "/NodeByteLTD/services.png",
-      "/NodeByteLTD/discord.png"
+      "/previews/emberly/home.png",
+      "/previews/emberly/about.png",
+      "/previews/emberly/dashboard.png",
+      "/previews/emberly/analytics.png"
     ],
-    tags: ["Next.js", "React", "TypeScript", "Framer Motion", "RadixUI"],
+    tags: ["Next.js", "React", "TypeScript", "PostgreSQL", "Prisma", "Open Source"],
     links: {
-      slug: "nodebyte-ltd",
-      demo: "https://nodebyte.co.uk",
-      github: "https://github.com/NodeByteHosting"
+      slug: "emberly",
+      demo: "https://embrly.ca",
+      github: "https://github.com/EmberlyOSS"
     },
     featured: true
   },
   {
-    id: "2",
+    id: "nodebyte-hosting",
     title: "NodeByte Hosting",
-    description: "Fast, reliable, scalable and secure hosting services for your gaming experience.",
+    description: "Fast, reliable, scalable and secure hosting services for your gaming experience. Built for Humans. Powered by Bytes.",
     images: [
-      "/NodeByte/Home.png",
-      "/NodeByte/MCServers.png"
+      "/previews/nodebyte-host/home.png",
+      "/previews/nodebyte-host/about.png",
+      "/previews/nodebyte-host/minecraft.png",
+      "/previews/nodebyte-host/kb.png"
     ],
-    tags: ["Next.js", "React", "TypeScript", "Framer Motion"],
+    tags: ["Next.js", "React", "TypeScript", "Framer Motion", "Tailwind CSS", "Radix UI"],
     links: {
       slug: "nodebyte-hosting",
       demo: "https://nodebyte.host",
       github: "https://github.com/NodeByteHosting/Website"
     },
-    featured: true
+    featured: true,
+    date: "2024-01-01"
   }
 ];

@@ -1,76 +1,238 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
+import Link from "next/link";
+import { IoArrowForward, IoCodeSlash, IoLayers, IoRocket, IoSparkles, IoTrendingUp } from "react-icons/io5";
 
 export default function About() {
+  const stats = [
+    { label: "Years Experience", value: "10+", icon: IoTrendingUp, color: "from-blue-500 to-cyan-400" },
+    { label: "Projects Completed", value: "50+", icon: IoLayers, color: "from-purple-500 to-pink-400" },
+    { label: "Technologies", value: "20+", icon: IoCodeSlash, color: "from-amber-500 to-orange-400" },
+  ];
+
   return (
-    <section id="about" className="py-24 bg-bg relative z-10">
-      <div className="container-section">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
+    <section id="about" className="py-24 md:py-32 bg-bg relative z-10 overflow-hidden">
+      {/* Multi-layer background */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-aurora opacity-40"></div>
+        <div className="absolute inset-0 bg-dot-pattern opacity-20"></div>
+
+        {/* Floating orbs */}
+        <motion.div
+          className="absolute top-[20%] right-[10%] w-96 h-96 rounded-full bg-gradient-to-br from-primary-500/20 to-primary-600/5 blur-[100px]"
+          animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute bottom-[10%] left-[5%] w-80 h-80 rounded-full bg-gradient-to-tr from-primary-400/15 to-transparent blur-[80px]"
+          animate={{ scale: [1, 1.15, 1], opacity: [0.2, 0.4, 0.2] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        />
+      </div>
+
+      {/* Decorative lines */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"></div>
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/20 to-transparent"></div>
+
+      <div className="container-section relative">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="heading-primary text-center md:text-left mb-10"
+          transition={{ duration: 0.6 }}
+          className="text-center md:text-left mb-20"
         >
-          About Me
-        </motion.h2>
-
-        <div className="grid md:grid-cols-5 gap-6 md:gap-10 items-center">
-          {/* Avatar - now uses 2/5 of the space on larger screens */}
-          <motion.div
-            className="md:col-span-2 mx-auto md:mx-0 w-full max-w-[280px] md:max-w-none"
+          <motion.span
+            className="inline-flex items-center gap-2 px-4 py-2 mb-6 text-sm font-semibold text-primary-300 glass-frost rounded-full"
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+            transition={{ delay: 0.1 }}
           >
-            <div className="card-highlight animate-pulse-glow p-0.4">
-              <div className="relative aspect-square rounded-lg overflow-hidden bg-card-alt">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary-900/50 to-bg-alt/80 rounded-lg animate-float mix-blend-overlay"></div>
-                <div className="absolute inset-0 flex items-center justify-center">
+            <IoSparkles className="w-4 h-4" />
+            Get to know me
+          </motion.span>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6">
+            <span className="text-color-text">About </span>
+            <span className="animated-gradient-text">Me</span>
+          </h2>
+          <p className="text-color-text-muted text-lg md:text-xl max-w-2xl mx-auto md:mx-0">
+            Passionate developer crafting digital experiences that make a difference
+          </p>
+        </motion.div>
+
+        <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
+          {/* Avatar with premium glass design */}
+          <motion.div
+            className="relative mx-auto lg:mx-0"
+            initial={{ opacity: 0, scale: 0.9, rotateY: -10 }}
+            whileInView={{ opacity: 1, scale: 1, rotateY: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+          >
+            {/* Glow effect behind image */}
+            <div className="absolute inset-0 bg-gradient-to-br from-primary-500/30 via-primary-600/20 to-primary-700/10 rounded-3xl blur-3xl scale-110"></div>
+
+            <div className="relative group perspective-hover">
+              {/* Main image container with glass border */}
+              <div className="relative w-72 h-72 md:w-80 md:h-80 lg:w-[400px] lg:h-[400px]">
+                {/* Rainbow border effect */}
+                <div className="absolute inset-0 rounded-3xl p-[2px] bg-gradient-to-br from-primary-400 via-primary-500 to-primary-600 opacity-60 group-hover:opacity-100 transition-opacity duration-500">
+                  <div className="absolute inset-[2px] rounded-[22px] bg-bg"></div>
+                </div>
+
+                <div className="relative w-full h-full rounded-3xl overflow-hidden glass-ultra">
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary-500/10 to-transparent mix-blend-overlay z-10"></div>
                   <Image
                     src="/character.png"
                     alt="Profile"
                     width={400}
                     height={400}
-                    className="w-full h-full object-cover brightness-75 rounded-lg"
+                    className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
                     priority
                   />
+                  {/* Shine sweep effect */}
+                  <div className="absolute inset-0 shine-sweep z-20"></div>
+                  {/* Gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-bg/80 via-bg/20 to-transparent"></div>
                 </div>
               </div>
+
+              {/* Floating experience badge */}
+              <motion.div
+                className="absolute -top-4 -left-4 md:-top-6 md:-left-6"
+                initial={{ opacity: 0, scale: 0, rotate: -20 }}
+                whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.5, type: "spring" }}
+              >
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-primary-500 to-primary-400 rounded-2xl blur-lg opacity-50"></div>
+                  <div className="relative px-4 py-3 rounded-2xl glass-frost">
+                    <div className="text-2xl font-black text-primary-300">10+</div>
+                    <div className="text-xs text-color-text-muted font-medium">Years Exp.</div>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Floating availability badge */}
+              <motion.div
+                className="absolute -bottom-4 -right-4 md:-bottom-6 md:-right-6"
+                initial={{ opacity: 0, scale: 0, rotate: 20 }}
+                whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.6, type: "spring" }}
+              >
+                <div className="relative group/badge">
+                  <div className="absolute inset-0 bg-green-500 rounded-2xl blur-lg opacity-30 group-hover/badge:opacity-50 transition-opacity"></div>
+                  <div className="relative px-4 py-3 rounded-2xl glass-frost flex items-center gap-3">
+                    <span className="relative flex h-3 w-3">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-3 w-3 bg-gradient-to-r from-green-400 to-emerald-400"></span>
+                    </span>
+                    <span className="text-sm font-semibold text-color-text">Available</span>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Decorative floating elements */}
+              <motion.div
+                className="absolute top-1/4 -right-8 w-4 h-4 rounded-full bg-primary-400/60"
+                animate={{ y: [0, -10, 0], opacity: [0.4, 0.8, 0.4] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              />
+              <motion.div
+                className="absolute bottom-1/4 -left-6 w-3 h-3 rounded-full bg-primary-300/50"
+                animate={{ y: [0, -15, 0], opacity: [0.3, 0.7, 0.3] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+              />
             </div>
           </motion.div>
 
-          {/* Content - now uses 3/5 of the space on larger screens */}
+          {/* Content */}
           <motion.div
-            className="md:col-span-3 space-y-4"
-            initial={{ opacity: 0, x: 20 }}
+            className="space-y-8"
+            initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <p className="text-color-text-muted">
-              Hi, I&apos;m Tyler! While I go by CodeMeAPixel online, my friends and colleagues know me by my real name.
-              I&apos;m a passionate developer with a keen eye for design and a love for creating exceptional digital experiences.
-            </p>
+            <div className="space-y-6">
+              <p className="text-color-text-muted text-lg leading-relaxed">
+                Hi, I&apos;m <span className="text-primary-300 font-bold">Tyler</span>! While I go by CodeMeAPixel online, my friends and colleagues know me by my real name.
+                I&apos;m a passionate developer with a keen eye for design and a love for creating exceptional digital experiences.
+              </p>
 
-            <p className="text-color-text-muted">
-              My journey in web development has been driven by curiosity and a constant desire to learn and improve.
-              I specialize in building modern, responsive, and user-friendly web applications using the latest technologies and best practices.
-            </p>
+              <p className="text-color-text-muted text-lg leading-relaxed">
+                My journey in web development has been driven by curiosity and a constant desire to learn and improve.
+                I specialize in building modern, responsive, and user-friendly web applications using the latest technologies and best practices.
+              </p>
+            </div>
 
+            {/* Stats grid with premium cards */}
+            <div className="grid grid-cols-3 gap-4">
+              {stats.map((stat, index) => (
+                <motion.div
+                  key={stat.label}
+                  className="group relative"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.3 + index * 0.1 }}
+                >
+                  <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} rounded-2xl blur-xl opacity-0 group-hover:opacity-30 transition-opacity duration-500`}></div>
+                  <div className="relative p-5 rounded-2xl glass-ultra text-center hover:border-primary-500/30 transition-all duration-300 card-lift">
+                    <div className={`w-10 h-10 mx-auto mb-3 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center`}>
+                      <stat.icon className="w-5 h-5 text-white" />
+                    </div>
+                    <div className="text-2xl md:text-3xl font-black bg-gradient-to-br from-color-text to-color-text-muted bg-clip-text text-transparent">{stat.value}</div>
+                    <div className="text-xs text-color-text-muted mt-1 font-medium">{stat.label}</div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Tech tags with premium styling */}
             <motion.div
-              className="mt-6 flex flex-wrap gap-2"
-              initial={{ opacity: 0, y: 10 }}
+              className="flex flex-wrap gap-2"
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.4 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
             >
-              <span className="tag">Next.js</span>
-              <span className="tag">React</span>
-              <span className="tag">TypeScript</span>
-              <span className="tag">Tailwind CSS</span>
-              <span className="tag">Node.js</span>
+              {['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Node.js', 'PostgreSQL'].map((tech, index) => (
+                <motion.span
+                  key={tech}
+                  className="group relative px-4 py-2 rounded-xl text-sm font-semibold glass-ultra cursor-default overflow-hidden"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.6 + index * 0.05, type: "spring" }}
+                  whileHover={{ y: -3, scale: 1.02 }}
+                >
+                  <span className="absolute inset-0 bg-gradient-to-r from-primary-500/0 via-primary-500/20 to-primary-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500"></span>
+                  <span className="relative text-primary-300 group-hover:text-primary-200 transition-colors">{tech}</span>
+                </motion.span>
+              ))}
+            </motion.div>
+
+            {/* CTA with premium button */}
+            <motion.div
+              className="pt-4"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.7 }}
+            >
+              <Link
+                href="/about"
+                className="group inline-flex items-center gap-3 px-6 py-3 rounded-xl glass-frost hover-glow transition-all duration-300"
+              >
+                <span className="text-primary-300 font-semibold group-hover:text-primary-200 transition-colors">
+                  Learn more about me
+                </span>
+                <IoArrowForward className="w-5 h-5 text-primary-400 group-hover:translate-x-2 transition-transform duration-300" />
+              </Link>
             </motion.div>
           </motion.div>
         </div>

@@ -121,18 +121,51 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
     };
 
     return (
-        <section className="py-24 bg-bg-alt relative z-10">
-            <div className="container-section">
+        <section className="py-24 md:py-32 bg-bg relative z-10 overflow-hidden">
+            {/* Premium multi-layer background */}
+            <div className="absolute inset-0">
+                <div className="absolute inset-0 bg-aurora opacity-40"></div>
+                <div className="absolute inset-0 bg-dot-pattern opacity-20"></div>
+            </div>
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"></div>
+
+            {/* Animated floating orbs */}
+            <motion.div
+                className="absolute top-[10%] left-[5%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-primary-500/20 to-primary-600/5 blur-[100px]"
+                animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2] }}
+                transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.div
+                className="absolute bottom-[20%] right-[10%] w-[400px] h-[400px] rounded-full bg-gradient-to-tl from-primary-400/15 to-transparent blur-[80px]"
+                animate={{ scale: [1.2, 1, 1.2], opacity: [0.15, 0.3, 0.15] }}
+                transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            />
+
+            <div className="container-section relative z-10">
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="mb-12"
+                    transition={{ duration: 0.6 }}
+                    className="mb-14"
                 >
-                    <h1 className="heading-primary text-center md:text-left mb-4">
-                        FiveM Scripts
+                    {/* Premium Badge */}
+                    <div className="flex justify-center md:justify-start mb-8">
+                        <motion.span
+                            className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-primary-300 glass-frost rounded-full"
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 0.1 }}
+                        >
+                            <IoGridOutline className="w-4 h-4" />
+                            FiveM Resources
+                        </motion.span>
+                    </div>
+
+                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-center md:text-left mb-6">
+                        <span className="text-color-text">FiveM </span>
+                        <span className="animated-gradient-text text-shadow-glow">Scripts</span>
                     </h1>
-                    <p className="text-color-text-muted text-center md:text-left max-w-3xl">
+                    <p className="text-color-text-muted text-center md:text-left max-w-3xl text-lg md:text-xl leading-relaxed">
                         Premium scripts for your FiveM roleplay server. Browse my collection of high-quality scripts
                         compatible with ESX and QBCore frameworks.
                     </p>
@@ -142,8 +175,8 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.1 }}
-                    className="hidden md:flex justify-between items-center mb-8 gap-4"
+                    transition={{ duration: 0.6, delay: 0.1 }}
+                    className="hidden md:flex justify-between items-center mb-10 gap-4"
                 >
                     {/* Filter dropdown */}
                     <DropdownMenu.Root open={filterOpen} onOpenChange={setFilterOpen}>

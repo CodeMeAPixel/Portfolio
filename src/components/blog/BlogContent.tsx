@@ -11,7 +11,6 @@ import {
 } from 'react-icons/io5';
 import { useRef, useState, useEffect } from 'react';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import { BackgroundEffects } from '@/components/ui/BackgroundEffects';
 
 interface BlogContentProps {
     posts: Array<{ content: string; metadata: PostMetadata }>;
@@ -104,34 +103,61 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
     };
 
     return (
-        <section className="py-24 bg-bg-alt relative z-10">
-            <BackgroundEffects className="absolute inset-0 -z-10" />
+        <section className="py-24 md:py-32 bg-bg relative z-10 overflow-hidden">
+            {/* Premium multi-layer background */}
+            <div className="absolute inset-0">
+                <div className="absolute inset-0 bg-aurora opacity-30"></div>
+                <div className="absolute inset-0 bg-dot-pattern opacity-20"></div>
+            </div>
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"></div>
+
+            {/* Animated floating orbs */}
+            <motion.div
+                className="absolute top-[20%] left-[5%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-primary-500/15 to-primary-600/5 blur-[100px]"
+                animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.25, 0.15] }}
+                transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.div
+                className="absolute bottom-[30%] right-[10%] w-[400px] h-[400px] rounded-full bg-gradient-to-tl from-primary-400/10 to-transparent blur-[80px]"
+                animate={{ scale: [1.2, 1, 1.2], opacity: [0.1, 0.2, 0.1] }}
+                transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+            />
 
             {/* Header section */}
-            <div className="container-section">
+            <div className="container-section relative">
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="flex flex-col md:flex-row md:items-end justify-between mb-12"
+                    transition={{ duration: 0.6 }}
+                    className="flex flex-col md:flex-row md:items-end justify-between mb-14"
                 >
                     <div>
-                        <h1 className="heading-primary text-center md:text-left mb-2">
-                            My Blog
+                        <motion.span
+                            className="inline-flex items-center gap-2 px-4 py-2 mb-6 text-sm font-semibold text-primary-300 glass-frost rounded-full"
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: 0.1 }}
+                        >
+                            <IoBookmarkOutline className="w-4 h-4" />
+                            Articles & Insights
+                        </motion.span>
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-center md:text-left mb-4">
+                            <span className="text-color-text">My </span>
+                            <span className="animated-gradient-text text-shadow-glow">Blog</span>
                         </h1>
-                        <p className="text-color-text-muted text-center md:text-left">
+                        <p className="text-color-text-muted text-center md:text-left text-lg">
                             {filteredPosts.length} article{filteredPosts.length !== 1 ? 's' : ''} on web development and technology
                         </p>
                     </div>
 
                     <div className="flex gap-3 mt-6 md:mt-0 justify-center md:justify-end items-center flex-wrap">
                         {/* Layout switcher - Hidden on mobile */}
-                        <div className="hidden md:flex rounded-xl overflow-hidden border border-primary-700/20">
+                        <div className="hidden md:flex rounded-xl overflow-hidden glass-frost">
                             <button
                                 onClick={() => setLayout('grid')}
-                                className={`p-2 flex items-center justify-center transition-colors ${layout === 'grid'
-                                    ? 'bg-primary-800/40 text-primary-300'
-                                    : 'bg-primary-800/20 text-primary-400/70 hover:bg-primary-800/30 hover:text-primary-300'
+                                className={`p-2.5 flex items-center justify-center transition-all ${layout === 'grid'
+                                    ? 'bg-primary-500/30 text-primary-300'
+                                    : 'text-color-text-muted hover:text-primary-300'
                                     }`}
                                 aria-label="Grid view"
                                 title="Grid view"
@@ -140,9 +166,9 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
                             </button>
                             <button
                                 onClick={() => setLayout('list')}
-                                className={`p-2 flex items-center justify-center transition-colors ${layout === 'list'
-                                    ? 'bg-primary-800/40 text-primary-300'
-                                    : 'bg-primary-800/20 text-primary-400/70 hover:bg-primary-800/30 hover:text-primary-300'
+                                className={`p-2.5 flex items-center justify-center transition-all ${layout === 'list'
+                                    ? 'bg-primary-500/30 text-primary-300'
+                                    : 'text-color-text-muted hover:text-primary-300'
                                     }`}
                                 aria-label="List view"
                                 title="List view"
@@ -592,27 +618,36 @@ function CardItem({ post, index, readingTime, formattedDate, isHovered, onHover,
     return (
         <motion.div
             ref={cardRef}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: index * 0.1 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
             className="h-full"
             onMouseEnter={() => onHover(post.metadata.slug)}
             onMouseLeave={() => onHover(null)}
         >
-            <Link href={`/blog/${post.metadata.slug}`} className="block h-full">
-                <div className="relative h-full overflow-hidden rounded-xl bg-card border border-color-border animated-border transition-all duration-300 group-hover:shadow-lg group-hover:shadow-primary-900/10">
-                    {/* Top gradient accent bar */}
-                    <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-primary-500 to-primary-400 opacity-60 group-hover:opacity-100 transition-opacity"></div>
+            <Link href={`/blog/${post.metadata.slug}`} className="block h-full group">
+                <div className="relative h-full overflow-hidden rounded-2xl glass-ultra transition-all duration-500 hover:scale-[1.02]">
+                    {/* Animated glow border */}
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary-500/0 via-primary-500/20 to-primary-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-[gradient-x_3s_linear_infinite]"></div>
 
-                    <div className="pt-6 px-6 pb-5 h-full flex flex-col">
+                    {/* Top gradient accent bar */}
+                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-500 to-primary-400 opacity-60 group-hover:opacity-100 transition-opacity"></div>
+
+                    {/* Spotlight effect */}
+                    <div className="absolute inset-0 spotlight opacity-0 group-hover:opacity-50 transition-opacity duration-500"></div>
+
+                    {/* Shine sweep */}
+                    <div className="absolute inset-0 shine-sweep opacity-0 group-hover:opacity-100"></div>
+
+                    <div className="pt-7 px-7 pb-6 h-full flex flex-col relative z-10">
                         {/* Top section - Tags and badge */}
-                        <div className="flex flex-wrap justify-between items-center mb-4">
+                        <div className="flex flex-wrap justify-between items-center mb-5">
                             <div className="flex flex-wrap gap-2">
                                 {post.metadata.tags && post.metadata.tags.slice(0, 3).map(tag => (
                                     <span
                                         key={tag}
-                                        className={`tag bg-primary-900/30 border-primary-700/30 text-xs group-hover:bg-primary-800/40 group-hover:border-primary-600/40 transition-colors ${searchQuery && tag.toLowerCase().includes(searchQuery.toLowerCase())
-                                            ? 'bg-primary-800/60 border-primary-600/60 text-primary-200'
+                                        className={`px-3 py-1 text-xs font-semibold rounded-full glass-frost text-primary-300 group-hover:bg-primary-500/20 transition-all ${searchQuery && tag.toLowerCase().includes(searchQuery.toLowerCase())
+                                            ? 'bg-primary-500/30 text-primary-200'
                                             : ''
                                             }`}
                                     >
@@ -620,7 +655,7 @@ function CardItem({ post, index, readingTime, formattedDate, isHovered, onHover,
                                     </span>
                                 ))}
                                 {post.metadata.tags && post.metadata.tags.length > 3 && (
-                                    <span className="tag bg-primary-900/30 border-primary-700/30 text-xs">
+                                    <span className="px-3 py-1 text-xs font-semibold rounded-full glass-frost text-primary-300">
                                         +{post.metadata.tags.length - 3}
                                     </span>
                                 )}
@@ -628,7 +663,11 @@ function CardItem({ post, index, readingTime, formattedDate, isHovered, onHover,
 
                             {/* New post badge - conditional rendering */}
                             {isNew(post.metadata.date) && (
-                                <span className="px-2 py-1 bg-primary-500/10 text-primary-300 text-xs font-medium rounded-md border border-primary-500/20">
+                                <span className="px-3 py-1 bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-green-300 text-xs font-semibold rounded-full flex items-center gap-1">
+                                    <span className="relative flex h-1.5 w-1.5">
+                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                        <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-500"></span>
+                                    </span>
                                     New
                                 </span>
                             )}
@@ -636,8 +675,8 @@ function CardItem({ post, index, readingTime, formattedDate, isHovered, onHover,
 
                         {/* Title with hover effect */}
                         <motion.h2
-                            className="text-xl sm:text-2xl font-bold mb-3 text-color-text group-hover:text-primary-300 transition-colors"
-                            animate={isHovered ? { scale: 1.01 } : { scale: 1 }}
+                            className="text-xl sm:text-2xl font-bold mb-4 text-color-text group-hover:text-primary-300 transition-colors"
+                            animate={isHovered ? { scale: 1.02 } : { scale: 1 }}
                             transition={{ duration: 0.2 }}
                         >
                             {highlightMatchedText(post.metadata.title, searchQuery)}
@@ -645,51 +684,42 @@ function CardItem({ post, index, readingTime, formattedDate, isHovered, onHover,
 
                         {/* Description with line clamp */}
                         {post.metadata.description && (
-                            <p className="text-color-text-muted mb-6 line-clamp-3 flex-grow">
+                            <p className="text-color-text-muted mb-6 line-clamp-3 flex-grow leading-relaxed">
                                 {highlightMatchedText(post.metadata.description, searchQuery)}
                             </p>
                         )}
 
-                        {/* Bottom metadata section - now wider to accommodate content */}
-                        <div className="mt-auto pt-4 border-t border-primary-800/20">
+                        {/* Bottom metadata section */}
+                        <div className="mt-auto pt-5 border-t border-white/10">
                             <div className="flex items-center justify-between">
                                 <div className="flex flex-wrap items-center gap-4 text-color-text-muted">
-                                    <div className="flex items-center gap-1.5 text-xs">
-                                        <IoCalendarOutline className="text-primary-400 w-3.5 h-3.5 flex-shrink-0" />
+                                    <div className="flex items-center gap-2 text-xs font-medium">
+                                        <IoCalendarOutline className="text-primary-400 w-4 h-4 flex-shrink-0" />
                                         <time dateTime={new Date(post.metadata.date).toISOString()}>{formattedDate}</time>
                                     </div>
 
-                                    <div className="flex items-center gap-1.5 text-xs">
-                                        <IoTimeOutline className="text-primary-400 w-3.5 h-3.5 flex-shrink-0" />
+                                    <div className="flex items-center gap-2 text-xs font-medium">
+                                        <IoTimeOutline className="text-primary-400 w-4 h-4 flex-shrink-0" />
                                         <span>{readingTime}</span>
                                     </div>
                                 </div>
 
                                 <motion.div
                                     className="relative flex-shrink-0 ml-2"
-                                    animate={isHovered ? { x: 3 } : { x: 0 }}
-                                    transition={{ duration: 0.2 }}
+                                    animate={isHovered ? { x: 5 } : { x: 0 }}
+                                    transition={{ duration: 0.3 }}
                                 >
-                                    <span className="flex items-center gap-1 text-primary-400 text-sm font-medium transition-all duration-300 whitespace-nowrap">
+                                    <span className="flex items-center gap-2 text-primary-400 text-sm font-semibold transition-all duration-300 whitespace-nowrap">
                                         Read post
-                                        <IoArrowForward className={`w-3.5 h-3.5 transition-all duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`} />
+                                        <IoArrowForward className={`w-4 h-4 transition-all duration-300 ${isHovered ? 'opacity-100 translate-x-0.5' : 'opacity-0'}`} />
                                     </span>
                                 </motion.div>
                             </div>
                         </div>
                     </div>
 
-                    {/* Subtle hover glow effect */}
-                    <div className={`absolute inset-0 pointer-events-none transition-opacity duration-300 rounded-xl ${isHovered ? 'opacity-100' : 'opacity-0'}`}
-                        style={{
-                            boxShadow: 'inset 0 0 20px rgba(var(--color-primary-500), 0.1)'
-                        }}
-                    />
-
-                    {/* Subtle corner decoration */}
-                    <div className="absolute top-0 right-0 w-12 h-12 overflow-hidden opacity-20 group-hover:opacity-40 transition-opacity">
-                        <div className="absolute top-0 right-0 w-8 h-8 bg-primary-500 rotate-45 translate-x-[10px] -translate-y-[10px]"></div>
-                    </div>
+                    {/* Decorative orb */}
+                    <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary-500/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
                 </div>
             </Link>
         </motion.div>
@@ -699,41 +729,51 @@ function CardItem({ post, index, readingTime, formattedDate, isHovered, onHover,
 function ListItem({ post, index, readingTime, formattedDate, isHovered, onHover, searchQuery }: CardItemProps) {
     return (
         <motion.div
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: index * 0.05 }}
+            transition={{ duration: 0.4, delay: index * 0.05 }}
             className="group"
             onMouseEnter={() => onHover(post.metadata.slug)}
             onMouseLeave={() => onHover(null)}
         >
             <Link href={`/blog/${post.metadata.slug}`} className="block">
-                <div className="relative overflow-hidden rounded-xl bg-card border border-color-border animated-border transition-all duration-300 hover:shadow-lg hover:shadow-primary-900/10 group-hover:border-primary-700/30">
-                    {/* Top gradient accent bar - same as grid view */}
-                    <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-primary-500 to-primary-400 opacity-60 group-hover:opacity-100 transition-opacity z-10"></div>
+                <div className="relative overflow-hidden rounded-2xl glass-ultra transition-all duration-500 hover:scale-[1.01]">
+                    {/* Animated glow border */}
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary-500/0 via-primary-500/20 to-primary-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-[gradient-x_3s_linear_infinite]"></div>
 
-                    <div className="p-6">
+                    {/* Top gradient accent bar */}
+                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-500 to-primary-400 opacity-60 group-hover:opacity-100 transition-opacity z-10"></div>
+
+                    {/* Spotlight effect */}
+                    <div className="absolute inset-0 spotlight opacity-0 group-hover:opacity-40 transition-opacity duration-500"></div>
+
+                    <div className="p-7 relative z-10">
                         {/* Top section with date and reading time */}
-                        <div className="flex justify-between items-center mb-3">
-                            <div className="flex flex-wrap gap-3 text-color-text-muted text-xs">
-                                <div className="flex items-center gap-1.5">
-                                    <IoCalendarOutline className="text-primary-400 w-3.5 h-3.5 flex-shrink-0" />
+                        <div className="flex justify-between items-center mb-4">
+                            <div className="flex flex-wrap gap-4 text-color-text-muted text-xs font-medium">
+                                <div className="flex items-center gap-2">
+                                    <IoCalendarOutline className="text-primary-400 w-4 h-4 flex-shrink-0" />
                                     <time dateTime={new Date(post.metadata.date).toISOString()}>{formattedDate}</time>
                                 </div>
-                                <div className="flex items-center gap-1.5">
-                                    <IoTimeOutline className="text-primary-400 w-3.5 h-3.5 flex-shrink-0" />
+                                <div className="flex items-center gap-2">
+                                    <IoTimeOutline className="text-primary-400 w-4 h-4 flex-shrink-0" />
                                     <span>{readingTime}</span>
                                 </div>
                             </div>
 
                             {/* New badge */}
                             {isNew(post.metadata.date) && (
-                                <span className="px-2 py-1 bg-primary-500/10 text-primary-300 text-xs font-medium rounded-md border border-primary-500/20">
+                                <span className="px-3 py-1 bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-green-300 text-xs font-semibold rounded-full flex items-center gap-1">
+                                    <span className="relative flex h-1.5 w-1.5">
+                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                        <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-500"></span>
+                                    </span>
                                     New
                                 </span>
                             )}
                         </div>
 
-                        {/* Title with hover effect - same as grid view */}
+                        {/* Title with hover effect */}
                         <motion.h2
                             className="text-xl font-bold mb-3 text-color-text group-hover:text-primary-300 transition-colors"
                             animate={isHovered ? { scale: 1.01 } : { scale: 1 }}
@@ -744,7 +784,7 @@ function ListItem({ post, index, readingTime, formattedDate, isHovered, onHover,
 
                         {/* Description */}
                         {post.metadata.description && (
-                            <p className="text-color-text-muted mb-4 line-clamp-2">
+                            <p className="text-color-text-muted mb-5 line-clamp-2 leading-relaxed">
                                 {highlightMatchedText(post.metadata.description, searchQuery)}
                             </p>
                         )}
@@ -755,8 +795,8 @@ function ListItem({ post, index, readingTime, formattedDate, isHovered, onHover,
                                 {post.metadata.tags && post.metadata.tags.slice(0, 4).map(tag => (
                                     <span
                                         key={tag}
-                                        className={`tag bg-primary-900/30 border-primary-700/30 text-xs group-hover:bg-primary-800/40 group-hover:border-primary-600/40 transition-colors ${searchQuery && tag.toLowerCase().includes(searchQuery.toLowerCase())
-                                            ? 'bg-primary-800/60 border-primary-600/60 text-primary-200'
+                                        className={`px-3 py-1 text-xs font-semibold rounded-full glass-frost text-primary-300 group-hover:bg-primary-500/20 transition-all ${searchQuery && tag.toLowerCase().includes(searchQuery.toLowerCase())
+                                            ? 'bg-primary-500/30 text-primary-200'
                                             : ''
                                             }`}
                                     >
@@ -767,28 +807,19 @@ function ListItem({ post, index, readingTime, formattedDate, isHovered, onHover,
 
                             <motion.div
                                 className="relative flex-shrink-0 ml-2"
-                                animate={isHovered ? { x: 3 } : { x: 0 }}
-                                transition={{ duration: 0.2 }}
+                                animate={isHovered ? { x: 5 } : { x: 0 }}
+                                transition={{ duration: 0.3 }}
                             >
-                                <span className="flex items-center gap-1 text-primary-400 text-sm font-medium transition-all duration-300 whitespace-nowrap">
+                                <span className="flex items-center gap-2 text-primary-400 text-sm font-semibold transition-all duration-300 whitespace-nowrap">
                                     Read post
-                                    <IoArrowForward className={`w-3.5 h-3.5 transition-all duration-300 ${isHovered ? 'translate-x-0.5 opacity-100' : 'opacity-0'}`} />
+                                    <IoArrowForward className={`w-4 h-4 transition-all duration-300 ${isHovered ? 'translate-x-1 opacity-100' : 'opacity-0'}`} />
                                 </span>
                             </motion.div>
                         </div>
                     </div>
 
-                    {/* Subtle hover glow effect - same as grid view */}
-                    <div className={`absolute inset-0 pointer-events-none transition-opacity duration-300 rounded-xl ${isHovered ? 'opacity-100' : 'opacity-0'}`}
-                        style={{
-                            boxShadow: 'inset 0 0 20px rgba(var(--color-primary-500), 0.1)'
-                        }}
-                    />
-
-                    {/* Subtle corner decoration - same as grid view */}
-                    <div className="absolute top-0 right-0 w-12 h-12 overflow-hidden opacity-20 group-hover:opacity-40 transition-opacity">
-                        <div className="absolute top-0 right-0 w-8 h-8 bg-primary-500 rotate-45 translate-x-[10px] -translate-y-[10px]"></div>
-                    </div>
+                    {/* Decorative orb */}
+                    <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary-500/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
                 </div>
             </Link>
         </motion.div>

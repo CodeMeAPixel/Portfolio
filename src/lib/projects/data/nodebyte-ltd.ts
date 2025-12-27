@@ -16,7 +16,7 @@ const project: Project = {
         demo: "https://nodebyte.co.uk",
         github: "https://github.com/NodeByteHosting"
     },
-    featured: true,
+    featured: false,
     technologies: [
         { name: "Next.js", description: "For server-side rendering and static site generation" },
         { name: "Node.js", description: "Backend API development for upload management." },

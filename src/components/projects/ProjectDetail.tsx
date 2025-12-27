@@ -9,7 +9,6 @@ import { IoArrowBack, IoCalendarOutline, IoCodeSlash, IoLogoGithub, IoGlobeOutli
 import { TechIcon } from '@/components/ui/TechIcon';
 import { MDXRemote } from 'next-mdx-remote';
 import { serialize } from 'next-mdx-remote/serialize';
-import { BackgroundEffects } from '@/components/ui/BackgroundEffects';
 
 interface ProjectDetailProps {
     project: Project;
@@ -66,24 +65,67 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         ),
         thead: (props: any) => <thead className="bg-card" {...props} />,
         th: (props: any) => (
-            <th className="px-4 py-2 text-left text-color-text font-medium border-b border-color-border" {...props} />
+            <th className="px-4 py-3 text-left text-color-text font-semibold border-b border-white/10 bg-white/5" {...props} />
         ),
         td: (props: any) => (
-            <td className="px-4 py-2 text-color-text-muted border-b border-color-border" {...props} />
+            <td className="px-4 py-3 text-color-text-muted border-b border-white/10" {...props} />
         ),
     };
 
     return (
-        <section className="py-16 sm:py-24 bg-bg-alt relative z-10 overflow-hidden">
-            <BackgroundEffects />
-            <div className="container-section max-w-6xl mx-auto px-4">
-                <Link
-                    href="/projects"
-                    className="text-primary-400 hover:text-primary-300 transition-colors flex items-center gap-2 mb-8"
+        <section className="py-24 md:py-32 bg-bg relative z-10 overflow-hidden">
+            {/* Premium multi-layer background */}
+            <div className="absolute inset-0">
+                <div className="absolute inset-0 bg-aurora opacity-40"></div>
+                <div className="absolute inset-0 bg-dot-pattern opacity-20"></div>
+            </div>
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"></div>
+
+            {/* Enhanced Floating Orbs */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                <motion.div
+                    className="absolute top-32 right-1/4 w-96 h-96 bg-gradient-to-br from-primary-500/20 to-accent-500/10 rounded-full blur-[120px]"
+                    animate={{
+                        scale: [1, 1.3, 1],
+                        opacity: [0.2, 0.35, 0.2],
+                        y: [0, -40, 0],
+                    }}
+                    transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+                />
+                <motion.div
+                    className="absolute bottom-40 left-1/4 w-[500px] h-[500px] bg-gradient-to-br from-accent-500/15 to-primary-500/20 rounded-full blur-[150px]"
+                    animate={{
+                        scale: [1.2, 1, 1.2],
+                        opacity: [0.15, 0.3, 0.15],
+                        x: [0, 30, 0],
+                    }}
+                    transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+                />
+                <motion.div
+                    className="absolute top-1/2 right-10 w-72 h-72 bg-gradient-to-br from-primary-400/10 to-transparent rounded-full blur-[100px]"
+                    animate={{
+                        scale: [1, 1.2, 1],
+                        opacity: [0.1, 0.2, 0.1],
+                    }}
+                    transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+                />
+            </div>
+
+            <div className="relative z-10 container-section max-w-6xl mx-auto px-4 py-16 sm:py-24">
+                {/* Premium Back Button */}
+                <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.4 }}
                 >
-                    <IoArrowBack className="w-4 h-4 flex-shrink-0" />
-                    <span>Back to all projects</span>
-                </Link>
+                    <Link
+                        href="/projects"
+                        className="inline-flex items-center gap-2 px-5 py-2.5 glass-ultra rounded-xl text-primary-400 hover:text-primary-300 border border-white/10 hover:border-primary-500/30 hover:bg-white/10 transition-all duration-300 mb-10 group shadow-lg shadow-black/10"
+                    >
+                        <IoArrowBack className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-300" />
+                        <span className="font-medium">Back to all projects</span>
+                    </Link>
+                </motion.div>
 
                 <article className="w-full overflow-hidden">
                     <motion.div
@@ -91,13 +133,15 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5 }}
                     >
-                        <h1 className="heading-primary mb-4">{project.title}</h1>
+                        <h1 className="text-3xl md:text-4xl lg:text-5xl font-black mb-6">
+                            <span className="animated-gradient-text text-shadow-glow">{project.title}</span>
+                        </h1>
 
-                        <div className="flex flex-wrap items-center gap-4 mb-8 text-color-text-muted">
+                        <div className="flex flex-wrap items-center gap-3 mb-10 text-color-text-muted">
                             {project.date && (
-                                <div className="flex items-center gap-1.5">
+                                <div className="flex items-center gap-2 px-4 py-2 glass-ultra rounded-xl border border-white/10 shadow-lg shadow-black/10">
                                     <IoCalendarOutline className="text-primary-400 w-4 h-4 flex-shrink-0" />
-                                    <time className="text-sm">
+                                    <time className="text-sm font-medium">
                                         {new Date(project.date).toLocaleDateString('en-US', {
                                             year: 'numeric',
                                             month: 'long'
@@ -107,22 +151,22 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                             )}
 
                             {project.role && (
-                                <div className="flex items-center gap-1.5">
+                                <div className="flex items-center gap-2 px-4 py-2 glass-ultra rounded-xl border border-white/10 shadow-lg shadow-black/10">
                                     <IoPersonOutline className="text-primary-400 w-4 h-4 flex-shrink-0" />
-                                    <span className="text-sm">{project.role}</span>
+                                    <span className="text-sm font-medium">{project.role}</span>
                                 </div>
                             )}
 
                             {project.teamSize && (
-                                <div className="flex items-center gap-1.5">
+                                <div className="flex items-center gap-2 px-4 py-2 glass-ultra rounded-xl border border-white/10 shadow-lg shadow-black/10">
                                     <IoPeopleOutline className="text-primary-400 w-4 h-4 flex-shrink-0" />
-                                    <span className="text-sm">Team of {project.teamSize}</span>
+                                    <span className="text-sm font-medium">Team of {project.teamSize}</span>
                                 </div>
                             )}
 
                             <div className="flex flex-wrap gap-2 mt-2 sm:mt-0">
                                 {project.tags.map(tag => (
-                                    <span key={tag} className="tag bg-primary-900/30 border-primary-700/30 text-xs">
+                                    <span key={tag} className="px-4 py-2 glass-frost rounded-xl text-xs font-semibold text-primary-300 border border-primary-500/20 hover:border-primary-500/40 transition-all duration-300">
                                         {tag}
                                     </span>
                                 ))}
@@ -132,7 +176,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
                         <motion.div
-                            className="lg:col-span-2 rounded-xl border border-color-border shadow-lg self-start"
+                            className="lg:col-span-2 glass-ultra rounded-2xl p-1 self-start"
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5, delay: 0.1 }}
@@ -143,23 +187,31 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                         </motion.div>
 
                         <motion.div
-                            className="flex flex-col gap-4 self-start"
+                            className="flex flex-col gap-5 self-start"
                             initial={{ opacity: 0, x: 20 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.5, delay: 0.2 }}
                         >
-                            <div className="card flex-grow">
-                                <h2 className="heading-secondary mb-4 text-xl">Project Links</h2>
+                            <div className="glass-ultra rounded-2xl p-6 flex-grow shine-sweep border border-white/10 shadow-xl shadow-black/10">
+                                <h2 className="text-xl font-bold text-color-text mb-5 flex items-center gap-3">
+                                    <div className="p-2.5 rounded-xl bg-gradient-to-r from-primary-500/20 to-accent-500/20 border border-primary-500/20">
+                                        <IoGlobeOutline className="text-primary-400 w-5 h-5" />
+                                    </div>
+                                    <span className="animated-gradient-text">Project Links</span>
+                                </h2>
                                 <div className="flex flex-col gap-3">
                                     {project.links.demo && (
                                         <a
                                             href={project.links.demo}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="flex items-center gap-2 text-primary-400 hover:text-primary-300 transition-colors p-2 rounded-lg bg-primary-900/20 hover:bg-primary-900/30"
+                                            className="flex items-center gap-3 p-4 rounded-xl glass-frost border border-white/10 text-primary-400 hover:text-primary-300 hover:border-primary-500/30 hover:bg-white/10 transition-all duration-300 group"
                                         >
-                                            <IoGlobeOutline className="w-5 h-5" />
-                                            <span>Live Demo</span>
+                                            <div className="p-2 rounded-lg bg-gradient-to-r from-primary-500/20 to-accent-500/20 group-hover:scale-110 transition-transform duration-300">
+                                                <IoGlobeOutline className="w-5 h-5" />
+                                            </div>
+                                            <span className="font-medium">Live Demo</span>
+                                            <IoArrowBack className="w-4 h-4 rotate-180 ml-auto opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" />
                                         </a>
                                     )}
 
@@ -168,10 +220,13 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                                             href={project.links.github}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="flex items-center gap-2 text-primary-400 hover:text-primary-300 transition-colors p-2 rounded-lg bg-primary-900/20 hover:bg-primary-900/30"
+                                            className="flex items-center gap-3 p-4 rounded-xl glass-frost border border-white/10 text-primary-400 hover:text-primary-300 hover:border-primary-500/30 hover:bg-white/10 transition-all duration-300 group"
                                         >
-                                            <IoLogoGithub className="w-5 h-5" />
-                                            <span>Source Code</span>
+                                            <div className="p-2 rounded-lg bg-gradient-to-r from-primary-500/20 to-accent-500/20 group-hover:scale-110 transition-transform duration-300">
+                                                <IoLogoGithub className="w-5 h-5" />
+                                            </div>
+                                            <span className="font-medium">Source Code</span>
+                                            <IoArrowBack className="w-4 h-4 rotate-180 ml-auto opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" />
                                         </a>
                                     )}
 
@@ -180,29 +235,45 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                                             href={project.links.docs}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="flex items-center gap-2 text-primary-400 hover:text-primary-300 transition-colors p-2 rounded-lg bg-primary-900/20 hover:bg-primary-900/30"
+                                            className="flex items-center gap-3 p-4 rounded-xl glass-frost border border-white/10 text-primary-400 hover:text-primary-300 hover:border-primary-500/30 hover:bg-white/10 transition-all duration-300 group"
                                         >
-                                            <IoDocumentText className="w-5 h-5" />
-                                            <span>Documentation</span>
+                                            <div className="p-2 rounded-lg bg-gradient-to-r from-primary-500/20 to-accent-500/20 group-hover:scale-110 transition-transform duration-300">
+                                                <IoDocumentText className="w-5 h-5" />
+                                            </div>
+                                            <span className="font-medium">Documentation</span>
+                                            <IoArrowBack className="w-4 h-4 rotate-180 ml-auto opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" />
                                         </a>
                                     )}
                                 </div>
                             </div>
 
                             {project.keyFeatures && (
-                                <div className="card">
-                                    <h2 className="heading-secondary mb-4 text-xl">Key Features</h2>
-                                    <ul className="list-disc pl-5 text-color-text-muted space-y-2">
-                                        {project.keyFeatures.slice(0, showAllFeatures ? project.keyFeatures.length : 2).map((feature, index) => (
-                                            <li key={index} className="leading-relaxed">{feature}</li>
+                                <div className="glass-ultra rounded-2xl p-6 border border-white/10 shadow-xl shadow-black/10">
+                                    <h2 className="text-xl font-bold text-color-text mb-5 animated-gradient-text">Key Features</h2>
+                                    <ul className="space-y-3 text-color-text-muted">
+                                        {project.keyFeatures.slice(0, showAllFeatures ? project.keyFeatures.length : 3).map((feature, index) => (
+                                            <li key={index} className="flex items-start gap-3 leading-relaxed p-3 rounded-xl glass-frost border border-white/5 hover:border-primary-500/20 hover:bg-white/5 transition-all duration-300">
+                                                <span className="w-2 h-2 rounded-full bg-gradient-to-r from-primary-400 to-accent-400 mt-2 flex-shrink-0 shadow-lg shadow-primary-500/30" />
+                                                <span className="text-sm">{feature}</span>
+                                            </li>
                                         ))}
                                     </ul>
-                                    {project.keyFeatures.length > 2 && (
+                                    {project.keyFeatures.length > 3 && (
                                         <button
                                             onClick={() => setShowAllFeatures(!showAllFeatures)}
-                                            className="mt-3 text-sm text-primary-400 hover:text-primary-300 transition-colors underline"
+                                            className="mt-4 text-sm text-primary-400 hover:text-primary-300 transition-colors flex items-center gap-2 group"
                                         >
-                                            {showAllFeatures ? 'Show less' : `View ${project.keyFeatures.length - 2} more`}
+                                            {showAllFeatures ? (
+                                                <>
+                                                    <span>Show less</span>
+                                                    <IoArrowBack className="w-4 h-4 rotate-90 group-hover:-translate-y-0.5 transition-transform" />
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <span>View {project.keyFeatures.length - 3} more</span>
+                                                    <IoArrowBack className="w-4 h-4 -rotate-90 group-hover:translate-y-0.5 transition-transform" />
+                                                </>
+                                            )}
                                         </button>
                                     )}
                                 </div>
@@ -216,12 +287,13 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                         transition={{ duration: 0.5, delay: 0.3 }}
                         className="mb-12 overflow-x-hidden"
                     >
-                        <div className="flex border-b border-color-border mb-8">
+                        {/* Premium Tabs */}
+                        <div className="flex gap-2 p-2 glass-ultra rounded-2xl mb-10 w-fit border border-white/10 shadow-lg shadow-black/10">
                             <button
                                 onClick={() => setActiveTab('overview')}
-                                className={`px-6 py-3 text-sm font-medium border-b-2 transition-colors ${activeTab === 'overview'
-                                    ? 'border-primary-400 text-primary-300'
-                                    : 'border-transparent text-color-text-muted hover:text-color-text'
+                                className={`px-6 py-3 text-sm font-semibold rounded-xl transition-all duration-300 ${activeTab === 'overview'
+                                    ? 'bg-gradient-to-r from-primary-500 to-accent-500 text-white shadow-lg shadow-primary-500/30'
+                                    : 'text-color-text-muted hover:text-color-text hover:bg-white/10'
                                     }`}
                             >
                                 Overview
@@ -230,9 +302,9 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                             {(project.challenges || project.solutions) && (
                                 <button
                                     onClick={() => setActiveTab('challenges')}
-                                    className={`px-6 py-3 text-sm font-medium border-b-2 transition-colors ${activeTab === 'challenges'
-                                        ? 'border-primary-400 text-primary-300'
-                                        : 'border-transparent text-color-text-muted hover:text-color-text'
+                                    className={`px-6 py-3 text-sm font-semibold rounded-xl transition-all duration-300 ${activeTab === 'challenges'
+                                        ? 'bg-gradient-to-r from-primary-500 to-accent-500 text-white shadow-lg shadow-primary-500/30'
+                                        : 'text-color-text-muted hover:text-color-text hover:bg-white/10'
                                         }`}
                                 >
                                     Challenges & Solutions
@@ -242,9 +314,9 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                             {project.technologies && (
                                 <button
                                     onClick={() => setActiveTab('technologies')}
-                                    className={`px-6 py-3 text-sm font-medium border-b-2 transition-colors ${activeTab === 'technologies'
-                                        ? 'border-primary-400 text-primary-300'
-                                        : 'border-transparent text-color-text-muted hover:text-color-text'
+                                    className={`px-6 py-3 text-sm font-semibold rounded-xl transition-all duration-300 ${activeTab === 'technologies'
+                                        ? 'bg-gradient-to-r from-primary-500 to-accent-500 text-white shadow-lg shadow-primary-500/30'
+                                        : 'text-color-text-muted hover:text-color-text hover:bg-white/10'
                                         }`}
                                 >
                                     Technologies
@@ -254,32 +326,32 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 
                         <div className="prose prose-lg prose-invert max-w-none overflow-x-hidden">
                             {activeTab === 'overview' && (
-                                <div className="space-y-6">
+                                <div className="space-y-8">
                                     {/* Render MDX for long description or fallback to regular description */}
-                                    <div className="markdown-content">
+                                    <div className="glass-ultra rounded-2xl p-8 md:p-10 markdown-content border border-white/10 shadow-xl shadow-black/10 shine-sweep">
                                         {serializedContent && project.longDescription ? (
                                             <MDXRemote {...serializedContent} components={mdxComponents} />
                                         ) : (
-                                            <p className="text-color-text-muted leading-relaxed mb-4">
+                                            <p className="text-color-text-muted leading-relaxed mb-4 text-lg">
                                                 {project.description}
                                             </p>
                                         )}
                                     </div>
 
-                                    {/* Testimonials Section - Now supports multiple testimonials */}
+                                    {/* Testimonials Section - Premium Glassmorphism */}
                                     {project.testimonials && project.testimonials.length > 0 && (
                                         <div className="my-12">
-                                            <h3 className="text-xl font-semibold text-primary-300 mb-6">Client Testimonials</h3>
+                                            <h3 className="text-2xl font-bold animated-gradient-text mb-8">Client Testimonials</h3>
                                             <div className="relative">
                                                 {project.testimonials.length > 1 && (
-                                                    <div className="absolute -top-10 right-0 flex gap-2">
+                                                    <div className="absolute -top-12 right-0 flex gap-3">
                                                         {project.testimonials.map((_, index) => (
                                                             <button
                                                                 key={index}
                                                                 onClick={() => setActiveTestimonial(index)}
-                                                                className={`w-2.5 h-2.5 rounded-full transition-all ${index === activeTestimonial
-                                                                    ? "bg-primary-400 hover:bg-primary-600/60"
-                                                                    : "bg-primary-700/40 hover:bg-primary-600/60"
+                                                                className={`w-3 h-3 rounded-full transition-all duration-300 ${index === activeTestimonial
+                                                                    ? "bg-gradient-to-r from-primary-400 to-accent-400 shadow-lg shadow-primary-500/50 scale-125"
+                                                                    : "bg-white/20 hover:bg-white/40"
                                                                     }`}
                                                                 aria-label={`View testimonial ${index + 1}`}
                                                             />
@@ -287,33 +359,32 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                                                     </div>
                                                 )}
                                                 <motion.div
-                                                    className="p-8 sm:p-10 bg-primary-900/10 border border-primary-900/50 rounded-xl relative overflow-hidden"
+                                                    className="glass-ultra rounded-2xl p-10 sm:p-12 relative overflow-hidden shine-sweep border border-white/10 shadow-2xl shadow-black/20"
                                                     initial={{ opacity: 0.8, y: 10 }}
                                                     whileInView={{ opacity: 1, y: 0 }}
                                                     viewport={{ once: true }}
                                                     transition={{ duration: 0.5 }}
                                                     key={activeTestimonial}
                                                 >
-                                                    {/* Decorative elements */}
-                                                    <div className="absolute top-0 right-0 w-32 h-32 bg-primary-500/5 rounded-full translate-x-16 -translate-y-16" />
-                                                    <div className="absolute bottom-0 left-0 w-24 h-24 bg-primary-500/5 rounded-full -translate-x-12 translate-y-12" />
-                                                    {/* Large quote mark backgrounds - positioned further away from content */}
-                                                    <div className="absolute top-6 left-6 text-9xl text-primary-500/10 font-serif leading-none opacity-50">&quot;</div>
-                                                    <div className="absolute bottom-6 right-6 text-9xl text-primary-500/10 font-serif leading-none rotate-180 opacity-50">&quot;</div>
+                                                    {/* Decorative gradient orbs */}
+                                                    <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-br from-primary-500/25 to-accent-500/15 rounded-full blur-[80px]" />
+                                                    <div className="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-br from-accent-500/20 to-primary-500/15 rounded-full blur-[60px]" />
+                                                    {/* Large quote mark backgrounds */}
+                                                    <div className="absolute top-8 left-8 text-9xl text-primary-500/15 font-serif leading-none">&quot;</div>
+                                                    <div className="absolute bottom-8 right-8 text-9xl text-primary-500/15 font-serif leading-none rotate-180">&quot;</div>
                                                     <div className="relative z-10">
-                                                        {/* Added padding to prevent overlap with quote marks */}
-                                                        <blockquote className="text-xl sm:text-2xl italic text-color-text font-light leading-relaxed mb-6 pl-10 pr-10">
+                                                        <blockquote className="text-xl sm:text-2xl italic text-color-text font-light leading-relaxed mb-8 pl-8 pr-8">
                                                             &quot;{project.testimonials[activeTestimonial].quote}&quot;
                                                         </blockquote>
-                                                        <div className="flex items-center gap-4 mt-8">
-                                                            {/* Avatar placeholder */}
-                                                            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary-500/30 to-primary-700/30 flex items-center justify-center border border-primary-600/30">
-                                                                <span className="text-xl text-primary-300 font-medium">
+                                                        <div className="flex items-center gap-5 mt-8">
+                                                            {/* Avatar with gradient */}
+                                                            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center shadow-xl shadow-primary-500/40">
+                                                                <span className="text-2xl text-white font-bold">
                                                                     {project.testimonials[activeTestimonial].author.charAt(0)}
                                                                 </span>
                                                             </div>
                                                             <div>
-                                                                <div className="font-bold text-primary-300">
+                                                                <div className="font-bold text-color-text">
                                                                     {project.testimonials[activeTestimonial].author}
                                                                 </div>
                                                                 {project.testimonials[activeTestimonial].position && (
@@ -333,31 +404,37 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                             {activeTab === 'challenges' && (
                                 <div className="grid md:grid-cols-2 gap-8">
                                     {project.challenges && (
-                                        <div className="card">
-                                            <h3 className="heading-secondary mb-4 flex items-center">
-                                                <span className="p-2 mr-2 rounded-full bg-primary-900/30 text-primary-300">
-                                                    <IoCodeSlash className="w-5 h-5" />
-                                                </span>
-                                                Challenges
+                                        <div className="glass-ultra rounded-2xl p-8 border border-white/10 shadow-xl shadow-black/10">
+                                            <h3 className="text-xl font-bold text-color-text mb-6 flex items-center gap-3">
+                                                <div className="p-3 rounded-xl bg-gradient-to-r from-red-500/20 to-orange-500/20 border border-red-500/20">
+                                                    <IoCodeSlash className="w-5 h-5 text-red-400" />
+                                                </div>
+                                                <span className="bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text text-transparent">Challenges</span>
                                             </h3>
-                                            <ul className="list-disc pl-5 text-color-text-muted space-y-4">
+                                            <ul className="space-y-4 text-color-text-muted">
                                                 {project.challenges.map((challenge, index) => (
-                                                    <li key={index} className="leading-relaxed">{challenge}</li>
+                                                    <li key={index} className="flex items-start gap-4 p-4 rounded-xl glass-frost border border-white/5 hover:border-red-500/20 hover:bg-red-500/5 transition-all duration-300 leading-relaxed">
+                                                        <span className="w-2 h-2 rounded-full bg-gradient-to-r from-red-400 to-orange-400 mt-2 flex-shrink-0 shadow-lg shadow-red-500/30" />
+                                                        <span className="text-sm">{challenge}</span>
+                                                    </li>
                                                 ))}
                                             </ul>
                                         </div>
                                     )}
                                     {project.solutions && (
-                                        <div className="card">
-                                            <h3 className="heading-secondary mb-4 flex items-center">
-                                                <span className="p-2 mr-2 rounded-full bg-primary-900/30 text-primary-300">
-                                                    <IoCodeSlash className="w-5 h-5 transform rotate-180" />
-                                                </span>
-                                                Solutions
+                                        <div className="glass-ultra rounded-2xl p-8 border border-white/10 shadow-xl shadow-black/10">
+                                            <h3 className="text-xl font-bold text-color-text mb-6 flex items-center gap-3">
+                                                <div className="p-3 rounded-xl bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/20">
+                                                    <IoCodeSlash className="w-5 h-5 text-green-400 transform rotate-180" />
+                                                </div>
+                                                <span className="bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">Solutions</span>
                                             </h3>
-                                            <ul className="list-disc pl-5 text-color-text-muted space-y-4">
+                                            <ul className="space-y-4 text-color-text-muted">
                                                 {project.solutions.map((solution, index) => (
-                                                    <li key={index} className="leading-relaxed">{solution}</li>
+                                                    <li key={index} className="flex items-start gap-4 p-4 rounded-xl glass-frost border border-white/5 hover:border-green-500/20 hover:bg-green-500/5 transition-all duration-300 leading-relaxed">
+                                                        <span className="w-2 h-2 rounded-full bg-gradient-to-r from-green-400 to-emerald-400 mt-2 flex-shrink-0 shadow-lg shadow-green-500/30" />
+                                                        <span className="text-sm">{solution}</span>
+                                                    </li>
                                                 ))}
                                             </ul>
                                         </div>
@@ -365,40 +442,40 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                                 </div>
                             )}
                             {activeTab === 'technologies' && project.technologies && (
-                                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                                     {project.technologies.map((tech, index) => (
                                         <motion.div
                                             key={index}
-                                            className="p-4 sm:p-6 rounded-xl bg-card-alt border border-color-border hover:border-primary-700/50 transition-all duration-300 group hover:bg-[rgba(var(--color-primary-900),0.2)] relative overflow-hidden"
+                                            className="glass-ultra rounded-2xl p-6 group shine-sweep relative overflow-hidden border border-white/10"
                                             whileHover={{
-                                                boxShadow: "0 10px 25px -5px rgba(var(--color-primary-900), 0.2)"
+                                                scale: 1.03,
+                                                boxShadow: "0 25px 50px -12px rgba(var(--color-primary-900), 0.4)"
                                             }}
                                             initial={{ opacity: 0, y: 20 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ duration: 0.3, delay: index * 0.05 }}
                                         >
-                                            {/* Gradient background */}
-                                            <div className="absolute inset-0 bg-gradient-to-br from-primary-900/0 to-primary-700/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                                            {/* Gradient glow on hover */}
+                                            <div className="absolute inset-0 bg-gradient-to-br from-primary-500/0 to-accent-500/0 group-hover:from-primary-500/10 group-hover:to-accent-500/10 transition-all duration-500 rounded-2xl" />
+
                                             {/* Tech icon */}
                                             <div className="mb-4 relative z-10">
-                                                <div className="relative w-12 h-12 flex items-center justify-center">
-                                                    <div className="absolute inset-0 bg-primary-900/20 rounded-xl transform rotate-45 group-hover:scale-110 transition-transform duration-300" />
+                                                <div className="relative w-14 h-14 flex items-center justify-center">
+                                                    <div className="absolute inset-0 bg-gradient-to-r from-primary-500/20 to-accent-500/20 rounded-xl group-hover:scale-110 transition-transform duration-300" />
                                                     <TechIcon
                                                         name={tech.name}
-                                                        className="w-9 h-9 text-primary-300 relative z-10 group-hover:text-primary-400 transition-colors duration-300"
+                                                        className="w-9 h-9 text-primary-300 relative z-10 group-hover:text-primary-200 transition-colors duration-300"
                                                     />
-                                                    <div className="absolute inset-0 bg-primary-500/0 group-hover:bg-primary-500/10 rounded-xl blur-lg transition-all duration-300" />
                                                 </div>
                                             </div>
+
                                             {/* Tech name and description */}
                                             <div className="relative z-10">
-                                                <h3 className="font-bold text-xl text-primary-300 mb-2 group-hover:text-primary-200 transition-colors duration-300">{tech.name}</h3>
+                                                <h3 className="font-bold text-xl text-color-text mb-2 group-hover:text-primary-300 transition-colors duration-300">{tech.name}</h3>
                                                 {tech.description && (
                                                     <p className="text-sm text-color-text-muted leading-relaxed">{tech.description}</p>
                                                 )}
                                             </div>
-                                            {/* Decorative element */}
-                                            <div className="absolute bottom-0 right-0 w-16 h-16 bg-primary-500/5 rounded-tl-[40px] transform rotate-45 translate-x-8 translate-y-8 group-hover:bg-primary-500/10 transition-colors duration-300" />
                                         </motion.div>
                                     ))}
                                 </div>

@@ -9,6 +9,8 @@ export interface Project {
     demo?: string;
     github?: string;
     docs?: string;
+    documentation?: string;
+    support?: string;
     slug?: string;
   };
   featured?: boolean;
@@ -24,6 +26,7 @@ export interface Project {
   teamSize?: number;
   testimonials?: Testimonial[];
   testimonial?: Testimonial;
+  partners?: string[];
 }
 
 export interface Testimonial {

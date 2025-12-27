@@ -37,8 +37,9 @@ export function ImageCarousel({ images, className = "" }: ImageCarouselProps) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Subtle inner shadow for depth */}
-      <div className="absolute inset-0 shadow-[inset_0_0_20px_rgba(0,0,0,0.3)] pointer-events-none z-30 rounded-t-xl"></div>
+      {/* Premium inner shadow and glow for depth */}
+      <div className="absolute inset-0 shadow-[inset_0_0_30px_rgba(0,0,0,0.4)] pointer-events-none z-30 rounded-t-xl"></div>
+      <div className="absolute inset-0 bg-gradient-to-t from-primary-900/20 via-transparent to-transparent pointer-events-none z-25 rounded-t-xl"></div>
 
       <AnimatePresence mode="wait">
         <motion.div
@@ -68,8 +69,8 @@ export function ImageCarousel({ images, className = "" }: ImageCarouselProps) {
           <div className="absolute inset-y-0 inset-x-4 flex items-center justify-between z-20 opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-300">
             <motion.button
               onClick={handlePrevious}
-              className="h-10 w-10 rounded-full bg-card/80 backdrop-blur-sm text-color-text flex items-center justify-center hover:bg-card/90 shadow-lg border border-primary-700/30 hover:border-primary-500/40 transition-all"
-              whileHover={{ scale: 1.1, x: -1 }}
+              className="h-10 w-10 rounded-full glass-frost text-color-text flex items-center justify-center shadow-lg shadow-black/20 border border-white/10 hover:border-primary-500/40 hover:shadow-primary-500/20 transition-all duration-300"
+              whileHover={{ scale: 1.1, x: -2 }}
               whileTap={{ scale: 0.9 }}
               aria-label="Previous image"
             >
@@ -80,8 +81,8 @@ export function ImageCarousel({ images, className = "" }: ImageCarouselProps) {
 
             <motion.button
               onClick={handleNext}
-              className="h-10 w-10 rounded-full bg-card/80 backdrop-blur-sm text-color-text flex items-center justify-center hover:bg-card/90 shadow-lg border border-primary-700/30 hover:border-primary-500/40 transition-all"
-              whileHover={{ scale: 1.1, x: 1 }}
+              className="h-10 w-10 rounded-full glass-frost text-color-text flex items-center justify-center shadow-lg shadow-black/20 border border-white/10 hover:border-primary-500/40 hover:shadow-primary-500/20 transition-all duration-300"
+              whileHover={{ scale: 1.1, x: 2 }}
               whileTap={{ scale: 0.9 }}
               aria-label="Next image"
             >
@@ -91,28 +92,30 @@ export function ImageCarousel({ images, className = "" }: ImageCarouselProps) {
             </motion.button>
           </div>
 
-          {/* Image Counter for Visual Context - Added to top corner */}
-          <div className="absolute top-3 right-3 bg-card/80 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-medium text-primary-300 border border-primary-700/30 z-20">
-            {currentIndex + 1} / {images.length}
+          {/* Image Counter for Visual Context - Premium styling */}
+          <div className="absolute top-3 right-3 glass-frost px-3 py-1.5 rounded-full text-xs font-semibold text-primary-300 border border-white/10 z-20 shadow-lg shadow-black/20">
+            <span className="text-white/90">{currentIndex + 1}</span>
+            <span className="text-white/50 mx-1">/</span>
+            <span className="text-white/70">{images.length}</span>
           </div>
 
-          {/* Navigation Dots - Enhanced style */}
+          {/* Navigation Dots - Premium glass style */}
           <motion.div
-            className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 z-20 bg-card/70 backdrop-blur-sm px-3 py-1.5 rounded-full border border-primary-700/30 shadow-lg"
+            className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20 glass-frost px-4 py-2 rounded-full border border-white/10 shadow-xl shadow-black/30"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
+            transition={{ delay: 0.3 }}
           >
             {images.map((_, index) => (
               <motion.button
                 key={index}
                 onClick={() => setCurrentIndex(index)}
                 className={`rounded-full transition-all duration-300 ${index === currentIndex
-                  ? "bg-primary-400 w-6 h-1.5"
-                  : "bg-primary-600/40 w-2 h-1.5 hover:bg-primary-400/60"
+                  ? "bg-gradient-to-r from-primary-400 to-accent-400 w-7 h-2 shadow-lg shadow-primary-500/40"
+                  : "bg-white/20 w-2 h-2 hover:bg-white/40 hover:scale-110"
                   }`}
-                whileHover={{ scaleX: 1.2 }}
-                whileTap={{ scaleX: 0.8 }}
+                whileHover={{ scale: index === currentIndex ? 1 : 1.2 }}
+                whileTap={{ scale: 0.9 }}
                 aria-label={`Go to image ${index + 1}`}
               />
             ))}

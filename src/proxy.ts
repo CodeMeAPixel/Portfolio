@@ -51,7 +51,7 @@ function generateSimpleToken(path: string): string {
     return tokenBase.substring(0, 32);
 }
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
     // Get the pathname from the URL
     const path = request.nextUrl.pathname;
 

@@ -158,11 +158,11 @@ export function TechIcon({ name, size = 20, className = '' }: TechIconProps) {
         return <IconComponent size={size} className={className} />;
     }
 
-    // Fallback: show a generic SVG icon with the first letter
+    // Fallback: show a premium styled badge with the first letter
     return (
         <span
-            className={`inline-flex items-center justify-center bg-primary-800/50 rounded-full font-bold text-primary-300 ${className}`}
-            style={{ width: size, height: size, fontSize: size * 0.7 }}
+            className={`inline-flex items-center justify-center bg-gradient-to-br from-primary-500/30 to-accent-500/20 backdrop-blur-sm rounded-lg font-bold text-primary-300 border border-primary-500/20 shadow-sm shadow-primary-500/10 ${className}`}
+            style={{ width: size, height: size, fontSize: size * 0.55 }}
             title={name}
         >
             {name.charAt(0).toUpperCase()}
