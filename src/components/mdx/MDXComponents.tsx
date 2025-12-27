@@ -43,7 +43,7 @@ const H1 = (props: React.ComponentPropsWithoutRef<"h1">) => (
         animate="visible"
         variants={headingVariants}
         className="heading-primary mb-4"
-        {...props}
+        {...(props as any)}
     />
 );
 
@@ -53,7 +53,7 @@ const H2 = (props: React.ComponentPropsWithoutRef<"h2">) => (
         animate="visible"
         variants={headingVariants}
         className="heading-secondary mt-12 mb-4 pb-2 border-b border-primary-700/30"
-        {...props}
+        {...(props as any)}
     />
 );
 
@@ -63,7 +63,7 @@ const H3 = (props: React.ComponentPropsWithoutRef<"h3">) => (
         animate="visible"
         variants={headingVariants}
         className="text-xl font-bold mt-8 mb-4 text-primary-300"
-        {...props}
+        {...(props as any)}
     />
 );
 

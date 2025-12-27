@@ -184,7 +184,7 @@ export default function ErrorPage({
 }
 
 // Typewriter effect component
-function TypewriterEffect({ text, delay = 50 }) {
+function TypewriterEffect({ text, delay = 50 }: { text: string; delay?: number }) {
     const [displayText, setDisplayText] = useState("");
 
     useEffect(() => {

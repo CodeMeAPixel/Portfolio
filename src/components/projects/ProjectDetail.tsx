@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 import { ImageCarousel } from '@/components/ui/ImageCarousel';
 import { IoArrowBack, IoCalendarOutline, IoCodeSlash, IoLogoGithub, IoGlobeOutline, IoDocumentText, IoPersonOutline, IoPeopleOutline } from 'react-icons/io5';
 import { TechIcon } from '@/components/ui/TechIcon';
-import { MDXRemote } from 'next-mdx-remote';
+import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
 import { serialize } from 'next-mdx-remote/serialize';
 
 interface ProjectDetailProps {
@@ -17,7 +17,7 @@ interface ProjectDetailProps {
 export default function ProjectDetail({ project }: ProjectDetailProps) {
     const [activeTab, setActiveTab] = useState<'overview' | 'challenges' | 'technologies'>('overview');
     const [activeTestimonial, setActiveTestimonial] = useState(0);
-    const [serializedContent, setSerializedContent] = useState(null);
+    const [serializedContent, setSerializedContent] = useState<MDXRemoteSerializeResult | null>(null);
     const [showAllFeatures, setShowAllFeatures] = useState(false);
 
     useEffect(() => {

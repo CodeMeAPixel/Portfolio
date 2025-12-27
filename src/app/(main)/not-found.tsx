@@ -212,11 +212,11 @@ export default function NotFoundPage() {
 }
 
 // Typing animation effect - simplified for better performance
-function TypingEffect({ text, delay = 50, startDelay = 0 }) {
+function TypingEffect({ text, delay = 50, startDelay = 0 }: { text: string; delay?: number; startDelay?: number }) {
     const [displayedText, setDisplayedText] = useState("");
 
     useEffect(() => {
-        let timer;
+        let timer: NodeJS.Timeout | undefined;
         let currentIndex = 0;
 
         const startTyping = () => {

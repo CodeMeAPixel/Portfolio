@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import type { PostMetadata } from '@/lib/mdx';
+import type { BlogPost } from '@/types/blog';
 import { useState, useEffect } from 'react';
 import { IoTimeOutline, IoCalendarOutline, IoArrowBack, IoLogoTwitter, IoLogoLinkedin, IoShareSocialOutline } from 'react-icons/io5';
 import { MDXContent } from '../mdx/MDXContent';
@@ -11,9 +12,10 @@ interface BlogPostContentProps {
     content: string;
     metadata: PostMetadata;
     readingTime: string;
+    relatedPosts: BlogPost[];
 }
 
-export default function BlogPostContent({ content, metadata, readingTime }: BlogPostContentProps) {
+export default function BlogPostContent({ content, metadata, readingTime, relatedPosts }: BlogPostContentProps) {
     const [isMounted, setIsMounted] = useState(false);
 
     // Ensure hydration is complete before rendering content

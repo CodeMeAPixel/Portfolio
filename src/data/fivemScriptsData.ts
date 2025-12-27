@@ -29,6 +29,10 @@ export function getInDevelopmentScripts(): FivemScript[] {
     return fivemScriptsClient.getInDevelopmentScripts();
 }
 
+export function getComingSoonScripts(): FivemScript[] {
+    return fivemScriptsClient.getComingSoonScripts ? fivemScriptsClient.getComingSoonScripts() : [];
+}
+
 export function getScriptsByTag(tag: string): FivemScript[] {
     return fivemScriptsClient.getScriptsByTag(tag);
 }

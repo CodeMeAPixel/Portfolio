@@ -78,11 +78,11 @@ This project demonstrates expertise in:
     tags: ["Next.js", "React", "TypeScript", "Framer Motion", "Tailwind CSS", "Radix UI"],
     links: {
         demo: "https://nodebyte.host",
-        github: "https://github.com/NodeByteHosting/Website"
+        github: "https://github.com/NodeByteHosting/Website",
+        documentation: "https://nodebyte.host/kb",
+        support: "https://discord.gg/wN58bTzzpW"
     },
     featured: true,
-    documentation: "https://nodebyte.host/kb",
-    support: "https://discord.gg/wN58bTzzpW",
     technologies: [
         { name: "Next.js", description: "Powers the frontend with server-side rendering and static site generation" },
         { name: "React", description: "Building an intuitive, responsive user interface" },

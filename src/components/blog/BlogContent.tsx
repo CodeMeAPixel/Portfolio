@@ -14,7 +14,7 @@ import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 
 interface BlogContentProps {
     posts: Array<{ content: string; metadata: PostMetadata }>;
-    categories: string[];
+    categories: Array<{ name: string; count: number; slug: string }>;
     tags: string[];
 }
 
@@ -34,7 +34,7 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
     const [sortBy, setSortBy] = useState<SortOption>('date-desc');
 
     // Include 'All' at the beginning of the categories and tags arrays
-    const allCategories = ['All', ...categories];
+    const allCategories = ['All', ...categories.map(c => c.name)];
     const allTags = ['All', ...tags];
 
     // Debounce search query to prevent excessive filtering during typing

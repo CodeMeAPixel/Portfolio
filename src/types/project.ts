@@ -26,7 +26,7 @@ export interface Project {
   teamSize?: number;
   testimonials?: Testimonial[];
   testimonial?: Testimonial;
-  partners?: string[];
+  partners?: Array<string | { name: string; url: string; description: string }>;
 }
 
 export interface Testimonial {

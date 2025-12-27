@@ -58,7 +58,7 @@ export const metadata: Metadata = {
       follow: true,
       "max-snippet": -1,
       "max-video-preview": -1,
-      "maxc-image-preview": "large",
+      "max-image-preview": "large",
     }
   }
 };

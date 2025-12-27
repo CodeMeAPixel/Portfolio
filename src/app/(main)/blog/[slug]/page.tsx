@@ -59,10 +59,8 @@ export default async function BlogPost({ params }: Props) {
     return (
         <BlogPostContent
             content={content}
-            metadata={{
-                ...metadata,
-                readingTime
-            }}
+            metadata={metadata}
+            readingTime={readingTime}
             relatedPosts={relatedPosts.filter(p => p.slug !== slug)}
         />
     );

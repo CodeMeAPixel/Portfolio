@@ -134,8 +134,9 @@ export async function getPostBySlug(slug: string): Promise<{ content: string; me
         return { content, metadata };
     } catch (error) {
         console.error("Error getting post by slug:", error);
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
         return {
-            content: `# Error Loading Post\n\nThere was an error loading this post: ${error.message}`,
+            content: `# Error Loading Post\n\nThere was an error loading this post: ${errorMessage}`,
             metadata: {
                 title: "Error Loading Post",
                 date: new Date().toISOString(),

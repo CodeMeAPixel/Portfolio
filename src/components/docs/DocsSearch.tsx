@@ -12,12 +12,15 @@ interface DocsSearchProps {
 }
 
 // Flatten docs items for search with null check
-const searchableItems = docsConfig?.sidebarNav
-    ? docsConfig.sidebarNav.flatMap(section =>
-        section.items.map(item => ({
-            ...item,
-            section: section.title,
-        }))
+const searchableItems = docsConfig?.sections
+    ? docsConfig.sections.flatMap(section =>
+        section.categories.flatMap(category =>
+            category.items.map(item => ({
+                ...item,
+                section: section.name,
+                category: category.title,
+            }))
+        )
     )
     : [];
 

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { SkillCategory } from '@/data/skills';
+import { SkillCategory } from '@/types/skills';
 import { TechIcon } from '@/components/ui/TechIcon';
 import { IoSearch, IoBookmarkOutline, IoCodeSlashOutline, IoServerOutline, IoCloudUploadOutline, IoHammerOutline, IoLayersOutline, IoSparkles } from 'react-icons/io5';
 import * as Tabs from '@radix-ui/react-tabs';

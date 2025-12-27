@@ -5,12 +5,7 @@ import { FaServer, FaDatabase, FaCode, FaEnvelope, FaKey, FaJava } from 'react-i
 import { IconType } from 'react-icons';
 
 import {
-    DiAngularSimple, DiBootstrap, DiDjango, DiExpressjs,
-    DiFastify, DiFramer, DiGithubBadge, DiGit, DiGoogleCloudPlatform,
-    DiHtml5, DiJavascript1, DiJqueryLogo, DiLaravel, DiMaterializecss,
-    DiMicrosoft, DiNodejsSmall, DiPhp, DiPostgresql, DiRedis, DiRuby,
-    DiSass, DiServer, DiStripe, DiTwilio, DiVsCode, DiWebpack, DiAmazonAws,
-    DiVisualstudio, DiDocker, DiGithub
+    DiVisualstudio
 } from 'react-icons/di';
 
 import {

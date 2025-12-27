@@ -22,8 +22,13 @@ export class BlogClient {
 
         try {
             const posts = await fetchAllPosts();
-            this.postsCache = posts;
-            return posts;
+            // Add slug from metadata to each post if it's not already there
+            const postsWithSlug: BlogPost[] = posts.map(post => ({
+                ...post,
+                slug: post.metadata.slug || ''
+            }));
+            this.postsCache = postsWithSlug;
+            return postsWithSlug;
         } catch (error) {
             console.error("Error fetching blog posts:", error);
             return [];

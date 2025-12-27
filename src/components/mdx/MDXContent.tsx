@@ -23,8 +23,7 @@ marked.setOptions({
         return hljs.highlightAuto(code).value;
     },
     gfm: true,
-    breaks: true,
-    smartLists: true
+    breaks: true
 });
 
 // Custom renderer
@@ -117,7 +116,8 @@ export function MDXContent({ source }: MDXContentProps) {
             setHtml(sanitizedHtml);
         } catch (error) {
             console.error("Error rendering markdown:", error);
-            setHtml(`<div class="error-message">Error rendering content: ${error.message}</div>`);
+            const errorMessage = error instanceof Error ? error.message : "Unknown error";
+            setHtml(`<div class="error-message">Error rendering content: ${errorMessage}</div>`);
         }
     }, [source]);
 
