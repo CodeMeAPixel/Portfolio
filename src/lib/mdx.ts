@@ -40,7 +40,6 @@ const mockPosts = [
 export async function getPostSlugs(): Promise<string[]> {
     // Client-side: Return mock slugs or fetch from API
     if (isClient) {
-        console.log("Client-side: Using mock post slugs");
         return mockPosts.map(post => post.metadata.slug);
     }
 
@@ -56,19 +55,16 @@ export async function getPostSlugs(): Promise<string[]> {
         try {
             await fs.access(postsDirectory);
         } catch (error) {
-            console.log("Posts directory doesn't exist, creating at:", postsDirectory);
             await fs.mkdir(postsDirectory, { recursive: true });
             return [];
         }
 
         const files = await fs.readdir(postsDirectory);
-        console.log("Found files in posts directory:", files);
 
         const slugs = files
             .filter(file => path.extname(file) === '.mdx')
             .map(file => file.replace(/\.mdx$/, ''));
 
-        console.log("Found slugs:", slugs);
         return slugs;
     } catch (error) {
         console.error("Error getting post slugs:", error);
@@ -79,7 +75,6 @@ export async function getPostSlugs(): Promise<string[]> {
 export async function getPostBySlug(slug: string): Promise<{ content: string; metadata: PostMetadata }> {
     // Client-side: Return mock post or fetch from API
     if (isClient) {
-        console.log("Client-side: Looking for mock post with slug:", slug);
         const post = mockPosts.find(post => post.metadata.slug === slug);
 
         if (post) {
@@ -149,7 +144,6 @@ export async function getPostBySlug(slug: string): Promise<{ content: string; me
 export async function getAllPosts(): Promise<{ content: string; metadata: PostMetadata }[]> {
     // Client-side: Return mock posts or fetch from API
     if (isClient) {
-        console.log("Client-side: Using mock posts");
         return mockPosts;
     }
 
@@ -158,7 +152,6 @@ export async function getAllPosts(): Promise<{ content: string; metadata: PostMe
         const slugs = await getPostSlugs();
 
         if (slugs.length === 0) {
-            console.log("No posts found, returning example post");
             return [{
                 content: `# Welcome to the Blog\n\nThis is a default post.`,
                 metadata: {

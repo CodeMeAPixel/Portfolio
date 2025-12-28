@@ -98,9 +98,6 @@ export function MDXContent({ source }: MDXContentProps) {
 
     useEffect(() => {
         try {
-            // Log source content for debugging
-            console.log("MDX source length:", source?.length);
-
             if (!source) {
                 console.error("Empty source content received");
                 setHtml('<div class="error-message">No content available</div>');

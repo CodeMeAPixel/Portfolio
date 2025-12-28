@@ -6,9 +6,9 @@ import { calculateReadingTime } from '@/lib/mdx';
 import {
     IoTimeOutline, IoCalendarOutline, IoArrowForward, IoBookmarkOutline,
     IoChevronDown, IoGridOutline, IoListOutline, IoSearch, IoClose,
-    IoSwapVertical
+    IoSwapVertical, IoCheckmarkCircleOutline
 } from 'react-icons/io5';
-import { useRef, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 
 interface BlogContentProps {
@@ -102,7 +102,7 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
     };
 
     return (
-        <section className="py-24 md:py-32 bg-bg relative z-10 overflow-hidden">
+        <section className="pt-20 pb-24 md:pt-24 md:pb-32 bg-bg relative z-10 overflow-hidden">
             {/* Premium multi-layer background */}
             <div className="absolute inset-0">
                 <div className="absolute inset-0 bg-aurora opacity-30"></div>
@@ -170,55 +170,65 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
 
                         {/* Sort dropdown - Hidden on mobile */}
                         <div className="hidden md:block">
-                            <DropdownMenu.Root open={sortOpen} onOpenChange={setSortOpen}>
+                            <DropdownMenu.Root open={sortOpen} onOpenChange={setSortOpen} modal={false}>
                                 <DropdownMenu.Trigger asChild>
-                                    <button className="px-4 py-2 rounded-xl bg-primary-800/20 border border-primary-700/20 text-primary-300 text-sm flex items-center gap-2 hover:bg-primary-800/30 hover:border-primary-700/30 transition-all focus:outline-none">
+                                    <button className="px-4 py-2 rounded-xl bg-primary-800/20 border border-primary-700/20 text-primary-300 text-sm flex items-center gap-2 hover:bg-primary-800/30 hover:border-primary-700/30 transition-all focus:outline-none" type="button">
                                         <IoSwapVertical className="w-4 h-4" />
                                         <span>{getSortOptionText(sortBy)}</span>
                                         <IoChevronDown className="w-3 h-3 ml-1 transition-transform duration-300" style={{ transform: sortOpen ? 'rotate(180deg)' : 'none' }} />
                                     </button>
                                 </DropdownMenu.Trigger>
-                                <DropdownMenu.Content
-                                    className="z-50 min-w-[180px] p-1 bg-card border border-color-border shadow-lg rounded-lg overflow-hidden animate-in fade-in-80 slide-in-from-top-5"
-                                    align="end"
-                                    sideOffset={5}
-                                >
+                                <DropdownMenu.Portal>
+                                    <DropdownMenu.Content
+                                        className="dropdown-animate z-[200] min-w-[220px] p-2 bg-card/95 backdrop-blur-2xl border border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.6)] rounded-2xl overflow-hidden"
+                                        align="end"
+                                        sideOffset={8}
+                                    >
                                     <DropdownMenu.Item
-                                        className={`text-sm px-3 py-2 cursor-pointer rounded-md outline-none ${sortBy === 'date-desc' ? 'bg-primary-800/20 text-primary-300 font-medium' : 'text-color-text-muted hover:bg-card-alt hover:text-color-text'
+                                        className={`group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between ${sortBy === 'date-desc' ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20' : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'
                                             }`}
                                         onClick={() => setSortBy('date-desc')}
                                     >
-                                        <div className="flex items-center">
-                                            <IoCalendarOutline className="w-4 h-4 mr-2" />
-                                            Newest first
-                                            {sortBy === 'date-desc' && <span className="ml-2 text-xs">✓</span>}
+                                        <div className="flex items-center gap-3">
+                                            <div className={`p-1.5 rounded-lg transition-colors ${sortBy === 'date-desc' ? 'bg-primary-500/20' : 'bg-white/5 group-hover:bg-white/10'}`}>
+                                                <IoCalendarOutline className="w-4 h-4" />
+                                            </div>
+                                            <span>Newest first</span>
                                         </div>
+                                        {sortBy === 'date-desc' && <IoCheckmarkCircleOutline className="w-4 h-4 text-primary-400" />}
                                     </DropdownMenu.Item>
+
                                     <DropdownMenu.Item
-                                        className={`text-sm px-3 py-2 cursor-pointer rounded-md outline-none ${sortBy === 'date-asc' ? 'bg-primary-800/20 text-primary-300 font-medium' : 'text-color-text-muted hover:bg-card-alt hover:text-color-text'
+                                        className={`group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between ${sortBy === 'date-asc' ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20' : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'
                                             }`}
                                         onClick={() => setSortBy('date-asc')}
                                     >
-                                        <div className="flex items-center">
-                                            <IoCalendarOutline className="w-4 h-4 mr-2" />
-                                            Oldest first
-                                            {sortBy === 'date-asc' && <span className="ml-2 text-xs">✓</span>}
+                                        <div className="flex items-center gap-3">
+                                            <div className={`p-1.5 rounded-lg transition-colors ${sortBy === 'date-asc' ? 'bg-primary-500/20' : 'bg-white/5 group-hover:bg-white/10'}`}>
+                                                <IoCalendarOutline className="w-4 h-4" />
+                                            </div>
+                                            <span>Oldest first</span>
                                         </div>
+                                        {sortBy === 'date-asc' && <IoCheckmarkCircleOutline className="w-4 h-4 text-primary-400" />}
                                     </DropdownMenu.Item>
+
                                     <DropdownMenu.Item
-                                        className={`text-sm px-3 py-2 cursor-pointer rounded-md outline-none ${sortBy === 'alphabetical' ? 'bg-primary-800/20 text-primary-300 font-medium' : 'text-color-text-muted hover:bg-card-alt hover:text-color-text'
+                                        className={`group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between ${sortBy === 'alphabetical' ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20' : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'
                                             }`}
                                         onClick={() => setSortBy('alphabetical')}
                                     >
-                                        <div className="flex items-center">
-                                            <span className="w-4 h-4 mr-2 flex items-center justify-center text-xs font-bold">A</span>
-                                            Alphabetical (A-Z)
-                                            {sortBy === 'alphabetical' && <span className="ml-2 text-xs">✓</span>}
+                                        <div className="flex items-center gap-3">
+                                            <div className={`p-1.5 rounded-lg transition-colors ${sortBy === 'alphabetical' ? 'bg-primary-500/20' : 'bg-white/5 group-hover:bg-white/10'}`}>
+                                                <span className="w-4 h-4 flex items-center justify-center text-[10px] font-bold">AZ</span>
+                                            </div>
+                                            <span>Alphabetical</span>
                                         </div>
+                                        {sortBy === 'alphabetical' && <IoCheckmarkCircleOutline className="w-4 h-4 text-primary-400" />}
                                     </DropdownMenu.Item>
                                 </DropdownMenu.Content>
-                            </DropdownMenu.Root>
-                        </div>
+                            </DropdownMenu.Portal>
+                        </DropdownMenu.Root>
+                    </div>
 
                         {/* Search button and input - Hidden on mobile */}
                         <div className="hidden md:flex relative items-center">
@@ -263,21 +273,22 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
 
                         {/* Category filter dropdown - Hidden on mobile */}
                         <div className={`hidden md:block ${isSearching ? 'md:hidden' : ''}`}>
-                            <DropdownMenu.Root open={filterOpen} onOpenChange={setFilterOpen}>
+                            <DropdownMenu.Root open={filterOpen} onOpenChange={setFilterOpen} modal={false}>
                                 <DropdownMenu.Trigger asChild>
-                                    <button className="relative px-4 py-2 rounded-xl bg-primary-800/20 border border-primary-700/20 text-primary-300 text-sm flex items-center gap-2 hover:bg-primary-800/30 hover:border-primary-700/30 transition-all focus:outline-none">
+                                    <button className="relative px-4 py-2 rounded-xl bg-primary-800/20 border border-primary-700/20 text-primary-300 text-sm flex items-center gap-2 hover:bg-primary-800/30 hover:border-primary-700/30 transition-all focus:outline-none" type="button">
                                         <IoBookmarkOutline className="w-4 h-4" />
                                         <span>{activeFilter === 'All' ? 'All categories' : activeFilter}</span>
                                         <IoChevronDown className="w-3 h-3 ml-1 transition-transform duration-300" style={{ transform: filterOpen ? 'rotate(180deg)' : 'none' }} />
                                     </button>
                                 </DropdownMenu.Trigger>
-                                <DropdownMenu.Content
-                                    className="z-50 min-w-[180px] p-1 bg-card border border-color-border shadow-lg rounded-lg overflow-hidden animate-in fade-in-80 slide-in-from-top-5"
-                                    align="end"
-                                    sideOffset={5}
-                                >
+                                <DropdownMenu.Portal>
+                                    <DropdownMenu.Content
+                                        className="dropdown-animate z-[200] min-w-[240px] p-2 bg-card/95 backdrop-blur-2xl border border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.6)] rounded-2xl overflow-hidden"
+                                        align="end"
+                                        sideOffset={8}
+                                    >
                                     {/* Categories section */}
-                                    <DropdownMenu.Label className="text-xs font-semibold uppercase tracking-wider text-color-text-muted px-2 py-1.5">
+                                    <DropdownMenu.Label className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary-400 px-4 py-3">
                                         Categories
                                     </DropdownMenu.Label>
 
@@ -285,10 +296,10 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
                                         <DropdownMenu.Item
                                             key={category}
                                             className={`
-                                                text-sm px-3 py-2 cursor-pointer rounded-md outline-none
+                                                group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between
                                                 ${activeFilter === category
-                                                    ? 'bg-primary-800/20 text-primary-300 font-medium'
-                                                    : 'text-color-text-muted hover:bg-card-alt hover:text-color-text'
+                                                    ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20'
+                                                    : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'
                                                 }
                                             `}
                                             onClick={() => {
@@ -296,9 +307,12 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
                                                 setFilterOpen(false);
                                             }}
                                         >
-                                            {category}
+                                            <div className="flex items-center gap-3">
+                                                <div className={`w-2 h-2 rounded-full transition-all ${activeFilter === category ? 'bg-primary-500 shadow-[0_0_8px_rgba(var(--color-primary),0.5)]' : 'bg-white/20 group-hover:bg-white/40'}`} />
+                                                <span>{category}</span>
+                                            </div>
                                             {activeFilter === category && (
-                                                <span className="ml-2 text-xs">✓</span>
+                                                <IoCheckmarkCircleOutline className="w-4 h-4 text-primary-400" />
                                             )}
                                         </DropdownMenu.Item>
                                     ))}
@@ -306,8 +320,10 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
                                     {/* Tags section - if we have tags */}
                                     {tags.length > 0 && (
                                         <>
-                                            <DropdownMenu.Separator className="h-px bg-color-border my-1" />
-                                            <DropdownMenu.Label className="text-xs font-semibold uppercase tracking-wider text-color-text-muted px-2 py-1.5">
+                                            <DropdownMenu.Separator className="h-px bg-white/5 my-2" asChild>
+                                                <div />
+                                            </DropdownMenu.Separator>
+                                            <DropdownMenu.Label className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary-400 px-4 py-3">
                                                 Tags
                                             </DropdownMenu.Label>
 
@@ -315,10 +331,10 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
                                                 <DropdownMenu.Item
                                                     key={tag}
                                                     className={`
-                                                        text-sm px-3 py-2 cursor-pointer rounded-md outline-none
+                                                        group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between
                                                         ${activeFilter === tag
-                                                            ? 'bg-primary-800/20 text-primary-300 font-medium'
-                                                            : 'text-color-text-muted hover:bg-card-alt hover:text-color-text'
+                                                            ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20'
+                                                            : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'
                                                         }
                                                     `}
                                                     onClick={() => {
@@ -326,17 +342,21 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
                                                         setFilterOpen(false);
                                                     }}
                                                 >
-                                                    {tag}
+                                                    <div className="flex items-center gap-3">
+                                                        <div className={`w-2 h-2 rounded-full transition-all ${activeFilter === tag ? 'bg-primary-500 shadow-[0_0_8px_rgba(var(--color-primary),0.5)]' : 'bg-white/10 group-hover:bg-white/30'}`} />
+                                                        <span>{tag}</span>
+                                                    </div>
                                                     {activeFilter === tag && (
-                                                        <span className="ml-2 text-xs">✓</span>
+                                                        <IoCheckmarkCircleOutline className="w-4 h-4 text-primary-400" />
                                                     )}
                                                 </DropdownMenu.Item>
                                             ))}
                                         </>
                                     )}
                                 </DropdownMenu.Content>
-                            </DropdownMenu.Root>
-                        </div>
+                            </DropdownMenu.Portal>
+                        </DropdownMenu.Root>
+                    </div>
                     </div>
                 </div>
 
@@ -589,11 +609,8 @@ interface CardItemProps {
 }
 
 function CardItem({ post, index, readingTime, formattedDate, isHovered, onHover, searchQuery }: CardItemProps) {
-    const cardRef = useRef<HTMLDivElement>(null);
-
     return (
         <div
-            ref={cardRef}
             className="h-full animate-fade-up"
             style={{ animationDelay: `${index * 0.1}s` }}
             onMouseEnter={() => onHover(post.metadata.slug)}
@@ -794,7 +811,7 @@ function ListItem({ post, index, readingTime, formattedDate, isHovered, onHover,
 function isNew(dateString: string): boolean {
     const postDate = new Date(dateString);
     const now = new Date();
-    const twoWeeksAgo = new Date(now.setDate(now.getDate() - 14));
+    const twoWeeksAgo = new Date(now.getTime() - (14 * 24 * 60 * 60 * 1000));
     return postDate > twoWeeksAgo;
 }
 

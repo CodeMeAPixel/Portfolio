@@ -36,22 +36,14 @@ export class BlogClient {
     }
 
     public async getPostBySlug(slug: string): Promise<BlogPost | null> {
-        console.log(`Looking for post with slug: "${slug}"`);
         const posts = await this.getAllPosts();
-        console.log(`Total posts loaded: ${posts.length}`);
 
         const post = posts.find(post => {
             const postSlug = post.slug || post.metadata.slug;
-            console.log(`Checking post slug: "${postSlug}" against requested: "${slug}"`);
             return postSlug === slug;
         });
 
-        if (!post) {
-            console.warn(`Post with slug "${slug}" not found. Available slugs:`,
-                posts.map(p => p.slug || p.metadata.slug));
-        } else {
-            console.log(`Found post with slug "${slug}":`, post.metadata.title);
-        }
+
 
         return post || null;
     }

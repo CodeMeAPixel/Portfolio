@@ -4,7 +4,7 @@ import { useTheme } from "@/context/ThemeContext";
 import { useState } from "react";
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import * as Tooltip from '@radix-ui/react-tooltip';
-import { IoColorPaletteOutline, IoChevronDown, IoCheckmark, IoGameController, IoSparkles, IoCodeSlash } from "react-icons/io5";
+import { IoChevronDown, IoColorPaletteOutline, IoCheckmark, IoCheckmarkCircleOutline, IoGameController, IoSparkles, IoCodeSlash } from "react-icons/io5";
 
 type ThemeCategory = "gaming" | "popculture" | "classic" | "developer";
 
@@ -263,6 +263,7 @@ export default function ThemeSelector({ minimal = false }: { minimal?: boolean }
                             className="btn-icon relative hover:scale-105 active:scale-95 transition-transform"
                             aria-label="Change theme color"
                             onClick={() => setIsOpen(true)}
+                            type="button"
                         >
                             <div
                                 className="w-full h-full absolute inset-0 rounded-full opacity-75"
@@ -273,13 +274,12 @@ export default function ThemeSelector({ minimal = false }: { minimal?: boolean }
                     </Tooltip.Trigger>
                     <Tooltip.Portal>
                         <Tooltip.Content
-                            className="bg-card border border-color-border rounded-md px-3 py-2 text-sm shadow-md z-50"
-                            sideOffset={5}
+                            className="dropdown-animate z-[1000] bg-bg/95 backdrop-blur-xl border border-white/10 rounded-xl px-4 py-2 text-sm text-color-text-muted shadow-2xl"
+                            sideOffset={8}
                             side="bottom"
                             align="center"
                         >
                             Change theme
-                            <Tooltip.Arrow className="fill-card" />
                         </Tooltip.Content>
                     </Tooltip.Portal>
                 </Tooltip.Root>
@@ -288,10 +288,11 @@ export default function ThemeSelector({ minimal = false }: { minimal?: boolean }
     }
 
     return (
-        <DropdownMenu.Root open={isOpen} onOpenChange={setIsOpen}>
+        <DropdownMenu.Root open={isOpen} onOpenChange={setIsOpen} modal={false}>
             <DropdownMenu.Trigger asChild>
                 <button
                     className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 hover:border-primary-500/50 hover:bg-white/10 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+                    type="button"
                 >
                     <div
                         className="w-3.5 h-3.5 rounded-full ring-2 ring-white/20"
@@ -307,7 +308,7 @@ export default function ThemeSelector({ minimal = false }: { minimal?: boolean }
 
             <DropdownMenu.Portal>
                 <DropdownMenu.Content
-                    className="min-w-[280px] max-h-[500px] overflow-hidden bg-bg/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl shadow-black/50 z-50 animate-fade-in"
+                    className="dropdown-animate z-[1000] min-w-[300px] max-h-[500px] overflow-hidden bg-card/95 backdrop-blur-2xl border border-white/20 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.6)] z-50"
                     sideOffset={8}
                     align="end"
                 >
@@ -344,34 +345,33 @@ export default function ThemeSelector({ minimal = false }: { minimal?: boolean }
                                 <DropdownMenu.Item
                                     key={option.name}
                                     className={`
-                    flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs
-                    focus:outline-none cursor-pointer transition-all duration-200
-                    ${themeColor === option.name
-                                            ? 'bg-gradient-to-r from-primary-500/20 to-accent-500/10 text-primary-300 ring-1 ring-primary-500/30'
-                                            : 'text-color-text-muted hover:bg-white/5'
+                                        group flex items-center justify-between gap-2.5 px-4 py-3 rounded-xl text-xs
+                                        focus:outline-none cursor-pointer transition-all duration-300
+                                        ${themeColor === option.name
+                                            ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20'
+                                            : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'
                                         }
-                  `}
+                                    `}
                                     onClick={() => {
                                         setThemeColor(option.name as any);
                                         setIsOpen(false);
                                     }}
                                 >
-                                    <div className="relative w-5 h-5 rounded-lg overflow-hidden ring-1 ring-white/20 flex-shrink-0">
-                                        <div
-                                            className={`absolute inset-0 bg-gradient-to-br ${option.gradient}`}
-                                        />
-                                        {themeColor === option.name && (
-                                            <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-                                                <IoCheckmark className="w-3 h-3 text-white" />
-                                            </div>
-                                        )}
+                                    <div className="flex items-center gap-3 min-w-0">
+                                        <div className="relative w-7 h-7 rounded-lg overflow-hidden ring-1 ring-white/10 flex-shrink-0">
+                                            <div
+                                                className={`absolute inset-0 bg-gradient-to-br ${option.gradient}`}
+                                            />
+                                        </div>
+                                        <div className="flex flex-col min-w-0">
+                                            <span className="font-medium truncate flex items-center gap-1.5">
+                                                {option.label}
+                                            </span>
+                                        </div>
                                     </div>
-                                    <div className="flex flex-col min-w-0">
-                                        <span className="font-medium truncate flex items-center gap-1">
-                                            {option.icon && <span className="text-[10px]">{option.icon}</span>}
-                                            {option.label}
-                                        </span>
-                                    </div>
+                                    {themeColor === option.name && (
+                                        <IoCheckmarkCircleOutline className="w-4 h-4 text-primary-400 flex-shrink-0" />
+                                    )}
                                 </DropdownMenu.Item>
                             ))}
                         </div>

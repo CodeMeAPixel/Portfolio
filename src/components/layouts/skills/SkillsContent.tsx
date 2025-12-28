@@ -44,7 +44,7 @@ export default function SkillsContent({ skills }: SkillsContentProps) {
     };
 
     return (
-        <section className="py-24 md:py-32 bg-bg relative z-10 overflow-hidden">
+        <section className="pt-12 pb-24 md:pt-16 md:pb-32 bg-bg relative z-10 overflow-hidden">
             {/* Premium multi-layer background */}
             <div className="absolute inset-0">
                 <div className="absolute inset-0 bg-aurora opacity-40"></div>
