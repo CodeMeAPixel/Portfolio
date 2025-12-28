@@ -1,5 +1,6 @@
+"use client";
+
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { IoLogoDiscord, IoLogoGithub, IoLogoLinkedin, IoLogoTwitter, IoMailOutline, IoArrowForward, IoSparkles, IoLocationOutline } from "react-icons/io5";
 
 const socialLinks = [
@@ -22,68 +23,49 @@ export default function Contact() {
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"></div>
 
       {/* Animated orbs */}
-      <motion.div
-        className="absolute top-[20%] left-[10%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-primary-500/20 to-primary-600/5 blur-[100px]"
-        animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+      <div
+        className="absolute top-[20%] left-[10%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-primary-500/20 to-primary-600/5 blur-[100px] animate-pulse"
       />
-      <motion.div
-        className="absolute bottom-[10%] right-[5%] w-[400px] h-[400px] rounded-full bg-gradient-to-tl from-primary-400/15 to-transparent blur-[80px]"
-        animate={{ scale: [1.2, 1, 1.2], opacity: [0.15, 0.3, 0.15] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+      <div
+        className="absolute bottom-[10%] right-[5%] w-[400px] h-[400px] rounded-full bg-gradient-to-tl from-primary-400/15 to-transparent blur-[80px] animate-pulse"
+        style={{ animationDelay: '2s' }}
       />
 
       <div className="container-section relative">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="max-w-4xl mx-auto text-center"
+        <div
+          className="max-w-4xl mx-auto text-center animate-fade-up"
         >
           {/* Badge */}
-          <motion.span
-            className="inline-flex items-center gap-2 px-4 py-2 mb-8 text-sm font-semibold text-primary-300 glass-frost rounded-full"
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
+          <span
+            className="inline-flex items-center gap-2 px-4 py-2 mb-8 text-sm font-semibold text-primary-300 glass-frost rounded-full animate-fade-in"
+            style={{ animationDelay: '0.1s' }}
           >
             <IoMailOutline className="w-4 h-4" />
             Get In Touch
-          </motion.span>
+          </span>
 
           {/* Heading */}
-          <motion.h2
-            className="text-4xl md:text-5xl lg:text-6xl font-black mb-6"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
+          <h2
+            className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 animate-fade-up"
+            style={{ animationDelay: '0.2s' }}
           >
             <span className="text-color-text">Let&apos;s Work </span>
             <span className="animated-gradient-text">Together</span>
-          </motion.h2>
+          </h2>
 
           {/* Description */}
-          <motion.p
-            className="text-lg md:text-xl text-color-text-muted mb-12 max-w-2xl mx-auto leading-relaxed"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
+          <p
+            className="text-lg md:text-xl text-color-text-muted mb-12 max-w-2xl mx-auto leading-relaxed animate-fade-up"
+            style={{ animationDelay: '0.3s' }}
           >
             I&apos;m always open to new opportunities and collaborations.
             Whether you have a project in mind or just want to say hello, I&apos;d love to hear from you!
-          </motion.p>
+          </p>
 
           {/* Premium CTA Card */}
-          <motion.div
-            className="relative"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.4 }}
+          <div
+            className="relative animate-fade-up"
+            style={{ animationDelay: '0.4s' }}
           >
             {/* Glow effect */}
             <div className="absolute -inset-4 bg-gradient-to-r from-primary-500/20 via-primary-400/10 to-primary-600/20 rounded-[40px] blur-2xl opacity-60"></div>
@@ -93,15 +75,12 @@ export default function Contact() {
               <div className="absolute inset-0 spotlight opacity-50"></div>
 
               {/* Decorative elements */}
-              <motion.div
-                className="absolute -top-20 -right-20 w-40 h-40 bg-primary-500/20 rounded-full blur-3xl"
-                animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0.5, 0.3] }}
-                transition={{ duration: 5, repeat: Infinity }}
+              <div
+                className="absolute -top-20 -right-20 w-40 h-40 bg-primary-500/20 rounded-full blur-3xl animate-pulse"
               />
-              <motion.div
-                className="absolute -bottom-20 -left-20 w-40 h-40 bg-primary-400/15 rounded-full blur-3xl"
-                animate={{ scale: [1.2, 1, 1.2], opacity: [0.2, 0.4, 0.2] }}
-                transition={{ duration: 6, repeat: Infinity, delay: 1 }}
+              <div
+                className="absolute -bottom-20 -left-20 w-40 h-40 bg-primary-400/15 rounded-full blur-3xl animate-pulse"
+                style={{ animationDelay: '1s' }}
               />
 
               <div className="relative">
@@ -130,12 +109,10 @@ export default function Contact() {
                 {/* Social Links - Premium Cards */}
                 <div className="flex flex-wrap justify-center gap-4">
                   {socialLinks.map((social, index) => (
-                    <motion.div
+                    <div
                       key={social.label}
-                      initial={{ opacity: 0, y: 30, scale: 0.9 }}
-                      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: 0.5 + index * 0.1, type: "spring" }}
+                      className="animate-fade-in"
+                      style={{ animationDelay: `${0.5 + index * 0.1}s` }}
                     >
                       <Link
                         href={social.href}
@@ -154,20 +131,17 @@ export default function Contact() {
                           </span>
                         </span>
                       </Link>
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Location badge */}
-          <motion.div
-            className="mt-10 inline-flex items-center gap-3 px-5 py-3 rounded-xl glass-ultra"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.8 }}
+          <div
+            className="mt-10 inline-flex items-center gap-3 px-5 py-3 rounded-xl glass-ultra animate-fade-in"
+            style={{ animationDelay: '0.8s' }}
           >
             <IoLocationOutline className="w-5 h-5 text-primary-400" />
             <span className="text-sm text-color-text-muted font-medium">Based in Canada</span>
@@ -179,8 +153,8 @@ export default function Contact() {
               </span>
               Available for remote work
             </span>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
     </section>
   );

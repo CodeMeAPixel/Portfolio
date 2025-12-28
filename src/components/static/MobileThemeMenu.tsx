@@ -1,197 +1,205 @@
 "use client";
 
 import { useTheme } from "@/context/ThemeContext";
-import { motion } from "framer-motion";
-import * as Dialog from '@radix-ui/react-dialog';
 import { useState } from "react";
-import { IoColorPaletteOutline } from "react-icons/io5";
-import { IoCheckmark } from "react-icons/io5";
-import { IoClose } from "react-icons/io5";
+import * as Dialog from '@radix-ui/react-dialog';
+import { IoClose, IoColorPaletteOutline, IoGameController, IoSparkles, IoCodeSlash, IoCheckmark } from "react-icons/io5";
+
+type ThemeCategory = "gaming" | "popculture" | "classic" | "developer";
 
 type ThemeOption = {
-  name: "blue" | "purple" | "teal" | "rose" | "amber" | "sunset" | "emerald" | "crimson" | "nord" | "cyberpunk" | "mint" | "stranger" | "matrix" | "synthwave" | "dracula" | "monokai";
-  label: string;
-  color: string;
-  gradient: string;
+    name: string;
+    label: string;
+    color: string;
+    gradient: string;
+    category: ThemeCategory;
+    icon?: string;
 };
 
 const themeOptions: ThemeOption[] = [
-  // Pop Culture Themed Themes (Featured)
-  {
-    name: "stranger",
-    label: "Stranger Things",
-    color: "rgb(230, 50, 40)",
-    gradient: "from-red-600 to-red-400"
-  },
-  {
-    name: "matrix",
-    label: "Matrix",
-    color: "rgb(0, 230, 0)",
-    gradient: "from-green-500 to-green-300"
-  },
-  {
-    name: "synthwave",
-    label: "Synthwave",
-    color: "rgb(255, 50, 180)",
-    gradient: "from-pink-500 to-cyan-400"
-  },
-  {
-    name: "dracula",
-    label: "Dracula",
-    color: "rgb(189, 147, 249)",
-    gradient: "from-purple-400 to-pink-400"
-  },
-  {
-    name: "monokai",
-    label: "Monokai",
-    color: "rgb(166, 226, 46)",
-    gradient: "from-yellow-400 to-green-400"
-  },
-  // Classic Color Themes
-  {
-    name: "blue",
-    label: "Azure",
-    color: "rgb(37, 99, 235)",
-    gradient: "from-blue-600 to-blue-400"
-  },
-  {
-    name: "purple",
-    label: "Amethyst",
-    color: "rgb(147, 51, 234)",
-    gradient: "from-purple-600 to-purple-400"
-  },
-  {
-    name: "teal",
-    label: "Teal",
-    color: "rgb(13, 148, 136)",
-    gradient: "from-teal-600 to-teal-400"
-  },
-  {
-    name: "rose",
-    label: "Ruby",
-    color: "rgb(225, 29, 72)",
-    gradient: "from-rose-600 to-rose-400"
-  },
-  {
-    name: "amber",
-    label: "Amber",
-    color: "rgb(217, 119, 6)",
-    gradient: "from-amber-600 to-amber-400"
-  },
-  {
-    name: "sunset",
-    label: "Sunset",
-    color: "rgb(234, 88, 12)",
-    gradient: "from-orange-600 to-orange-400"
-  },
-  {
-    name: "emerald",
-    label: "Emerald",
-    color: "rgb(5, 150, 105)",
-    gradient: "from-emerald-600 to-emerald-400"
-  },
-  {
-    name: "crimson",
-    label: "Crimson",
-    color: "rgb(220, 38, 38)",
-    gradient: "from-red-600 to-red-400"
-  },
-  {
-    name: "nord",
-    label: "Nord",
-    color: "rgb(49, 112, 179)",
-    gradient: "from-blue-700 to-blue-500"
-  },
-  {
-    name: "cyberpunk",
-    label: "Cyberpunk",
-    color: "rgb(236, 236, 0)",
-    gradient: "from-yellow-400 to-fuchsia-600"
-  },
-  {
-    name: "mint",
-    label: "Mint",
-    color: "rgb(34, 197, 94)",
-    gradient: "from-green-600 to-green-400"
-  }
+    // 🎮 Gaming Inspired Themes
+    { name: "warzone", label: "Warzone", color: "rgb(255, 140, 0)", gradient: "from-orange-500 via-yellow-500 to-orange-600", category: "gaming", icon: "🎯" },
+    { name: "valorant", label: "Valorant", color: "rgb(255, 70, 85)", gradient: "from-red-500 to-red-700", category: "gaming", icon: "⚔️" },
+    { name: "minecraft", label: "Minecraft", color: "rgb(100, 180, 80)", gradient: "from-green-500 to-emerald-600", category: "gaming", icon: "⛏️" },
+    { name: "fortnite", label: "Fortnite", color: "rgb(150, 80, 255)", gradient: "from-purple-500 via-blue-500 to-purple-600", category: "gaming", icon: "🎮" },
+    { name: "gta", label: "GTA Vice", color: "rgb(255, 100, 200)", gradient: "from-pink-400 via-purple-500 to-cyan-400", category: "gaming", icon: "🌴" },
+
+    // 🎬 Pop Culture Themes
+    { name: "stranger", label: "Stranger Things", color: "rgb(230, 50, 40)", gradient: "from-red-600 to-red-400", category: "popculture", icon: "👾" },
+    { name: "matrix", label: "Matrix", color: "rgb(0, 230, 0)", gradient: "from-green-500 to-green-300", category: "popculture", icon: "💊" },
+    { name: "synthwave", label: "Synthwave", color: "rgb(255, 50, 180)", gradient: "from-pink-500 to-cyan-400", category: "popculture", icon: "🌆" },
+    { name: "hacker", label: "Mr. Robot", color: "rgb(0, 200, 150)", gradient: "from-teal-400 to-green-500", category: "popculture", icon: "🎭" },
+    { name: "blood", label: "Blade Runner", color: "rgb(255, 60, 100)", gradient: "from-rose-500 via-red-500 to-orange-500", category: "popculture", icon: "🦇" },
+
+    // 💻 Developer Themes
+    { name: "dracula", label: "Dracula", color: "rgb(189, 147, 249)", gradient: "from-purple-400 to-pink-400", category: "developer", icon: "🧛" },
+    { name: "monokai", label: "Monokai", color: "rgb(166, 226, 46)", gradient: "from-yellow-400 to-green-400", category: "developer", icon: "📝" },
+    { name: "nord", label: "Nord", color: "rgb(49, 112, 179)", gradient: "from-blue-700 to-blue-500", category: "developer", icon: "❄️" },
+    { name: "cyberpunk", label: "Cyberpunk", color: "rgb(236, 236, 0)", gradient: "from-yellow-400 to-fuchsia-600", category: "developer", icon: "⚡" },
+
+    // 🎨 Classic Themes
+    { name: "ocean", label: "Deep Ocean", color: "rgb(0, 150, 200)", gradient: "from-cyan-500 via-blue-600 to-indigo-700", category: "classic", icon: "🌊" },
+    { name: "aurora", label: "Northern Lights", color: "rgb(100, 255, 180)", gradient: "from-green-400 via-teal-400 to-purple-500", category: "classic", icon: "✨" },
+    { name: "neon", label: "Neon City", color: "rgb(255, 0, 255)", gradient: "from-fuchsia-500 via-purple-500 to-cyan-500", category: "classic", icon: "🌃" },
+    { name: "blue", label: "Blue", color: "rgb(37, 99, 235)", gradient: "from-blue-600 to-blue-400", category: "classic" },
+    { name: "purple", label: "Purple", color: "rgb(147, 51, 234)", gradient: "from-purple-600 to-purple-400", category: "classic" },
+    { name: "teal", label: "Teal", color: "rgb(13, 148, 136)", gradient: "from-teal-600 to-teal-400", category: "classic" },
+    { name: "rose", label: "Rose", color: "rgb(225, 29, 72)", gradient: "from-rose-600 to-rose-400", category: "classic" },
+    { name: "amber", label: "Amber", color: "rgb(217, 119, 6)", gradient: "from-amber-600 to-amber-400", category: "classic" },
+    { name: "sunset", label: "Sunset", color: "rgb(234, 88, 12)", gradient: "from-orange-600 to-orange-400", category: "classic" },
+    { name: "emerald", label: "Emerald", color: "rgb(5, 150, 105)", gradient: "from-emerald-600 to-emerald-400", category: "classic" },
+    { name: "crimson", label: "Crimson", color: "rgb(220, 38, 38)", gradient: "from-red-600 to-red-400", category: "classic" },
+    { name: "mint", label: "Mint", color: "rgb(34, 197, 94)", gradient: "from-green-600 to-green-400", category: "classic" }
 ];
 
+const categoryConfig: Record<ThemeCategory, { label: string; icon: React.ReactNode }> = {
+    gaming: { label: "Gaming", icon: <IoGameController className="w-3 h-3" /> },
+    popculture: { label: "Pop Culture", icon: <IoSparkles className="w-3 h-3" /> },
+    developer: { label: "Developer", icon: <IoCodeSlash className="w-3 h-3" /> },
+    classic: { label: "Classic", icon: <IoColorPaletteOutline className="w-3 h-3" /> }
+};
+
 export default function MobileThemeMenu() {
-  const { themeColor, setThemeColor, isLoaded } = useTheme();
-  const [open, setOpen] = useState(false);
+    const { themeColor, setThemeColor, isLoaded } = useTheme();
+    const [isOpen, setIsOpen] = useState(false);
+    const [activeCategory, setActiveCategory] = useState<ThemeCategory | "all">("all");
 
-  // Don't render until client-side theme is loaded
-  if (!isLoaded) {
-    return <div className="btn-icon relative" aria-hidden="true" />;
-  }
+    if (!isLoaded) {
+        return <div className="w-10 h-10" aria-hidden="true" />;
+    }
 
-  return (
-    <Dialog.Root open={open} onOpenChange={setOpen}>
-      <Dialog.Trigger asChild>
-        <motion.button
-          className="relative p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-all duration-300"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          aria-label="Change theme color"
-        >
-          <div
-            className="w-4 h-4 rounded-full ring-2 ring-white/20"
-            style={{ backgroundColor: themeOptions.find(opt => opt.name === themeColor)?.color }}
-          />
-        </motion.button>
-      </Dialog.Trigger>
+    const currentTheme = themeOptions.find(option => option.name === themeColor) || themeOptions[0];
+    const filteredThemes = activeCategory === "all"
+        ? themeOptions
+        : themeOptions.filter(t => t.category === activeCategory);
 
-      <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 bg-black/60 backdrop-blur-md z-50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
-        <Dialog.Content className="fixed left-[50%] top-[50%] z-50 w-full max-w-xs translate-x-[-50%] translate-y-[-50%] bg-bg/95 backdrop-blur-xl border border-white/10 shadow-2xl shadow-black/50 rounded-2xl p-5 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95">
-          <Dialog.Title className="text-lg font-bold animated-gradient-text mb-1">
-            Theme Colors
-          </Dialog.Title>
+    return (
+        <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
+            <Dialog.Trigger asChild>
+                <button
+                    className="btn-icon relative hover:scale-105 active:scale-95 transition-transform"
+                    aria-label="Open theme menu"
+                >
+                    <div
+                        className="w-full h-full absolute inset-0 rounded-full opacity-75"
+                        style={{ backgroundColor: currentTheme.color }}
+                    />
+                    <IoColorPaletteOutline className="w-5 h-5 relative z-10 text-white mix-blend-difference" />
+                </button>
+            </Dialog.Trigger>
 
-          <Dialog.Description className="text-color-text-muted text-xs mb-4">
-            Choose a color theme
-          </Dialog.Description>
+            <Dialog.Portal>
+                <Dialog.Overlay className="fixed inset-0 bg-black/70 backdrop-blur-md z-[10000] animate-fade-in" />
+                <Dialog.Content className="fixed inset-x-3 bottom-3 top-auto max-h-[85vh] bg-bg border border-white/10 rounded-2xl shadow-2xl z-[10001] overflow-hidden animate-fade-in focus:outline-none">
+                    {/* Header */}
+                    <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-white/5">
+                        <Dialog.Title className="flex items-center gap-2 text-sm font-semibold">
+                            <div className={`w-4 h-4 rounded-full bg-gradient-to-br ${currentTheme.gradient}`} />
+                            <span className="bg-gradient-to-r from-primary-400 to-accent-400 bg-clip-text text-transparent">
+                                Choose Theme
+                            </span>
+                        </Dialog.Title>
+                        <Dialog.Close asChild>
+                            <button
+                                className="p-1.5 rounded-lg text-color-text-muted hover:text-color-text hover:bg-white/10 transition-all hover:scale-105 active:scale-95"
+                                aria-label="Close"
+                            >
+                                <IoClose className="w-5 h-5" />
+                            </button>
+                        </Dialog.Close>
+                    </div>
 
-          <div className="grid grid-cols-2 gap-2 max-h-[50vh] overflow-y-auto">
-            {themeOptions.map((option) => (
-              <motion.button
-                key={option.name}
-                className={`
-                  flex items-center gap-2 px-3 py-2.5 rounded-xl
-                  transition-all duration-200
-                  ${themeColor === option.name
-                    ? 'bg-gradient-to-r from-primary-500/20 to-accent-500/10 ring-1 ring-primary-500/40'
-                    : 'bg-white/5 hover:bg-white/10'
-                  }
-                `}
-                onClick={() => {
-                  setThemeColor(option.name);
-                  setOpen(false);
-                }}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <div className={`w-6 h-6 rounded-full bg-gradient-to-br ${option.gradient} ring-2 ring-white/20`}></div>
-                <div className="text-left flex-1 min-w-0">
-                  <div className="text-sm font-medium truncate">{option.label}</div>
-                </div>
-                {themeColor === option.name && (
-                  <IoCheckmark className="w-4 h-4 text-primary-400 flex-shrink-0" />
-                )}
-              </motion.button>
-            ))}
-          </div>
+                    {/* Category Tabs */}
+                    <div className="flex items-center gap-1 p-2 border-b border-white/10 overflow-x-auto">
+                        <button
+                            onClick={() => setActiveCategory("all")}
+                            className={`px-3 py-1.5 rounded-lg text-[10px] font-semibold uppercase tracking-wider whitespace-nowrap transition-all duration-200 ${activeCategory === "all"
+                                ? "bg-gradient-to-r from-primary-500/30 to-accent-500/20 text-primary-300 border border-primary-500/30"
+                                : "text-color-text-muted hover:bg-white/5"
+                                }`}
+                        >
+                            All
+                        </button>
+                        {(Object.keys(categoryConfig) as ThemeCategory[]).map((cat) => (
+                            <button
+                                key={cat}
+                                onClick={() => setActiveCategory(cat)}
+                                className={`px-3 py-1.5 rounded-lg text-[10px] font-semibold uppercase tracking-wider whitespace-nowrap transition-all duration-200 flex items-center gap-1 ${activeCategory === cat
+                                    ? "bg-gradient-to-r from-primary-500/30 to-accent-500/20 text-primary-300 border border-primary-500/30"
+                                    : "text-color-text-muted hover:bg-white/5"
+                                    }`}
+                            >
+                                {categoryConfig[cat].icon}
+                                {categoryConfig[cat].label}
+                            </button>
+                        ))}
+                    </div>
 
-          <Dialog.Close asChild>
-            <button
-              className="absolute top-3 right-3 p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-color-text-muted hover:text-color-text transition-all duration-200"
-              aria-label="Close"
-            >
-              <IoClose className="w-4 h-4" />
-            </button>
-          </Dialog.Close>
-        </Dialog.Content>
-      </Dialog.Portal>
-    </Dialog.Root>
-  );
+                    {/* Theme Grid */}
+                    <div className="p-3 overflow-y-auto max-h-[50vh]">
+                        <div className="grid grid-cols-2 gap-2">
+                            {filteredThemes.map((option) => {
+                                const isActive = themeColor === option.name;
+
+                                return (
+                                    <button
+                                        key={option.name}
+                                        onClick={() => {
+                                            setThemeColor(option.name as any);
+                                            setIsOpen(false);
+                                        }}
+                                        className={`
+                      flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200
+                      hover:scale-[1.02] active:scale-[0.98]
+                      ${isActive
+                                                ? 'bg-gradient-to-r from-primary-500/20 to-accent-500/10 ring-1 ring-primary-500/30'
+                                                : 'bg-white/5 hover:bg-white/10'
+                                            }
+                    `}
+                                    >
+                                        <div className="relative">
+                                            <div
+                                                className={`w-8 h-8 rounded-xl ring-2 overflow-hidden ${isActive ? 'ring-primary-400' : 'ring-white/20'
+                                                    }`}
+                                            >
+                                                <div className={`w-full h-full bg-gradient-to-br ${option.gradient}`} />
+                                            </div>
+                                            {isActive && (
+                                                <div className="absolute -top-1 -right-1 w-4 h-4 bg-primary-500 rounded-full flex items-center justify-center">
+                                                    <IoCheckmark className="w-2.5 h-2.5 text-white" />
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="flex flex-col items-start min-w-0">
+                                            <span className={`text-xs font-medium truncate ${isActive ? 'text-primary-300' : 'text-color-text'
+                                                }`}>
+                                                {option.icon && <span className="mr-1">{option.icon}</span>}
+                                                {option.label}
+                                            </span>
+                                            <span className="text-[10px] text-color-text-muted capitalize">
+                                                {categoryConfig[option.category].label}
+                                            </span>
+                                        </div>
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+
+                    {/* Footer */}
+                    <div className="p-3 border-t border-white/10 bg-white/5">
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-2 text-xs text-color-text-muted">
+                                <div className={`w-4 h-4 rounded-full bg-gradient-to-br ${currentTheme.gradient}`} />
+                                <span>Current: <strong className="text-primary-300">{currentTheme.label}</strong></span>
+                            </div>
+                            <span className="text-[10px] text-color-text-muted/50">
+                                {themeOptions.length} themes
+                            </span>
+                        </div>
+                    </div>
+                </Dialog.Content>
+            </Dialog.Portal>
+        </Dialog.Root>
+    );
 }

@@ -1,14 +1,11 @@
 "use client";
 
 import Navbar from "@/components/static/Navbar";
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { IoHome, IoArrowBack, IoCodeSlash } from "react-icons/io5";
 
 export default function NotFoundPage() {
-    const [mounted, setMounted] = useState(false);
-
     // Random error codes for the tech aesthetic
     const errorCodes = [
         "ERR_404_PAGE_NOT_FOUND",
@@ -22,13 +19,6 @@ export default function NotFoundPage() {
         errorCodes[Math.floor(Math.random() * errorCodes.length)]
     );
 
-    // Ensure animations run after mount
-    useEffect(() => {
-        setMounted(true);
-    }, []);
-
-    if (!mounted) return null;
-
     return (
         <>
             <Navbar />
@@ -41,108 +31,86 @@ export default function NotFoundPage() {
                 <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"></div>
 
                 {/* Animated floating orbs */}
-                <motion.div
-                    className="absolute top-[10%] left-[10%] w-[400px] h-[400px] rounded-full bg-gradient-to-br from-primary-500/20 to-primary-600/5 blur-[100px]"
-                    animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2] }}
-                    transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+                <div
+                    className="absolute top-[10%] left-[10%] w-[400px] h-[400px] rounded-full bg-gradient-to-br from-primary-500/20 to-primary-600/5 blur-[100px] animate-pulse"
                 />
-                <motion.div
-                    className="absolute bottom-[20%] right-[10%] w-[350px] h-[350px] rounded-full bg-gradient-to-tl from-primary-400/15 to-transparent blur-[80px]"
-                    animate={{ scale: [1.2, 1, 1.2], opacity: [0.15, 0.3, 0.15] }}
-                    transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+                <div
+                    className="absolute bottom-[20%] right-[10%] w-[350px] h-[350px] rounded-full bg-gradient-to-tl from-primary-400/15 to-transparent blur-[80px] animate-pulse"
+                    style={{ animationDelay: '2s' }}
                 />
 
                 {/* Decorative elements */}
                 <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
                     {/* Large 404 background text */}
-                    <motion.div
-                        className="absolute text-primary-500/5 text-[12rem] md:text-[18rem] font-black top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none"
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.8 }}
+                    <div
+                        className="absolute text-white/10 text-[12rem] md:text-[18rem] font-black top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none animate-fade-in"
                     >
                         404
-                    </motion.div>
+                    </div>
 
                     {/* Code brackets with glow */}
-                    <motion.div
-                        className="absolute top-[15%] left-[8%] text-primary-500/10 text-6xl md:text-8xl font-bold"
-                        initial={{ opacity: 0, x: -50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.6, delay: 0.3 }}
+                    <div
+                        className="absolute top-[15%] left-[8%] text-primary-500/10 text-6xl md:text-8xl font-bold animate-fade-in"
+                        style={{ animationDelay: '0.3s' }}
                     >
                         {'<'}
-                    </motion.div>
+                    </div>
 
-                    <motion.div
-                        className="absolute bottom-[15%] right-[8%] text-primary-500/10 text-6xl md:text-8xl font-bold"
-                        initial={{ opacity: 0, x: 50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.6, delay: 0.3 }}
+                    <div
+                        className="absolute bottom-[15%] right-[8%] text-primary-500/10 text-6xl md:text-8xl font-bold animate-fade-in"
+                        style={{ animationDelay: '0.3s' }}
                     >
                         {'>'}
-                    </motion.div>
+                    </div>
 
                     {/* Floating error badges */}
-                    <motion.div
-                        className="absolute top-[20%] md:top-[25%] right-[8%] md:right-[18%] transform rotate-12"
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 1, delay: 0.5 }}
+                    <div
+                        className="absolute top-[20%] md:top-[25%] right-[8%] md:right-[18%] transform rotate-12 animate-fade-up"
+                        style={{ animationDelay: '0.5s' }}
                     >
                         <div className="text-xs md:text-sm glass-frost px-4 py-2 rounded-xl text-primary-300 font-mono border border-primary-500/20">
                             {errorCode}
                         </div>
-                    </motion.div>
+                    </div>
 
-                    <motion.div
-                        className="absolute bottom-[25%] md:bottom-[30%] left-[10%] md:left-[15%] transform -rotate-6"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 1, delay: 0.7 }}
+                    <div
+                        className="absolute bottom-[25%] md:bottom-[30%] left-[10%] md:left-[15%] transform -rotate-6 animate-fade-up"
+                        style={{ animationDelay: '0.7s' }}
                     >
                         <div className="text-xs md:text-sm glass-frost px-4 py-2 rounded-xl text-primary-300 font-mono border border-primary-500/20">
                             {'<NotFound />'}
                         </div>
-                    </motion.div>
+                    </div>
                 </div>
 
                 {/* Main content - higher z-index to ensure it's above the background */}
                 <div className="relative z-10 w-full max-w-2xl mx-auto text-center">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
+                    <div
+                        className="animate-fade-up"
                     >
                         <div className="inline-flex items-center justify-center mb-6 glass-frost px-5 py-2.5 rounded-full border border-primary-500/20">
                             <IoCodeSlash className="w-4 h-4 mr-2 text-primary-400" />
                             <span className="text-sm font-semibold text-primary-300">Error 404</span>
                         </div>
-                    </motion.div>
+                    </div>
 
-                    <motion.h1
-                        className="text-4xl sm:text-5xl md:text-6xl font-black mb-6"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.1 }}
+                    <h1
+                        className="text-4xl sm:text-5xl md:text-6xl font-black mb-6 animate-fade-up"
+                        style={{ animationDelay: '0.1s' }}
                     >
                         Page Not Found
-                    </motion.h1>
+                    </h1>
 
-                    <motion.p
-                        className="text-lg sm:text-xl text-color-text-muted mb-8 max-w-xl mx-auto"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
+                    <p
+                        className="text-lg sm:text-xl text-color-text-muted mb-8 max-w-xl mx-auto animate-fade-up"
+                        style={{ animationDelay: '0.2s' }}
                     >
                         Looks like you&apos;ve ventured into uncharted territory. The page you&apos;re looking for might have been moved, deleted, or never existed in the first place.
-                    </motion.p>
+                    </p>
 
-                    <motion.div
-                        className="flex flex-wrap gap-4 justify-center mb-12"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.3 }}
+                    <div
+                        className="flex flex-wrap gap-4 justify-center mb-12 animate-fade-up"
+                        style={{ animationDelay: '0.3s' }}
                     >
                         <Link
                             href="/"
@@ -162,14 +130,12 @@ export default function NotFoundPage() {
                             <IoArrowBack className="mr-2 w-5 h-5 group-hover:-translate-x-1 transition-transform" />
                             Go Back
                         </button>
-                    </motion.div>
+                    </div>
 
                     {/* Premium terminal card */}
-                    <motion.div
-                        className="mx-auto max-w-xl overflow-hidden"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.5 }}
+                    <div
+                        className="mx-auto max-w-xl overflow-hidden animate-fade-up"
+                        style={{ animationDelay: '0.5s' }}
                     >
                         <div className="glass-ultra rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/20">
                             <div className="flex items-center px-4 py-3 bg-white/5 border-b border-white/10">
@@ -204,7 +170,7 @@ export default function NotFoundPage() {
                                 </div>
                             </div>
                         </div>
-                    </motion.div>
+                    </div>
                 </div>
             </div>
         </>

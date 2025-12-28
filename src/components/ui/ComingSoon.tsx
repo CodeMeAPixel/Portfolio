@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { IoHome, IoTimeOutline, IoRocketOutline, IoSparkles } from "react-icons/io5";
@@ -30,6 +29,7 @@ export default function ComingSoon({
     customBackLink,
 }: ComingSoonProps) {
     const [mounted, setMounted] = useState(false);
+    const [progressWidth, setProgressWidth] = useState(0);
     const [countdown, setCountdown] = useState({
         days: 0,
         hours: 0,
@@ -40,6 +40,11 @@ export default function ComingSoon({
     // Set a future date if not provided - 30 days from now by default
     useEffect(() => {
         setMounted(true);
+
+        // Animate progress bar after mount
+        const timer = setTimeout(() => {
+            setProgressWidth(completionPercentage);
+        }, 700);
 
         const targetDate = launchDate || new Date(new Date().setDate(new Date().getDate() + 30));
 
@@ -63,8 +68,11 @@ export default function ComingSoon({
         updateCountdown();
         const intervalId = setInterval(updateCountdown, 1000);
 
-        return () => clearInterval(intervalId);
-    }, [launchDate]);
+        return () => {
+            clearInterval(intervalId);
+            clearTimeout(timer);
+        };
+    }, [launchDate, completionPercentage]);
 
     if (!mounted) return null;
 
@@ -77,76 +85,50 @@ export default function ComingSoon({
             </div>
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"></div>
 
-            {/* Floating Orbs */}
+            {/* Floating Orbs - CSS animations */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <motion.div
-                    className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-br from-primary-500/20 to-purple-500/10 rounded-full blur-3xl"
-                    animate={{
-                        scale: [1, 1.3, 1],
-                        opacity: [0.2, 0.4, 0.2],
-                    }}
-                    transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-                />
-                <motion.div
-                    className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-br from-accent-500/15 to-primary-500/20 rounded-full blur-3xl"
-                    animate={{
-                        scale: [1.2, 1, 1.2],
-                        opacity: [0.3, 0.5, 0.3],
-                    }}
-                    transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-                />
+                <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-br from-primary-500/20 to-purple-500/10 rounded-full blur-3xl animate-float-slow" />
+                <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-br from-accent-500/15 to-primary-500/20 rounded-full blur-3xl animate-float-medium" />
             </div>
 
             {/* Main content */}
             <div className="relative z-10 w-full max-w-2xl mx-auto text-center">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
-                >
+                <div className="animate-fade-in-up">
                     <div className="inline-flex items-center justify-center mb-6 glass-frost px-4 py-2 rounded-full">
                         <IoRocketOutline className="w-4 h-4 mr-2 text-primary-400" />
                         <span className="text-xs font-medium text-primary-300">Under Construction</span>
                     </div>
-                </motion.div>
+                </div>
 
-                <motion.h1
-                    className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.1 }}
+                <h1
+                    className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 animate-fade-in-up"
+                    style={{ animationDelay: '100ms' }}
                 >
                     <span className="animated-gradient-text text-shadow-glow">{title}</span>
-                </motion.h1>
+                </h1>
 
-                <motion.p
-                    className="text-base sm:text-lg text-color-text-muted mb-10 max-w-xl mx-auto"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
+                <p
+                    className="text-base sm:text-lg text-color-text-muted mb-10 max-w-xl mx-auto animate-fade-in-up"
+                    style={{ animationDelay: '200ms' }}
                 >
                     {description}
-                </motion.p>
+                </p>
 
                 {/* Countdown timer - Premium Cards */}
-                <motion.div
-                    className="flex flex-wrap justify-center gap-3 mb-8"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.3 }}
+                <div
+                    className="flex flex-wrap justify-center gap-3 mb-8 animate-fade-in-up"
+                    style={{ animationDelay: '300ms' }}
                 >
                     <CountdownUnit value={countdown.days} label="Days" />
                     <CountdownUnit value={countdown.hours} label="Hours" />
                     <CountdownUnit value={countdown.minutes} label="Minutes" />
                     <CountdownUnit value={countdown.seconds} label="Seconds" />
-                </motion.div>
+                </div>
 
                 {/* Progress indicator - Premium Glass */}
-                <motion.div
-                    className="mx-auto max-w-md mb-8"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.4 }}
+                <div
+                    className="mx-auto max-w-md mb-8 animate-fade-in-up"
+                    style={{ animationDelay: '400ms' }}
                 >
                     <div className="glass-ultra rounded-2xl p-5">
                         <div className="flex items-center mb-3">
@@ -156,28 +138,24 @@ export default function ComingSoon({
                             <p className="text-sm text-color-text">Development progress</p>
                         </div>
                         <div className="w-full bg-white/5 rounded-full h-2 mb-2 overflow-hidden">
-                            <motion.div
-                                className="h-2 rounded-full bg-gradient-to-r from-primary-500 to-accent-500"
-                                initial={{ width: 0 }}
-                                animate={{ width: `${completionPercentage}%` }}
-                                transition={{ duration: 1.5, delay: 0.7, ease: "easeOut" }}
+                            <div
+                                className="h-2 rounded-full bg-gradient-to-r from-primary-500 to-accent-500 transition-all duration-1000 ease-out"
+                                style={{ width: `${progressWidth}%` }}
                             />
                         </div>
                         <p className="text-right text-xs text-primary-300 font-medium">{completionPercentage}% complete</p>
                     </div>
-                </motion.div>
+                </div>
 
                 {/* Action buttons - Premium */}
-                <motion.div
-                    className="flex flex-wrap gap-4 justify-center"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.5 }}
+                <div
+                    className="flex flex-wrap gap-4 justify-center animate-fade-in-up"
+                    style={{ animationDelay: '500ms' }}
                 >
                     {showBackToHome && (
                         <Link
                             href={customBackLink?.href || "/"}
-                            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-500 to-accent-500 text-white font-semibold rounded-xl shadow-lg shadow-primary-500/25 hover:shadow-primary-500/40 hover:scale-[1.02] transition-all duration-300"
+                            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-500 to-accent-500 text-white font-semibold rounded-xl shadow-lg shadow-primary-500/25 hover:shadow-primary-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
                         >
                             <IoHome className="w-5 h-5" />
                             {customBackLink?.label || "Back to Home"}
@@ -185,7 +163,7 @@ export default function ComingSoon({
                     )}
 
                     {showNotification && <NotificationForm />}
-                </motion.div>
+                </div>
             </div>
         </div>
     );
@@ -226,21 +204,21 @@ function NotificationForm() {
             {!isSubmitted ? (
                 <button
                     onClick={() => document.getElementById('notify-form')?.classList.toggle('hidden')}
-                    className="inline-flex items-center gap-2 px-6 py-3 glass-frost text-color-text font-semibold rounded-xl hover:bg-white/10 transition-all duration-300"
+                    className="inline-flex items-center gap-2 px-6 py-3 glass-frost text-color-text font-semibold rounded-xl hover:bg-white/10 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
                 >
                     <IoSparkles className="w-4 h-4 text-primary-400" />
                     Notify Me
                 </button>
             ) : (
-                <div className="inline-flex items-center gap-2 px-6 py-3 glass-frost text-primary-300 font-semibold rounded-xl">
-                    ✓ We'll notify you!
+                <div className="inline-flex items-center gap-2 px-6 py-3 glass-frost text-primary-300 font-semibold rounded-xl animate-fade-in">
+                    ✓ We&apos;ll notify you!
                 </div>
             )}
 
             <form
                 id="notify-form"
                 onSubmit={handleSubmit}
-                className="hidden absolute top-full mt-2 right-0 w-64 p-4 glass-ultra rounded-xl z-20"
+                className="hidden absolute top-full mt-2 right-0 w-64 p-4 glass-ultra rounded-xl z-20 animate-fade-in"
             >
                 <input
                     type="email"
@@ -252,7 +230,7 @@ function NotificationForm() {
                 />
                 <button
                     type="submit"
-                    className="w-full px-3 py-2 bg-gradient-to-r from-primary-500 to-accent-500 text-white rounded-lg text-sm font-medium hover:shadow-lg hover:shadow-primary-500/25 transition-all duration-300"
+                    className="w-full px-3 py-2 bg-gradient-to-r from-primary-500 to-accent-500 text-white rounded-lg text-sm font-medium hover:shadow-lg hover:shadow-primary-500/25 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
                 >
                     Subscribe
                 </button>

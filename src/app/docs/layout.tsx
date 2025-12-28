@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion } from "framer-motion";
 import { IoSearch, IoMenu, IoClose, IoChevronForward } from "react-icons/io5";
 import DocsSidebar from "@/components/docs/DocsSidebar";
 import DocsSearch from "@/components/docs/DocsSearch";
@@ -139,14 +138,12 @@ export default function DocsLayout({
 
                     {/* Documentation content */}
                     <div className="docs-content">
-                        <motion.div
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.3 }}
+                        <div
+                            className="animate-fade-in"
                             key={pathname}
                         >
                             {children}
-                        </motion.div>
+                        </div>
                     </div>
                 </main>
             </div>

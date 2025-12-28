@@ -2,7 +2,6 @@
 
 import { docsConfig } from "@/config/docs";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { IoArrowForward, IoBookmark, IoSearch, IoRocket, IoApps } from "react-icons/io5";
 
 export default function DocsPage() {
@@ -60,11 +59,10 @@ export default function DocsPage() {
             <div className="grid md:grid-cols-2 gap-6 mb-12">
                 {docsConfig.sections.map((section, index) => {
                     return (
-                        <motion.div
+                        <div
                             key={section.slug}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.4, delay: index * 0.1 }}
+                            className="animate-fade-up"
+                            style={{ animationDelay: `${index * 0.1}s` }}
                         >
                             <div className="docs-section-card h-full">
                                 <div className="docs-section-card-icon">
@@ -107,7 +105,7 @@ export default function DocsPage() {
                                     </Link>
                                 </div>
                             </div>
-                        </motion.div>
+                        </div>
                     );
                 })}
             </div>

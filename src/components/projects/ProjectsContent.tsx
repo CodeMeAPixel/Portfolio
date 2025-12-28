@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Project } from '@/types/project';
 import {
     IoSearch, IoClose, IoGridOutline, IoListOutline, IoSwapVertical,
@@ -112,38 +111,29 @@ export default function ProjectsContent({
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"></div>
 
             {/* Floating orbs */}
-            <motion.div
-                className="absolute top-[10%] right-[5%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-primary-500/20 to-primary-600/5 blur-[100px]"
-                animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2] }}
-                transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+            <div
+                className="absolute top-[10%] right-[5%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-primary-500/20 to-primary-600/5 blur-[100px] animate-pulse"
             />
-            <motion.div
-                className="absolute bottom-[20%] left-[10%] w-[400px] h-[400px] rounded-full bg-gradient-to-tl from-primary-400/15 to-transparent blur-[80px]"
-                animate={{ scale: [1.2, 1, 1.2], opacity: [0.15, 0.3, 0.15] }}
-                transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            <div
+                className="absolute bottom-[20%] left-[10%] w-[400px] h-[400px] rounded-full bg-gradient-to-tl from-primary-400/15 to-transparent blur-[80px] animate-pulse"
+                style={{ animationDelay: '2s' }}
             />
 
             <div className="container-section relative z-10">
                 {/* Header */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
-                    className="flex flex-col md:flex-row md:items-end justify-between mb-14"
+                <div
+                    className="flex flex-col md:flex-row md:items-end justify-between mb-14 animate-fade-up"
                 >
                     <div>
                         <div className="flex justify-center md:justify-start mb-8">
-                            <motion.span
-                                className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-primary-300 glass-ultra rounded-full border border-primary-500/20 shadow-lg shadow-primary-500/10 shine-sweep"
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: 0.1 }}
+                            <span
+                                className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-primary-300 glass-ultra rounded-full border border-primary-500/20 shadow-lg shadow-primary-500/10 shine-sweep animate-fade-in"
                             >
                                 <div className="p-1.5 rounded-lg bg-gradient-to-r from-primary-500/30 to-accent-500/30">
                                     <IoSparkles className="w-4 h-4" />
                                 </div>
                                 Portfolio Showcase
-                            </motion.span>
+                            </span>
                         </div>
                         <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-center md:text-left mb-4">
                             <span className="text-color-text">My </span>
@@ -191,7 +181,7 @@ export default function ProjectsContent({
                                     </button>
                                 </DropdownMenu.Trigger>
                                 <DropdownMenu.Content
-                                    className="z-50 min-w-[200px] p-2 glass-ultra border border-white/10 shadow-2xl shadow-black/40 rounded-xl overflow-hidden animate-in fade-in-80 slide-in-from-top-5"
+                                    className="z-[200] min-w-[200px] p-2 bg-bg/95 backdrop-blur-xl border border-white/10 shadow-2xl shadow-black/40 rounded-xl overflow-hidden animate-in fade-in-80 slide-in-from-top-5"
                                     align="end"
                                     sideOffset={5}
                                 >
@@ -215,11 +205,8 @@ export default function ProjectsContent({
                         {/* Search */}
                         <div className="hidden md:flex relative items-center">
                             {isSearching ? (
-                                <motion.div
-                                    initial={{ opacity: 0, width: 0 }}
-                                    animate={{ opacity: 1, width: 'auto' }}
-                                    exit={{ opacity: 0, width: 0 }}
-                                    className="flex items-center"
+                                <div
+                                    className="flex items-center animate-fade-in"
                                 >
                                     <input
                                         id="project-search"
@@ -237,18 +224,16 @@ export default function ProjectsContent({
                                     >
                                         <IoClose className="w-4 h-4" />
                                     </button>
-                                </motion.div>
+                                </div>
                             ) : (
-                                <motion.button
+                                <button
                                     onClick={toggleSearch}
-                                    className="px-4 py-2.5 rounded-xl glass-frost border border-white/10 text-primary-300 text-sm flex items-center gap-2 hover:bg-white/10 hover:border-primary-500/30 transition-all duration-300 focus:outline-none"
-                                    whileHover={{ scale: 1.02 }}
-                                    whileTap={{ scale: 0.98 }}
+                                    className="px-4 py-2.5 rounded-xl glass-frost border border-white/10 text-primary-300 text-sm flex items-center gap-2 hover:bg-white/10 hover:border-primary-500/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 focus:outline-none"
                                     aria-label="Search projects"
                                 >
                                     <IoSearch className="w-4 h-4" />
                                     <span className="hidden sm:inline">Search</span>
-                                </motion.button>
+                                </button>
                             )}
                         </div>
 
@@ -264,7 +249,7 @@ export default function ProjectsContent({
                                     </button>
                                 </DropdownMenu.Trigger>
                                 <DropdownMenu.Content
-                                    className="z-50 min-w-[200px] max-h-[300px] overflow-y-auto p-2 glass-ultra border border-white/10 shadow-2xl shadow-black/40 rounded-xl animate-in fade-in-80 slide-in-from-top-5"
+                                    className="z-[200] min-w-[200px] max-h-[300px] overflow-y-auto p-2 bg-bg/95 backdrop-blur-xl border border-white/10 shadow-2xl shadow-black/40 rounded-xl animate-in fade-in-80 slide-in-from-top-5"
                                     align="end"
                                     sideOffset={5}
                                 >
@@ -287,7 +272,7 @@ export default function ProjectsContent({
                             </DropdownMenu.Root>
                         </div>
                     </div>
-                </motion.div>
+                </div>
 
                 {/* Mobile Controls */}
                 <div className="flex flex-col gap-4 mb-8 md:hidden">
@@ -378,10 +363,8 @@ export default function ProjectsContent({
 
                 {/* Search Results Summary */}
                 {debouncedSearchQuery && (
-                    <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="mb-8 p-4 glass-ultra rounded-xl border border-white/10 flex justify-between items-center"
+                    <div
+                        className="mb-8 p-4 glass-ultra rounded-xl border border-white/10 flex justify-between items-center animate-fade-in"
                     >
                         <p className="text-color-text-muted text-sm">
                             Found <span className="text-primary-300 font-semibold">{filteredProjects.length}</span> result{filteredProjects.length !== 1 ? 's' : ''} for &quot;<span className="text-color-text font-medium">{debouncedSearchQuery}</span>&quot;
@@ -393,19 +376,15 @@ export default function ProjectsContent({
                         >
                             <IoClose className="w-4 h-4" />
                         </button>
-                    </motion.div>
+                    </div>
                 )}
 
                 {/* Projects Grid/List */}
                 {filteredProjects.length > 0 ? (
-                    <AnimatePresence mode="wait">
+                    <>
                         {layout === 'grid' ? (
-                            <motion.div
+                            <div
                                 key="grid"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                transition={{ duration: 0.3 }}
                                 className="grid md:grid-cols-2 gap-8"
                             >
                                 {filteredProjects.map((project, index) => (
@@ -418,14 +397,10 @@ export default function ProjectsContent({
                                         isHovered={hoveredProject === project.id}
                                     />
                                 ))}
-                            </motion.div>
+                            </div>
                         ) : (
-                            <motion.div
+                            <div
                                 key="table"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                transition={{ duration: 0.3 }}
                                 className="flex flex-col gap-5"
                             >
                                 {filteredProjects.map((project, index) => (
@@ -438,15 +413,12 @@ export default function ProjectsContent({
                                         isHovered={hoveredProject === project.id}
                                     />
                                 ))}
-                            </motion.div>
+                            </div>
                         )}
-                    </AnimatePresence>
+                    </>
                 ) : (
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
-                        className="text-center p-12 glass-ultra border border-white/10 rounded-2xl shine-sweep"
+                    <div
+                        className="text-center p-12 glass-ultra border border-white/10 rounded-2xl shine-sweep animate-fade-up"
                     >
                         <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-r from-primary-500/20 to-accent-500/20 flex items-center justify-center">
                             <IoSearch className="w-8 h-8 text-primary-400" />
@@ -478,7 +450,7 @@ export default function ProjectsContent({
                                 </button>
                             )}
                         </div>
-                    </motion.div>
+                    </div>
                 )}
             </div>
         </section>

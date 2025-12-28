@@ -1,13 +1,12 @@
 "use client";
 
-import { motion } from 'framer-motion';
 import { useState } from 'react';
 import Link from 'next/link';
 
 import {
     IoArrowBack, IoCalendarOutline, IoCheckmarkCircle, IoCodeSlashOutline,
     IoLogoGithub, IoPricetagOutline, IoTimeOutline, IoChevronDown, IoChevronUp,
-    IoLinkOutline, IoInformationCircleOutline, IoSparkles
+    IoLinkOutline, IoSparkles
 } from 'react-icons/io5';
 
 import type { FivemScript } from '@/types/fivem';
@@ -30,35 +29,19 @@ export default function FivemScriptDetailsContent({ script }: FivemScriptDetails
             </div>
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"></div>
 
-            {/* Floating Orbs */}
+            {/* Floating Orbs - CSS animations */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <motion.div
-                    className="absolute top-20 left-1/4 w-72 h-72 bg-gradient-to-br from-primary-500/15 to-purple-500/10 rounded-full blur-3xl"
-                    animate={{
-                        scale: [1, 1.2, 1],
-                        opacity: [0.15, 0.25, 0.15],
-                        x: [0, 30, 0],
-                    }}
-                    transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+                <div
+                    className="absolute top-20 left-1/4 w-72 h-72 bg-gradient-to-br from-primary-500/15 to-purple-500/10 rounded-full blur-3xl animate-float-slow"
                 />
-                <motion.div
-                    className="absolute bottom-40 right-1/4 w-96 h-96 bg-gradient-to-br from-accent-500/10 to-primary-500/15 rounded-full blur-3xl"
-                    animate={{
-                        scale: [1.2, 1, 1.2],
-                        opacity: [0.2, 0.3, 0.2],
-                        y: [0, -20, 0],
-                    }}
-                    transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+                <div
+                    className="absolute bottom-40 right-1/4 w-96 h-96 bg-gradient-to-br from-accent-500/10 to-primary-500/15 rounded-full blur-3xl animate-float-medium"
                 />
             </div>
 
             <div className="relative z-10 container-section max-w-6xl py-24">
                 {/* Back Button */}
-                <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.4 }}
-                >
+                <div className="animate-fade-in">
                     <Link
                         href="/fivem"
                         className="inline-flex items-center gap-2 px-4 py-2 glass-frost rounded-full text-primary-400 hover:text-primary-300 hover:bg-white/10 transition-all duration-300 mb-8 group"
@@ -66,49 +49,32 @@ export default function FivemScriptDetailsContent({ script }: FivemScriptDetails
                         <IoArrowBack className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
                         <span>Back to all scripts</span>
                     </Link>
-                </motion.div>
+                </div>
 
                 <div className="grid md:grid-cols-3 gap-8">
                     {/* Left column - Images and quick info */}
-                    <motion.div
-                        className="md:col-span-2"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5 }}
-                    >
+                    <div className="md:col-span-2 animate-fade-in-up">
                         {/* Script title and status */}
                         <div className="flex flex-wrap justify-between items-start mb-6">
                             <div>
-                                <motion.h1
-                                    className="text-3xl md:text-4xl lg:text-5xl font-bold mb-2"
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.5 }}
-                                >
+                                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-2 animate-fade-in-up">
                                     <span className="animated-gradient-text text-shadow-glow">{script.title}</span>
-                                </motion.h1>
+                                </h1>
                             </div>
                             <StatusBadge status={script.status} />
                         </div>
 
                         {/* Image carousel - Premium Glass Container */}
-                        <motion.div
-                            className="aspect-video relative w-full glass-ultra rounded-2xl overflow-hidden p-1 mb-8"
-                            initial={{ opacity: 0, scale: 0.98 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.5, delay: 0.1 }}
+                        <div
+                            className="aspect-video relative w-full glass-ultra rounded-2xl overflow-hidden p-1 mb-8 animate-fade-in-up"
+                            style={{ animationDelay: '100ms' }}
                         >
                             <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 via-transparent to-accent-500/5 pointer-events-none" />
                             <ImageCarousel images={script.images} className="w-full h-full rounded-xl" />
-                        </motion.div>
+                        </div>
 
                         {/* Premium Tabs */}
-                        <motion.div
-                            className="mb-8"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: 0.2 }}
-                        >
+                        <div className="mb-8 animate-fade-in-up" style={{ animationDelay: '200ms' }}>
                             <div className="flex gap-2 p-1.5 glass-frost rounded-xl mb-6">
                                 <button
                                     className={`px-4 py-2.5 font-medium text-sm rounded-lg transition-all duration-300 ${activeTab === 'description'
@@ -143,13 +109,7 @@ export default function FivemScriptDetailsContent({ script }: FivemScriptDetails
                                 )}
                             </div>
 
-                            <motion.div
-                                key={activeTab}
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.3 }}
-                                className="glass-ultra rounded-xl p-6"
-                            >
+                            <div className="glass-ultra rounded-xl p-6 animate-fade-in">
                                 {activeTab === 'description' && (
                                     <div className="prose prose-invert max-w-none">
                                         <p className="text-color-text-muted leading-relaxed">{script.longDescription}</p>
@@ -183,15 +143,13 @@ export default function FivemScriptDetailsContent({ script }: FivemScriptDetails
                                         </ul>
                                     </div>
                                 )}
-                            </motion.div>
-                        </motion.div>
+                            </div>
+                        </div>
 
                         {/* Feature list - Premium Card */}
-                        <motion.div
-                            className="glass-ultra rounded-2xl p-6 mb-8 shine-sweep"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: 0.3 }}
+                        <div
+                            className="glass-ultra rounded-2xl p-6 mb-8 shine-sweep animate-fade-in-up"
+                            style={{ animationDelay: '300ms' }}
                         >
                             <h2 className="text-xl font-bold text-color-text mb-6 flex items-center gap-3">
                                 <div className="p-2 rounded-lg bg-gradient-to-r from-primary-500/20 to-accent-500/20">
@@ -201,27 +159,23 @@ export default function FivemScriptDetailsContent({ script }: FivemScriptDetails
                             </h2>
                             <div className="grid sm:grid-cols-2 gap-3">
                                 {script.features.map((feature, index) => (
-                                    <motion.div
+                                    <div
                                         key={index}
-                                        className="flex items-start gap-3 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-all duration-300 group"
-                                        initial={{ opacity: 0, x: -10 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        transition={{ duration: 0.3, delay: 0.4 + index * 0.05 }}
+                                        className="flex items-start gap-3 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-all duration-300 group animate-fade-in"
+                                        style={{ animationDelay: `${400 + index * 50}ms` }}
                                     >
                                         <IoCheckmarkCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform" />
                                         <span className="text-color-text-muted group-hover:text-color-text transition-colors">{feature}</span>
-                                    </motion.div>
+                                    </div>
                                 ))}
                             </div>
-                        </motion.div>
+                        </div>
 
                         {/* Embedded video if available */}
                         {script.video && (
-                            <motion.div
-                                className="mb-8"
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5, delay: 0.4 }}
+                            <div
+                                className="mb-8 animate-fade-in-up"
+                                style={{ animationDelay: '400ms' }}
                             >
                                 <h2 className="text-xl font-bold text-color-text mb-4">Video Preview</h2>
                                 <div className="relative pt-[56.25%] glass-ultra rounded-2xl overflow-hidden p-1">
@@ -233,16 +187,14 @@ export default function FivemScriptDetailsContent({ script }: FivemScriptDetails
                                         allowFullScreen
                                     ></iframe>
                                 </div>
-                            </motion.div>
+                            </div>
                         )}
-                    </motion.div>
+                    </div>
 
                     {/* Right column - Purchase info, details, etc. */}
-                    <motion.div
-                        className="md:col-span-1 space-y-6"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
+                    <div
+                        className="md:col-span-1 space-y-6 animate-fade-in-up"
+                        style={{ animationDelay: '200ms' }}
                     >
                         {/* Purchase card - Premium */}
                         <div className="glass-ultra rounded-2xl p-6 shine-sweep spotlight">
@@ -364,19 +316,14 @@ export default function FivemScriptDetailsContent({ script }: FivemScriptDetails
                                 </button>
 
                                 {isRequirementsExpanded && (
-                                    <motion.div
-                                        className="mt-4 space-y-2"
-                                        initial={{ opacity: 0, height: 0 }}
-                                        animate={{ opacity: 1, height: 'auto' }}
-                                        transition={{ duration: 0.3 }}
-                                    >
+                                    <div className="mt-4 space-y-2 animate-fade-in">
                                         {script.requirements.map((req, index) => (
                                             <div key={index} className="flex items-start gap-3 p-3 rounded-lg bg-white/5">
                                                 <IoCheckmarkCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
                                                 <span className="text-color-text-muted">{req}</span>
                                             </div>
                                         ))}
-                                    </motion.div>
+                                    </div>
                                 )}
                             </div>
                         )}
@@ -395,7 +342,7 @@ export default function FivemScriptDetailsContent({ script }: FivemScriptDetails
                                 ))}
                             </div>
                         </div>
-                    </motion.div>
+                    </div>
                 </div>
             </div>
         </section>

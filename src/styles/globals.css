@@ -2198,3 +2198,281 @@ html, body {
   color: rgb(var(--color-text));
   border-radius: 0 0.5rem 0.5rem 0;
 }
+/* ===== MOBILE PERFORMANCE OPTIMIZATIONS ===== */
+/* Disable heavy animations on mobile devices (< 768px) to improve performance */
+
+@media (max-width: 768px) {
+  /* Disable GPU-intensive blur effects on mobile */
+  .blur-behind,
+  .glass-card,
+  .glass-ultra,
+  .glass-frost,
+  .glass-effect {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  /* Simplify gradient backgrounds on mobile */
+  .bg-aurora {
+    background: linear-gradient(135deg, rgba(var(--color-primary-600), 0.1) 0%, transparent 40%);
+    animation: none;
+  }
+
+  .bg-mesh-gradient {
+    background-image: radial-gradient(at 40% 20%, rgba(var(--color-primary-600), 0.08) 0px, transparent 50%);
+  }
+
+  /* Disable expensive animation utilities on mobile */
+  .animate-pulse,
+  .animate-spin,
+  .animate-bounce,
+  .animate-pulse-slow,
+  .animate-scroll-indicator,
+  .animate-pixelGrid,
+  .animate-float,
+  .animate-pulse-glow,
+  .animate-gradient,
+  .float,
+  .morph,
+  .glow-pulse,
+  .shimmer-effect,
+  .animated-gradient-text,
+  .text-shine,
+  .hover-glow,
+  .card-lift,
+  .magnetic-hover,
+  .gradient-border-animated,
+  .rainbow-border,
+  .spotlight,
+  .pulse-ring,
+  .shine-sweep {
+    animation: none !important;
+  }
+
+  /* Disable complex blur effects on elements */
+  .blur-3xl,
+  .blur-2xl,
+  .blur-xl {
+    filter: blur(4px);
+  }
+
+  /* Simplify box shadows on mobile */
+  .shadow-xl,
+  .shadow-2xl,
+  .shadow-lg {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+
+  /* Reduce animation duration for remaining animations */
+  .animate-in,
+  .fade-in-80,
+  .slide-in-from-top-5 {
+    animation-duration: 100ms !important;
+  }
+
+  /* Disable morphing animations */
+  .morph {
+    border-radius: 1rem;
+  }
+
+  /* Disable parallax/float animations on mobile */
+  .float-diagonal,
+  .float,
+  .morph,
+  .float-slow {
+    animation: none !important;
+    transform: none;
+  }
+
+  /* Optimize gradient borders for mobile */
+  .animated-border::before,
+  .gradient-border-animated::before,
+  .rainbow-border::before {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+
+  /* Disable hover-triggered animations on touch devices */
+  .card-glow::after,
+  .blog-card-glow,
+  .inner-glow {
+    opacity: 0 !important;
+    animation: none !important;
+  }
+
+  /* Simplify pixel grid effects on mobile */
+  .pixel-grid-layer-1,
+  .pixel-grid-layer-2 {
+    animation: none !important;
+    opacity: 0.05;
+  }
+
+  /* Disable glitch effects on mobile */
+  .glitch-active .pixel-grid-layer-1,
+  .glitch-active .pixel-grid-layer-2,
+  .glitch-slice-1,
+  .glitch-slice-2,
+  .glitch-noise,
+  .glitch-text {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+
+  /* Reduce filter effects on mobile */
+  .filter {
+    filter: none !important;
+  }
+
+  /* Optimize will-change for mobile */
+  .will-change-auto,
+  .will-change-scroll,
+  .will-change-contents,
+  .will-change-transform {
+    will-change: auto !important;
+  }
+
+  /* Disable perspective transforms on mobile */
+  .perspective-hover {
+    perspective: none;
+    transform-style: flat;
+  }
+
+  .perspective-hover:hover {
+    transform: none;
+  }
+
+  /* Simplify code block animations */
+  .code-block-container {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .code-block-container:hover {
+    transform: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Reduce aurora/glow animations */
+  .aurora {
+    animation: none !important;
+  }
+
+  /* Disable shine effects on mobile */
+  .shine-sweep::after {
+    animation: none !important;
+  }
+
+  /* Optimize pulse ring for mobile */
+  .pulse-ring::after {
+    animation: none !important;
+  }
+
+  /* Disable 3D transforms */
+  .transform-gpu {
+    transform: translate(0, 0);
+  }
+
+  /* Reduce font rendering overhead */
+  body, html {
+    text-rendering: optimizeSpeed;
+    font-smoothing: antialiased;
+  }
+
+  /* Disable text shine effects */
+  .text-shine {
+    animation: none !important;
+  }
+
+  /* Disable border beam animations */
+  .border-beam {
+    animation: none !important;
+  }
+
+  /* Optimize mobile transitions */
+  button,
+  a,
+  [role="button"] {
+    transition: all 0.15s ease !important;
+  }
+
+  /* Remove expensive transform transitions */
+  .transition-transform,
+  .duration-300,
+  .duration-500,
+  .duration-700 {
+    transition-duration: 100ms !important;
+  }
+
+  /* Disable large blur effects on decorative elements */
+  [class*="blur-"],
+  .blur-xl,
+  .blur-2xl,
+  .blur-3xl {
+    filter: blur(2px) !important;
+  }
+}
+
+/* ===== ACCESSIBILITY: RESPECT prefers-reduced-motion ===== */
+/* Disable ALL animations for users who prefer reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Explicitly disable specific animations */
+  @keyframes shimmer {
+    to { background-position: 0 0; }
+  }
+
+  @keyframes gradient-x {
+    to { background-position: 0% 50%; }
+  }
+
+  @keyframes gradient-y {
+    to { background-position: 50% 0%; }
+  }
+
+  @keyframes float-slow {
+    to { transform: none; }
+  }
+
+  @keyframes glow-pulse {
+    to { box-shadow: 0 0 20px rgba(var(--color-primary-500), 0.3); }
+  }
+
+  @keyframes border-beam {
+    to { background-position: 0% 50%; }
+  }
+
+  @keyframes aurora {
+    to { background-position: 50% 50%; filter: none; }
+  }
+
+  @keyframes spotlight {
+    to { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+  }
+
+  @keyframes morph {
+    to { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+  }
+
+  @keyframes float-diagonal {
+    to { transform: translate(0, 0) rotate(0deg); }
+  }
+
+  @keyframes text-shine {
+    to { background-position: 0% 50%; }
+  }
+
+  @keyframes pulse-ring {
+    to { transform: scale(0.8); opacity: 1; }
+  }
+
+  /* Ensure smooth scrolling is preserved */
+  html {
+    scroll-behavior: auto;
+  }
+}

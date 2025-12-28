@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
 import { IoChevronDown, IoChevronForward, IoApps } from "react-icons/io5";
 import { docsConfig } from "@/config/docs";
 
@@ -75,29 +74,23 @@ export default function DocsSidebar() {
                     <IoChevronDown className={`w-4 h-4 text-color-text-muted transition-transform ${isSectionDropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
 
-                <AnimatePresence>
-                    {isSectionDropdownOpen && (
-                        <motion.div
-                            initial={{ opacity: 0, y: -10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -10 }}
-                            transition={{ duration: 0.15 }}
-                            className="absolute top-full left-0 right-0 mt-1 bg-card border border-color-border rounded-lg shadow-lg z-10 py-1.5 max-h-64 overflow-y-auto"
-                        >
-                            {docsConfig.sections.map((section) => (
-                                <button
-                                    key={section.slug}
-                                    onClick={() => handleSectionChange(section.slug)}
-                                    className={`w-full text-left px-3 py-2 flex items-center gap-2 hover:bg-bg-alt transition-colors ${section.slug === currentSection.slug ? 'text-primary-400 bg-bg-alt/50' : 'text-color-text-muted'
-                                        }`}
-                                >
-                                    {section.icon && <section.icon className="w-4 h-4" />}
-                                    <span>{section.name}</span>
-                                </button>
-                            ))}
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+                {isSectionDropdownOpen && (
+                    <div
+                        className="absolute top-full left-0 right-0 mt-1 bg-card border border-color-border rounded-lg shadow-lg z-10 py-1.5 max-h-64 overflow-y-auto animate-fade-in"
+                    >
+                        {docsConfig.sections.map((section) => (
+                            <button
+                                key={section.slug}
+                                onClick={() => handleSectionChange(section.slug)}
+                                className={`w-full text-left px-3 py-2 flex items-center gap-2 hover:bg-bg-alt transition-colors ${section.slug === currentSection.slug ? 'text-primary-400 bg-bg-alt/50' : 'text-color-text-muted'
+                                    }`}
+                            >
+                                {section.icon && <section.icon className="w-4 h-4" />}
+                                <span>{section.name}</span>
+                            </button>
+                        ))}
+                    </div>
+                )}
             </div>
 
             {/* Category navigation for current section */}
@@ -118,41 +111,35 @@ export default function DocsSidebar() {
                             )}
                         </button>
 
-                        <AnimatePresence>
-                            {expandedSections[category.title] && (
-                                <motion.ul
-                                    initial={{ opacity: 0, height: 0 }}
-                                    animate={{ opacity: 1, height: "auto" }}
-                                    exit={{ opacity: 0, height: 0 }}
-                                    transition={{ duration: 0.2 }}
-                                    className="ml-2 space-y-0.5 border-l border-color-border pl-3 pt-1 pb-1"
-                                >
-                                    {category.items.map((item) => {
-                                        const isActive = pathname === item.href;
+                        {expandedSections[category.title] && (
+                            <ul
+                                className="ml-2 space-y-0.5 border-l border-color-border pl-3 pt-1 pb-1 animate-fade-in"
+                            >
+                                {category.items.map((item) => {
+                                    const isActive = pathname === item.href;
 
-                                        return (
-                                            <li key={item.href}>
-                                                <Link
-                                                    href={item.href}
-                                                    className={`
-                                                        block py-1 text-sm rounded-md pl-2 transition-colors
-                                                        ${isActive
-                                                            ? "text-primary-400 font-medium bg-primary-900/20"
-                                                            : "text-color-text-muted hover:text-color-text hover:bg-bg-alt"
-                                                        }
-                                                    `}
-                                                >
-                                                    <div className="flex items-center gap-2">
-                                                        {item.icon && <item.icon className="w-3.5 h-3.5 flex-shrink-0" />}
-                                                        <span className="line-clamp-1">{item.title}</span>
-                                                    </div>
-                                                </Link>
-                                            </li>
-                                        );
-                                    })}
-                                </motion.ul>
-                            )}
-                        </AnimatePresence>
+                                    return (
+                                        <li key={item.href}>
+                                            <Link
+                                                href={item.href}
+                                                className={`
+                                                    block py-1 text-sm rounded-md pl-2 transition-colors
+                                                    ${isActive
+                                                        ? "text-primary-400 font-medium bg-primary-900/20"
+                                                        : "text-color-text-muted hover:text-color-text hover:bg-bg-alt"
+                                                    }
+                                                `}
+                                            >
+                                                <div className="flex items-center gap-2">
+                                                    {item.icon && <item.icon className="w-3.5 h-3.5 flex-shrink-0" />}
+                                                    <span className="line-clamp-1">{item.title}</span>
+                                                </div>
+                                            </Link>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        )}
                     </div>
                 ))}
             </nav>

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { Referral, ReferralCategory } from '@/types/referrals';
 import * as IoIcons from 'react-icons/io5';
@@ -67,37 +66,19 @@ export default function ReferralsContent({ referrals, categories }: ReferralsCon
             </div>
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"></div>
 
-            {/* Animated floating orbs */}
-            <motion.div
-                className="absolute top-[10%] right-[5%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-primary-500/20 to-primary-600/5 blur-[100px]"
-                animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2] }}
-                transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <motion.div
-                className="absolute bottom-[15%] left-[10%] w-[400px] h-[400px] rounded-full bg-gradient-to-tl from-primary-400/15 to-transparent blur-[80px]"
-                animate={{ scale: [1.2, 1, 1.2], opacity: [0.15, 0.3, 0.15] }}
-                transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-            />
+            {/* Animated floating orbs - CSS animations */}
+            <div className="absolute top-[10%] right-[5%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-primary-500/20 to-primary-600/5 blur-[100px] animate-float-slow" />
+            <div className="absolute bottom-[15%] left-[10%] w-[400px] h-[400px] rounded-full bg-gradient-to-tl from-primary-400/15 to-transparent blur-[80px] animate-float-medium" />
 
             <div className="container-section relative z-10">
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
-                    className="mb-16 text-center"
-                >
+                <div className="mb-16 text-center animate-fade-in">
                     {/* Premium Badge */}
-                    <motion.div
-                        className="flex justify-center mb-8"
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.1 }}
-                    >
+                    <div className="flex justify-center mb-8 animate-fade-in-up">
                         <span className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-primary-300 glass-frost rounded-full">
                             <IoGiftOutline className="w-4 h-4" />
                             Exclusive Offers
                         </span>
-                    </motion.div>
+                    </div>
 
                     <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6">
                         <span className="text-color-text">Referrals & </span>
@@ -107,16 +88,11 @@ export default function ReferralsContent({ referrals, categories }: ReferralsCon
                         Use these referral links and promo codes to get discounts on products and services I recommend.
                         I may receive a commission or credit when you use these links at no extra cost to you.
                     </p>
-                </motion.div>
+                </div>
 
                 <div className="flex flex-col items-center mb-14">
                     {/* Premium Search bar */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.1 }}
-                        className="relative max-w-lg w-full mb-8"
-                    >
+                    <div className="relative max-w-lg w-full mb-8 animate-fade-in-up" style={{ animationDelay: '100ms' }}>
                         <div className="relative glass-ultra rounded-2xl overflow-hidden">
                             <div className="absolute left-5 top-1/2 -translate-y-1/2 text-primary-400">
                                 <IoSearchOutline className="w-5 h-5" />
@@ -138,20 +114,15 @@ export default function ReferralsContent({ referrals, categories }: ReferralsCon
                                 </button>
                             )}
                         </div>
-                    </motion.div>
+                    </div>
 
                     {/* Premium Category tabs */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                        className="flex flex-wrap justify-center gap-3 p-3 rounded-2xl glass-ultra"
-                    >
+                    <div className="flex flex-wrap justify-center gap-3 p-3 rounded-2xl glass-ultra animate-fade-in-up" style={{ animationDelay: '200ms' }}>
                         <button
-                            className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 flex items-center gap-2
+                            className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 flex items-center gap-2 hover:scale-105 active:scale-95
                                 ${activeCategory === null
                                     ? 'bg-gradient-to-r from-primary-600 to-primary-400 text-white shadow-lg shadow-primary-500/30'
-                                    : 'text-color-text-muted hover:text-color-text glass-frost hover:scale-105'
+                                    : 'text-color-text-muted hover:text-color-text glass-frost'
                                 }`}
                             onClick={() => setActiveCategory(null)}
                         >
@@ -162,10 +133,10 @@ export default function ReferralsContent({ referrals, categories }: ReferralsCon
                         {categories.map(category => (
                             <button
                                 key={category.id}
-                                className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 flex items-center gap-2
+                                className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 flex items-center gap-2 hover:scale-105 active:scale-95
                                     ${activeCategory === category.id
                                         ? 'bg-gradient-to-r from-primary-600 to-primary-400 text-white shadow-lg shadow-primary-500/30'
-                                        : 'text-color-text-muted hover:text-color-text glass-frost hover:scale-105'
+                                        : 'text-color-text-muted hover:text-color-text glass-frost'
                                     }`}
                                 onClick={() => setActiveCategory(category.id)}
                             >
@@ -173,25 +144,12 @@ export default function ReferralsContent({ referrals, categories }: ReferralsCon
                                 {category.name}
                             </button>
                         ))}
-                    </motion.div>
+                    </div>
                 </div>
 
                 {/* Display referrals */}
                 {filteredReferrals.length > 0 ? (
-                    <motion.div
-                        className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
-                        variants={{
-                            hidden: { opacity: 0 },
-                            show: {
-                                opacity: 1,
-                                transition: {
-                                    staggerChildren: 0.1
-                                }
-                            }
-                        }}
-                        initial="hidden"
-                        animate="show"
-                    >
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         {filteredReferrals.map((referral, index) => (
                             <ReferralCard
                                 key={referral.id}
@@ -201,14 +159,9 @@ export default function ReferralsContent({ referrals, categories }: ReferralsCon
                                 onCopyCode={handleCopyCode}
                             />
                         ))}
-                    </motion.div>
+                    </div>
                 ) : (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.5, delay: 0.3 }}
-                        className="text-center p-16 glass-ultra rounded-3xl"
-                    >
+                    <div className="text-center p-16 glass-ultra rounded-3xl animate-fade-in">
                         <div className="w-20 h-20 mx-auto mb-6 rounded-2xl glass-frost flex items-center justify-center">
                             <IoSearchOutline className="w-10 h-10 text-primary-400" />
                         </div>
@@ -220,7 +173,7 @@ export default function ReferralsContent({ referrals, categories }: ReferralsCon
                             {searchQuery && (
                                 <button
                                     onClick={() => setSearchQuery('')}
-                                    className="px-6 py-3 rounded-xl font-semibold glass-frost text-primary-400 hover:scale-105 transition-all duration-300"
+                                    className="px-6 py-3 rounded-xl font-semibold glass-frost text-primary-400 hover:scale-105 active:scale-95 transition-all duration-300"
                                 >
                                     Clear Search
                                 </button>
@@ -228,14 +181,14 @@ export default function ReferralsContent({ referrals, categories }: ReferralsCon
                             {activeCategory !== null && (
                                 <button
                                     onClick={() => setActiveCategory(null)}
-                                    className="relative px-6 py-3 rounded-xl font-semibold overflow-hidden shine-sweep"
+                                    className="relative px-6 py-3 rounded-xl font-semibold overflow-hidden shine-sweep hover:scale-[1.02] active:scale-[0.98] transition-transform"
                                 >
                                     <span className="absolute inset-0 bg-gradient-to-r from-primary-600 to-primary-400"></span>
                                     <span className="relative z-10 text-white">Show All Referrals</span>
                                 </button>
                             )}
                         </div>
-                    </motion.div>
+                    </div>
                 )}
             </div>
         </section>
@@ -254,24 +207,16 @@ function ReferralCard({
     copiedCode: string | null;
     onCopyCode: (code: string) => void;
 }) {
-    const [isHovered, setIsHovered] = useState(false);
     const [imageError, setImageError] = useState(false);
 
     return (
-        <motion.div
-            variants={{
-                hidden: { opacity: 0, y: 30, scale: 0.95 },
-                show: { opacity: 1, y: 0, scale: 1 }
-            }}
-            className="flex flex-col h-full"
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            whileHover={{ y: -8, transition: { duration: 0.3 } }}
+        <div
+            className="flex flex-col h-full animate-fade-in-up hover:-translate-y-2 transition-transform duration-300"
+            style={{ animationDelay: `${index * 100}ms` }}
         >
             <div className="relative h-full overflow-hidden rounded-2xl glass-ultra transition-all duration-500 group">
                 {/* Animated glow border on hover */}
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary-500/0 via-primary-500/20 to-primary-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
                 {/* Spotlight effect */}
                 <div className="absolute inset-0 spotlight opacity-0 group-hover:opacity-50 transition-opacity duration-500"></div>
 
@@ -302,11 +247,7 @@ function ReferralCard({
                         // Premium fallback gradient background
                         <div className="w-full h-full bg-gradient-to-br from-primary-900/40 to-bg relative">
                             <div className="absolute inset-0 bg-dot-pattern opacity-30"></div>
-                            <motion.div
-                                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-primary-500/20 rounded-full blur-3xl"
-                                animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0.5, 0.3] }}
-                                transition={{ duration: 4, repeat: Infinity }}
-                            />
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-primary-500/20 rounded-full blur-3xl animate-pulse" />
                             <div className="absolute inset-0 flex items-center justify-center">
                                 <div className="px-6 py-3 rounded-xl glass-frost text-lg font-bold text-primary-300">
                                     {referral.company}
@@ -370,7 +311,7 @@ function ReferralCard({
                                 </div>
                                 <button
                                     onClick={() => onCopyCode(referral.code!)}
-                                    className={`px-4 py-3 rounded-r-xl transition-all duration-300 flex items-center justify-center ${copiedCode === referral.code
+                                    className={`px-4 py-3 rounded-r-xl transition-all duration-300 flex items-center justify-center hover:scale-105 active:scale-95 ${copiedCode === referral.code
                                         ? 'bg-green-500/20 text-green-300'
                                         : 'bg-primary-500/20 hover:bg-primary-500/30 text-primary-300'
                                         }`}
@@ -387,22 +328,20 @@ function ReferralCard({
                     )}
 
                     {/* Premium Get Offer button */}
-                    <motion.a
+                    <a
                         href={referral.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group/btn relative w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-semibold overflow-hidden shine-sweep"
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
+                        className="group/btn relative w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-semibold overflow-hidden shine-sweep hover:scale-[1.02] active:scale-[0.98] transition-transform"
                     >
                         <span className="absolute inset-0 bg-gradient-to-r from-primary-600 to-primary-400"></span>
                         <span className="relative z-10 flex items-center gap-2 text-white">
                             Get Offer
                             <IoArrowForward className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
                         </span>
-                    </motion.a>
+                    </a>
                 </div>
             </div>
-        </motion.div>
+        </div>
     );
 }

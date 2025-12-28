@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from 'framer-motion';
 import Link from 'next/link';
 import type { PostMetadata } from '@/lib/mdx';
 import type { BlogPost } from '@/types/blog';
@@ -34,31 +33,18 @@ export default function BlogPostContent({ content, metadata, readingTime, relate
 
             {/* Floating Orbs */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <motion.div
-                    className="absolute top-40 right-1/4 w-72 h-72 bg-gradient-to-br from-primary-500/15 to-purple-500/10 rounded-full blur-3xl"
-                    animate={{
-                        scale: [1, 1.2, 1],
-                        opacity: [0.15, 0.25, 0.15],
-                    }}
-                    transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+                <div
+                    className="absolute top-40 right-1/4 w-72 h-72 bg-gradient-to-br from-primary-500/15 to-purple-500/10 rounded-full blur-3xl animate-pulse"
                 />
-                <motion.div
-                    className="absolute bottom-60 left-1/4 w-80 h-80 bg-gradient-to-br from-accent-500/10 to-primary-500/15 rounded-full blur-3xl"
-                    animate={{
-                        scale: [1.2, 1, 1.2],
-                        opacity: [0.2, 0.3, 0.2],
-                    }}
-                    transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+                <div
+                    className="absolute bottom-60 left-1/4 w-80 h-80 bg-gradient-to-br from-accent-500/10 to-primary-500/15 rounded-full blur-3xl animate-pulse"
+                    style={{ animationDelay: '2s' }}
                 />
             </div>
 
             <div className="relative z-10 container-section max-w-4xl mx-auto py-24">
                 {/* Premium Back Button */}
-                <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.4 }}
-                >
+                <div className="animate-fade-up">
                     <Link
                         href="/blog"
                         className="inline-flex items-center gap-2 px-4 py-2 glass-frost rounded-full text-primary-400 hover:text-primary-300 hover:bg-white/10 transition-all duration-300 mb-8 group"
@@ -66,14 +52,10 @@ export default function BlogPostContent({ content, metadata, readingTime, relate
                         <IoArrowBack className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
                         <span>Back to all posts</span>
                     </Link>
-                </motion.div>
+                </div>
 
                 <article>
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5 }}
-                    >
+                    <div className="animate-fade-up" style={{ animationDelay: '0.1s' }}>
                         <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
                             <span className="animated-gradient-text text-shadow-glow">{metadata.title}</span>
                         </h1>
@@ -105,25 +87,21 @@ export default function BlogPostContent({ content, metadata, readingTime, relate
                                 </div>
                             )}
                         </div>
-                    </motion.div>
+                    </div>
 
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
-                        className="glass-ultra rounded-2xl p-6 md:p-10"
+                    <div
+                        className="glass-ultra rounded-2xl p-6 md:p-10 animate-fade-in"
+                        style={{ animationDelay: '0.2s' }}
                     >
                         {isMounted && (
                             <MDXContent source={content} />
                         )}
-                    </motion.div>
+                    </div>
 
                     {/* Share and tags section at the bottom - Premium */}
-                    <motion.div
-                        className="mt-8 glass-ultra rounded-2xl p-6"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.3 }}
+                    <div
+                        className="mt-8 glass-ultra rounded-2xl p-6 animate-fade-up"
+                        style={{ animationDelay: '0.3s' }}
                     >
                         <div className="flex flex-wrap justify-between items-center gap-6">
                             <div>
@@ -173,7 +151,7 @@ export default function BlogPostContent({ content, metadata, readingTime, relate
                                 </div>
                             </div>
                         </div>
-                    </motion.div>
+                    </div>
                 </article>
             </div>
         </section>

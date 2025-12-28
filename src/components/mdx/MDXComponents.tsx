@@ -3,7 +3,6 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 
 // Custom Link component that wraps Next.js Link
 const CustomLink = ({ href, children, ...props }: React.ComponentPropsWithoutRef<"a">) => {
@@ -31,39 +30,25 @@ const CustomLink = ({ href, children, ...props }: React.ComponentPropsWithoutRef
     );
 };
 
-// Custom heading components with animations
-const headingVariants = {
-    hidden: { opacity: 0, y: 10 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
-};
-
+// Custom heading components with CSS animations
 const H1 = (props: React.ComponentPropsWithoutRef<"h1">) => (
-    <motion.h1
-        initial="hidden"
-        animate="visible"
-        variants={headingVariants}
-        className="heading-primary mb-4"
-        {...(props as any)}
+    <h1
+        className="heading-primary mb-4 animate-fade-up"
+        {...props}
     />
 );
 
 const H2 = (props: React.ComponentPropsWithoutRef<"h2">) => (
-    <motion.h2
-        initial="hidden"
-        animate="visible"
-        variants={headingVariants}
-        className="heading-secondary mt-12 mb-4 pb-2 border-b border-primary-700/30"
-        {...(props as any)}
+    <h2
+        className="heading-secondary mt-12 mb-4 pb-2 border-b border-primary-700/30 animate-fade-up"
+        {...props}
     />
 );
 
 const H3 = (props: React.ComponentPropsWithoutRef<"h3">) => (
-    <motion.h3
-        initial="hidden"
-        animate="visible"
-        variants={headingVariants}
-        className="text-xl font-bold mt-8 mb-4 text-primary-300"
-        {...(props as any)}
+    <h3
+        className="text-xl font-bold mt-8 mb-4 text-primary-300 animate-fade-up"
+        {...props}
     />
 );
 

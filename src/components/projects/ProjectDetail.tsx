@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { Project } from '@/types/project';
 import { useState, useEffect } from 'react';
@@ -83,40 +82,23 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 
             {/* Enhanced Floating Orbs */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <motion.div
-                    className="absolute top-32 right-1/4 w-96 h-96 bg-gradient-to-br from-primary-500/20 to-accent-500/10 rounded-full blur-[120px]"
-                    animate={{
-                        scale: [1, 1.3, 1],
-                        opacity: [0.2, 0.35, 0.2],
-                        y: [0, -40, 0],
-                    }}
-                    transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+                <div
+                    className="absolute top-32 right-1/4 w-96 h-96 bg-gradient-to-br from-primary-500/20 to-accent-500/10 rounded-full blur-[120px] animate-pulse"
                 />
-                <motion.div
-                    className="absolute bottom-40 left-1/4 w-[500px] h-[500px] bg-gradient-to-br from-accent-500/15 to-primary-500/20 rounded-full blur-[150px]"
-                    animate={{
-                        scale: [1.2, 1, 1.2],
-                        opacity: [0.15, 0.3, 0.15],
-                        x: [0, 30, 0],
-                    }}
-                    transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+                <div
+                    className="absolute bottom-40 left-1/4 w-[500px] h-[500px] bg-gradient-to-br from-accent-500/15 to-primary-500/20 rounded-full blur-[150px] animate-pulse"
+                    style={{ animationDelay: '2s' }}
                 />
-                <motion.div
-                    className="absolute top-1/2 right-10 w-72 h-72 bg-gradient-to-br from-primary-400/10 to-transparent rounded-full blur-[100px]"
-                    animate={{
-                        scale: [1, 1.2, 1],
-                        opacity: [0.1, 0.2, 0.1],
-                    }}
-                    transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+                <div
+                    className="absolute top-1/2 right-10 w-72 h-72 bg-gradient-to-br from-primary-400/10 to-transparent rounded-full blur-[100px] animate-pulse"
+                    style={{ animationDelay: '3s' }}
                 />
             </div>
 
             <div className="relative z-10 container-section max-w-6xl mx-auto px-4 py-16 sm:py-24">
                 {/* Premium Back Button */}
-                <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.4 }}
+                <div
+                    className="animate-fade-in"
                 >
                     <Link
                         href="/projects"
@@ -125,13 +107,11 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                         <IoArrowBack className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-300" />
                         <span className="font-medium">Back to all projects</span>
                     </Link>
-                </motion.div>
+                </div>
 
                 <article className="w-full overflow-hidden">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5 }}
+                    <div
+                        className="animate-fade-up"
                     >
                         <h1 className="text-3xl md:text-4xl lg:text-5xl font-black mb-6">
                             <span className="animated-gradient-text text-shadow-glow">{project.title}</span>
@@ -172,25 +152,21 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                                 ))}
                             </div>
                         </div>
-                    </motion.div>
+                    </div>
 
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
-                        <motion.div
-                            className="lg:col-span-2 glass-ultra rounded-2xl p-1 self-start"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: 0.1 }}
+                        <div
+                            className="lg:col-span-2 glass-ultra rounded-2xl p-1 self-start animate-fade-up"
+                            style={{ animationDelay: '0.1s' }}
                         >
                             <div className="aspect-video relative w-full overflow-hidden rounded-xl">
                                 <ImageCarousel images={project.images} className="w-full h-full" />
                             </div>
-                        </motion.div>
+                        </div>
 
-                        <motion.div
-                            className="flex flex-col gap-5 self-start"
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.5, delay: 0.2 }}
+                        <div
+                            className="flex flex-col gap-5 self-start animate-fade-up"
+                            style={{ animationDelay: '0.2s' }}
                         >
                             <div className="glass-ultra rounded-2xl p-6 flex-grow shine-sweep border border-white/10 shadow-xl shadow-black/10">
                                 <h2 className="text-xl font-bold text-color-text mb-5 flex items-center gap-3">
@@ -278,14 +254,12 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                                     )}
                                 </div>
                             )}
-                        </motion.div>
+                        </div>
                     </div>
 
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.3 }}
-                        className="mb-12 overflow-x-hidden"
+                    <div
+                        className="mb-12 overflow-x-hidden animate-fade-up"
+                        style={{ animationDelay: '0.3s' }}
                     >
                         {/* Premium Tabs */}
                         <div className="flex gap-2 p-2 glass-ultra rounded-2xl mb-10 w-fit border border-white/10 shadow-lg shadow-black/10">
@@ -358,12 +332,8 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                                                         ))}
                                                     </div>
                                                 )}
-                                                <motion.div
-                                                    className="glass-ultra rounded-2xl p-10 sm:p-12 relative overflow-hidden shine-sweep border border-white/10 shadow-2xl shadow-black/20"
-                                                    initial={{ opacity: 0.8, y: 10 }}
-                                                    whileInView={{ opacity: 1, y: 0 }}
-                                                    viewport={{ once: true }}
-                                                    transition={{ duration: 0.5 }}
+                                                <div
+                                                    className="glass-ultra rounded-2xl p-10 sm:p-12 relative overflow-hidden shine-sweep border border-white/10 shadow-2xl shadow-black/20 animate-fade-in"
                                                     key={activeTestimonial}
                                                 >
                                                     {/* Decorative gradient orbs */}
@@ -395,7 +365,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </motion.div>
+                                                </div>
                                             </div>
                                         </div>
                                     )}
@@ -444,16 +414,10 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                             {activeTab === 'technologies' && project.technologies && (
                                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                                     {project.technologies.map((tech, index) => (
-                                        <motion.div
+                                        <div
                                             key={index}
-                                            className="glass-ultra rounded-2xl p-6 group shine-sweep relative overflow-hidden border border-white/10"
-                                            whileHover={{
-                                                scale: 1.03,
-                                                boxShadow: "0 25px 50px -12px rgba(var(--color-primary-900), 0.4)"
-                                            }}
-                                            initial={{ opacity: 0, y: 20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ duration: 0.3, delay: index * 0.05 }}
+                                            className="glass-ultra rounded-2xl p-6 group shine-sweep relative overflow-hidden border border-white/10 hover:scale-[1.03] hover:shadow-xl hover:shadow-primary-900/40 transition-all duration-300 animate-fade-up"
+                                            style={{ animationDelay: `${index * 0.05}s` }}
                                         >
                                             {/* Gradient glow on hover */}
                                             <div className="absolute inset-0 bg-gradient-to-br from-primary-500/0 to-accent-500/0 group-hover:from-primary-500/10 group-hover:to-accent-500/10 transition-all duration-500 rounded-2xl" />
@@ -476,12 +440,12 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                                                     <p className="text-sm text-color-text-muted leading-relaxed">{tech.description}</p>
                                                 )}
                                             </div>
-                                        </motion.div>
+                                        </div>
                                     ))}
                                 </div>
                             )}
                         </div>
-                    </motion.div>
+                    </div>
                 </article>
             </div>
         </section>

@@ -1,17 +1,14 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
     IoArrowForward, IoFilterOutline, IoGridOutline, IoListOutline, IoSearch, IoClose,
-    IoTimeOutline, IoChevronDown, IoSwapVertical, IoCalendarOutline, IoLogoGithub, IoGlobeOutline
+    IoChevronDown, IoSwapVertical, IoCalendarOutline
 } from 'react-icons/io5';
 import type { FivemScript } from '@/types/fivem';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import { format } from 'date-fns';
-import { TechIcon } from '@/components/ui/TechIcon';
 
 interface FivemScriptsContentProps {
     scripts: FivemScript[];
@@ -24,7 +21,7 @@ type SortOption = 'date-desc' | 'date-asc' | 'alphabetical' | 'price-asc' | 'pri
 
 export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsContentProps) {
     // State for filtering and display
-    const [viewMode, setViewMode] = useState<ViewMode>('list'); // Default to table/list view
+    const [viewMode, setViewMode] = useState<ViewMode>('list');
     const [filter, setFilter] = useState<Filter>('All');
     const [hoveredScript, setHoveredScript] = useState<string | null>(null);
     const [filterOpen, setFilterOpen] = useState(false);
@@ -38,19 +35,17 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
     const frameworks = ['ESX', 'QBCore', 'Standalone'];
     const statuses = ['Released', 'In Development', 'Coming Soon'];
 
-    // Debounce search query to prevent excessive filtering during typing
+    // Debounce search query
     useEffect(() => {
         const timer = setTimeout(() => {
             setDebouncedSearchQuery(searchQuery);
         }, 300);
-
         return () => clearTimeout(timer);
     }, [searchQuery]);
 
-    // Filter scripts based on selected filter, search query, and sort
+    // Filter scripts
     const filteredScripts = scripts
         .filter(script => {
-            // Filter by framework or status
             if (filter === 'All') return true;
             if (filter === 'ESX' || filter === 'QBCore' || filter === 'Standalone') {
                 return script.framework === filter || script.framework === 'Both';
@@ -58,9 +53,7 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
             return script.status === filter;
         })
         .filter(script => {
-            // Filter by search query
             if (!debouncedSearchQuery) return true;
-
             const query = debouncedSearchQuery.toLowerCase();
             return (
                 script.title.toLowerCase().includes(query) ||
@@ -70,7 +63,6 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
             );
         })
         .sort((a, b) => {
-            // Sort by selected option
             switch (sortBy) {
                 case 'date-desc':
                     return new Date(b.lastUpdated || '').getTime() - new Date(a.lastUpdated || '').getTime();
@@ -87,28 +79,23 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
             }
         });
 
-    // Helper function to extract numeric price for sorting
     function extractPriceNumber(price: string): number {
         const match = price.match(/\d+(\.\d+)?/);
         return match ? parseFloat(match[0]) : 0;
     }
 
-    // Toggle search input visibility
     const toggleSearch = () => {
         setIsSearching(!isSearching);
         if (!isSearching) {
-            // Focus the search input when it becomes visible
             setTimeout(() => {
                 const searchInput = document.getElementById('script-search');
                 if (searchInput) searchInput.focus();
             }, 100);
         } else {
-            // Clear search when closing
             setSearchQuery('');
         }
     };
 
-    // Get text for the active sort option
     const getSortOptionText = (option: SortOption): string => {
         switch (option) {
             case 'date-desc': return 'Newest first';
@@ -129,36 +116,18 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
             </div>
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"></div>
 
-            {/* Animated floating orbs */}
-            <motion.div
-                className="absolute top-[10%] left-[5%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-primary-500/20 to-primary-600/5 blur-[100px]"
-                animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2] }}
-                transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <motion.div
-                className="absolute bottom-[20%] right-[10%] w-[400px] h-[400px] rounded-full bg-gradient-to-tl from-primary-400/15 to-transparent blur-[80px]"
-                animate={{ scale: [1.2, 1, 1.2], opacity: [0.15, 0.3, 0.15] }}
-                transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-            />
+            {/* Animated floating orbs - CSS animations */}
+            <div className="absolute top-[10%] left-[5%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-primary-500/20 to-primary-600/5 blur-[100px] animate-float-slow" />
+            <div className="absolute bottom-[20%] right-[10%] w-[400px] h-[400px] rounded-full bg-gradient-to-tl from-primary-400/15 to-transparent blur-[80px] animate-float-medium" />
 
             <div className="container-section relative z-10">
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
-                    className="mb-14"
-                >
+                <div className="mb-14 animate-fade-in">
                     {/* Premium Badge */}
                     <div className="flex justify-center md:justify-start mb-8">
-                        <motion.span
-                            className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-primary-300 glass-frost rounded-full"
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.1 }}
-                        >
+                        <span className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-primary-300 glass-frost rounded-full animate-fade-in-up">
                             <IoGridOutline className="w-4 h-4" />
                             FiveM Resources
-                        </motion.span>
+                        </span>
                     </div>
 
                     <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-center md:text-left mb-6">
@@ -169,15 +138,10 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                         Premium scripts for your FiveM roleplay server. Browse my collection of high-quality scripts
                         compatible with ESX and QBCore frameworks.
                     </p>
-                </motion.div>
+                </div>
 
                 {/* Desktop controls */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.1 }}
-                    className="hidden md:flex justify-between items-center mb-10 gap-4"
-                >
+                <div className="hidden md:flex justify-between items-center mb-10 gap-4 animate-fade-in-up" style={{ animationDelay: '100ms' }}>
                     {/* Filter dropdown */}
                     <DropdownMenu.Root open={filterOpen} onOpenChange={setFilterOpen}>
                         <DropdownMenu.Trigger asChild>
@@ -189,7 +153,7 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                         </DropdownMenu.Trigger>
                         <DropdownMenu.Portal>
                             <DropdownMenu.Content
-                                className="z-50 min-w-[180px] p-2 bg-card border border-color-border shadow-lg rounded-lg animate-in fade-in-80 slide-in-from-top-5"
+                                className="z-50 min-w-[180px] p-2 bg-card border border-color-border shadow-lg rounded-lg animate-fade-in"
                                 align="start"
                                 sideOffset={5}
                             >
@@ -255,12 +219,7 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                         {/* Search button and input */}
                         <div className="relative flex items-center">
                             {isSearching && (
-                                <motion.div
-                                    initial={{ opacity: 0, width: 0 }}
-                                    animate={{ opacity: 1, width: 'auto' }}
-                                    exit={{ opacity: 0, width: 0 }}
-                                    className="flex items-center"
-                                >
+                                <div className="flex items-center animate-fade-in">
                                     <input
                                         id="script-search"
                                         type="text"
@@ -281,20 +240,18 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                                     >
                                         <IoClose className="w-4 h-4" />
                                     </button>
-                                </motion.div>
+                                </div>
                             )}
 
                             {!isSearching && (
-                                <motion.button
+                                <button
                                     onClick={toggleSearch}
-                                    className="px-4 py-2 rounded-xl bg-primary-800/20 border border-primary-700/20 text-primary-300 text-sm flex items-center gap-2 hover:bg-primary-800/30 hover:border-primary-700/30 transition-all focus:outline-none"
-                                    whileHover={{ scale: 1.02 }}
-                                    whileTap={{ scale: 0.98 }}
+                                    className="px-4 py-2 rounded-xl bg-primary-800/20 border border-primary-700/20 text-primary-300 text-sm flex items-center gap-2 hover:bg-primary-800/30 hover:border-primary-700/30 hover:scale-[1.02] active:scale-[0.98] transition-all focus:outline-none"
                                     aria-label="Search scripts"
                                 >
                                     <IoSearch className="w-4 h-4" />
                                     <span>Search</span>
-                                </motion.button>
+                                </button>
                             )}
                         </div>
 
@@ -308,7 +265,7 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                                 </button>
                             </DropdownMenu.Trigger>
                             <DropdownMenu.Content
-                                className="z-50 min-w-[200px] p-1 bg-card border border-color-border shadow-lg rounded-lg overflow-hidden animate-in fade-in-80 slide-in-from-top-5"
+                                className="z-50 min-w-[200px] p-1 bg-card border border-color-border shadow-lg rounded-lg overflow-hidden animate-fade-in"
                                 align="end"
                                 sideOffset={5}
                             >
@@ -387,7 +344,7 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                             </button>
                         </div>
                     </div>
-                </motion.div>
+                </div>
 
                 {/* Mobile controls section */}
                 <div className="flex flex-col gap-4 mb-8 md:hidden">
@@ -527,9 +484,9 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
 
                 {/* Search result summary */}
                 {debouncedSearchQuery && (
-                    <div className="mb-6 p-3 bg-card border border-color-border rounded-lg flex justify-between items-center">
+                    <div className="mb-6 p-3 bg-card border border-color-border rounded-lg flex justify-between items-center animate-fade-in">
                         <p className="text-color-text-muted text-sm">
-                            Found <span className="text-primary-300 font-medium">{filteredScripts.length}</span> result{filteredScripts.length !== 1 ? 's' : ''} for "<span className="text-color-text font-medium">{debouncedSearchQuery}</span>"
+                            Found <span className="text-primary-300 font-medium">{filteredScripts.length}</span> result{filteredScripts.length !== 1 ? 's' : ''} for &quot;<span className="text-color-text font-medium">{debouncedSearchQuery}</span>&quot;
                             {filter !== 'All' && (
                                 <> with filter <span className="text-primary-300 font-medium">{filter}</span></>
                             )}
@@ -545,12 +502,7 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                 )}
 
                 {filteredScripts.length === 0 ? (
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
-                        className="bg-card border border-color-border rounded-xl p-8 text-center"
-                    >
+                    <div className="bg-card border border-color-border rounded-xl p-8 text-center animate-fade-in">
                         <h3 className="text-xl font-semibold mb-2">No scripts found</h3>
                         <p className="text-color-text-muted mb-6">
                             {debouncedSearchQuery
@@ -575,19 +527,11 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                                 </button>
                             )}
                         </div>
-                    </motion.div>
+                    </div>
                 ) : (
-                    <AnimatePresence mode="wait">
+                    <>
                         {viewMode === 'grid' ? (
-                            // Grid layout
-                            <motion.div
-                                key="grid"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                transition={{ duration: 0.3 }}
-                                className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
-                            >
+                            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {filteredScripts.map((script, index) => (
                                     <ScriptGridCard
                                         key={script.id}
@@ -595,20 +539,11 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                                         index={index}
                                         isHovered={hoveredScript === script.id}
                                         onHover={setHoveredScript}
-                                        searchQuery={debouncedSearchQuery}
                                     />
                                 ))}
-                            </motion.div>
+                            </div>
                         ) : (
-                            // Table/List layout
-                            <motion.div
-                                key="table"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                transition={{ duration: 0.3 }}
-                                className="flex flex-col gap-4"
-                            >
+                            <div className="flex flex-col gap-4">
                                 {filteredScripts.map((script, index) => (
                                     <ScriptListItem
                                         key={script.id}
@@ -616,12 +551,11 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                                         index={index}
                                         isHovered={hoveredScript === script.id}
                                         onHover={setHoveredScript}
-                                        searchQuery={debouncedSearchQuery}
                                     />
                                 ))}
-                            </motion.div>
+                            </div>
                         )}
-                    </AnimatePresence>
+                    </>
                 )}
             </div>
         </section>
@@ -633,21 +567,18 @@ interface ScriptCardProps {
     index: number;
     isHovered: boolean;
     onHover: (id: string | null) => void;
-    searchQuery: string;
 }
 
 function ScriptGridCard({ script, index, isHovered, onHover }: ScriptCardProps) {
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: index * 0.1 }}
-            className="h-full"
+        <div
+            className="h-full animate-fade-in-up"
+            style={{ animationDelay: `${index * 100}ms` }}
             onMouseEnter={() => onHover(script.id)}
             onMouseLeave={() => onHover(null)}
         >
             <Link href={`/fivem/${script.links.slug}`} className="block h-full">
-                <div className="relative h-full overflow-hidden rounded-xl bg-card border border-color-border animated-border transition-all duration-300 group hover:shadow-lg hover:shadow-primary-900/10">
+                <div className={`relative h-full overflow-hidden rounded-xl bg-card border border-color-border animated-border transition-all duration-300 group hover:shadow-lg hover:shadow-primary-900/10 ${isHovered ? '-translate-y-2' : ''}`}>
                     {/* Top gradient accent bar */}
                     <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-primary-500 to-primary-400 opacity-60 group-hover:opacity-100 transition-opacity z-10"></div>
 
@@ -675,14 +606,10 @@ function ScriptGridCard({ script, index, isHovered, onHover }: ScriptCardProps) 
                             <FrameworkBadge framework={script.framework} />
                         </div>
 
-                        {/* Title with hover effect */}
-                        <motion.h3
-                            className="text-xl font-bold text-color-text group-hover:text-primary-300 transition-colors mb-2"
-                            animate={isHovered ? { scale: 1.01 } : { scale: 1 }}
-                            transition={{ duration: 0.2 }}
-                        >
+                        {/* Title */}
+                        <h3 className={`text-xl font-bold text-color-text group-hover:text-primary-300 transition-all mb-2 ${isHovered ? 'scale-[1.01]' : ''}`}>
                             {script.title}
-                        </motion.h3>
+                        </h3>
 
                         {/* Description */}
                         <p className="text-color-text-muted mb-4 line-clamp-2">
@@ -714,21 +641,15 @@ function ScriptGridCard({ script, index, isHovered, onHover }: ScriptCardProps) 
                         </div>
 
                         {/* View details link */}
-                        <motion.div
-                            className="text-primary-400 hover:text-primary-300 transition-colors flex items-center gap-1 text-sm font-medium"
-                            animate={isHovered ? { x: 3 } : { x: 0 }}
-                            transition={{ duration: 0.2 }}
-                        >
+                        <div className={`text-primary-400 hover:text-primary-300 transition-all flex items-center gap-1 text-sm font-medium ${isHovered ? 'translate-x-1' : ''}`}>
                             <span>View details</span>
                             <IoArrowForward className={`w-3.5 h-3.5 transition-all duration-300 ${isHovered ? 'translate-x-0.5 opacity-100' : 'opacity-80'}`} />
-                        </motion.div>
+                        </div>
                     </div>
 
                     {/* Subtle hover glow effect */}
                     <div className={`absolute inset-0 pointer-events-none transition-opacity duration-300 rounded-xl ${isHovered ? 'opacity-100' : 'opacity-0'}`}
-                        style={{
-                            boxShadow: 'inset 0 0 20px rgba(var(--color-primary-500), 0.1)'
-                        }}
+                        style={{ boxShadow: 'inset 0 0 20px rgba(var(--color-primary-500), 0.1)' }}
                     />
 
                     {/* Subtle corner decoration */}
@@ -737,27 +658,25 @@ function ScriptGridCard({ script, index, isHovered, onHover }: ScriptCardProps) 
                     </div>
                 </div>
             </Link>
-        </motion.div>
+        </div>
     );
 }
 
 function ScriptListItem({ script, index, isHovered, onHover }: ScriptCardProps) {
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: index * 0.05 }}
-            className="group"
+        <div
+            className="group animate-fade-in-up"
+            style={{ animationDelay: `${index * 50}ms` }}
             onMouseEnter={() => onHover(script.id)}
             onMouseLeave={() => onHover(null)}
         >
             <Link href={`/fivem/${script.links.slug}`}>
-                <div className="relative overflow-hidden rounded-xl bg-card border border-color-border animated-border transition-all duration-300 hover:shadow-lg hover:shadow-primary-900/10 group-hover:border-primary-700/30">
+                <div className={`relative overflow-hidden rounded-xl bg-card border border-color-border animated-border transition-all duration-300 hover:shadow-lg hover:shadow-primary-900/10 group-hover:border-primary-700/30 ${isHovered ? '-translate-y-1' : ''}`}>
                     {/* Top gradient accent bar */}
                     <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-primary-500 to-primary-400 opacity-60 group-hover:opacity-100 transition-opacity z-10"></div>
 
                     <div className="flex flex-col md:flex-row">
-                        {/* Image (only shown on md screens and up) */}
+                        {/* Image */}
                         <div className="relative md:w-64 h-40 md:h-auto overflow-hidden">
                             <Image
                                 src={script.images[0] || '/projects/fivem/placeholder.jpg'}
@@ -796,14 +715,10 @@ function ScriptListItem({ script, index, isHovered, onHover }: ScriptCardProps) 
                                 </div>
                             </div>
 
-                            {/* Title with hover animation */}
-                            <motion.h3
-                                className="text-xl font-bold text-color-text group-hover:text-primary-300 transition-colors mb-2"
-                                animate={isHovered ? { scale: 1.01 } : { scale: 1 }}
-                                transition={{ duration: 0.2 }}
-                            >
+                            {/* Title */}
+                            <h3 className={`text-xl font-bold text-color-text group-hover:text-primary-300 transition-all mb-2 ${isHovered ? 'scale-[1.01]' : ''}`}>
                                 {script.title}
-                            </motion.h3>
+                            </h3>
 
                             {/* Description */}
                             <p className="text-color-text-muted mb-4 line-clamp-2">
@@ -826,23 +741,17 @@ function ScriptListItem({ script, index, isHovered, onHover }: ScriptCardProps) 
                                 </div>
 
                                 {/* View details link */}
-                                <motion.div
-                                    className="text-primary-400 hover:text-primary-300 transition-colors flex items-center gap-1 text-sm font-medium mt-2 sm:mt-0"
-                                    animate={isHovered ? { x: 3 } : { x: 0 }}
-                                    transition={{ duration: 0.2 }}
-                                >
+                                <div className={`text-primary-400 hover:text-primary-300 transition-all flex items-center gap-1 text-sm font-medium mt-2 sm:mt-0 ${isHovered ? 'translate-x-1' : ''}`}>
                                     <span>View details</span>
                                     <IoArrowForward className={`w-3.5 h-3.5 transition-all duration-300 ${isHovered ? 'translate-x-0.5 opacity-100' : 'opacity-80'}`} />
-                                </motion.div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     {/* Subtle hover glow effect */}
                     <div className={`absolute inset-0 pointer-events-none transition-opacity duration-300 rounded-xl ${isHovered ? 'opacity-100' : 'opacity-0'}`}
-                        style={{
-                            boxShadow: 'inset 0 0 20px rgba(var(--color-primary-500), 0.1)'
-                        }}
+                        style={{ boxShadow: 'inset 0 0 20px rgba(var(--color-primary-500), 0.1)' }}
                     />
 
                     {/* Subtle corner decoration */}
@@ -851,24 +760,7 @@ function ScriptListItem({ script, index, isHovered, onHover }: ScriptCardProps) 
                     </div>
                 </div>
             </Link>
-        </motion.div>
-    );
-}
-
-// Helper function to highlight matched text
-function highlightMatchedText(text: string, query: string): React.ReactNode {
-    if (!query) return text;
-
-    const parts = text.split(new RegExp(`(${query})`, 'gi'));
-
-    return (
-        <>
-            {parts.map((part, index) =>
-                part.toLowerCase() === query.toLowerCase()
-                    ? <mark key={index} className="bg-primary-900/30 text-primary-200 px-0.5 rounded">{part}</mark>
-                    : part
-            )}
-        </>
+        </div>
     );
 }
 

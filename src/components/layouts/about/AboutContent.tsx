@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { IoPersonOutline, IoSchoolOutline, IoBriefcaseOutline, IoTimeOutline, IoCode, IoRocketOutline, IoArrowForward, IoHeart, IoSparkles, IoLocationOutline } from "react-icons/io5";
@@ -16,37 +15,28 @@ export default function AboutContent() {
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"></div>
 
             {/* Animated floating orbs */}
-            <motion.div
-                className="absolute top-[10%] right-[10%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-primary-500/20 to-primary-600/5 blur-[100px]"
-                animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2] }}
-                transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+            <div
+                className="absolute top-[10%] right-[10%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-primary-500/20 to-primary-600/5 blur-[100px] animate-pulse"
             />
-            <motion.div
-                className="absolute bottom-[20%] left-[5%] w-[400px] h-[400px] rounded-full bg-gradient-to-tl from-primary-400/15 to-transparent blur-[80px]"
-                animate={{ scale: [1.2, 1, 1.2], opacity: [0.15, 0.3, 0.15] }}
-                transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            <div
+                className="absolute bottom-[20%] left-[5%] w-[400px] h-[400px] rounded-full bg-gradient-to-tl from-primary-400/15 to-transparent blur-[80px] animate-pulse"
+                style={{ animationDelay: '2s' }}
             />
 
             {/* Main content section */}
             <div className="container-section max-w-6xl relative">
                 {/* Hero section with profile */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
-                    className="mb-24"
+                <div
+                    className="mb-24 animate-fade-up"
                 >
                     {/* Badge */}
                     <div className="flex justify-center md:justify-start mb-8">
-                        <motion.span
-                            className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-primary-300 glass-frost rounded-full"
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.1 }}
+                        <span
+                            className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-primary-300 glass-frost rounded-full animate-fade-in"
                         >
                             <IoSparkles className="w-4 h-4" />
                             About Me
-                        </motion.span>
+                        </span>
                     </div>
 
                     <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-center md:text-left mb-8">
@@ -56,11 +46,9 @@ export default function AboutContent() {
 
                     <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
                         {/* Profile image section */}
-                        <motion.div
-                            className="relative mx-auto lg:mx-0 order-1 lg:order-none"
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.6, delay: 0.1 }}
+                        <div
+                            className="relative mx-auto lg:mx-0 order-1 lg:order-none animate-fade-in"
+                            style={{ animationDelay: '0.1s' }}
                         >
                             {/* Premium glow effect */}
                             <div className="absolute -inset-6 bg-gradient-to-r from-primary-500/30 via-primary-400/20 to-primary-600/30 rounded-[32px] blur-3xl opacity-60 animate-pulse"></div>
@@ -85,12 +73,9 @@ export default function AboutContent() {
                                 </div>
 
                                 {/* Floating availability badge */}
-                                <motion.div
-                                    className="absolute -bottom-4 -right-4 md:bottom-6 md:-right-8 px-5 py-3 rounded-2xl glass-ultra shadow-2xl shadow-black/30"
-                                    initial={{ opacity: 0, y: 20, scale: 0.9 }}
-                                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                                    transition={{ delay: 0.5, type: "spring" }}
-                                    whileHover={{ scale: 1.05 }}
+                                <div
+                                    className="absolute -bottom-4 -right-4 md:bottom-6 md:-right-8 px-5 py-3 rounded-2xl glass-ultra shadow-2xl shadow-black/30 hover:scale-105 transition-transform duration-300 animate-fade-up"
+                                    style={{ animationDelay: '0.5s' }}
                                 >
                                     <div className="flex items-center gap-3">
                                         <span className="relative flex h-3 w-3">
@@ -99,43 +84,36 @@ export default function AboutContent() {
                                         </span>
                                         <span className="text-sm font-semibold text-color-text">Available for work</span>
                                     </div>
-                                </motion.div>
+                                </div>
 
                                 {/* Experience badge */}
-                                <motion.div
-                                    className="absolute -top-4 -left-4 md:top-6 md:-left-8 px-5 py-3 rounded-2xl glass-ultra shadow-2xl shadow-black/30"
-                                    initial={{ opacity: 0, y: -20, scale: 0.9 }}
-                                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                                    transition={{ delay: 0.6, type: "spring" }}
-                                    whileHover={{ scale: 1.05 }}
+                                <div
+                                    className="absolute -top-4 -left-4 md:top-6 md:-left-8 px-5 py-3 rounded-2xl glass-ultra shadow-2xl shadow-black/30 hover:scale-105 transition-transform duration-300 animate-fade-up"
+                                    style={{ animationDelay: '0.6s' }}
                                 >
                                     <div className="text-center">
                                         <div className="text-3xl font-black animated-gradient-text">10+</div>
                                         <div className="text-xs text-color-text-muted font-semibold">Years Exp.</div>
                                     </div>
-                                </motion.div>
+                                </div>
 
                                 {/* Location badge */}
-                                <motion.div
-                                    className="absolute bottom-6 -left-4 md:bottom-20 md:-left-8 px-4 py-2 rounded-xl glass-frost"
-                                    initial={{ opacity: 0, x: -20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: 0.7 }}
+                                <div
+                                    className="absolute bottom-6 -left-4 md:bottom-20 md:-left-8 px-4 py-2 rounded-xl glass-frost animate-fade-in"
+                                    style={{ animationDelay: '0.7s' }}
                                 >
                                     <div className="flex items-center gap-2 text-sm text-primary-300 font-semibold">
                                         <IoLocationOutline className="w-4 h-4" />
                                         <span>Canada</span>
                                     </div>
-                                </motion.div>
+                                </div>
                             </div>
-                        </motion.div>
+                        </div>
 
                         {/* Bio section */}
-                        <motion.div
-                            className="space-y-8"
-                            initial={{ opacity: 0, x: 30 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.6, delay: 0.2 }}
+                        <div
+                            className="space-y-8 animate-fade-up"
+                            style={{ animationDelay: '0.2s' }}
                         >
                             <div className="prose prose-lg prose-invert max-w-none">
                                 <p className="text-xl md:text-2xl text-color-text leading-relaxed">
@@ -171,16 +149,14 @@ export default function AboutContent() {
                                     <IoArrowForward className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                                 </Link>
                             </div>
-                        </motion.div>
+                        </div>
                     </div>
-                </motion.div>
+                </div>
 
                 {/* Experience section */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.3 }}
-                    className="mb-24"
+                <div
+                    className="mb-24 animate-fade-up"
+                    style={{ animationDelay: '0.3s' }}
                 >
                     <div className="flex items-center gap-4 mb-10">
                         <div className="p-3 rounded-xl glass-frost">
@@ -214,14 +190,12 @@ export default function AboutContent() {
                             delay={0.2}
                         />
                     </div>
-                </motion.div>
+                </div>
 
                 {/* Education section */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.4 }}
-                    className="mb-24"
+                <div
+                    className="mb-24 animate-fade-up"
+                    style={{ animationDelay: '0.4s' }}
                 >
                     <div className="flex items-center gap-4 mb-10">
                         <div className="p-3 rounded-xl glass-frost">
@@ -254,13 +228,12 @@ export default function AboutContent() {
                             delay={0.1}
                         />
                     </div>
-                </motion.div>
+                </div>
 
                 {/* Personal interests section */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.5 }}
+                <div
+                    className="animate-fade-up"
+                    style={{ animationDelay: '0.5s' }}
                 >
                     <div className="flex items-center gap-4 mb-10">
                         <div className="p-3 rounded-xl glass-frost">
@@ -314,7 +287,7 @@ export default function AboutContent() {
                         />
 
                     </div>
-                </motion.div>
+                </div>
             </div>
         </section>
     );
@@ -331,12 +304,9 @@ interface TimelineItemProps {
 
 function TimelineItem({ title, company, period, description, delay }: TimelineItemProps) {
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay }}
-            whileHover={{ y: -6, transition: { duration: 0.2 } }}
-            className="group"
+        <div
+            className="group animate-fade-up hover:-translate-y-1.5 transition-transform duration-200"
+            style={{ animationDelay: `${delay}s` }}
         >
             <div className="relative p-6 md:p-8 rounded-2xl glass-ultra overflow-hidden transition-all duration-500">
                 {/* Animated glow on hover */}
@@ -359,7 +329,7 @@ function TimelineItem({ title, company, period, description, delay }: TimelineIt
                     <p className="text-color-text-muted leading-relaxed">{description}</p>
                 </div>
             </div>
-        </motion.div>
+        </div>
     );
 }
 
@@ -372,12 +342,9 @@ interface InterestCardProps {
 
 function InterestCard({ icon, title, description, delay }: InterestCardProps) {
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay }}
-            whileHover={{ y: -8, transition: { duration: 0.2 } }}
-            className="group"
+        <div
+            className="group animate-fade-up hover:-translate-y-2 transition-transform duration-200"
+            style={{ animationDelay: `${delay}s` }}
         >
             <div className="h-full p-6 md:p-8 rounded-2xl glass-ultra overflow-hidden transition-all duration-500 relative">
                 {/* Animated glow on hover */}
@@ -398,6 +365,6 @@ function InterestCard({ icon, title, description, delay }: InterestCardProps) {
                     <p className="text-color-text-muted text-sm leading-relaxed">{description}</p>
                 </div>
             </div>
-        </motion.div>
+        </div>
     );
 }

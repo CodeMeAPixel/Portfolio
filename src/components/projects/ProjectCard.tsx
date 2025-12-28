@@ -1,42 +1,29 @@
 "use client";
 
-import { motion } from "framer-motion";
-import Link from "next/link";
-import Image from "next/image";
-import { Project } from "@/types/project";
-import { ImageCarousel } from "@/components/ui/ImageCarousel";
-import {
-    IoArrowForward,
-    IoGlobeOutline,
-    IoLogoGithub,
-    IoTimeOutline,
-    IoStarOutline,
-    IoRocketOutline,
-    IoCodeSlashOutline
-} from "react-icons/io5";
-import { format } from "date-fns";
 import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { Project } from "@/types/project";
+import { IoRocketOutline, IoLogoGithub, IoBookOutline, IoCalendarOutline, IoArrowForward } from "react-icons/io5";
 
 interface ProjectCardProps {
     project: Project;
     index?: number;
-    variant?: "featured" | "default" | "compact";
-    showFeaturedBadge?: boolean;
     searchQuery?: string;
     onHover?: (id: string | null) => void;
     isHovered?: boolean;
+    showFeaturedBadge?: boolean;
 }
 
-// Helper function to highlight matched text in search
-function highlightMatchedText(text: string, query?: string): React.ReactNode {
-    if (!query || !query.trim()) return text;
-
-    const parts = text.split(new RegExp(`(${query})`, 'gi'));
+function highlightText(text: string, query?: string) {
+    if (!query) return text;
+    const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+    const parts = text.split(regex);
     return parts.map((part, i) =>
-        part.toLowerCase() === query.toLowerCase() ? (
-            <span key={i} className="bg-primary-500/30 text-primary-200 px-0.5 rounded">
+        regex.test(part) ? (
+            <mark key={i} className="bg-primary-500/30 text-primary-200 px-0.5 rounded">
                 {part}
-            </span>
+            </mark>
         ) : (
             part
         )
@@ -46,362 +33,197 @@ function highlightMatchedText(text: string, query?: string): React.ReactNode {
 export default function ProjectCard({
     project,
     index = 0,
-    variant = "default",
-    showFeaturedBadge = false,
     searchQuery,
     onHover,
-    isHovered = false
+    isHovered,
+    showFeaturedBadge = false,
 }: ProjectCardProps) {
-    const [internalHovered, setInternalHovered] = useState(false);
-    const hovered = isHovered || internalHovered;
-
-    const handleMouseEnter = () => {
-        setInternalHovered(true);
-        onHover?.(project.id);
-    };
-
-    const handleMouseLeave = () => {
-        setInternalHovered(false);
-        onHover?.(null);
-    };
-
-    const projectLink = `/projects/${project.links?.slug || project.id}`;
+    const [imageError, setImageError] = useState(false);
+    const animationDelay = `${index * 0.1}s`;
 
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="h-full"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+        <div
+            className="group relative animate-fade-up"
+            style={{ animationDelay }}
+            onMouseEnter={() => onHover?.(project.id)}
+            onMouseLeave={() => onHover?.(null)}
         >
-            <motion.div
-                className="relative h-full group"
-                whileHover={{ y: -8 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
-            >
-                {/* Animated outer glow */}
-                <div className="absolute -inset-[2px] rounded-[28px] bg-gradient-to-r from-primary-500/60 via-accent-500/40 to-primary-600/60 opacity-0 group-hover:opacity-100 transition-all duration-500 blur-md" />
-
-                {/* Card container */}
-                <div className="relative h-full rounded-3xl glass-ultra border border-white/10 overflow-hidden group-hover:border-primary-500/30 transition-all duration-500">
-                    {/* Spotlight effect */}
-                    <div className="absolute inset-0 spotlight opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                    {/* Premium gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 via-transparent to-accent-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-                    {/* Shine sweep effect */}
-                    <div className="absolute inset-0 shine-sweep pointer-events-none" />
-
+            <Link href={project.links.slug || `/projects/${project.id}`}>
+                <article className="relative h-full glass-ultra border border-white/10 rounded-3xl overflow-hidden transition-all duration-500 hover:border-primary-500/30 hover:shadow-2xl hover:shadow-primary-500/10 hover:-translate-y-1">
                     {/* Image Section */}
-                    <div className="relative h-56 sm:h-64 overflow-hidden">
-                        <ImageCarousel
-                            images={project.images}
-                            className="w-full h-full"
-                        />
-
-                        {/* Gradient overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/40 to-transparent pointer-events-none" />
-
-                        {/* Top action buttons */}
-                        <motion.div
-                            className="absolute top-4 right-4 flex gap-2 z-10"
-                            initial={{ opacity: 0, y: -10, scale: 0.9 }}
-                            animate={{
-                                opacity: hovered ? 1 : 0,
-                                y: hovered ? 0 : -10,
-                                scale: hovered ? 1 : 0.9
-                            }}
-                            transition={{ duration: 0.25, ease: "easeOut" }}
-                        >
-                            {project.links?.demo && (
-                                <Link
-                                    href={project.links.demo}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="p-2.5 rounded-xl glass-ultra border border-white/20 text-primary-300 hover:text-white hover:bg-primary-500/50 hover:border-primary-400/50 transition-all duration-300 hover:scale-110 shadow-lg"
-                                    onClick={(e) => e.stopPropagation()}
-                                >
-                                    <IoGlobeOutline className="w-4 h-4" />
-                                </Link>
-                            )}
-                            {project.links?.github && (
-                                <Link
-                                    href={project.links.github}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="p-2.5 rounded-xl glass-ultra border border-white/20 text-primary-300 hover:text-white hover:bg-primary-500/50 hover:border-primary-400/50 transition-all duration-300 hover:scale-110 shadow-lg"
-                                    onClick={(e) => e.stopPropagation()}
-                                >
-                                    <IoLogoGithub className="w-4 h-4" />
-                                </Link>
-                            )}
-                        </motion.div>
-
-                        {/* Featured badge */}
-                        {(showFeaturedBadge || project.featured) && index === 0 && (
-                            <motion.div
-                                className="absolute top-4 left-4 z-10"
-                                initial={{ opacity: 0, x: -10 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: 0.2 }}
-                            >
-                                <span className="px-3 py-1.5 rounded-xl text-xs font-bold bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg shadow-amber-500/30 flex items-center gap-1.5">
-                                    <IoStarOutline className="w-3.5 h-3.5" />
-                                    Featured
-                                </span>
-                            </motion.div>
+                    <div className="relative aspect-video overflow-hidden bg-gradient-to-br from-primary-900/50 to-bg">
+                        {project.images?.[0] && !imageError ? (
+                            <Image
+                                src={project.images[0]}
+                                alt={project.title}
+                                fill
+                                sizes="(max-width: 768px) 100vw, 50vw"
+                                className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                onError={() => setImageError(true)}
+                            />
+                        ) : (
+                            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-primary-900/30 to-bg">
+                                <IoRocketOutline className="w-12 h-12 text-primary-500/40" />
+                            </div>
                         )}
 
-                        {/* Date badge */}
+                        {/* Overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/50 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
+
+                        {/* Featured Badge */}
+                        {(project.featured || showFeaturedBadge) && (
+                            <div className="absolute top-4 left-4 px-3 py-1.5 rounded-full glass-frost border border-primary-500/30 text-xs font-semibold text-primary-300 backdrop-blur-md">
+                                Featured
+                            </div>
+                        )}
+
+                        {/* Date Badge */}
                         {project.date && (
-                            <div className="absolute bottom-4 left-4 z-10">
-                                <span className="glass-ultra border border-white/20 px-3 py-1.5 rounded-xl text-xs font-medium flex items-center text-color-text shadow-lg">
-                                    <IoTimeOutline className="mr-1.5 w-3.5 h-3.5 text-primary-400" />
-                                    {format(new Date(project.date), 'MMM yyyy')}
-                                </span>
+                            <div className="absolute top-4 right-4 flex items-center gap-1.5 px-3 py-1.5 rounded-full glass-frost border border-white/10 text-xs text-color-text-muted backdrop-blur-md">
+                                <IoCalendarOutline className="w-3.5 h-3.5" />
+                                {new Date(project.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short' })}
                             </div>
                         )}
                     </div>
 
                     {/* Content Section */}
-                    <div className="p-6 relative">
+                    <div className="p-6 space-y-4">
+                        {/* Title */}
+                        <h3 className="text-xl font-bold text-color-text group-hover:text-primary-300 transition-colors duration-300">
+                            {highlightText(project.title, searchQuery)}
+                        </h3>
+
+                        {/* Description */}
+                        <p className="text-color-text-muted text-sm line-clamp-2 leading-relaxed">
+                            {highlightText(project.description, searchQuery)}
+                        </p>
+
                         {/* Tags */}
-                        <div className="flex flex-wrap gap-2 mb-4">
+                        <div className="flex flex-wrap gap-2">
                             {project.tags.slice(0, 4).map((tag) => (
                                 <span
                                     key={tag}
-                                    className={`px-3 py-1.5 rounded-xl text-xs font-semibold glass-frost border border-white/10 text-primary-300 group-hover:border-primary-500/30 group-hover:bg-primary-500/10 transition-all duration-300 ${searchQuery && tag.toLowerCase().includes(searchQuery.toLowerCase())
-                                        ? 'bg-primary-500/20 border-primary-500/40 text-primary-200'
-                                        : ''
-                                        }`}
+                                    className="px-2.5 py-1 text-xs font-medium rounded-lg glass-frost border border-white/10 text-primary-300"
                                 >
-                                    {tag}
+                                    {highlightText(tag, searchQuery)}
                                 </span>
                             ))}
                             {project.tags.length > 4 && (
-                                <span className="px-3 py-1.5 rounded-xl text-xs font-semibold glass-frost text-color-text-muted border border-white/5">
+                                <span className="px-2.5 py-1 text-xs font-medium rounded-lg glass-frost border border-white/10 text-color-text-muted">
                                     +{project.tags.length - 4}
                                 </span>
                             )}
                         </div>
 
-                        {/* Title */}
-                        <Link href={projectLink} className="block mb-3">
-                            <motion.h3
-                                className="text-xl md:text-2xl font-black text-color-text group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary-300 group-hover:to-accent-300 transition-all duration-300 leading-tight"
-                                animate={hovered ? { scale: 1.01 } : { scale: 1 }}
-                                transition={{ duration: 0.2 }}
-                            >
-                                {highlightMatchedText(project.title, searchQuery)}
-                            </motion.h3>
-                        </Link>
-
-                        {/* Description */}
-                        <p className="text-color-text-muted text-sm leading-relaxed mb-6 line-clamp-2">
-                            {highlightMatchedText(project.description, searchQuery)}
-                        </p>
-
-                        {/* Footer */}
-                        <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                            {/* Quick links */}
-                            <div className="flex items-center gap-4">
-                                {project.links?.demo && (
-                                    <Link
-                                        href={project.links.demo}
-                                        className="text-sm text-color-text-muted hover:text-primary-300 transition-colors flex items-center gap-1.5 font-medium group/link"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        <IoGlobeOutline className="w-4 h-4 group-hover/link:scale-110 transition-transform" />
-                                        <span className="hidden sm:inline">Live</span>
-                                    </Link>
+                        {/* Actions */}
+                        <div className="flex items-center justify-between pt-2">
+                            <div className="flex gap-2">
+                                {project.links.demo && (
+                                    <span className="p-2 rounded-lg glass-frost border border-white/10 text-primary-300 hover:bg-primary-500/20 transition-colors">
+                                        <IoRocketOutline className="w-4 h-4" />
+                                    </span>
                                 )}
-                                {project.links?.github && (
-                                    <Link
-                                        href={project.links.github}
-                                        className="text-sm text-color-text-muted hover:text-primary-300 transition-colors flex items-center gap-1.5 font-medium group/link"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        <IoLogoGithub className="w-4 h-4 group-hover/link:scale-110 transition-transform" />
-                                        <span className="hidden sm:inline">Code</span>
-                                    </Link>
+                                {project.links.github && (
+                                    <span className="p-2 rounded-lg glass-frost border border-white/10 text-color-text-muted hover:text-primary-300 hover:bg-primary-500/20 transition-colors">
+                                        <IoLogoGithub className="w-4 h-4" />
+                                    </span>
                                 )}
-                                {project.technologies && project.technologies.length > 0 && (
-                                    <span className="text-sm text-color-text-muted flex items-center gap-1.5 font-medium">
-                                        <IoCodeSlashOutline className="w-4 h-4 text-primary-400" />
-                                        <span className="hidden sm:inline">{project.technologies.length} techs</span>
+                                {(project.links.docs || project.links.documentation) && (
+                                    <span className="p-2 rounded-lg glass-frost border border-white/10 text-color-text-muted hover:text-primary-300 hover:bg-primary-500/20 transition-colors">
+                                        <IoBookOutline className="w-4 h-4" />
                                     </span>
                                 )}
                             </div>
-
-                            {/* View button */}
-                            <Link
-                                href={projectLink}
-                                className="group/btn flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-primary-500 to-accent-500 text-white text-sm font-semibold shadow-lg shadow-primary-500/25 hover:shadow-xl hover:shadow-primary-500/40 hover:scale-[1.02] transition-all duration-300"
-                            >
-                                <span>View</span>
-                                <IoArrowForward className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform duration-300" />
-                            </Link>
+                            <span className="flex items-center gap-2 text-sm font-medium text-primary-300 group-hover:gap-3 transition-all duration-300">
+                                View Details
+                                <IoArrowForward className="w-4 h-4" />
+                            </span>
                         </div>
                     </div>
-                </div>
-            </motion.div>
-        </motion.div>
+
+                    {/* Hover glow effect */}
+                    <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-r from-primary-500/5 via-transparent to-accent-500/5" />
+                </article>
+            </Link>
+        </div>
     );
 }
 
-// Compact variant for list/table views
+// Compact card for list/table view
 export function ProjectCardCompact({
     project,
     index = 0,
     searchQuery,
     onHover,
-    isHovered = false
-}: Omit<ProjectCardProps, "variant" | "showFeaturedBadge">) {
-    const [internalHovered, setInternalHovered] = useState(false);
-    const hovered = isHovered || internalHovered;
-
-    const handleMouseEnter = () => {
-        setInternalHovered(true);
-        onHover?.(project.id);
-    };
-
-    const handleMouseLeave = () => {
-        setInternalHovered(false);
-        onHover?.(null);
-    };
-
-    const projectLink = `/projects/${project.links?.slug || project.id}`;
+    isHovered,
+}: ProjectCardProps) {
+    const [imageError, setImageError] = useState(false);
+    const animationDelay = `${index * 0.05}s`;
 
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.3, delay: index * 0.05 }}
-            className="group"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+        <div
+            className="group animate-fade-up"
+            style={{ animationDelay }}
+            onMouseEnter={() => onHover?.(project.id)}
+            onMouseLeave={() => onHover?.(null)}
         >
-            <div className="relative overflow-hidden rounded-2xl glass-ultra border border-white/10 transition-all duration-500 hover:shadow-2xl hover:shadow-primary-500/20 group-hover:border-primary-500/30">
-                {/* Top gradient accent bar */}
-                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-500 via-accent-500 to-primary-400 opacity-50 group-hover:opacity-100 transition-opacity z-10" />
-
-                {/* Shine effect */}
-                <div className="absolute inset-0 shine-sweep pointer-events-none" />
-
-                <div className="flex flex-col sm:flex-row">
+            <Link href={project.links.slug || `/projects/${project.id}`}>
+                <article className="relative flex flex-col md:flex-row gap-4 p-4 glass-ultra border border-white/10 rounded-2xl overflow-hidden transition-all duration-500 hover:border-primary-500/30 hover:shadow-lg hover:shadow-primary-500/10">
                     {/* Thumbnail */}
-                    <div className="sm:w-56 h-48 sm:h-auto overflow-hidden relative border-b sm:border-b-0 sm:border-r border-white/10">
-                        <img
-                            src={project.images[0]}
-                            alt={project.title}
-                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-bg/90 via-bg/30 to-transparent opacity-70 group-hover:opacity-50 transition-opacity" />
-
-                        {/* Featured indicator */}
-                        {project.featured && (
-                            <div className="absolute top-3 left-3">
-                                <span className="px-2 py-1 rounded-lg text-[10px] font-bold bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg flex items-center gap-1">
-                                    <IoStarOutline className="w-3 h-3" />
-                                </span>
+                    <div className="relative w-full md:w-40 h-28 md:h-24 flex-shrink-0 rounded-xl overflow-hidden bg-gradient-to-br from-primary-900/50 to-bg">
+                        {project.images?.[0] && !imageError ? (
+                            <Image
+                                src={project.images[0]}
+                                alt={project.title}
+                                fill
+                                sizes="160px"
+                                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                onError={() => setImageError(true)}
+                            />
+                        ) : (
+                            <div className="absolute inset-0 flex items-center justify-center">
+                                <IoRocketOutline className="w-8 h-8 text-primary-500/40" />
                             </div>
                         )}
                     </div>
 
                     {/* Content */}
-                    <div className="flex-1 p-5 flex flex-col justify-between relative">
-                        <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 via-transparent to-accent-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-                        <div className="relative z-10">
-                            {/* Header */}
-                            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2 mb-3">
-                                <Link href={projectLink} className="block">
-                                    <motion.h2
-                                        className="text-lg font-bold text-color-text group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary-300 group-hover:to-accent-300 transition-all duration-300"
-                                        animate={hovered ? { scale: 1.01 } : { scale: 1 }}
-                                        transition={{ duration: 0.2 }}
-                                    >
-                                        {highlightMatchedText(project.title, searchQuery)}
-                                    </motion.h2>
-                                </Link>
-                                {project.date && (
-                                    <span className="text-xs text-color-text-muted flex items-center whitespace-nowrap glass-frost px-2.5 py-1 rounded-lg border border-white/10">
-                                        <IoTimeOutline className="mr-1.5 w-3.5 h-3.5 text-primary-400" />
-                                        {format(new Date(project.date), 'MMM yyyy')}
-                                    </span>
-                                )}
+                    <div className="flex-1 min-w-0 flex flex-col justify-center">
+                        <div className="flex items-start justify-between gap-4">
+                            <div className="min-w-0 flex-1">
+                                <h3 className="text-lg font-bold text-color-text group-hover:text-primary-300 transition-colors truncate">
+                                    {highlightText(project.title, searchQuery)}
+                                </h3>
+                                <p className="text-color-text-muted text-sm line-clamp-1 mt-1">
+                                    {highlightText(project.description, searchQuery)}
+                                </p>
                             </div>
-
-                            {/* Description */}
-                            <p className="text-color-text-muted text-sm mb-4 line-clamp-2">
-                                {highlightMatchedText(project.description, searchQuery)}
-                            </p>
-
-                            {/* Tags */}
-                            <div className="flex flex-wrap gap-1.5 mb-4">
-                                {project.tags.slice(0, 4).map((tag) => (
-                                    <span
-                                        key={tag}
-                                        className={`px-2 py-1 rounded-lg text-[10px] font-semibold glass-frost border border-white/10 text-primary-300 ${searchQuery && tag.toLowerCase().includes(searchQuery.toLowerCase())
-                                            ? 'bg-primary-500/20 border-primary-500/40'
-                                            : ''
-                                            }`}
-                                    >
-                                        {tag}
-                                    </span>
-                                ))}
-                                {project.tags.length > 4 && (
-                                    <span className="px-2 py-1 rounded-lg text-[10px] font-semibold text-color-text-muted">
-                                        +{project.tags.length - 4}
-                                    </span>
-                                )}
-                            </div>
+                            <span className="hidden md:flex items-center gap-2 text-sm font-medium text-primary-300 opacity-0 group-hover:opacity-100 transition-all whitespace-nowrap">
+                                View
+                                <IoArrowForward className="w-4 h-4" />
+                            </span>
                         </div>
 
-                        {/* Footer */}
-                        <div className="flex items-center justify-between relative z-10">
-                            <div className="flex items-center gap-3">
-                                {project.links?.demo && (
-                                    <Link
-                                        href={project.links.demo}
-                                        className="text-xs text-color-text-muted hover:text-primary-300 transition-colors flex items-center gap-1"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        <IoGlobeOutline className="w-3.5 h-3.5" />
-                                        Live
-                                    </Link>
-                                )}
-                                {project.links?.github && (
-                                    <Link
-                                        href={project.links.github}
-                                        className="text-xs text-color-text-muted hover:text-primary-300 transition-colors flex items-center gap-1"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        <IoLogoGithub className="w-3.5 h-3.5" />
-                                        Code
-                                    </Link>
-                                )}
-                            </div>
-                            <Link
-                                href={projectLink}
-                                className="flex items-center gap-1.5 text-xs font-semibold px-4 py-2 rounded-xl bg-gradient-to-r from-primary-500 to-accent-500 text-white shadow-lg shadow-primary-500/25 hover:shadow-primary-500/40 hover:scale-[1.02] transition-all duration-300"
-                            >
-                                View
-                                <IoArrowForward className={`w-3.5 h-3.5 transition-transform duration-300 ${hovered ? 'translate-x-0.5' : ''}`} />
-                            </Link>
+                        {/* Tags and date */}
+                        <div className="flex items-center gap-2 mt-3 flex-wrap">
+                            {project.tags.slice(0, 3).map((tag) => (
+                                <span
+                                    key={tag}
+                                    className="px-2 py-0.5 text-xs font-medium rounded-md glass-frost border border-white/10 text-primary-300"
+                                >
+                                    {tag}
+                                </span>
+                            ))}
+                            {project.date && (
+                                <span className="flex items-center gap-1 text-xs text-color-text-muted ml-auto">
+                                    <IoCalendarOutline className="w-3 h-3" />
+                                    {new Date(project.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short' })}
+                                </span>
+                            )}
                         </div>
                     </div>
-                </div>
-            </div>
-        </motion.div>
+                </article>
+            </Link>
+        </div>
     );
 }

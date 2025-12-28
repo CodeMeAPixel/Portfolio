@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { IoMailOutline, IoLocationOutline, IoSendOutline, IoPersonOutline, IoCheckmarkCircleOutline, IoCloseCircleOutline, IoLogoGithub, IoLogoTwitter, IoLogoLinkedin, IoCodeSlashOutline, IoSparkles, IoArrowForward } from "react-icons/io5";
+import { IoMailOutline, IoLocationOutline, IoSendOutline, IoPersonOutline, IoCheckmarkCircleOutline, IoCloseCircleOutline, IoLogoGithub, IoLogoTwitter, IoLogoLinkedin, IoSparkles, IoArrowForward } from "react-icons/io5";
 
 export default function ContactContent() {
     const [formState, setFormState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
@@ -50,34 +49,16 @@ export default function ContactContent() {
             </div>
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"></div>
 
-            {/* Animated floating orbs */}
-            <motion.div
-                className="absolute top-[10%] left-[10%] w-[600px] h-[600px] rounded-full bg-gradient-to-br from-primary-500/20 to-primary-600/5 blur-[120px]"
-                animate={{ scale: [1, 1.3, 1], opacity: [0.15, 0.3, 0.15] }}
-                transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <motion.div
-                className="absolute bottom-[10%] right-[5%] w-[500px] h-[500px] rounded-full bg-gradient-to-tl from-primary-400/15 to-transparent blur-[100px]"
-                animate={{ scale: [1.2, 1, 1.2], opacity: [0.1, 0.25, 0.1] }}
-                transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-            />
+            {/* Animated floating orbs - CSS animations */}
+            <div className="absolute top-[10%] left-[10%] w-[600px] h-[600px] rounded-full bg-gradient-to-br from-primary-500/20 to-primary-600/5 blur-[120px] animate-float-slow" />
+            <div className="absolute bottom-[10%] right-[5%] w-[500px] h-[500px] rounded-full bg-gradient-to-tl from-primary-400/15 to-transparent blur-[100px] animate-float-medium" />
 
             <div className="container-section max-w-6xl relative">
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
-                    className="mb-20 text-center"
-                >
-                    <motion.div
-                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full glass-frost text-primary-300 text-sm font-semibold mb-8"
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.1 }}
-                    >
+                <div className="mb-20 text-center animate-fade-in">
+                    <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full glass-frost text-primary-300 text-sm font-semibold mb-8 animate-fade-in-up">
                         <IoSparkles className="w-4 h-4" />
                         <span>Let&apos;s Connect</span>
-                    </motion.div>
+                    </div>
                     <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-color-text mb-6">
                         Get In <span className="animated-gradient-text text-shadow-glow">Touch</span>
                     </h1>
@@ -85,16 +66,11 @@ export default function ContactContent() {
                         Have a question or want to work together? Feel free to reach out using the form below
                         or connect with me on social media.
                     </p>
-                </motion.div>
+                </div>
 
                 <div className="grid lg:grid-cols-5 gap-8 lg:gap-12">
                     {/* Contact info column */}
-                    <motion.div
-                        className="lg:col-span-2"
-                        initial={{ opacity: 0, x: -30 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.6, delay: 0.1 }}
-                    >
+                    <div className="lg:col-span-2 animate-fade-in-up" style={{ animationDelay: '100ms' }}>
                         <div className="space-y-6">
                             {/* Contact Information Card */}
                             <div className="relative p-8 rounded-3xl glass-ultra overflow-hidden">
@@ -172,15 +148,10 @@ export default function ContactContent() {
                                 </div>
                             </div>
                         </div>
-                    </motion.div>
+                    </div>
 
                     {/* Contact form column */}
-                    <motion.div
-                        className="lg:col-span-3"
-                        initial={{ opacity: 0, x: 30 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                    >
+                    <div className="lg:col-span-3 animate-fade-in-up" style={{ animationDelay: '200ms' }}>
                         <div className="relative p-8 md:p-10 rounded-3xl glass-ultra overflow-hidden">
                             {/* Spotlight effect */}
                             <div className="absolute inset-0 spotlight opacity-30"></div>
@@ -193,11 +164,7 @@ export default function ContactContent() {
                                 <h2 className="text-2xl font-bold text-color-text mb-8">Send Me a Message</h2>
 
                                 {formState === 'success' ? (
-                                    <motion.div
-                                        className="flex flex-col items-center text-center py-12"
-                                        initial={{ opacity: 0, scale: 0.9 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                    >
+                                    <div className="flex flex-col items-center text-center py-12 animate-fade-in">
                                         <div className="p-5 rounded-2xl glass-frost text-green-400 mb-6">
                                             <IoCheckmarkCircleOutline className="w-16 h-16" />
                                         </div>
@@ -206,7 +173,7 @@ export default function ContactContent() {
                                             Thank you for reaching out. I&apos;ll get back to you as soon as possible!
                                         </p>
                                         <button
-                                            className="group relative inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold overflow-hidden shine-sweep"
+                                            className="group relative inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold overflow-hidden shine-sweep hover:scale-[1.02] active:scale-[0.98] transition-transform"
                                             onClick={() => setFormState('idle')}
                                         >
                                             <span className="absolute inset-0 bg-gradient-to-r from-primary-600 to-primary-400"></span>
@@ -215,13 +182,9 @@ export default function ContactContent() {
                                                 <IoArrowForward className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                                             </span>
                                         </button>
-                                    </motion.div>
+                                    </div>
                                 ) : formState === 'error' ? (
-                                    <motion.div
-                                        className="flex flex-col items-center text-center py-12"
-                                        initial={{ opacity: 0, scale: 0.9 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                    >
+                                    <div className="flex flex-col items-center text-center py-12 animate-fade-in">
                                         <div className="p-5 rounded-2xl glass-frost text-red-400 mb-6">
                                             <IoCloseCircleOutline className="w-16 h-16" />
                                         </div>
@@ -230,13 +193,13 @@ export default function ContactContent() {
                                             There was an error sending your message. Please try again or contact me directly via email.
                                         </p>
                                         <button
-                                            className="group relative inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold overflow-hidden shine-sweep"
+                                            className="group relative inline-flex items-center gap-2 px-8 py-4 rounded-xl font-semibold overflow-hidden shine-sweep hover:scale-[1.02] active:scale-[0.98] transition-transform"
                                             onClick={() => setFormState('idle')}
                                         >
                                             <span className="absolute inset-0 bg-gradient-to-r from-primary-600 to-primary-400"></span>
                                             <span className="relative z-10 text-white">Try Again</span>
                                         </button>
-                                    </motion.div>
+                                    </div>
                                 ) : (
                                     <form onSubmit={handleSubmit} className="space-y-6">
                                         <div className="grid sm:grid-cols-2 gap-6">
@@ -318,7 +281,7 @@ export default function ContactContent() {
                                         <div>
                                             <button
                                                 type="submit"
-                                                className="group relative inline-flex items-center gap-3 px-10 py-4 rounded-xl font-bold text-lg overflow-hidden shine-sweep w-full sm:w-auto justify-center"
+                                                className="group relative inline-flex items-center gap-3 px-10 py-4 rounded-xl font-bold text-lg overflow-hidden shine-sweep w-full sm:w-auto justify-center hover:scale-[1.02] active:scale-[0.98] transition-transform"
                                                 disabled={formState === 'submitting'}
                                             >
                                                 <span className="absolute inset-0 bg-gradient-to-r from-primary-600 via-primary-500 to-primary-600 bg-[length:200%_100%] animate-[gradient-x_3s_linear_infinite]"></span>
@@ -346,7 +309,7 @@ export default function ContactContent() {
                                 )}
                             </div>
                         </div>
-                    </motion.div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -366,7 +329,7 @@ function SocialButton({ icon, label, href, gradient }: SocialButtonProps) {
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative flex items-center gap-3 px-5 py-3 rounded-xl glass-frost overflow-hidden transition-all duration-300 hover:scale-105"
+            className="group relative flex items-center gap-3 px-5 py-3 rounded-xl glass-frost overflow-hidden transition-all duration-300 hover:scale-105 active:scale-95"
         >
             {/* Hover gradient background */}
             <span className={`absolute inset-0 bg-gradient-to-r ${gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></span>

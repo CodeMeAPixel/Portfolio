@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { IoTimeOutline, IoCheckmarkCircle, IoCloseCircle, IoChatbubblesOutline, IoFlashOutline, IoHeartOutline, IoSparkles, IoCopyOutline, IoCheckmark } from "react-icons/io5";
 import { useState } from "react";
 
@@ -20,12 +19,9 @@ interface ChatBubbleProps {
 
 function ChatBubble({ messages, isRight = false, avatar, name, delay = 0 }: ChatBubbleProps) {
     return (
-        <motion.div
-            className={`flex gap-3 ${isRight ? 'flex-row-reverse' : ''}`}
-            initial={{ opacity: 0, x: isRight ? 20 : -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay }}
+        <div
+            className={`flex gap-3 ${isRight ? 'flex-row-reverse' : ''} animate-fade-in`}
+            style={{ animationDelay: `${delay * 1000}ms` }}
         >
             {/* Avatar */}
             <div className={`w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center text-lg font-bold ${isRight ? 'bg-gradient-to-br from-primary-500 to-primary-600' : 'bg-gradient-to-br from-gray-600 to-gray-700'} shadow-lg`}>
@@ -50,7 +46,7 @@ function ChatBubble({ messages, isRight = false, avatar, name, delay = 0 }: Chat
                     </div>
                 ))}
             </div>
-        </motion.div>
+        </div>
     );
 }
 
@@ -58,7 +54,7 @@ export default function JustAskContent() {
     const [copied, setCopied] = useState(false);
 
     const handleCopyLink = () => {
-        navigator.clipboard.writeText("https://codemeapixel.dev/just-ask");
+        navigator.clipboard.writeText("https://cmap.lol/just-ask");
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
     };
@@ -72,41 +68,19 @@ export default function JustAskContent() {
             </div>
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"></div>
 
-            {/* Animated floating orbs */}
-            <motion.div
-                className="absolute top-[10%] right-[10%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-primary-500/20 to-primary-600/5 blur-[100px]"
-                animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2] }}
-                transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <motion.div
-                className="absolute bottom-[20%] left-[5%] w-[400px] h-[400px] rounded-full bg-gradient-to-tl from-primary-400/15 to-transparent blur-[80px]"
-                animate={{ scale: [1.2, 1, 1.2], opacity: [0.15, 0.3, 0.15] }}
-                transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-            />
-            <motion.div
-                className="absolute top-[50%] left-[50%] w-[300px] h-[300px] rounded-full bg-gradient-to-r from-red-500/10 to-orange-500/10 blur-[80px]"
-                animate={{ scale: [1, 1.2, 1], x: [-50, 50, -50], opacity: [0.1, 0.2, 0.1] }}
-                transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-            />
+            {/* Animated floating orbs - CSS animations */}
+            <div className="absolute top-[10%] right-[10%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-primary-500/20 to-primary-600/5 blur-[100px] animate-float-slow" />
+            <div className="absolute bottom-[20%] left-[5%] w-[400px] h-[400px] rounded-full bg-gradient-to-tl from-primary-400/15 to-transparent blur-[80px] animate-float-medium" />
+            <div className="absolute top-[50%] left-[50%] w-[300px] h-[300px] rounded-full bg-gradient-to-r from-red-500/10 to-orange-500/10 blur-[80px] animate-float-fast" />
 
             <div className="container-section max-w-4xl relative">
                 {/* Header */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
-                    className="text-center mb-16"
-                >
+                <div className="text-center mb-16 animate-fade-in">
                     {/* Badge */}
-                    <motion.span
-                        className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-primary-300 glass-frost rounded-full mb-8"
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.1 }}
-                    >
+                    <span className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-primary-300 glass-frost rounded-full mb-8 animate-fade-in-up">
                         <IoFlashOutline className="w-4 h-4" />
                         Communication Etiquette
-                    </motion.span>
+                    </span>
 
                     <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6">
                         <span className="text-color-text">Just </span>
@@ -117,16 +91,10 @@ export default function JustAskContent() {
                         Skip the pleasantries. Respect my time, and I&apos;ll respect yours.
                         Let&apos;s communicate efficiently.
                     </p>
-                </motion.div>
+                </div>
 
                 {/* Why Section */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
-                    className="mb-16"
-                >
+                <div className="mb-16 animate-fade-in-up" style={{ animationDelay: '100ms' }}>
                     <div className="glass-ultra rounded-3xl p-8 md:p-10 relative overflow-hidden">
                         <div className="absolute inset-0 shine-sweep"></div>
 
@@ -150,18 +118,12 @@ export default function JustAskContent() {
                             </p>
                         </div>
                     </div>
-                </motion.div>
+                </div>
 
                 {/* Comparison Section */}
                 <div className="grid md:grid-cols-2 gap-6 mb-16">
                     {/* Bad Example */}
-                    <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5 }}
-                        className="relative"
-                    >
+                    <div className="relative animate-fade-in-up" style={{ animationDelay: '200ms' }}>
                         <div className="glass-ultra rounded-3xl p-6 md:p-8 relative overflow-hidden border border-red-500/20">
                             <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-500 to-orange-500"></div>
 
@@ -244,16 +206,10 @@ export default function JustAskContent() {
                                 </div>
                             </div>
                         </div>
-                    </motion.div>
+                    </div>
 
                     {/* Good Example */}
-                    <motion.div
-                        initial={{ opacity: 0, x: 20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: 0.1 }}
-                        className="relative"
-                    >
+                    <div className="relative animate-fade-in-up" style={{ animationDelay: '300ms' }}>
                         <div className="glass-ultra rounded-3xl p-6 md:p-8 relative overflow-hidden border border-green-500/20">
                             <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-green-500 to-emerald-500"></div>
 
@@ -304,17 +260,11 @@ export default function JustAskContent() {
                                 </div>
                             </div>
                         </div>
-                    </motion.div>
+                    </div>
                 </div>
 
                 {/* Key Points */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
-                    className="mb-16"
-                >
+                <div className="mb-16 animate-fade-in-up" style={{ animationDelay: '400ms' }}>
                     <div className="glass-ultra rounded-3xl p-8 md:p-10 relative overflow-hidden">
                         <div className="absolute inset-0 shine-sweep"></div>
 
@@ -348,13 +298,10 @@ export default function JustAskContent() {
                                     description: "The more details you provide upfront, the faster I can give you a helpful answer."
                                 }
                             ].map((point, i) => (
-                                <motion.div
+                                <div
                                     key={point.title}
-                                    initial={{ opacity: 0, y: 10 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: i * 0.1 }}
-                                    className="flex gap-4"
+                                    className="flex gap-4 animate-fade-in"
+                                    style={{ animationDelay: `${500 + i * 100}ms` }}
                                 >
                                     <div className="w-10 h-10 rounded-xl bg-primary-500/10 flex items-center justify-center flex-shrink-0">
                                         <point.icon className="w-5 h-5 text-primary-400" />
@@ -363,20 +310,14 @@ export default function JustAskContent() {
                                         <h3 className="font-semibold text-color-text mb-1">{point.title}</h3>
                                         <p className="text-sm text-color-text-muted">{point.description}</p>
                                     </div>
-                                </motion.div>
+                                </div>
                             ))}
                         </div>
                     </div>
-                </motion.div>
+                </div>
 
                 {/* CTA Section */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
-                    className="text-center"
-                >
+                <div className="text-center animate-fade-in-up" style={{ animationDelay: '600ms' }}>
                     <div className="glass-ultra rounded-3xl p-8 md:p-10 relative overflow-hidden">
                         <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 to-primary-600/5"></div>
                         <div className="absolute inset-0 shine-sweep"></div>
@@ -390,11 +331,9 @@ export default function JustAskContent() {
                             </p>
 
                             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                                <motion.button
+                                <button
                                     onClick={handleCopyLink}
-                                    className="group relative px-8 py-4 rounded-2xl font-semibold overflow-hidden"
-                                    whileHover={{ scale: 1.02 }}
-                                    whileTap={{ scale: 0.98 }}
+                                    className="group relative px-8 py-4 rounded-2xl font-semibold overflow-hidden hover:scale-[1.02] active:scale-[0.98] transition-transform"
                                 >
                                     <div className="absolute inset-0 bg-gradient-to-r from-primary-500 to-primary-600"></div>
                                     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-r from-primary-400 to-primary-500 transition-opacity duration-300"></div>
@@ -411,33 +350,25 @@ export default function JustAskContent() {
                                             </>
                                         )}
                                     </span>
-                                </motion.button>
+                                </button>
 
-                                <motion.a
+                                <a
                                     href="/contact"
-                                    className="group relative px-8 py-4 rounded-2xl font-semibold glass-frost overflow-hidden"
-                                    whileHover={{ scale: 1.02 }}
-                                    whileTap={{ scale: 0.98 }}
+                                    className="group relative px-8 py-4 rounded-2xl font-semibold glass-frost overflow-hidden hover:scale-[1.02] active:scale-[0.98] transition-transform"
                                 >
                                     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-primary-500/10 transition-opacity duration-300"></div>
                                     <span className="relative flex items-center justify-center gap-2 text-color-text">
                                         <IoChatbubblesOutline className="w-5 h-5" />
                                         Contact Me
                                     </span>
-                                </motion.a>
+                                </a>
                             </div>
                         </div>
                     </div>
-                </motion.div>
+                </div>
 
                 {/* Footer note */}
-                <motion.p
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.3 }}
-                    className="text-center text-sm text-color-text-muted mt-12"
-                >
+                <p className="text-center text-sm text-color-text-muted mt-12 animate-fade-in" style={{ animationDelay: '700ms' }}>
                     Inspired by{" "}
                     <a
                         href="https://nohello.club"
@@ -447,7 +378,7 @@ export default function JustAskContent() {
                     >
                         nohello.club
                     </a>
-                </motion.p>
+                </p>
             </div>
         </section>
     );

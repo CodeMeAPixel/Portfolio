@@ -1,7 +1,6 @@
 "use client";
 
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
 import type { PostMetadata } from '@/lib/mdx';
 import { calculateReadingTime } from '@/lib/mdx';
 import {
@@ -112,35 +111,27 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"></div>
 
             {/* Animated floating orbs */}
-            <motion.div
-                className="absolute top-[20%] left-[5%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-primary-500/15 to-primary-600/5 blur-[100px]"
-                animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.25, 0.15] }}
-                transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+            <div
+                className="absolute top-[20%] left-[5%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-primary-500/15 to-primary-600/5 blur-[100px] animate-pulse"
             />
-            <motion.div
-                className="absolute bottom-[30%] right-[10%] w-[400px] h-[400px] rounded-full bg-gradient-to-tl from-primary-400/10 to-transparent blur-[80px]"
-                animate={{ scale: [1.2, 1, 1.2], opacity: [0.1, 0.2, 0.1] }}
-                transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+            <div
+                className="absolute bottom-[30%] right-[10%] w-[400px] h-[400px] rounded-full bg-gradient-to-tl from-primary-400/10 to-transparent blur-[80px] animate-pulse"
+                style={{ animationDelay: '3s' }}
             />
 
             {/* Header section */}
             <div className="container-section relative">
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
-                    className="flex flex-col md:flex-row md:items-end justify-between mb-14"
+                <div
+                    className="flex flex-col md:flex-row md:items-end justify-between mb-14 animate-fade-up"
                 >
                     <div>
-                        <motion.span
-                            className="inline-flex items-center gap-2 px-4 py-2 mb-6 text-sm font-semibold text-primary-300 glass-frost rounded-full"
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.1 }}
+                        <span
+                            className="inline-flex items-center gap-2 px-4 py-2 mb-6 text-sm font-semibold text-primary-300 glass-frost rounded-full animate-fade-in"
+                            style={{ animationDelay: '0.1s' }}
                         >
                             <IoBookmarkOutline className="w-4 h-4" />
                             Articles & Insights
-                        </motion.span>
+                        </span>
                         <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-center md:text-left mb-4">
                             <span className="text-color-text">My </span>
                             <span className="animated-gradient-text text-shadow-glow">Blog</span>
@@ -232,11 +223,8 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
                         {/* Search button and input - Hidden on mobile */}
                         <div className="hidden md:flex relative items-center">
                             {isSearching && (
-                                <motion.div
-                                    initial={{ opacity: 0, width: 0 }}
-                                    animate={{ opacity: 1, width: 'auto' }}
-                                    exit={{ opacity: 0, width: 0 }}
-                                    className="flex items-center"
+                                <div
+                                    className="flex items-center animate-fade-in"
                                 >
                                     <input
                                         id="blog-search"
@@ -258,20 +246,18 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
                                     >
                                         <IoClose className="w-4 h-4" />
                                     </button>
-                                </motion.div>
+                                </div>
                             )}
 
                             {!isSearching && (
-                                <motion.button
+                                <button
                                     onClick={toggleSearch}
-                                    className="px-4 py-2 rounded-xl bg-primary-800/20 border border-primary-700/20 text-primary-300 text-sm flex items-center gap-2 hover:bg-primary-800/30 hover:border-primary-700/30 transition-all focus:outline-none"
-                                    whileHover={{ scale: 1.02 }}
-                                    whileTap={{ scale: 0.98 }}
+                                    className="px-4 py-2 rounded-xl bg-primary-800/20 border border-primary-700/20 text-primary-300 text-sm flex items-center gap-2 hover:bg-primary-800/30 hover:border-primary-700/30 hover:scale-[1.02] active:scale-[0.98] transition-all focus:outline-none"
                                     aria-label="Search articles"
                                 >
                                     <IoSearch className="w-4 h-4" />
                                     <span className="hidden sm:inline">Search</span>
-                                </motion.button>
+                                </button>
                             )}
                         </div>
 
@@ -352,7 +338,7 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
                             </DropdownMenu.Root>
                         </div>
                     </div>
-                </motion.div>
+                </div>
 
                 {/* Mobile controls section */}
                 <div className="flex flex-col gap-4 mb-8 md:hidden">
@@ -489,16 +475,12 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
                 )}
 
                 {filteredPosts.length > 0 ? (
-                    <AnimatePresence mode="wait">
+                    <>
                         {layout === 'grid' ? (
                             // Grid layout - our classic card view
-                            <motion.div
+                            <div
                                 key="grid"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                transition={{ duration: 0.3 }}
-                                className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
+                                className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 animate-fade-in"
                             >
                                 {filteredPosts.map((post, index) => {
                                     const readingTime = calculateReadingTime(post.content);
@@ -523,16 +505,12 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
                                         />
                                     );
                                 })}
-                            </motion.div>
+                            </div>
                         ) : (
                             // List layout - more compact view
-                            <motion.div
+                            <div
                                 key="list"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                transition={{ duration: 0.3 }}
-                                className="flex flex-col gap-4"
+                                className="flex flex-col gap-4 animate-fade-in"
                             >
                                 {filteredPosts.map((post, index) => {
                                     const readingTime = calculateReadingTime(post.content);
@@ -557,15 +535,13 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
                                         />
                                     );
                                 })}
-                            </motion.div>
+                            </div>
                         )}
-                    </AnimatePresence>
+                    </>
                 ) : (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
-                        className="text-center p-10 bg-card border border-color-border rounded-xl"
+                    <div
+                        className="text-center p-10 bg-card border border-color-border rounded-xl animate-fade-in"
+                        style={{ animationDelay: '0.2s' }}
                     >
                         <h3 className="text-xl font-semibold mb-2">
                             {debouncedSearchQuery
@@ -595,7 +571,7 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
                                 </button>
                             )}
                         </div>
-                    </motion.div>
+                    </div>
                 )}
             </div>
         </section>
@@ -616,12 +592,10 @@ function CardItem({ post, index, readingTime, formattedDate, isHovered, onHover,
     const cardRef = useRef<HTMLDivElement>(null);
 
     return (
-        <motion.div
+        <div
             ref={cardRef}
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="h-full"
+            className="h-full animate-fade-up"
+            style={{ animationDelay: `${index * 0.1}s` }}
             onMouseEnter={() => onHover(post.metadata.slug)}
             onMouseLeave={() => onHover(null)}
         >
@@ -674,13 +648,11 @@ function CardItem({ post, index, readingTime, formattedDate, isHovered, onHover,
                         </div>
 
                         {/* Title with hover effect */}
-                        <motion.h2
-                            className="text-xl sm:text-2xl font-bold mb-4 text-color-text group-hover:text-primary-300 transition-colors"
-                            animate={isHovered ? { scale: 1.02 } : { scale: 1 }}
-                            transition={{ duration: 0.2 }}
+                        <h2
+                            className={`text-xl sm:text-2xl font-bold mb-4 text-color-text group-hover:text-primary-300 transition-all duration-200 ${isHovered ? 'scale-[1.02]' : ''}`}
                         >
                             {highlightMatchedText(post.metadata.title, searchQuery)}
-                        </motion.h2>
+                        </h2>
 
                         {/* Description with line clamp */}
                         {post.metadata.description && (
@@ -704,16 +676,14 @@ function CardItem({ post, index, readingTime, formattedDate, isHovered, onHover,
                                     </div>
                                 </div>
 
-                                <motion.div
-                                    className="relative flex-shrink-0 ml-2"
-                                    animate={isHovered ? { x: 5 } : { x: 0 }}
-                                    transition={{ duration: 0.3 }}
+                                <div
+                                    className={`relative flex-shrink-0 ml-2 transition-transform duration-300 ${isHovered ? 'translate-x-[5px]' : ''}`}
                                 >
                                     <span className="flex items-center gap-2 text-primary-400 text-sm font-semibold transition-all duration-300 whitespace-nowrap">
                                         Read post
                                         <IoArrowForward className={`w-4 h-4 transition-all duration-300 ${isHovered ? 'opacity-100 translate-x-0.5' : 'opacity-0'}`} />
                                     </span>
-                                </motion.div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -722,17 +692,15 @@ function CardItem({ post, index, readingTime, formattedDate, isHovered, onHover,
                     <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary-500/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
                 </div>
             </Link>
-        </motion.div>
+        </div>
     );
 }
 
 function ListItem({ post, index, readingTime, formattedDate, isHovered, onHover, searchQuery }: CardItemProps) {
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: index * 0.05 }}
-            className="group"
+        <div
+            className="group animate-fade-up"
+            style={{ animationDelay: `${index * 0.05}s` }}
             onMouseEnter={() => onHover(post.metadata.slug)}
             onMouseLeave={() => onHover(null)}
         >
@@ -774,13 +742,11 @@ function ListItem({ post, index, readingTime, formattedDate, isHovered, onHover,
                         </div>
 
                         {/* Title with hover effect */}
-                        <motion.h2
-                            className="text-xl font-bold mb-3 text-color-text group-hover:text-primary-300 transition-colors"
-                            animate={isHovered ? { scale: 1.01 } : { scale: 1 }}
-                            transition={{ duration: 0.2 }}
+                        <h2
+                            className={`text-xl font-bold mb-3 text-color-text group-hover:text-primary-300 transition-all duration-200 ${isHovered ? 'scale-[1.01]' : ''}`}
                         >
                             {highlightMatchedText(post.metadata.title, searchQuery)}
-                        </motion.h2>
+                        </h2>
 
                         {/* Description */}
                         {post.metadata.description && (
@@ -805,16 +771,14 @@ function ListItem({ post, index, readingTime, formattedDate, isHovered, onHover,
                                 ))}
                             </div>
 
-                            <motion.div
-                                className="relative flex-shrink-0 ml-2"
-                                animate={isHovered ? { x: 5 } : { x: 0 }}
-                                transition={{ duration: 0.3 }}
+                            <div
+                                className={`relative flex-shrink-0 ml-2 transition-transform duration-300 ${isHovered ? 'translate-x-[5px]' : ''}`}
                             >
                                 <span className="flex items-center gap-2 text-primary-400 text-sm font-semibold transition-all duration-300 whitespace-nowrap">
                                     Read post
                                     <IoArrowForward className={`w-4 h-4 transition-all duration-300 ${isHovered ? 'translate-x-1 opacity-100' : 'opacity-0'}`} />
                                 </span>
-                            </motion.div>
+                            </div>
                         </div>
                     </div>
 
@@ -822,7 +786,7 @@ function ListItem({ post, index, readingTime, formattedDate, isHovered, onHover,
                     <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary-500/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
                 </div>
             </Link>
-        </motion.div>
+        </div>
     );
 }
 
