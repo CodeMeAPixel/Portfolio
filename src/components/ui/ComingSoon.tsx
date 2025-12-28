@@ -190,7 +190,6 @@ function NotificationForm() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Email submitted:", email);
         setIsSubmitted(true);
         setEmail("");
 

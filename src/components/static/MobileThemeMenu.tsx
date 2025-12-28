@@ -3,7 +3,7 @@
 import { useTheme } from "@/context/ThemeContext";
 import { useState } from "react";
 import * as Dialog from '@radix-ui/react-dialog';
-import { IoClose, IoColorPaletteOutline, IoGameController, IoSparkles, IoCodeSlash, IoCheckmark } from "react-icons/io5";
+import { IoClose, IoColorPaletteOutline, IoGameController, IoSparkles, IoCodeSlash, IoCheckmark, IoCheckmarkCircleOutline } from "react-icons/io5";
 
 type ThemeCategory = "gaming" | "popculture" | "classic" | "developer";
 
@@ -89,8 +89,8 @@ export default function MobileThemeMenu() {
             </Dialog.Trigger>
 
             <Dialog.Portal>
-                <Dialog.Overlay className="fixed inset-0 bg-black/70 backdrop-blur-md z-[10000] animate-fade-in" />
-                <Dialog.Content className="fixed inset-x-3 bottom-3 top-auto max-h-[85vh] bg-bg border border-white/10 rounded-2xl shadow-2xl z-[10001] overflow-hidden animate-fade-in focus:outline-none">
+                <Dialog.Overlay className="fixed inset-0 bg-black/80 backdrop-blur-md z-[10000] animate-fade-in" />
+                <Dialog.Content className="fixed inset-x-3 bottom-0 top-auto max-h-[85vh] bg-card/95 backdrop-blur-2xl border-t border-x border-white/20 rounded-t-3xl shadow-[0_-20px_50px_rgba(0,0,0,0.6)] z-[10001] overflow-hidden animate-in slide-in-from-bottom duration-300 focus:outline-none">
                     {/* Header */}
                     <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-white/5">
                         <Dialog.Title className="flex items-center gap-2 text-sm font-semibold">
@@ -136,8 +136,8 @@ export default function MobileThemeMenu() {
                     </div>
 
                     {/* Theme Grid */}
-                    <div className="p-3 overflow-y-auto max-h-[50vh]">
-                        <div className="grid grid-cols-2 gap-2">
+                    <div className="p-4 overflow-y-auto max-h-[55vh] custom-scrollbar">
+                        <div className="grid grid-cols-2 gap-3 pb-8">
                             {filteredThemes.map((option) => {
                                 const isActive = themeColor === option.name;
 
@@ -149,37 +149,35 @@ export default function MobileThemeMenu() {
                                             setIsOpen(false);
                                         }}
                                         className={`
-                      flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200
-                      hover:scale-[1.02] active:scale-[0.98]
-                      ${isActive
-                                                ? 'bg-gradient-to-r from-primary-500/20 to-accent-500/10 ring-1 ring-primary-500/30'
-                                                : 'bg-white/5 hover:bg-white/10'
+                                            flex items-center justify-between gap-3 px-4 py-3.5 rounded-2xl transition-all duration-300
+                                            hover:scale-[1.02] active:scale-[0.98]
+                                            ${isActive
+                                                ? 'bg-primary-500/15 ring-1 ring-primary-500/30 text-primary-300'
+                                                : 'bg-white/5 hover:bg-white/10 text-color-text-muted hover:text-color-text'
                                             }
-                    `}
+                                        `}
                                     >
-                                        <div className="relative">
-                                            <div
-                                                className={`w-8 h-8 rounded-xl ring-2 overflow-hidden ${isActive ? 'ring-primary-400' : 'ring-white/20'
-                                                    }`}
-                                            >
-                                                <div className={`w-full h-full bg-gradient-to-br ${option.gradient}`} />
-                                            </div>
-                                            {isActive && (
-                                                <div className="absolute -top-1 -right-1 w-4 h-4 bg-primary-500 rounded-full flex items-center justify-center">
-                                                    <IoCheckmark className="w-2.5 h-2.5 text-white" />
+                                        <div className="flex items-center gap-3 min-w-0">
+                                            <div className="relative">
+                                                <div
+                                                    className={`w-10 h-10 rounded-xl ring-1 overflow-hidden transition-all ${isActive ? 'ring-primary-400' : 'ring-white/10'
+                                                        }`}
+                                                >
+                                                    <div className={`w-full h-full bg-gradient-to-br ${option.gradient}`} />
                                                 </div>
-                                            )}
+                                            </div>
+                                            <div className="flex flex-col items-start min-w-0">
+                                                <span className={`text-xs font-semibold truncate`}>
+                                                    {option.label}
+                                                </span>
+                                                <span className="text-[10px] opacity-60 capitalize">
+                                                    {categoryConfig[option.category].label}
+                                                </span>
+                                            </div>
                                         </div>
-                                        <div className="flex flex-col items-start min-w-0">
-                                            <span className={`text-xs font-medium truncate ${isActive ? 'text-primary-300' : 'text-color-text'
-                                                }`}>
-                                                {option.icon && <span className="mr-1">{option.icon}</span>}
-                                                {option.label}
-                                            </span>
-                                            <span className="text-[10px] text-color-text-muted capitalize">
-                                                {categoryConfig[option.category].label}
-                                            </span>
-                                        </div>
+                                        {isActive && (
+                                            <IoCheckmarkCircleOutline className="w-5 h-5 text-primary-400 flex-shrink-0" />
+                                        )}
                                     </button>
                                 );
                             })}

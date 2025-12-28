@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react';
 import { Project } from '@/types/project';
 import {
     IoSearch, IoClose, IoGridOutline, IoListOutline, IoSwapVertical,
-    IoChevronDown, IoBookmarkOutline, IoCalendarOutline, IoSparkles
+    IoChevronDown, IoBookmarkOutline, IoCalendarOutline, IoSparkles,
+    IoCheckmarkCircleOutline
 } from 'react-icons/io5';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import ComingSoon from '@/components/ui/ComingSoon';
@@ -102,7 +103,7 @@ export default function ProjectsContent({
     };
 
     return (
-        <section className="py-24 md:py-32 bg-bg relative z-10 overflow-hidden">
+        <section className="pt-20 pb-24 md:pt-24 md:pb-32 bg-bg relative overflow-hidden">
             {/* Premium background */}
             <div className="absolute inset-0">
                 <div className="absolute inset-0 bg-aurora opacity-40"></div>
@@ -172,33 +173,37 @@ export default function ProjectsContent({
 
                         {/* Sort dropdown */}
                         <div className="hidden md:block">
-                            <DropdownMenu.Root open={sortOpen} onOpenChange={setSortOpen}>
+                            <DropdownMenu.Root open={sortOpen} onOpenChange={setSortOpen} modal={false}>
                                 <DropdownMenu.Trigger asChild>
-                                    <button className="px-4 py-2.5 rounded-xl glass-frost border border-white/10 text-color-text text-sm flex items-center gap-2 hover:bg-white/10 hover:border-primary-500/30 transition-all duration-300 focus:outline-none">
+                                    <button className="px-4 py-2.5 rounded-xl glass-frost border border-white/10 text-color-text text-sm flex items-center gap-2 hover:bg-white/10 hover:border-primary-500/30 transition-all duration-300 focus:outline-none" type="button">
                                         <IoSwapVertical className="w-4 h-4 text-primary-400" />
                                         <span>{getSortOptionText(sortBy)}</span>
                                         <IoChevronDown className="w-3 h-3 ml-1 transition-transform duration-300" style={{ transform: sortOpen ? 'rotate(180deg)' : 'none' }} />
                                     </button>
                                 </DropdownMenu.Trigger>
-                                <DropdownMenu.Content
-                                    className="z-[200] min-w-[200px] p-2 bg-bg/95 backdrop-blur-xl border border-white/10 shadow-2xl shadow-black/40 rounded-xl overflow-hidden animate-in fade-in-80 slide-in-from-top-5"
-                                    align="end"
-                                    sideOffset={5}
-                                >
+                                <DropdownMenu.Portal>
+                                    <DropdownMenu.Content
+                                        className="dropdown-animate z-[200] min-w-[220px] p-2 bg-card/95 backdrop-blur-2xl border border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.6)] rounded-2xl overflow-hidden"
+                                        align="end"
+                                        sideOffset={8}
+                                    >
                                     {(['date-desc', 'date-asc', 'alphabetical'] as SortOption[]).map((option) => (
                                         <DropdownMenu.Item
                                             key={option}
-                                            className={`text-sm px-3 py-2.5 cursor-pointer rounded-lg outline-none transition-all duration-200 ${sortBy === option ? 'bg-gradient-to-r from-primary-500/20 to-accent-500/20 text-primary-300 font-medium border border-primary-500/20' : 'text-color-text-muted hover:bg-white/10 hover:text-color-text'}`}
+                                            className={`group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between ${sortBy === option ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20' : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'}`}
                                             onClick={() => setSortBy(option)}
                                         >
-                                            <div className="flex items-center">
-                                                <IoCalendarOutline className="w-4 h-4 mr-2" />
-                                                {getSortOptionText(option)}
-                                                {sortBy === option && <span className="ml-auto text-primary-400">✓</span>}
+                                            <div className="flex items-center gap-3">
+                                                <div className={`p-1.5 rounded-lg transition-colors ${sortBy === option ? 'bg-primary-500/20' : 'bg-white/5 group-hover:bg-white/10'}`}>
+                                                    <IoCalendarOutline className="w-4 h-4" />
+                                                </div>
+                                                <span>{getSortOptionText(option)}</span>
                                             </div>
+                                            {sortBy === option && <IoCheckmarkCircleOutline className="w-4 h-4 text-primary-400" />}
                                         </DropdownMenu.Item>
                                     ))}
-                                </DropdownMenu.Content>
+                                    </DropdownMenu.Content>
+                                </DropdownMenu.Portal>
                             </DropdownMenu.Root>
                         </div>
 
@@ -239,36 +244,42 @@ export default function ProjectsContent({
 
                         {/* Filter dropdown */}
                         <div className={`hidden md:block ${isSearching ? 'md:hidden' : ''}`}>
-                            <DropdownMenu.Root open={filterOpen} onOpenChange={setFilterOpen}>
+                            <DropdownMenu.Root open={filterOpen} onOpenChange={setFilterOpen} modal={false}>
                                 <DropdownMenu.Trigger asChild>
-                                    <button className="relative px-4 py-2.5 rounded-xl glass-frost border border-white/10 text-primary-300 text-sm flex items-center gap-2 hover:bg-white/10 hover:border-primary-500/30 transition-all duration-300 focus:outline-none">
+                                    <button className="relative px-4 py-2.5 rounded-xl glass-frost border border-white/10 text-primary-300 text-sm flex items-center gap-2 hover:bg-white/10 hover:border-primary-500/30 transition-all duration-300 focus:outline-none" type="button">
                                         <IoBookmarkOutline className="w-4 h-4" />
                                         <span className="hidden sm:inline">{activeFilter === 'All' ? 'All technologies' : activeFilter}</span>
                                         <span className="sm:hidden">Filter</span>
                                         <IoChevronDown className="w-3 h-3 ml-1 transition-transform duration-300" style={{ transform: filterOpen ? 'rotate(180deg)' : 'none' }} />
                                     </button>
                                 </DropdownMenu.Trigger>
-                                <DropdownMenu.Content
-                                    className="z-[200] min-w-[200px] max-h-[300px] overflow-y-auto p-2 bg-bg/95 backdrop-blur-xl border border-white/10 shadow-2xl shadow-black/40 rounded-xl animate-in fade-in-80 slide-in-from-top-5"
-                                    align="end"
-                                    sideOffset={5}
-                                >
+                                <DropdownMenu.Portal>
+                                    <DropdownMenu.Content
+                                        className="dropdown-animate z-[200] min-w-[240px] max-h-[300px] overflow-y-auto p-2 bg-card/95 backdrop-blur-2xl border border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.6)] rounded-2xl custom-scrollbar"
+                                        align="end"
+                                        sideOffset={8}
+                                    >
+                                    <DropdownMenu.Label className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary-400 px-4 py-3">
+                                        Technologies
+                                    </DropdownMenu.Label>
                                     {filterTags.map(tag => (
                                         <DropdownMenu.Item
                                             key={tag}
-                                            className={`text-sm px-3 py-2.5 cursor-pointer rounded-lg outline-none transition-all duration-200 ${activeFilter === tag
-                                                ? 'bg-gradient-to-r from-primary-500/20 to-accent-500/20 text-primary-300 font-medium border border-primary-500/20'
-                                                : 'text-color-text-muted hover:bg-white/10 hover:text-color-text'
+                                            className={`group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between ${activeFilter === tag
+                                                ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20'
+                                                : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'
                                                 }`}
                                             onClick={() => { setActiveFilter(tag); setFilterOpen(false); }}
                                         >
-                                            <span className="flex items-center justify-between">
-                                                {tag}
-                                                {activeFilter === tag && <span className="text-primary-400">✓</span>}
-                                            </span>
+                                            <div className="flex items-center gap-3">
+                                                <div className={`w-2 h-2 rounded-full transition-all ${activeFilter === tag ? 'bg-primary-500 shadow-[0_0_8px_rgba(var(--color-primary),0.5)]' : 'bg-white/20 group-hover:bg-white/40'}`} />
+                                                <span>{tag}</span>
+                                            </div>
+                                            {activeFilter === tag && <IoCheckmarkCircleOutline className="w-4 h-4 text-primary-400" />}
                                         </DropdownMenu.Item>
                                     ))}
-                                </DropdownMenu.Content>
+                                    </DropdownMenu.Content>
+                                </DropdownMenu.Portal>
                             </DropdownMenu.Root>
                         </div>
                     </div>

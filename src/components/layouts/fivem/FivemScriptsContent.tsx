@@ -108,7 +108,7 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
     };
 
     return (
-        <section className="py-24 md:py-32 bg-bg relative z-10 overflow-hidden">
+        <section className="pt-20 pb-24 md:pt-24 md:pb-32 bg-bg relative overflow-hidden">
             {/* Premium multi-layer background */}
             <div className="absolute inset-0">
                 <div className="absolute inset-0 bg-aurora opacity-40"></div>
@@ -143,9 +143,9 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                 {/* Desktop controls */}
                 <div className="hidden md:flex justify-between items-center mb-10 gap-4 animate-fade-in-up" style={{ animationDelay: '100ms' }}>
                     {/* Filter dropdown */}
-                    <DropdownMenu.Root open={filterOpen} onOpenChange={setFilterOpen}>
+                    <DropdownMenu.Root open={filterOpen} onOpenChange={setFilterOpen} modal={false}>
                         <DropdownMenu.Trigger asChild>
-                            <button className="px-4 py-2 rounded-xl bg-primary-800/20 border border-primary-700/20 text-primary-300 text-sm flex items-center gap-2 hover:bg-primary-800/30 hover:border-primary-700/30 transition-all focus:outline-none">
+                            <button className="px-4 py-2 rounded-xl bg-primary-800/20 border border-primary-700/20 text-primary-300 text-sm flex items-center gap-2 hover:bg-primary-800/30 hover:border-primary-700/30 transition-all focus:outline-none" type="button">
                                 <IoFilterOutline className="w-4 h-4" />
                                 <span>{filter === 'All' ? 'All Scripts' : filter}</span>
                                 <IoChevronDown className="w-3 h-3 ml-1 transition-transform duration-300" style={{ transform: filterOpen ? 'rotate(180deg)' : 'none' }} />
@@ -157,58 +157,68 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                                 align="start"
                                 sideOffset={5}
                             >
-                                <DropdownMenu.Label className="text-xs font-semibold uppercase tracking-wider text-color-text-muted px-2 py-1.5">
-                                    Filter Options
+                                <DropdownMenu.Label className="text-xs font-semibold uppercase tracking-wider text-color-text-muted px-2 py-1.5" asChild>
+                                    <div>Filter Options</div>
                                 </DropdownMenu.Label>
                                 <DropdownMenu.Item
-                                    className={`text-sm px-3 py-2 rounded-md cursor-pointer outline-none
+                                    className={`text-sm px-3 py-2.5 rounded-lg cursor-pointer outline-none transition-all duration-200
                                         ${filter === 'All'
-                                            ? 'bg-primary-800/20 text-primary-300 font-medium'
-                                            : 'text-color-text-muted hover:bg-card-alt hover:text-color-text'
+                                            ? 'bg-primary-500/20 text-primary-300 font-medium border border-primary-500/20'
+                                            : 'text-color-text-muted hover:bg-white/10 hover:text-color-text'
                                         }`}
                                     onClick={() => setFilter('All')}
                                 >
-                                    All Scripts
-                                    {filter === 'All' && <span className="ml-2 text-xs">✓</span>}
+                                    <div className="flex items-center w-full">
+                                        All Scripts
+                                        {filter === 'All' && <span className="ml-2 text-xs">✓</span>}
+                                    </div>
                                 </DropdownMenu.Item>
 
-                                <DropdownMenu.Separator className="h-px bg-color-border my-1" />
-                                <DropdownMenu.Label className="text-xs font-semibold uppercase tracking-wider text-color-text-muted px-2 py-1.5">
-                                    By Framework
+                                <DropdownMenu.Separator className="h-px bg-color-border my-1" asChild>
+                                    <div />
+                                </DropdownMenu.Separator>
+                                <DropdownMenu.Label className="text-xs font-semibold uppercase tracking-wider text-color-text-muted px-2 py-1.5" asChild>
+                                    <div>By Framework</div>
                                 </DropdownMenu.Label>
 
                                 {frameworks.map(framework => (
                                     <DropdownMenu.Item
                                         key={framework}
-                                        className={`text-sm px-3 py-2 rounded-md cursor-pointer outline-none
+                                        className={`text-sm px-3 py-2.5 rounded-lg cursor-pointer outline-none transition-all duration-200
                                             ${filter === framework as Filter
-                                                ? 'bg-primary-800/20 text-primary-300 font-medium'
-                                                : 'text-color-text-muted hover:bg-card-alt hover:text-color-text'
+                                                ? 'bg-primary-500/20 text-primary-300 font-medium border border-primary-500/20'
+                                                : 'text-color-text-muted hover:bg-white/10 hover:text-color-text'
                                             }`}
                                         onClick={() => setFilter(framework as Filter)}
                                     >
-                                        {framework}
-                                        {filter === framework && <span className="ml-2 text-xs">✓</span>}
+                                        <div className="flex items-center w-full">
+                                            {framework}
+                                            {filter === framework && <span className="ml-2 text-xs">✓</span>}
+                                        </div>
                                     </DropdownMenu.Item>
                                 ))}
 
-                                <DropdownMenu.Separator className="h-px bg-color-border my-1" />
-                                <DropdownMenu.Label className="text-xs font-semibold uppercase tracking-wider text-color-text-muted px-2 py-1.5">
-                                    By Status
+                                <DropdownMenu.Separator className="h-px bg-color-border my-1" asChild>
+                                    <div />
+                                </DropdownMenu.Separator>
+                                <DropdownMenu.Label className="text-xs font-semibold uppercase tracking-wider text-color-text-muted px-2 py-1.5" asChild>
+                                    <div>By Status</div>
                                 </DropdownMenu.Label>
 
                                 {statuses.map(status => (
                                     <DropdownMenu.Item
                                         key={status}
-                                        className={`text-sm px-3 py-2 rounded-md cursor-pointer outline-none
+                                        className={`text-sm px-3 py-2.5 rounded-lg cursor-pointer outline-none transition-all duration-200
                                             ${filter === status as Filter
-                                                ? 'bg-primary-800/20 text-primary-300 font-medium'
-                                                : 'text-color-text-muted hover:bg-card-alt hover:text-color-text'
+                                                ? 'bg-primary-500/20 text-primary-300 font-medium border border-primary-500/20'
+                                                : 'text-color-text-muted hover:bg-white/10 hover:text-color-text'
                                             }`}
                                         onClick={() => setFilter(status as Filter)}
                                     >
-                                        {status}
-                                        {filter === status && <span className="ml-2 text-xs">✓</span>}
+                                        <div className="flex items-center w-full">
+                                            {status}
+                                            {filter === status && <span className="ml-2 text-xs">✓</span>}
+                                        </div>
                                     </DropdownMenu.Item>
                                 ))}
                             </DropdownMenu.Content>
@@ -256,7 +266,7 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                         </div>
 
                         {/* Sort dropdown */}
-                        <DropdownMenu.Root open={sortOpen} onOpenChange={setSortOpen}>
+                        <DropdownMenu.Root open={sortOpen} onOpenChange={setSortOpen} modal={false}>
                             <DropdownMenu.Trigger asChild>
                                 <button className="px-4 py-2 rounded-xl bg-primary-800/20 border border-primary-700/20 text-primary-300 text-sm flex items-center gap-2 hover:bg-primary-800/30 hover:border-primary-700/30 transition-all focus:outline-none">
                                     <IoSwapVertical className="w-4 h-4" />
@@ -265,12 +275,12 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                                 </button>
                             </DropdownMenu.Trigger>
                             <DropdownMenu.Content
-                                className="z-50 min-w-[200px] p-1 bg-card border border-color-border shadow-lg rounded-lg overflow-hidden animate-fade-in"
+                                className="z-50 min-w-[220px] p-2 bg-bg/95 backdrop-blur-xl border border-white/10 shadow-2xl shadow-black/50 rounded-xl overflow-hidden animate-fade-in"
                                 align="end"
                                 sideOffset={5}
                             >
                                 <DropdownMenu.Item
-                                    className={`text-sm px-3 py-2 cursor-pointer rounded-md outline-none ${sortBy === 'date-desc' ? 'bg-primary-800/20 text-primary-300 font-medium' : 'text-color-text-muted hover:bg-card-alt hover:text-color-text'}`}
+                                    className={`text-sm px-3 py-2.5 cursor-pointer rounded-lg outline-none transition-all duration-200 ${sortBy === 'date-desc' ? 'bg-primary-500/20 text-primary-300 font-medium border border-primary-500/20' : 'text-color-text-muted hover:bg-white/10 hover:text-color-text'}`}
                                     onClick={() => setSortBy('date-desc')}
                                 >
                                     <div className="flex items-center">
@@ -280,7 +290,7 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                                     </div>
                                 </DropdownMenu.Item>
                                 <DropdownMenu.Item
-                                    className={`text-sm px-3 py-2 cursor-pointer rounded-md outline-none ${sortBy === 'date-asc' ? 'bg-primary-800/20 text-primary-300 font-medium' : 'text-color-text-muted hover:bg-card-alt hover:text-color-text'}`}
+                                    className={`text-sm px-3 py-2.5 cursor-pointer rounded-lg outline-none transition-all duration-200 ${sortBy === 'date-asc' ? 'bg-primary-500/20 text-primary-300 font-medium border border-primary-500/20' : 'text-color-text-muted hover:bg-white/10 hover:text-color-text'}`}
                                     onClick={() => setSortBy('date-asc')}
                                 >
                                     <div className="flex items-center">
@@ -290,7 +300,7 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                                     </div>
                                 </DropdownMenu.Item>
                                 <DropdownMenu.Item
-                                    className={`text-sm px-3 py-2 cursor-pointer rounded-md outline-none ${sortBy === 'alphabetical' ? 'bg-primary-800/20 text-primary-300 font-medium' : 'text-color-text-muted hover:bg-card-alt hover:text-color-text'}`}
+                                    className={`text-sm px-3 py-2.5 cursor-pointer rounded-lg outline-none transition-all duration-200 ${sortBy === 'alphabetical' ? 'bg-primary-500/20 text-primary-300 font-medium border border-primary-500/20' : 'text-color-text-muted hover:bg-white/10 hover:text-color-text'}`}
                                     onClick={() => setSortBy('alphabetical')}
                                 >
                                     <div className="flex items-center">
@@ -300,7 +310,7 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                                     </div>
                                 </DropdownMenu.Item>
                                 <DropdownMenu.Item
-                                    className={`text-sm px-3 py-2 cursor-pointer rounded-md outline-none ${sortBy === 'price-asc' ? 'bg-primary-800/20 text-primary-300 font-medium' : 'text-color-text-muted hover:bg-card-alt hover:text-color-text'}`}
+                                    className={`text-sm px-3 py-2.5 cursor-pointer rounded-lg outline-none transition-all duration-200 ${sortBy === 'price-asc' ? 'bg-primary-500/20 text-primary-300 font-medium border border-primary-500/20' : 'text-color-text-muted hover:bg-white/10 hover:text-color-text'}`}
                                     onClick={() => setSortBy('price-asc')}
                                 >
                                     <div className="flex items-center">
@@ -310,7 +320,7 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                                     </div>
                                 </DropdownMenu.Item>
                                 <DropdownMenu.Item
-                                    className={`text-sm px-3 py-2 cursor-pointer rounded-md outline-none ${sortBy === 'price-desc' ? 'bg-primary-800/20 text-primary-300 font-medium' : 'text-color-text-muted hover:bg-card-alt hover:text-color-text'}`}
+                                    className={`text-sm px-3 py-2.5 cursor-pointer rounded-lg outline-none transition-all duration-200 ${sortBy === 'price-desc' ? 'bg-primary-500/20 text-primary-300 font-medium border border-primary-500/20' : 'text-color-text-muted hover:bg-white/10 hover:text-color-text'}`}
                                     onClick={() => setSortBy('price-desc')}
                                 >
                                     <div className="flex items-center">

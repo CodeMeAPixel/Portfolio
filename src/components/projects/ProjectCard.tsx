@@ -49,7 +49,7 @@ export default function ProjectCard({
             onMouseLeave={() => onHover?.(null)}
         >
             <Link href={project.links.slug || `/projects/${project.id}`}>
-                <article className="relative h-full glass-ultra border border-white/10 rounded-3xl overflow-hidden transition-all duration-500 hover:border-primary-500/30 hover:shadow-2xl hover:shadow-primary-500/10 hover:-translate-y-1">
+                <article className="relative h-full glass-ultra border border-primary-500/20 rounded-3xl overflow-hidden transition-all duration-500 hover:border-primary-400 hover:shadow-2xl hover:shadow-primary-500/30 hover:-translate-y-1">
                     {/* Image Section */}
                     <div className="relative aspect-video overflow-hidden bg-gradient-to-br from-primary-900/50 to-bg">
                         {project.images?.[0] && !imageError ? (
@@ -168,7 +168,7 @@ export function ProjectCardCompact({
             onMouseLeave={() => onHover?.(null)}
         >
             <Link href={project.links.slug || `/projects/${project.id}`}>
-                <article className="relative flex flex-col md:flex-row gap-4 p-4 glass-ultra border border-white/10 rounded-2xl overflow-hidden transition-all duration-500 hover:border-primary-500/30 hover:shadow-lg hover:shadow-primary-500/10">
+                <article className="relative flex flex-col md:flex-row gap-4 p-4 glass-ultra border border-primary-500/20 rounded-2xl overflow-hidden transition-all duration-500 hover:border-primary-400 hover:shadow-lg hover:shadow-primary-500/30">
                     {/* Thumbnail */}
                     <div className="relative w-full md:w-40 h-28 md:h-24 flex-shrink-0 rounded-xl overflow-hidden bg-gradient-to-br from-primary-900/50 to-bg">
                         {project.images?.[0] && !imageError ? (

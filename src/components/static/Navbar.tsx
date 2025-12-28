@@ -282,8 +282,6 @@ export default function Navbar() {
                 )}
             </header>
 
-            {/* Spacer to prevent content overlap */}
-            <div className="h-16"></div>
         </>
     );
 }

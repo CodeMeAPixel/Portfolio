@@ -18,7 +18,7 @@ export default function Hero() {
     <section
       ref={containerRef}
       id="home"
-      className="min-h-screen flex items-center justify-center px-4 sm:px-8 relative overflow-hidden bg-bg py-24"
+      className="min-h-screen flex flex-col items-center px-4 sm:px-8 relative overflow-hidden bg-bg pt-20 md:pt-24 pb-24"
     >
       {/* Multi-layer animated background */}
       <div className="absolute inset-0 z-0">

@@ -24,7 +24,6 @@ const ComingSoonContent = () => {
 
         // If we don't have both token and fromPath, this is likely a direct access
         if (!token || !fromPath) {
-            console.log("Unauthorized direct access to coming-soon page");
             router.replace('/');
             return;
         }

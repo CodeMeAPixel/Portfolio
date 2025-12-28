@@ -23,7 +23,6 @@ const nextConfig: NextConfig = {
     // Cache optimized images
     minimumCacheTTL: 31536000,
   },
-  swcMinify: true,
   // Enable compression
   compress: true,
   // Optimize production builds

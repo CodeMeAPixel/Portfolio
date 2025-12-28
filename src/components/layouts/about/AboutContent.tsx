@@ -2,11 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { IoPersonOutline, IoSchoolOutline, IoBriefcaseOutline, IoTimeOutline, IoCode, IoRocketOutline, IoArrowForward, IoHeart, IoSparkles, IoLocationOutline } from "react-icons/io5";
+import { IoPersonOutline, IoSchoolOutline, IoBriefcaseOutline, IoTimeOutline, IoCode, IoRocketOutline, IoArrowForward, IoHeart, IoSparkles, IoLocationOutline, IoOpenOutline } from "react-icons/io5";
 
 export default function AboutContent() {
     return (
-        <section className="py-24 md:py-32 bg-bg relative z-10 overflow-hidden">
+        <section className="pt-20 pb-24 md:pt-24 md:pb-32 bg-bg relative z-10 overflow-hidden">
             {/* Premium multi-layer background */}
             <div className="absolute inset-0">
                 <div className="absolute inset-0 bg-aurora opacity-40"></div>
@@ -302,7 +302,17 @@ interface TimelineItemProps {
     isLast?: boolean;
 }
 
+// Company to URL mapping
+const COMPANY_URLS: Record<string, string> = {
+    "Purrquinox Technologies": "https://purrquinox.com/",
+    "ByteBrush Studios": "https://bytebrush.dev/",
+    "NodeByte": "https://nodebyte.co.uk/",
+};
+
 function TimelineItem({ title, company, period, description, delay }: TimelineItemProps) {
+    const companyUrl = COMPANY_URLS[company];
+    const isClickable = !!companyUrl;
+
     return (
         <div
             className="group animate-fade-up hover:-translate-y-1.5 transition-transform duration-200"
@@ -320,7 +330,24 @@ function TimelineItem({ title, company, period, description, delay }: TimelineIt
                     <div className="flex flex-wrap justify-between items-start gap-3 mb-4">
                         <div>
                             <h3 className="text-xl font-bold text-color-text group-hover:text-primary-300 transition-colors">{title}</h3>
-                            <span className="text-primary-400 font-semibold">{company}</span>
+                            {isClickable ? (
+                                <a
+                                    href={companyUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    onClick={(e) => e.stopPropagation()}
+                                    className="group/company inline-flex items-center gap-1.5 text-primary-400 font-semibold hover:text-primary-300 transition-colors duration-200"
+                                    title={`Visit ${company}`}
+                                >
+                                    <span className="relative">
+                                        {company}
+                                        <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-400 group-hover/company:w-full transition-all duration-300"></span>
+                                    </span>
+                                    <IoOpenOutline className="w-4 h-4 opacity-0 group-hover/company:opacity-100 group-hover/company:translate-x-0.5 transition-all duration-200" />
+                                </a>
+                            ) : (
+                                <span className="text-primary-400 font-semibold">{company}</span>
+                            )}
                         </div>
                         <span className="text-xs font-semibold glass-frost text-primary-300 px-4 py-2 rounded-full">
                             {period}
