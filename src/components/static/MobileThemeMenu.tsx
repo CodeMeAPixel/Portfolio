@@ -89,8 +89,8 @@ export default function MobileThemeMenu() {
             </Dialog.Trigger>
 
             <Dialog.Portal>
-                <Dialog.Overlay className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[10000] animate-fade-in" />
-                <Dialog.Content className="fixed inset-x-4 bottom-24 top-auto max-h-[70vh] bg-card border border-white/20 rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.6)] z-[10001] overflow-hidden animate-in slide-in-from-bottom duration-300 focus:outline-none">
+                <Dialog.Overlay className="fixed inset-0 bg-black/80 backdrop-blur-md z-[10000] animate-fade-in" />
+                <Dialog.Content className="fixed inset-x-3 bottom-0 top-auto max-h-[85vh] bg-card/95 backdrop-blur-2xl border-t border-x border-white/20 rounded-t-3xl shadow-[0_-20px_50px_rgba(0,0,0,0.6)] z-[10001] overflow-hidden animate-in slide-in-from-bottom duration-300 focus:outline-none">
                     {/* Header */}
                     <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-white/5">
                         <Dialog.Title className="flex items-center gap-2 text-sm font-semibold">
@@ -136,8 +136,8 @@ export default function MobileThemeMenu() {
                     </div>
 
                     {/* Theme Grid */}
-                    <div className="p-3 overflow-y-auto max-h-[55vh] custom-scrollbar">
-                        <div className="grid grid-cols-2 gap-2 pb-6">
+                    <div className="p-4 overflow-y-auto max-h-[55vh] custom-scrollbar">
+                        <div className="grid grid-cols-2 gap-3 pb-8">
                             {filteredThemes.map((option) => {
                                 const isActive = themeColor === option.name;
 
