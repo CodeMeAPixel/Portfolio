@@ -13,7 +13,7 @@ export const projects: Project[] = [
     ],
     tags: ["Next.js", "React", "TypeScript", "PostgreSQL", "Prisma", "Open Source"],
     links: {
-      slug: "emberly",
+      slug: "projects/emberly",
       demo: "https://embrly.ca",
       github: "https://github.com/EmberlyOSS"
     },
@@ -31,7 +31,7 @@ export const projects: Project[] = [
     ],
     tags: ["Next.js", "React", "TypeScript", "Framer Motion", "Tailwind CSS", "Radix UI"],
     links: {
-      slug: "nodebyte-hosting",
+      slug: "projects/nodebyte-hosting",
       demo: "https://nodebyte.host",
       github: "https://github.com/NodeByteHosting/Website"
     },
