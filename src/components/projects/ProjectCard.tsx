@@ -48,7 +48,7 @@ export default function ProjectCard({
             onMouseEnter={() => onHover?.(project.id)}
             onMouseLeave={() => onHover?.(null)}
         >
-            <Link href={project.links.slug || `/projects/${project.id}`}>
+            <Link href={`/projects/${project.id}`}>
                 <article className="relative h-full glass-ultra border border-primary-500/20 rounded-3xl overflow-hidden transition-all duration-500 hover:border-primary-400 hover:shadow-2xl hover:shadow-primary-500/30 hover:-translate-y-1">
                     {/* Image Section */}
                     <div className="relative aspect-video overflow-hidden bg-gradient-to-br from-primary-900/50 to-bg">
