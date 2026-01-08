@@ -17,7 +17,7 @@ export default function DocsSidebar() {
     useEffect(() => {
         const currentSection = docsConfig.sections.find(section =>
             pathname.includes(`/docs/${section.slug}`) ||
-            (pathname === "/docs" && section.slug === "getting-started")
+            (pathname === "/docs" && section.slug === "portfolio")
         );
 
         if (currentSection) {
@@ -52,9 +52,9 @@ export default function DocsSidebar() {
         }
     };
 
-    // Get current section data
+    // Get current section data - default to "portfolio" instead of "getting-started"
     const currentSection = docsConfig.sections.find(section =>
-        section.slug === (pathname.split('/')[2] || "getting-started")
+        section.slug === (pathname.split('/')[2] || "portfolio")
     );
 
     if (!currentSection) return null;
@@ -65,7 +65,7 @@ export default function DocsSidebar() {
             <div className="mb-6 relative">
                 <button
                     onClick={() => setSectionDropdownOpen(!isSectionDropdownOpen)}
-                    className="w-full flex items-center justify-between bg-card rounded-lg p-2.5 border border-color-border hover:border-primary-600/30 transition-colors"
+                    className="w-full flex items-center justify-between rounded-xl p-3 bg-white/5 border border-white/10 hover:border-primary-500/30 hover:bg-white/10 transition-all"
                 >
                     <div className="flex items-center gap-2">
                         {currentSection.icon && <currentSection.icon className="w-4 h-4 text-primary-400" />}
@@ -76,17 +76,20 @@ export default function DocsSidebar() {
 
                 {isSectionDropdownOpen && (
                     <div
-                        className="absolute top-full left-0 right-0 mt-1 bg-card border border-color-border rounded-lg shadow-lg z-10 py-1.5 max-h-64 overflow-y-auto animate-fade-in"
+                        className="absolute top-full left-0 right-0 mt-2 bg-gray-950/95 border border-white/10 rounded-xl shadow-2xl z-10 py-2 max-h-64 overflow-y-auto custom-scrollbar animate-fade-in"
                     >
                         {docsConfig.sections.map((section) => (
                             <button
                                 key={section.slug}
                                 onClick={() => handleSectionChange(section.slug)}
-                                className={`w-full text-left px-3 py-2 flex items-center gap-2 hover:bg-bg-alt transition-colors ${section.slug === currentSection.slug ? 'text-primary-400 bg-bg-alt/50' : 'text-color-text-muted'
+                                className={`w-full text-left px-4 py-2.5 flex items-center gap-3 hover:bg-white/5 transition-colors ${section.slug === currentSection.slug ? 'text-primary-400 bg-primary-500/10' : 'text-color-text-muted'
                                     }`}
                             >
                                 {section.icon && <section.icon className="w-4 h-4" />}
-                                <span>{section.name}</span>
+                                <div className="flex flex-col">
+                                    <span className="font-medium">{section.name}</span>
+                                    <span className="text-xs opacity-60">{section.description}</span>
+                                </div>
                             </button>
                         ))}
                     </div>
@@ -99,7 +102,7 @@ export default function DocsSidebar() {
                     <div key={category.title} className="mb-2">
                         <button
                             onClick={() => toggleSection(category.title)}
-                            className="flex items-center justify-between w-full py-1.5 px-2 text-sm font-medium rounded-md hover:bg-bg-alt transition-colors group"
+                            className="flex items-center justify-between w-full py-2 px-3 text-sm font-medium rounded-lg hover:bg-white/5 transition-colors group"
                         >
                             <span className={expandedSections[category.title] ? 'text-primary-400' : 'text-color-text-muted group-hover:text-color-text'}>
                                 {category.title}
@@ -113,7 +116,7 @@ export default function DocsSidebar() {
 
                         {expandedSections[category.title] && (
                             <ul
-                                className="ml-2 space-y-0.5 border-l border-color-border pl-3 pt-1 pb-1 animate-fade-in"
+                                className="ml-3 space-y-0.5 border-l border-white/10 pl-3 pt-1 pb-1 animate-fade-in"
                             >
                                 {category.items.map((item) => {
                                     const isActive = pathname === item.href;
@@ -123,10 +126,10 @@ export default function DocsSidebar() {
                                             <Link
                                                 href={item.href}
                                                 className={`
-                                                    block py-1 text-sm rounded-md pl-2 transition-colors
+                                                    block py-1.5 text-sm rounded-lg pl-2 transition-colors
                                                     ${isActive
-                                                        ? "text-primary-400 font-medium bg-primary-900/20"
-                                                        : "text-color-text-muted hover:text-color-text hover:bg-bg-alt"
+                                                        ? "text-primary-400 font-medium bg-primary-500/10"
+                                                        : "text-color-text-muted hover:text-color-text hover:bg-white/5"
                                                     }
                                                 `}
                                             >
@@ -145,18 +148,18 @@ export default function DocsSidebar() {
             </nav>
 
             {/* Quick links at the bottom */}
-            <div className="mt-8 pt-4 border-t border-color-border">
-                <div className="text-xs font-medium text-color-text-muted mb-2 uppercase tracking-wider">Quick Links</div>
-                <div className="grid grid-cols-2 gap-2">
+            <div className="mt-8 pt-4 border-t border-white/10">
+                <div className="text-xs font-medium text-color-text-muted mb-3 uppercase tracking-wider">Quick Links</div>
+                <div className="flex flex-col gap-1">
                     {docsConfig.quickLinks.map((link, index) => (
                         <a
                             key={index}
                             href={link.href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-1.5 text-xs text-color-text-muted hover:text-primary-400 transition-colors"
+                            target={link.href.startsWith('http') ? '_blank' : undefined}
+                            rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                            className="flex items-center gap-2 px-3 py-2 text-sm text-color-text-muted hover:text-primary-400 hover:bg-white/5 rounded-lg transition-all"
                         >
-                            {link.icon && <link.icon className="w-3 h-3" />}
+                            {link.icon && <link.icon className="w-4 h-4" />}
                             <span>{link.name}</span>
                         </a>
                     ))}

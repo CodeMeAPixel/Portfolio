@@ -17,7 +17,7 @@ interface ThemeContextType {
   isLoaded: boolean;
 }
 
-const defaultTheme: ThemeColor = "stranger";
+const defaultTheme: ThemeColor = "fortnite";
 
 const ThemeContext = createContext<ThemeContextType>({
   themeColor: defaultTheme,

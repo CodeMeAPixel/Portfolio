@@ -7,73 +7,51 @@ const project: Project = {
     longDescription: `
 # NodeByte Hosting
 
-**NodeByte Hosting** is a premium game server hosting platform built by gamers, for gamers. Founded in 2024, NodeByte was born from frustration with laggy servers, unresponsive support, and complex control panels. We assembled a team of passionate gamers and experienced ops engineers with one goal: build the game hosting platform we always wished existed.
+As **Chief Operations Officer** at NodeByte Hosting, I've played a key role in helping scale this game server hosting platform. Since joining the team in 2024, I've worn many hats from infrastructure coordination to customer experience improvements.
 
-## Built for Performance
+## My Role & Responsibilities
 
-Our infrastructure is tuned specifically for multiplayer gaming with enterprise-grade features:
+### Operations & Infrastructure
+I oversee day to day operations ensuring our hosting infrastructure runs smoothly. This includes coordinating with our infrastructure partner FyfeWeb, monitoring system performance, and contributing to strategic decisions about capacity planning and resource allocation.
 
-- **DDoS Protection**: Enterprise-grade mitigation powered by FyfeWeb with automatic scrubbing at the network edge
-- **Low Latency Network**: Optimized routes through FyfeWeb's UK network with London POPs for ~50ms average ping
-- **Instant Setup**: 60-second deploys with one-click templates and automated mod installs
-- **UK Data Centers**: Strategically located with London POPs powered by FyfeWeb for excellent UK and Europe coverage
-- **Control Panel**: Powerful UI for live console access, file management, backups, and metrics
-- **24/7 Support**: Human-first expert support available any time via Discord, tickets, and knowledge base
+### Product Development
+I work closely with the development team on the customer facing experience. This has involved contributing to the control panel UX, helping architect the knowledge base, and ensuring our 60 second deployment system delivers on its promise.
 
-## Game Server Offerings
+## Technical Contributions
 
-### Minecraft (Most Popular)
-- Java & Bedrock servers with one-click mod loaders
-- Forge & Fabric support with plugin management
-- Auto backups and custom JAR uploads
-- Starting at $2.54/month
+While my role is primarily operational, I've contributed technically in several areas:
 
-### Rust (High Performance)
-- High-performance servers with Oxide/uMod support
-- Custom maps, wipe scheduler, and RCON access
-- Starting at $10.16/month
+- **Website Development**: Worked on the Next.js, React, and TypeScript frontend
+- **Documentation System**: Helped architect the GitHub powered knowledge base that pulls content dynamically
+- **Internationalization**: Contributed to Crowdin integration for multi language support
 
-### Hytale (Coming Soon)
-- Mod support, custom maps, and easy configuration
-- 24/7 support included
+## Challenges I've Helped Tackle
 
-## Core Values
+Being part of a growing hosting company has taught me a lot about:
 
-### Built for Players
-Our infrastructure prioritizes low latency routing, predictable performance, and strong uptime so your communities stay online and responsive.
+1. **Balancing UX with Technical Depth** - Our users range from first time server owners to experienced admins running complex modpacks. Contributing to solutions that serve both audiences has been rewarding.
 
-### Community & Mod Support
-Seamless mod installs, snapshot support, and community tooling to help you run modded worlds and persistent servers with minimal effort.
+2. **Building Trust** - In an industry with many unreliable providers, I've helped establish credibility through transparency, clear SLAs, public status pages, and honest communication during incidents.
 
-### Open by Design
-We value transparency from clear SLA commitments to open tooling. Our platform provides APIs and integrations to automate server workflows.
+## Impact & Results
 
-## Key Stats
+- Contributed to maintaining **4.8/5 Trustpilot rating** through focus on customer experience
+- Helped achieve **99.6% uptime** through careful operational practices
+- Supported building a thriving community on Discord with responsive support
 
-- **99.6% Uptime SLA** - Enterprise redundancy keeping servers online
-- **~50ms Avg Latency** - Optimized routing for low-latency gameplay  
-- **1000+ Active Servers** - Trusted by gaming communities worldwide
-- **4.8/5 Trustpilot Rating** - Consistently high customer satisfaction
+## What I Learned
 
-## Company Information
-
-NodeByte LTD is a registered UK company (Company No. 15432941) committed to transparent business practices and customer trust.
-
-## Innovation Journey
-
-This project demonstrates expertise in:
-
-1. **Infrastructure Design** - Building gaming-optimized hosting with FyfeWeb partnership
-2. **User Experience** - Creating intuitive control panels for technical and non-technical users
-3. **Performance Engineering** - Ensuring sub-50ms latency and 99.6% uptime
-4. **Security Implementation** - Enterprise DDoS protection and secure isolation
-5. **Community Building** - Growing a thriving Discord community and support ecosystem
+This role has been an incredible learning experience in startup operations, customer success, and cross functional collaboration. Working alongside the NodeByte team has reinforced my belief that great products come from understanding your users deeply.
     `,
     images: [
         "/previews/nodebyte-host/home.png",
         "/previews/nodebyte-host/about.png",
         "/previews/nodebyte-host/minecraft.png",
-        "/previews/nodebyte-host/kb.png"
+        "/previews/nodebyte-host/kb.png",
+        "/previews/nodebyte-host/changelogs.png",
+        "/previews/nodebyte-host/dashboard.png",
+        "/previews/nodebyte-host/account.png",
+        "/previews/nodebyte-host/admin.png"
     ],
     tags: ["Next.js", "React", "TypeScript", "Framer Motion", "Tailwind CSS", "Radix UI"],
     links: {
@@ -95,9 +73,9 @@ This project demonstrates expertise in:
     ],
     challenges: [
         "Building infrastructure optimized specifically for multiplayer gaming workloads",
-        "Creating an intuitive control panel accessible to both technical and non-technical users",
-        "Implementing enterprise-grade DDoS protection without impacting latency",
-        "Providing 24/7 human-first support across multiple channels"
+        "Creating an intuitive control panel accessible to both technical and non technical users",
+        "Implementing enterprise grade DDoS protection without impacting latency",
+        "Providing 24/7 human first support across multiple channels"
     ],
     solutions: [
         "Partnered with FyfeWeb for UK data centers with London POPs and optimized routing",
@@ -106,7 +84,7 @@ This project demonstrates expertise in:
         "Built multi-channel support via Discord, ticket system, and comprehensive knowledge base"
     ],
     keyFeatures: [
-        "60-second server deployment with pre-built templates",
+        "60 second server deployment with pre built templates",
         "Enterprise DDoS protection powered by FyfeWeb",
         "Live console access with file management and backups",
         "99.6% uptime SLA with ~50ms average latency",
@@ -119,7 +97,11 @@ This project demonstrates expertise in:
     role: "Chief Operations Officer",
     teamSize: 6,
     partners: [
-        { name: "FyfeWeb", url: "https://fyfeweb.com", description: "Network infrastructure and DDoS protection partner" }
+        {
+            name: "FyfeWeb",
+            url: "https://fyfeweb.com",
+            description: "Network infrastructure and DDoS protection partner"
+        }
     ],
     testimonials: [
         {

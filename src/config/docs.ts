@@ -1,23 +1,19 @@
 import {
     IoBook,
-    IoBrowsers,
-    IoServer,
-    IoHammer,
-    IoTerminal,
-    IoGitBranch,
-    IoRocket,
-    IoSpeedometer,
-    IoLayers,
-    IoCodeSlash,
-    IoGlobe,
     IoLogoGithub,
-    IoCloud,
     IoHelpCircle,
+    IoCodeSlash,
+    IoRocket,
+    IoLayers,
+    IoTerminal,
+    IoCube,
     IoExtensionPuzzle,
-    IoGrid,
-    IoPulse,
+    IoGlobe,
+    IoServer,
+    IoGameController,
+    IoChatbubbles,
     IoShield,
-    IoColorPalette,
+    IoSpeedometer,
 } from "react-icons/io5";
 import { IconType } from "react-icons";
 
@@ -39,6 +35,7 @@ interface DocSection {
     slug: string;
     icon: IconType;
     description: string;
+    projectUrl?: string;
     categories: DocCategory[];
 }
 
@@ -54,193 +51,175 @@ export const docsConfig: {
 } = {
     sections: [
         {
-            name: "Getting Started",
-            slug: "getting-started",
-            icon: IoRocket,
-            description: "Start your journey with our platform",
+            name: "Portfolio",
+            slug: "portfolio",
+            icon: IoLayers,
+            description: "Documentation for this portfolio website",
+            projectUrl: "https://github.com/CodeMeAPixel/Portfolio",
             categories: [
                 {
-                    title: "Introduction",
+                    title: "Getting Started",
                     items: [
                         {
                             title: "Overview",
-                            href: "/docs/getting-started",
+                            href: "/docs/portfolio",
                             icon: IoBook,
-                            description: "Learn about the purpose and structure of this documentation.",
-                        },
-                        {
-                            title: "Quick Start Guide",
-                            href: "/docs/getting-started/quick-start",
-                            icon: IoRocket,
-                            description: "Get up and running quickly with our starter templates.",
+                            description: "Learn about this portfolio's architecture and features.",
                         },
                         {
                             title: "Installation",
-                            href: "/docs/getting-started/installation",
-                            icon: IoHammer,
-                            description: "Step-by-step installation instructions for different platforms.",
-                        },
-                    ],
-                },
-                {
-                    title: "Core Concepts",
-                    items: [
-                        {
-                            title: "Project Structure",
-                            href: "/docs/getting-started/structure",
-                            icon: IoGrid,
-                            description: "Understanding the organization of project files and directories.",
+                            href: "/docs/portfolio/installation",
+                            icon: IoTerminal,
+                            description: "Get the portfolio running locally on your machine.",
                         },
                         {
                             title: "Configuration",
-                            href: "/docs/getting-started/config",
-                            icon: IoTerminal,
-                            description: "Configuring your environment and application settings.",
-                        },
-                    ],
-                },
-            ],
-        },
-        {
-            name: "Frontend",
-            slug: "frontend",
-            icon: IoBrowsers,
-            description: "Build beautiful user interfaces",
-            categories: [
-                {
-                    title: "UI Components",
-                    items: [
-                        {
-                            title: "Component Library",
-                            href: "/docs/frontend/components",
+                            href: "/docs/portfolio/configuration",
                             icon: IoExtensionPuzzle,
-                            description: "Explore the component library and usage examples.",
-                            keywords: ["ui", "interface", "react", "jsx", "tsx"],
-                        },
-                        {
-                            title: "Styling System",
-                            href: "/docs/frontend/styling",
-                            icon: IoColorPalette,
-                            description: "Learn how to use the styling system with Tailwind CSS.",
-                        },
-                        {
-                            title: "Animations",
-                            href: "/docs/frontend/animations",
-                            icon: IoSpeedometer,
-                            description: "Add motion and animations to your application.",
+                            description: "Customize themes, content, and settings.",
                         },
                     ],
                 },
                 {
-                    title: "Data & State",
+                    title: "Features",
                     items: [
                         {
-                            title: "State Management",
-                            href: "/docs/frontend/state",
-                            icon: IoPulse,
-                            description: "Managing application state effectively.",
-                        },
-                        {
-                            title: "Data Fetching",
-                            href: "/docs/frontend/data-fetching",
-                            icon: IoCloud,
-                            description: "Strategies for fetching and caching data.",
-                        },
-                    ],
-                },
-            ],
-        },
-        {
-            name: "Backend",
-            slug: "backend",
-            icon: IoServer,
-            description: "Server-side development and APIs",
-            categories: [
-                {
-                    title: "API",
-                    items: [
-                        {
-                            title: "API Reference",
-                            href: "/docs/backend/api",
-                            icon: IoGlobe,
-                            description: "Complete API documentation with examples.",
-                        },
-                        {
-                            title: "Authentication",
-                            href: "/docs/backend/auth",
-                            icon: IoShield,
-                            description: "Learn about authentication methods and implementation.",
-                        },
-                        {
-                            title: "Database Models",
-                            href: "/docs/backend/models",
+                            title: "Theme System",
+                            href: "/docs/portfolio/themes",
                             icon: IoLayers,
-                            description: "Database schema and model reference.",
-                        },
-                    ],
-                },
-                {
-                    title: "Server",
-                    items: [
-                        {
-                            title: "Server Configuration",
-                            href: "/docs/backend/server-config",
-                            icon: IoTerminal,
-                            description: "Configuring and optimizing your server.",
+                            description: "26 unique themes with custom color palettes.",
                         },
                         {
-                            title: "Middleware",
-                            href: "/docs/backend/middleware",
-                            icon: IoExtensionPuzzle,
-                            description: "Using and creating custom middleware.",
+                            title: "Blog System",
+                            href: "/docs/portfolio/blog",
+                            icon: IoBook,
+                            description: "MDX-powered blog with syntax highlighting.",
+                        },
+                        {
+                            title: "Components",
+                            href: "/docs/portfolio/components",
+                            icon: IoCube,
+                            description: "Reusable UI components and glassmorphism effects.",
                         },
                     ],
                 },
             ],
         },
         {
-            name: "Deployment",
-            slug: "deployment",
-            icon: IoCloud,
-            description: "Deploy your application to production",
+            name: "FiveM Scripts",
+            slug: "fivem",
+            icon: IoGameController,
+            description: "Documentation for FiveM/GTA V scripts",
             categories: [
                 {
-                    title: "Build & Deploy",
+                    title: "Getting Started",
                     items: [
                         {
-                            title: "Build Process",
-                            href: "/docs/deployment/build",
-                            icon: IoHammer,
-                            description: "Learn how to build your application for production.",
+                            title: "Overview",
+                            href: "/docs/fivem",
+                            icon: IoBook,
+                            description: "Introduction to my FiveM script collection.",
                         },
                         {
-                            title: "Hosting Options",
-                            href: "/docs/deployment/hosting",
-                            icon: IoCloud,
-                            description: "Compare different hosting providers and deployment strategies.",
-                        },
-                        {
-                            title: "CI/CD Pipeline",
-                            href: "/docs/deployment/ci-cd",
-                            icon: IoGitBranch,
-                            description: "Set up continuous integration and deployment workflows.",
+                            title: "Installation",
+                            href: "/docs/fivem/installation",
+                            icon: IoTerminal,
+                            description: "How to install scripts on your FiveM server.",
                         },
                     ],
                 },
                 {
-                    title: "Production",
+                    title: "Scripts",
                     items: [
                         {
-                            title: "Performance",
-                            href: "/docs/deployment/performance",
-                            icon: IoSpeedometer,
-                            description: "Optimizing performance in production environments.",
+                            title: "pxl-mdt",
+                            href: "/docs/fivem/pxl-mdt",
+                            icon: IoShield,
+                            description: "Mobile Data Terminal for police/EMS roleplay.",
                         },
                         {
-                            title: "Monitoring",
-                            href: "/docs/deployment/monitoring",
-                            icon: IoPulse,
-                            description: "Monitoring and maintaining your application.",
+                            title: "pxl-garage",
+                            href: "/docs/fivem/pxl-garage",
+                            icon: IoCube,
+                            description: "Advanced vehicle garage system.",
+                        },
+                        {
+                            title: "pxl-hud",
+                            href: "/docs/fivem/pxl-hud",
+                            icon: IoSpeedometer,
+                            description: "Customizable player HUD interface.",
+                        },
+                    ],
+                },
+            ],
+        },
+        {
+            name: "Discord Bots",
+            slug: "discord",
+            icon: IoChatbubbles,
+            description: "Documentation for Discord bot projects",
+            categories: [
+                {
+                    title: "Overview",
+                    items: [
+                        {
+                            title: "Introduction",
+                            href: "/docs/discord",
+                            icon: IoBook,
+                            description: "Overview of my Discord bot projects.",
+                        },
+                    ],
+                },
+                {
+                    title: "Bots",
+                    items: [
+                        {
+                            title: "Pixel Bot",
+                            href: "/docs/discord/pixel-bot",
+                            icon: IoCodeSlash,
+                            description: "Multi-purpose Discord bot with moderation features.",
+                        },
+                        {
+                            title: "Music Bot",
+                            href: "/docs/discord/music-bot",
+                            icon: IoRocket,
+                            description: "High-quality music streaming bot.",
+                        },
+                    ],
+                },
+            ],
+        },
+        {
+            name: "Web Projects",
+            slug: "web",
+            icon: IoGlobe,
+            description: "Documentation for web applications",
+            categories: [
+                {
+                    title: "Overview",
+                    items: [
+                        {
+                            title: "Introduction",
+                            href: "/docs/web",
+                            icon: IoBook,
+                            description: "Overview of my web development projects.",
+                        },
+                    ],
+                },
+                {
+                    title: "Projects",
+                    items: [
+                        {
+                            title: "API Services",
+                            href: "/docs/web/api-services",
+                            icon: IoServer,
+                            description: "RESTful API documentation and examples.",
+                        },
+                        {
+                            title: "UI Libraries",
+                            href: "/docs/web/ui-libraries",
+                            icon: IoCube,
+                            description: "Custom UI component libraries.",
                         },
                     ],
                 },
@@ -250,22 +229,17 @@ export const docsConfig: {
     quickLinks: [
         {
             name: "GitHub",
-            href: "https://github.com/codemeapixel",
+            href: "https://github.com/CodeMeAPixel",
             icon: IoLogoGithub,
         },
         {
-            name: "Support",
+            name: "Contact",
             href: "/contact",
             icon: IoHelpCircle,
         },
         {
-            name: "API Status",
-            href: "/status",
-            icon: IoPulse,
-        },
-        {
-            name: "Examples",
-            href: "/examples",
+            name: "Projects",
+            href: "/projects",
             icon: IoCodeSlash,
         },
     ],

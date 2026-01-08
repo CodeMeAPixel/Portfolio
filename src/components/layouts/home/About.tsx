@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { IoArrowForward, IoCodeSlash, IoLayers, IoRocket, IoSparkles, IoTrendingUp } from "react-icons/io5";
+import { IoArrowForward, IoCodeSlash, IoDocumentTextOutline, IoLayers, IoRocket, IoSparkles, IoTrendingUp } from "react-icons/io5";
 
 export default function About() {
   const stats = [
@@ -94,7 +94,7 @@ export default function About() {
                 <div className="relative">
                   <div className="absolute inset-0 bg-gradient-to-r from-primary-500 to-primary-400 rounded-2xl blur-lg opacity-50"></div>
                   <div className="relative px-4 py-3 rounded-2xl glass-frost">
-                    <div className="text-2xl font-black text-primary-300">10+</div>
+                    <div className="text-2xl font-black text-primary-200">10+</div>
                     <div className="text-xs text-color-text-muted font-medium">Years Exp.</div>
                   </div>
                 </div>
@@ -184,7 +184,7 @@ export default function About() {
 
             {/* CTA with premium button */}
             <div
-              className="pt-4 animate-fade-in"
+              className="pt-4 flex flex-wrap gap-4 animate-fade-in"
               style={{ animationDelay: '0.7s' }}
             >
               <Link
@@ -195,6 +195,15 @@ export default function About() {
                   Learn more about me
                 </span>
                 <IoArrowForward className="w-5 h-5 text-primary-400 group-hover:translate-x-2 transition-transform duration-300" />
+              </Link>
+              <Link
+                href="/cv"
+                className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl glass-frost hover-glow transition-all duration-300"
+              >
+                <IoDocumentTextOutline className="w-5 h-5 text-primary-400" />
+                <span className="text-primary-300 font-semibold group-hover:text-primary-200 transition-colors">
+                  Download CV
+                </span>
               </Link>
             </div>
           </div>

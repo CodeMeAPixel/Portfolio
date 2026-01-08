@@ -79,7 +79,7 @@ export default function RootLayout({
               (function() {
                 try {
                   var validThemes = ['blue','purple','teal','rose','amber','sunset','emerald','crimson','nord','cyberpunk','mint','stranger','matrix','synthwave','dracula','monokai','warzone','valorant','minecraft','fortnite','gta','hacker','ocean','aurora','blood','neon'];
-                  var defaultTheme = 'stranger';
+                  var defaultTheme = 'fortnite';
                   var savedTheme = localStorage.getItem('themeColor');
                   var theme = (savedTheme && validThemes.indexOf(savedTheme) !== -1) ? savedTheme : defaultTheme;
                   document.documentElement.setAttribute('data-theme', theme);

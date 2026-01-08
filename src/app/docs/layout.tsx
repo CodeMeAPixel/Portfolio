@@ -73,12 +73,19 @@ export default function DocsLayout({
     }
 
     return (
-        <div className="bg-bg-alt min-h-screen">
+        <div className="bg-bg min-h-screen relative overflow-hidden">
+            {/* Background effects */}
+            <div className="absolute inset-0 z-0">
+                <div className="absolute inset-0 bg-aurora opacity-20"></div>
+                <div className="absolute inset-0 bg-dot-pattern opacity-10"></div>
+            </div>
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/20 to-transparent"></div>
+
             {/* Mobile sidebar toggle */}
             <div className="fixed top-20 left-4 z-40 md:hidden">
                 <button
                     onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                    className="btn-icon w-10 h-10"
+                    className="p-2.5 rounded-lg bg-gray-950/90 border border-white/10 text-color-text-muted hover:text-primary-400 transition-all"
                     aria-label="Toggle sidebar"
                 >
                     {isSidebarOpen ? (
@@ -90,13 +97,13 @@ export default function DocsLayout({
             </div>
 
             {/* Documentation layout with sidebar */}
-            <div className="container-section pt-24 pb-24 flex flex-col md:flex-row">
+            <div className="container-section pt-24 pb-24 flex flex-col md:flex-row relative z-10">
                 {/* Sidebar - visible on desktop, conditionally visible on mobile */}
                 <aside
                     className={`
                         w-64 flex-shrink-0 md:block fixed md:sticky top-24 left-0 bottom-0 
-                        md:h-[calc(100vh-6rem)] overflow-y-auto z-30 bg-bg-alt md:bg-transparent
-                        transition-all duration-300 transform 
+                        md:h-[calc(100vh-6rem)] overflow-y-auto z-30 bg-bg md:bg-transparent
+                        transition-all duration-300 transform custom-scrollbar
                         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
                         md:pr-6
                     `}
@@ -107,7 +114,7 @@ export default function DocsLayout({
                 {/* Main content */}
                 <main className="flex-grow md:pl-8 w-full">
                     {/* Breadcrumb and search bar */}
-                    <div className="flex items-center justify-between mb-8 sticky top-20 z-20 bg-bg-alt py-3 border-b border-color-border">
+                    <div className="flex items-center justify-between mb-8 sticky top-20 z-20 bg-bg py-3 border-b border-white/10">
                         <div className="text-sm flex items-center">
                             {breadcrumbs.map((crumb, index) => (
                                 <div key={crumb.href} className="flex items-center">
@@ -126,11 +133,11 @@ export default function DocsLayout({
                         </div>
                         <button
                             onClick={() => setIsSearchOpen(true)}
-                            className="flex items-center gap-2 px-3 py-1.5 text-sm text-color-text-muted bg-card rounded-lg border border-color-border hover:border-primary-700/50 transition-colors"
+                            className="flex items-center gap-2 px-3 py-1.5 text-sm text-color-text-muted rounded-lg bg-white/5 border border-white/10 hover:border-primary-500/30 hover:bg-white/10 transition-all"
                         >
                             <IoSearch className="w-4 h-4" />
                             <span className="hidden sm:inline">Search docs...</span>
-                            <span className="text-xs border border-color-border rounded px-1.5 py-0.5 ml-2">
+                            <span className="text-xs border border-white/10 rounded-lg px-2 py-0.5 ml-2 bg-white/5">
                                 ⌘K
                             </span>
                         </button>

@@ -260,16 +260,16 @@ export default function ThemeSelector({ minimal = false }: { minimal?: boolean }
                 <Tooltip.Root>
                     <Tooltip.Trigger asChild>
                         <button
-                            className="btn-icon relative hover:scale-105 active:scale-95 transition-transform"
+                            className="relative flex items-center justify-center w-10 h-10 rounded-lg hover:scale-105 active:scale-95 transition-all bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500/50"
                             aria-label="Change theme color"
                             onClick={() => setIsOpen(true)}
                             type="button"
                         >
                             <div
-                                className="w-full h-full absolute inset-0 rounded-full opacity-75"
+                                className="absolute inset-0 rounded-lg opacity-40 blur-md"
                                 style={{ backgroundColor: currentTheme.color }}
                             />
-                            <IoColorPaletteOutline className="w-5 h-5 relative z-10 text-white mix-blend-difference" />
+                            <IoColorPaletteOutline className="w-5 h-5 relative z-10 text-color-text hover:text-primary-400 transition-colors" />
                         </button>
                     </Tooltip.Trigger>
                     <Tooltip.Portal>
@@ -308,7 +308,7 @@ export default function ThemeSelector({ minimal = false }: { minimal?: boolean }
 
             <DropdownMenu.Portal>
                 <DropdownMenu.Content
-                    className="dropdown-animate z-[1000] min-w-[300px] max-h-[500px] overflow-hidden bg-card/95 backdrop-blur-2xl border border-white/20 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.6)] z-50"
+                    className="dropdown-animate z-[1000] min-w-[300px] max-h-[500px] overflow-hidden bg-card/95 backdrop-blur-2xl border border-white/20 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.6)]"
                     sideOffset={8}
                     align="end"
                 >

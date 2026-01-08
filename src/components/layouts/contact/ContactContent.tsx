@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { IoMailOutline, IoLocationOutline, IoSendOutline, IoPersonOutline, IoCheckmarkCircleOutline, IoCloseCircleOutline, IoLogoGithub, IoLogoTwitter, IoLogoLinkedin, IoSparkles, IoArrowForward } from "react-icons/io5";
+import { IoMailOutline, IoLocationOutline, IoSendOutline, IoPersonOutline, IoCheckmarkCircleOutline, IoCloseCircleOutline, IoLogoGithub, IoLogoTwitter, IoLogoLinkedin, IoSparkles, IoArrowForward, IoLogoDiscord } from "react-icons/io5";
 
 export default function ContactContent() {
     const [formState, setFormState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
@@ -143,6 +143,12 @@ export default function ContactContent() {
                                             label="LinkedIn"
                                             href="https://linkedin.com/in/codemeapixel"
                                             gradient="from-blue-600 to-blue-800"
+                                        />
+                                        <SocialButton
+                                            icon={<IoLogoDiscord className="w-5 h-5" />}
+                                            label="Discord"
+                                            href="https://discord.gg/Vv2bdC44Ge"
+                                            gradient="from-indigo-600 to-indigo-800"
                                         />
                                     </div>
                                 </div>

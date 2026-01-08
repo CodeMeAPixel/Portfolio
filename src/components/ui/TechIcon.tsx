@@ -23,7 +23,7 @@ import {
     SiContentful, SiStrapi, SiSanity, SiMarkdown, SiJest, SiCypress, SiMocha,
     SiSelenium, SiFlutter, SiIonic, SiRadixui, SiGit, SiFigma, SiStorybook,
     SiAmazonwebservices, SiPrisma, SiAuth0, SiTwilio, SiMailchimp, SiReactquery,
-    SiGithub
+    SiGithub, SiLua
 } from 'react-icons/si';
 
 import { PiFramerLogoFill } from 'react-icons/pi';
@@ -121,6 +121,14 @@ const iconMap: Record<string, IconType> = {
     swift: SiSwift,
     kotlin: SiKotlin,
     ruby: SiRuby,
+    lua: SiLua,
+    csharp: DiVisualstudio,
+    "c#": DiVisualstudio,
+    c: FaCode,
+    cplusplus: SiCplusplus,
+    "c++": SiCplusplus,
+    dotnet: SiDotnet,
+    ".net": SiDotnet,
     wordpress: SiWordpress,
     contentful: SiContentful,
     strapi: SiStrapi,

@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
         openGraph: {
             title: project.title,
             description: project.description,
-            images: project.images[0] ? [project.images[0]] : [],
+            images: project.images?.[0] ? [project.images[0]] : [],
             type: 'website',
         },
     };

@@ -6,10 +6,11 @@ const project: Project = {
     description: "Helping businesses transform their digital presence with cutting edge solutions.",
     longDescription: "A passionate team of tech experts dedicated to helping businesses succeed through innovative technology solutions.",
     images: [
-        "/NodeByteLTD/home.png",
-        "/NodeByteLTD/about.png",
-        "/NodeByteLTD/services.png",
-        "/NodeByteLTD/discord.png"
+        "/previews/nodebyte.co.uk/home.png",
+        "/previews/nodebyte.co.uk/about.png",
+        "/previews/nodebyte.co.uk/careers.png",
+        "/previews/nodebyte.co.uk/faqs.png",
+        "/previews/nodebyte.co.uk/legal.png"
     ],
     tags: ["Next.js", "React", "TypeScript", "Framer Motion", "RadixUI"],
     links: {

@@ -6,13 +6,43 @@ import { useEffect, useState, useRef } from "react";
 
 export default function Hero() {
   const [scrolled, setScrolled] = useState(false);
+  const [titleIndex, setTitleIndex] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const titles = [
+    "Fullstack Developer",
+    "Graphics Designer",
+    "Full Time Father",
+    "Ice Cold Canadian",
+    "Open Source Advocate",
+    "Coffee to Code Converter",
+    "Bug Whisperer",
+    "Pixel Perfectionist",
+    "TypeScript Enthusiast",
+    "Professional Googler",
+    "CEO of ByteBrush Studios",
+    "Ctrl+Z Specialist",
+    "Sleep Deprived Coder",
+  ];
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 150);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsAnimating(true);
+      setTimeout(() => {
+        setTitleIndex((prev) => (prev + 1) % titles.length);
+        setIsAnimating(false);
+      }, 300);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [titles.length]);
 
   return (
     <section
@@ -113,12 +143,15 @@ export default function Hero() {
           className="mb-8 animate-fade-up"
           style={{ animationDelay: '0.4s' }}
         >
-          <div className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl glass-ultra">
-            <IoCodeSlash className="w-6 h-6 text-primary-400" />
-            <span className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary-300 via-primary-400 to-primary-300 bg-clip-text text-transparent">
-              Fullstack Developer
+          <div className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl glass-ultra min-w-[320px] sm:min-w-[400px] md:min-w-[500px] justify-center">
+            <IoCodeSlash className="w-6 h-6 text-primary-400 flex-shrink-0" />
+            <span
+              className={`text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary-300 via-primary-400 to-primary-300 bg-clip-text text-transparent transition-all duration-300 ${isAnimating ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'
+                }`}
+            >
+              {titles[titleIndex]}
             </span>
-            <IoLayers className="w-6 h-6 text-primary-400" />
+            <IoLayers className="w-6 h-6 text-primary-400 flex-shrink-0" />
           </div>
         </div>
 
@@ -137,7 +170,7 @@ export default function Hero() {
             <span className="text-primary-300 font-semibold">functional</span>
             <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary-400/50 rounded-full"></span>
           </span>{" "}
-          web experiences with modern technologies and a passion for pixel-perfect design.
+          web experiences with modern technologies and a passion for pixel perfect design.
         </p>
 
         {/* CTA Buttons with premium styling */}

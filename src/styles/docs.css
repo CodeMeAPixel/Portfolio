@@ -17,7 +17,7 @@
   margin-bottom: 1rem;
   color: rgb(var(--color-primary-300));
   scroll-margin-top: 100px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .docs-content .prose h3 {
@@ -48,21 +48,23 @@
   color: rgb(var(--color-primary-300));
 }
 
-/* Code blocks with improved styling */
+/* Code blocks with glassmorphism styling */
 .docs-content .prose pre {
-  background-color: rgb(var(--color-card-alt));
-  border: 1px solid rgba(var(--color-primary-700), 0.2);
-  border-radius: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
   margin: 1.5rem 0;
   overflow-x: auto;
+  backdrop-filter: blur(8px);
 }
 
 .docs-content .prose code {
   font-size: 0.875em;
-  background-color: rgba(var(--color-code-bg), 0.4);
+  background-color: rgba(var(--color-primary-500), 0.15);
   padding: 0.2em 0.4em;
-  border-radius: 0.25rem;
+  border-radius: 0.375rem;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  color: rgb(var(--color-primary-300));
 }
 
 .docs-content .prose pre code {
@@ -73,19 +75,20 @@
   color: rgb(235, 235, 235);
 }
 
-/* Tables with improved styling */
+/* Tables with glassmorphism styling */
 .docs-content .prose table {
   width: 100%;
   margin: 1.5rem 0;
   border-collapse: separate;
   border-spacing: 0;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   overflow: hidden;
-  border: 1px solid rgba(var(--color-primary-800), 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .docs-content .prose th {
-  background-color: rgba(var(--color-primary-900), 0.4);
+  background-color: rgba(var(--color-primary-500), 0.15);
   color: rgb(var(--color-primary-300));
   font-weight: 600;
   text-align: left;
@@ -95,12 +98,12 @@
 
 .docs-content .prose td {
   padding: 0.75rem 1rem;
-  border-top: 1px solid rgba(var(--color-primary-800), 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
   font-size: 0.875rem;
 }
 
 .docs-content .prose tr:nth-child(even) {
-  background-color: rgba(var(--color-primary-900), 0.1);
+  background-color: rgba(var(--color-primary-500), 0.05);
 }
 
 /* Lists with improved styling */
@@ -114,31 +117,38 @@
   margin-bottom: 0.5rem;
 }
 
-/* Blockquotes */
+.docs-content .prose li::marker {
+  color: rgb(var(--color-primary-400));
+}
+
+/* Blockquotes with glassmorphism */
 .docs-content .prose blockquote {
   border-left: 4px solid rgb(var(--color-primary-500));
-  background-color: rgba(var(--color-primary-900), 0.2);
+  background-color: rgba(var(--color-primary-500), 0.1);
   padding: 1rem 1.25rem;
   margin: 1.5rem 0;
-  border-radius: 0 0.5rem 0.5rem 0;
+  border-radius: 0 0.75rem 0.75rem 0;
   color: rgb(var(--color-text-muted));
   font-style: italic;
+  backdrop-filter: blur(4px);
 }
 
 /* Custom docs components styling */
 .docs-section-card {
   display: flex;
   flex-direction: column;
-  border-radius: 0.5rem;
-  border: 1px solid rgba(var(--color-primary-700), 0.2);
-  background-color: rgb(var(--color-card));
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(0, 0, 0, 0.2);
   padding: 1.5rem;
-  transition: border-color 0.2s, transform 0.2s;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
 }
 
 .docs-section-card:hover {
-  border-color: rgba(var(--color-primary-600), 0.4);
+  border-color: rgba(var(--color-primary-500), 0.3);
   transform: translateY(-2px);
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
 .docs-section-card-icon {
@@ -147,8 +157,8 @@
   justify-content: center;
   width: 2.5rem;
   height: 2.5rem;
-  background-color: rgba(var(--color-primary-900), 0.3);
-  border-radius: 0.5rem;
+  background-color: rgba(var(--color-primary-500), 0.2);
+  border-radius: 0.75rem;
   color: rgb(var(--color-primary-400));
   margin-bottom: 1rem;
 }
@@ -156,12 +166,12 @@
 /* Documentation search result styling */
 .doc-search-result {
   padding: 0.75rem 1rem;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   transition: background-color 0.2s;
 }
 
 .doc-search-result:hover {
-  background-color: rgba(var(--color-primary-900), 0.2);
+  background-color: rgba(var(--color-primary-500), 0.1);
 }
 
 .doc-search-result-title {

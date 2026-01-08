@@ -63,16 +63,6 @@ export default function NotFoundPage() {
                         {'>'}
                     </div>
 
-                    {/* Floating error badges */}
-                    <div
-                        className="absolute top-[20%] md:top-[25%] right-[8%] md:right-[18%] transform rotate-12 animate-fade-up"
-                        style={{ animationDelay: '0.5s' }}
-                    >
-                        <div className="text-xs md:text-sm glass-frost px-4 py-2 rounded-xl text-primary-300 font-mono border border-primary-500/20">
-                            {errorCode}
-                        </div>
-                    </div>
-
                     <div
                         className="absolute bottom-[25%] md:bottom-[30%] left-[10%] md:left-[15%] transform -rotate-6 animate-fade-up"
                         style={{ animationDelay: '0.7s' }}

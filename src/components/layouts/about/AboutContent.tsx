@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { IoPersonOutline, IoSchoolOutline, IoBriefcaseOutline, IoTimeOutline, IoCode, IoRocketOutline, IoArrowForward, IoHeart, IoSparkles, IoLocationOutline, IoOpenOutline } from "react-icons/io5";
+import { IoPersonOutline, IoSchoolOutline, IoBriefcaseOutline, IoTimeOutline, IoCode, IoRocketOutline, IoArrowForward, IoHeart, IoSparkles, IoLocationOutline, IoOpenOutline, IoDocumentTextOutline } from "react-icons/io5";
 
 export default function AboutContent() {
     return (
@@ -72,41 +72,54 @@ export default function AboutContent() {
                                     <div className="absolute inset-0 bg-gradient-to-t from-bg via-transparent to-transparent opacity-60"></div>
                                 </div>
 
-                                {/* Floating availability badge */}
+                                {/* Floating experience badge */}
                                 <div
-                                    className="absolute -bottom-4 -right-4 md:bottom-6 md:-right-8 px-5 py-3 rounded-2xl glass-ultra shadow-2xl shadow-black/30 hover:scale-105 transition-transform duration-300 animate-fade-up"
+                                    className="absolute -top-4 -left-4 md:-top-6 md:-left-6 animate-fade-in"
                                     style={{ animationDelay: '0.5s' }}
                                 >
-                                    <div className="flex items-center gap-3">
-                                        <span className="relative flex h-3 w-3">
-                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                            <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500 shadow-lg shadow-green-500/50"></span>
-                                        </span>
-                                        <span className="text-sm font-semibold text-color-text">Available for work</span>
+                                    <div className="relative group/badge">
+                                        <div className="absolute inset-0 bg-gradient-to-r from-primary-500 to-primary-400 rounded-2xl blur-lg opacity-50 group-hover/badge:opacity-70 transition-opacity"></div>
+                                        <div className="relative px-4 py-3 rounded-2xl glass-frost">
+                                            <div className="text-2xl font-black text-primary-200">10+</div>
+                                            <div className="text-xs text-color-text-muted font-medium">Years Exp.</div>
+                                        </div>
                                     </div>
                                 </div>
 
-                                {/* Experience badge */}
+                                {/* Floating availability badge */}
                                 <div
-                                    className="absolute -top-4 -left-4 md:top-6 md:-left-8 px-5 py-3 rounded-2xl glass-ultra shadow-2xl shadow-black/30 hover:scale-105 transition-transform duration-300 animate-fade-up"
+                                    className="absolute -bottom-4 -right-4 md:-bottom-6 md:-right-6 animate-fade-in"
                                     style={{ animationDelay: '0.6s' }}
                                 >
-                                    <div className="text-center">
-                                        <div className="text-3xl font-black animated-gradient-text">10+</div>
-                                        <div className="text-xs text-color-text-muted font-semibold">Years Exp.</div>
+                                    <div className="relative group/badge">
+                                        <div className="absolute inset-0 bg-green-500 rounded-2xl blur-lg opacity-30 group-hover/badge:opacity-50 transition-opacity"></div>
+                                        <div className="relative px-4 py-3 rounded-2xl glass-frost flex items-center gap-3">
+                                            <span className="relative flex h-3 w-3">
+                                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                                <span className="relative inline-flex rounded-full h-3 w-3 bg-gradient-to-r from-green-400 to-emerald-400"></span>
+                                            </span>
+                                            <span className="text-sm font-semibold text-color-text">Available</span>
+                                        </div>
                                     </div>
                                 </div>
 
                                 {/* Location badge */}
                                 <div
-                                    className="absolute bottom-6 -left-4 md:bottom-20 md:-left-8 px-4 py-2 rounded-xl glass-frost animate-fade-in"
+                                    className="absolute top-1/2 -right-4 md:-right-6 -translate-y-1/2 animate-fade-in"
                                     style={{ animationDelay: '0.7s' }}
                                 >
-                                    <div className="flex items-center gap-2 text-sm text-primary-300 font-semibold">
-                                        <IoLocationOutline className="w-4 h-4" />
-                                        <span>Canada</span>
+                                    <div className="relative group/badge">
+                                        <div className="absolute inset-0 bg-gradient-to-r from-primary-400 to-primary-500 rounded-xl blur-lg opacity-30 group-hover/badge:opacity-50 transition-opacity"></div>
+                                        <div className="relative px-3 py-2 rounded-xl glass-frost flex items-center gap-2">
+                                            <IoLocationOutline className="w-4 h-4 text-primary-300" />
+                                            <span className="text-sm text-primary-200 font-semibold">Canada</span>
+                                        </div>
                                     </div>
                                 </div>
+
+                                {/* Decorative floating elements */}
+                                <div className="absolute top-1/4 -right-8 w-4 h-4 rounded-full bg-primary-400/60 animate-float" />
+                                <div className="absolute bottom-1/4 -left-6 w-3 h-3 rounded-full bg-primary-300/50 animate-float" style={{ animationDelay: '1s' }} />
                             </div>
                         </div>
 
@@ -147,6 +160,13 @@ export default function AboutContent() {
                                 >
                                     <span>View My Work</span>
                                     <IoArrowForward className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                </Link>
+                                <Link
+                                    href="/cv"
+                                    className="group px-8 py-4 rounded-2xl font-bold text-primary-400 glass-frost hover:scale-105 transition-all duration-300 flex items-center gap-2"
+                                >
+                                    <IoDocumentTextOutline className="w-5 h-5" />
+                                    <span>Download CV</span>
                                 </Link>
                             </div>
                         </div>

@@ -21,13 +21,13 @@ export default async function Image() {
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    background: 'linear-gradient(135deg, #0f0815 0%, #1a0a20 25%, #12081a 50%, #0a0510 100%)',
+                    background: 'linear-gradient(135deg, #0c0a19 0%, #16122a 25%, #100e20 50%, #0a0815 100%)',
                     position: 'relative',
                     fontFamily: 'Inter, system-ui, sans-serif',
                     padding: '40px',
                 }}
             >
-                {/* Animated gradient orbs background */}
+                {/* Animated gradient orbs background - Fortnite purple storm */}
                 <div
                     style={{
                         position: 'absolute',
@@ -36,7 +36,7 @@ export default async function Image() {
                         width: '500px',
                         height: '500px',
                         borderRadius: '50%',
-                        background: 'radial-gradient(circle, rgba(230, 50, 40, 0.3) 0%, transparent 70%)',
+                        background: 'radial-gradient(circle, rgba(150, 80, 255, 0.35) 0%, transparent 70%)',
                         filter: 'blur(60px)',
                     }}
                 />
@@ -48,7 +48,7 @@ export default async function Image() {
                         width: '600px',
                         height: '600px',
                         borderRadius: '50%',
-                        background: 'radial-gradient(circle, rgba(255, 80, 60, 0.2) 0%, transparent 70%)',
+                        background: 'radial-gradient(circle, rgba(130, 60, 230, 0.25) 0%, transparent 70%)',
                         filter: 'blur(80px)',
                     }}
                 />
@@ -61,7 +61,7 @@ export default async function Image() {
                         width: '400px',
                         height: '400px',
                         borderRadius: '50%',
-                        background: 'radial-gradient(circle, rgba(200, 40, 35, 0.15) 0%, transparent 70%)',
+                        background: 'radial-gradient(circle, rgba(170, 100, 255, 0.2) 0%, transparent 70%)',
                         filter: 'blur(40px)',
                     }}
                 />
@@ -72,8 +72,8 @@ export default async function Image() {
                         position: 'absolute',
                         inset: 0,
                         backgroundImage: `
-              linear-gradient(rgba(230, 50, 40, 0.03) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(230, 50, 40, 0.03) 1px, transparent 1px)
+              linear-gradient(rgba(150, 80, 255, 0.04) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(150, 80, 255, 0.04) 1px, transparent 1px)
             `,
                         backgroundSize: '50px 50px',
                     }}
@@ -89,8 +89,8 @@ export default async function Image() {
                         padding: '50px 70px',
                         borderRadius: '32px',
                         background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)',
-                        border: '1px solid rgba(255,255,255,0.1)',
-                        boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5), 0 0 100px rgba(230, 50, 40, 0.15)',
+                        border: '1px solid rgba(150, 80, 255, 0.2)',
+                        boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5), 0 0 100px rgba(150, 80, 255, 0.2)',
                         position: 'relative',
                     }}
                 >
@@ -102,7 +102,7 @@ export default async function Image() {
                             left: 0,
                             right: 0,
                             height: '1px',
-                            background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)',
+                            background: 'linear-gradient(90deg, transparent, rgba(150, 80, 255, 0.4), transparent)',
                         }}
                     />
 
@@ -115,10 +115,10 @@ export default async function Image() {
                             width: '80px',
                             height: '80px',
                             borderRadius: '20px',
-                            background: 'linear-gradient(135deg, rgba(230, 50, 40, 0.3) 0%, rgba(255, 80, 60, 0.2) 100%)',
-                            border: '1px solid rgba(230, 50, 40, 0.3)',
+                            background: 'linear-gradient(135deg, rgba(150, 80, 255, 0.35) 0%, rgba(130, 60, 230, 0.25) 100%)',
+                            border: '1px solid rgba(150, 80, 255, 0.4)',
                             marginBottom: '24px',
-                            boxShadow: '0 0 40px rgba(230, 50, 40, 0.3)',
+                            boxShadow: '0 0 40px rgba(150, 80, 255, 0.35)',
                         }}
                     >
                         <span style={{ fontSize: '40px', color: '#fff' }}>{`</>`}</span>
@@ -129,7 +129,7 @@ export default async function Image() {
                         style={{
                             fontSize: '64px',
                             fontWeight: 900,
-                            background: 'linear-gradient(135deg, #ffffff 0%, #e63228 50%, #ff5040 100%)',
+                            background: 'linear-gradient(135deg, #ffffff 0%, #9650ff 50%, #aa64ff 100%)',
                             backgroundClip: 'text',
                             color: 'transparent',
                             margin: 0,
@@ -182,10 +182,10 @@ export default async function Image() {
                                 style={{
                                     padding: '6px 14px',
                                     borderRadius: '16px',
-                                    background: 'rgba(230, 50, 40, 0.15)',
-                                    border: '1px solid rgba(230, 50, 40, 0.3)',
+                                    background: 'rgba(150, 80, 255, 0.2)',
+                                    border: '1px solid rgba(150, 80, 255, 0.35)',
                                     fontSize: '13px',
-                                    color: 'rgba(255,255,255,0.8)',
+                                    color: 'rgba(255,255,255,0.85)',
                                     fontWeight: 500,
                                 }}
                             >

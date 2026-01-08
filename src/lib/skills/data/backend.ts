@@ -67,6 +67,42 @@ const backendSkills: SkillCategory = {
             description: "Web development with PHP frameworks like Laravel."
         },
         {
+            name: "Lua",
+            icon: "lua",
+            level: 4,
+            description: "Game scripting for FiveM/GTA V mods and embedded applications."
+        },
+        {
+            name: "Rust",
+            icon: "rust",
+            level: 3,
+            description: "Systems programming with memory safety and high performance."
+        },
+        {
+            name: "C#",
+            icon: "csharp",
+            level: 4,
+            description: "Desktop applications, game development with Unity, and .NET backend services."
+        },
+        {
+            name: "C++",
+            icon: "cplusplus",
+            level: 3,
+            description: "Performance-critical applications and system-level programming."
+        },
+        {
+            name: "C",
+            icon: "c",
+            level: 3,
+            description: "Low-level systems programming and embedded development."
+        },
+        {
+            name: ".NET",
+            icon: "dotnet",
+            level: 4,
+            description: "Building cross-platform applications with ASP.NET Core and Blazor."
+        },
+        {
             name: "GraphQL",
             icon: "graphql",
             level: 4,

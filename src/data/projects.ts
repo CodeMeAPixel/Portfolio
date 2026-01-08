@@ -4,7 +4,7 @@ export const projects: Project[] = [
   {
     id: "emberly",
     title: "Emberly",
-    description: "File Sharing, Forged in Fire.",
+    description: "Fast, private file sharing and short links designed for developers and teams.",
     images: [
       "/previews/emberly/home.png",
       "/previews/emberly/about.png",

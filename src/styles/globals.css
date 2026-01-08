@@ -252,6 +252,37 @@
 }
 
 @layer base {
+  /* Smooth scrolling for the whole page */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Respect reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /* Better focus-visible styling for accessibility */
+  :focus-visible {
+    outline: 2px solid rgb(var(--color-primary-500) / 0.7);
+    outline-offset: 2px;
+  }
+
+  /* Selection styling */
+  ::selection {
+    background: rgb(var(--color-primary-500) / 0.3);
+    color: rgb(var(--color-text));
+  }
 
   :root,
   [data-theme="blue"] {
@@ -1591,7 +1622,7 @@ body {
   }
 
   .btn-icon {
-    @apply p-2.5 rounded-xl bg-card/80 backdrop-blur-sm hover:bg-primary-500/20 text-color-text-muted hover:text-primary-300 transition-all duration-300 border border-color-border/50 hover:border-primary-500/30 focus:outline-none focus:ring-2 focus:ring-primary-500;
+    @apply p-2.5 rounded-lg bg-white/5 backdrop-blur-sm hover:bg-white/10 text-color-text-muted hover:text-primary-400 transition-all duration-300 border border-white/10 hover:border-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-bg;
   }
 
   .container-section {
@@ -1764,6 +1795,32 @@ body {
 
   .scrollbar-hidden::-webkit-scrollbar {
     display: none;
+  }
+
+  /* Custom scrollbar styling */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(var(--color-primary-500) / 0.3) transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 3px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgb(var(--color-primary-500) / 0.3);
+    border-radius: 3px;
+    transition: background 0.2s ease;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgb(var(--color-primary-500) / 0.5);
   }
 
   /* Modern shimmer effect */

@@ -77,22 +77,22 @@ export default function MobileThemeMenu() {
         <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
             <Dialog.Trigger asChild>
                 <button
-                    className="btn-icon relative hover:scale-105 active:scale-95 transition-transform"
+                    className="relative flex items-center justify-center w-10 h-10 rounded-lg hover:scale-105 active:scale-95 transition-transform bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20"
                     aria-label="Open theme menu"
                 >
                     <div
-                        className="w-full h-full absolute inset-0 rounded-full opacity-75"
+                        className="absolute inset-0 rounded-lg opacity-40 blur-md"
                         style={{ backgroundColor: currentTheme.color }}
                     />
-                    <IoColorPaletteOutline className="w-5 h-5 relative z-10 text-white mix-blend-difference" />
+                    <IoColorPaletteOutline className="w-5 h-5 relative z-10 text-color-text hover:text-primary-400 transition-colors" />
                 </button>
             </Dialog.Trigger>
 
             <Dialog.Portal>
-                <Dialog.Overlay className="fixed inset-0 bg-black/80 backdrop-blur-md z-[10000] animate-fade-in" />
-                <Dialog.Content className="fixed inset-x-3 bottom-0 top-auto max-h-[85vh] bg-card/95 backdrop-blur-2xl border-t border-x border-white/20 rounded-t-3xl shadow-[0_-20px_50px_rgba(0,0,0,0.6)] z-[10001] overflow-hidden animate-in slide-in-from-bottom duration-300 focus:outline-none">
+                <Dialog.Overlay className="fixed -inset-0 bg-black/90 z-[10000] animate-fade-in" />
+                <Dialog.Content className="fixed inset-x-4 bottom-auto top-1/2 -translate-y-1/2 max-h-[80vh] bg-gray-950/95 border border-white/20 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.9)] z-[10001] overflow-hidden animate-in fade-in zoom-in-90 duration-300 focus:outline-none">
                     {/* Header */}
-                    <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-white/5">
+                    <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-gray-900/80">
                         <Dialog.Title className="flex items-center gap-2 text-sm font-semibold">
                             <div className={`w-4 h-4 rounded-full bg-gradient-to-br ${currentTheme.gradient}`} />
                             <span className="bg-gradient-to-r from-primary-400 to-accent-400 bg-clip-text text-transparent">
@@ -110,7 +110,7 @@ export default function MobileThemeMenu() {
                     </div>
 
                     {/* Category Tabs */}
-                    <div className="flex items-center gap-1 p-2 border-b border-white/10 overflow-x-auto">
+                    <div className="flex items-center gap-1 p-3 border-b border-white/10 bg-gray-900/60 overflow-x-auto">
                         <button
                             onClick={() => setActiveCategory("all")}
                             className={`px-3 py-1.5 rounded-lg text-[10px] font-semibold uppercase tracking-wider whitespace-nowrap transition-all duration-200 ${activeCategory === "all"
@@ -136,7 +136,7 @@ export default function MobileThemeMenu() {
                     </div>
 
                     {/* Theme Grid */}
-                    <div className="p-4 overflow-y-auto max-h-[55vh] custom-scrollbar">
+                    <div className="p-4 overflow-y-auto max-h-[55vh] custom-scrollbar bg-gray-950/50">
                         <div className="grid grid-cols-2 gap-3 pb-8">
                             {filteredThemes.map((option) => {
                                 const isActive = themeColor === option.name;
@@ -152,8 +152,8 @@ export default function MobileThemeMenu() {
                                             flex items-center justify-between gap-3 px-4 py-3.5 rounded-2xl transition-all duration-300
                                             hover:scale-[1.02] active:scale-[0.98]
                                             ${isActive
-                                                ? 'bg-primary-500/15 ring-1 ring-primary-500/30 text-primary-300'
-                                                : 'bg-white/5 hover:bg-white/10 text-color-text-muted hover:text-color-text'
+                                                ? 'bg-primary-500/20 ring-1.5 ring-primary-500/50 text-primary-300'
+                                                : 'bg-white/8 hover:bg-white/15 text-color-text-muted hover:text-color-text'
                                             }
                                         `}
                                     >
@@ -167,10 +167,10 @@ export default function MobileThemeMenu() {
                                                 </div>
                                             </div>
                                             <div className="flex flex-col items-start min-w-0">
-                                                <span className={`text-xs font-semibold truncate`}>
+                                                <span className={`text-xs font-bold truncate ${isActive ? 'text-primary-300' : 'text-color-text'}`}>
                                                     {option.label}
                                                 </span>
-                                                <span className="text-[10px] opacity-60 capitalize">
+                                                <span className="text-[10px] opacity-70 capitalize text-color-text-muted">
                                                     {categoryConfig[option.category].label}
                                                 </span>
                                             </div>
@@ -185,13 +185,13 @@ export default function MobileThemeMenu() {
                     </div>
 
                     {/* Footer */}
-                    <div className="p-3 border-t border-white/10 bg-white/5">
+                    <div className="p-4 border-t border-white/10 bg-gray-900/80">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2 text-xs text-color-text-muted">
                                 <div className={`w-4 h-4 rounded-full bg-gradient-to-br ${currentTheme.gradient}`} />
-                                <span>Current: <strong className="text-primary-300">{currentTheme.label}</strong></span>
+                                <span>Current: <strong className="text-primary-300 font-semibold">{currentTheme.label}</strong></span>
                             </div>
-                            <span className="text-[10px] text-color-text-muted/50">
+                            <span className="text-[10px] text-color-text-muted">
                                 {themeOptions.length} themes
                             </span>
                         </div>

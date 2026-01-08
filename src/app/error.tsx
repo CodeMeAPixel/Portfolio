@@ -56,15 +56,6 @@ export default function ErrorPage({
                     >
                         Error
                     </div>
-
-                    <div
-                        className="absolute top-[20%] md:top-[25%] right-[8%] md:right-[18%] transform rotate-12 animate-fade-up"
-                        style={{ animationDelay: '0.5s' }}
-                    >
-                        <div className="text-xs md:text-sm glass-frost px-4 py-2 rounded-xl text-red-300 font-mono border border-red-500/20">
-                            {errorId}
-                        </div>
-                    </div>
                 </div>
 
                 {/* Main content */}
