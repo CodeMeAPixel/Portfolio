@@ -7,6 +7,74 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.1.0] - 2026-01-08
+
+### Added
+
+#### New Pages
+- **CV / Resume Page** (`/cv`) - Downloadable and shareable CV with premium styling
+  - Print-optimized PDF generation via `react-to-print`
+  - Native share API integration with clipboard fallback
+  - Professional CV document with experience, skills, projects, and certifications
+
+#### New Projects (5 total)
+- **Lexicon** - AI-powered writing assistant for content creators
+- **ByteProxy** - Extensible web proxy for Discord/GitHub APIs with rate limiting
+- **Socket0** - WebSocket server with message broker capabilities (Go)
+- **Void** - Reverse proxy and maintenance server with glassmorphic UI (Go)
+- **Flicker** - Cross-platform screenshot/upload tool for Emberly (Tauri + React + Rust)
+
+#### New Components
+- **CVDocument** (`src/components/cv/CVDocument.tsx`) - Printable CV component with professional styling
+- **CVContent** (`src/components/layouts/cv/CVContent.tsx`) - CV page layout with download/share actions
+
+#### New Data Files
+- **cvData.ts** (`src/data/cvData.ts`) - Centralized CV data (personal info, experience, skills, projects)
+
+### Changed
+
+#### Hero Section
+- Added animated rotating titles that cycle through professional, funny, and personal titles
+  - Includes: "Fullstack Developer", "Graphics Designer", "Full Time Father", "Ice Cold Canadian", "Bug Whisperer", "Coffee to Code Converter", and more
+  - Smooth fade/slide animation with 3-second intervals
+
+#### Skills Page
+- Premium design restoration with glassmorphism styling
+- Custom dropdown component for mobile category filter (replacing broken native select)
+- Enhanced search functionality and category tabs
+
+#### About Page
+- Added "Download CV" button to CTA section
+- Redesigned floating badges to match homepage style:
+  - Added glow effects behind badges
+  - Consistent `glass-frost` styling
+  - Repositioned location badge with hover glow
+  - Added decorative floating elements
+
+#### Home About Section
+- Added "Download CV" button alongside "Learn more about me"
+
+#### Project System
+- Made `images` field optional in Project type (`images?: string[]`)
+- **ProjectDetail** - Conditional grid layout for projects with/without images
+- **ImageCarousel** - Placeholder UI for projects with empty image arrays
+
+#### TechIcon Component
+- Fixed missing icons: replaced non-existent `SiCsharp` and `SiC` with `DiVisualstudio` and `FaCode`
+
+### Fixed
+
+- **Skills Mobile Filter** - Replaced broken native `<select>` with custom dropdown component
+- **Projects Without Images** - Added conditional rendering and placeholder UI
+- **Metadata TypeError** - Added optional chaining for `project.images?.[0]` in generateMetadata
+- **Badge Inconsistency** - Synchronized About page badges with homepage design
+
+### Dependencies
+
+- Added `react-to-print@3.2.0` for PDF generation
+
+---
+
 ## [3.0.0] - 2025-12-27
 
 ### Added
@@ -107,9 +175,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History
 
+- **v3.1.0** - CV system, 5 new projects, animated hero titles, skills page improvements
 - **v3.0.0** - Major UI/UX overhaul with premium glassmorphism, 26 themes, dynamic OG images
 - **v2.x.x** - Previous stable releases (pre-glassmorphism)
 - **v1.x.x** - Initial portfolio release
 
-[Unreleased]: https://github.com/CodeMeAPixel/Portfolio/compare/v3.0.0...HEAD
+[Unreleased]: https://github.com/CodeMeAPixel/Portfolio/compare/v3.1.0...HEAD
+[3.1.0]: https://github.com/CodeMeAPixel/Portfolio/compare/v3.0.0...v3.1.0
 [3.0.0]: https://github.com/CodeMeAPixel/Portfolio/releases/tag/v3.0.0
