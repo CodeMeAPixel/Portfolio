@@ -5,9 +5,10 @@ import Link from 'next/link';
 import Image from 'next/image';
 import {
     IoArrowForward, IoFilterOutline, IoGridOutline, IoListOutline, IoSearch, IoClose,
-    IoChevronDown, IoSwapVertical, IoCalendarOutline
+    IoChevronDown, IoSwapVertical, IoCalendarOutline, IoWarning, IoChevronBack, IoChevronForward
 } from 'react-icons/io5';
 import type { FivemScript } from '@/types/fivem';
+import { FivemScriptLogo } from '@/components/fivem/FivemScriptLogo';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 
 interface FivemScriptsContentProps {
@@ -16,7 +17,7 @@ interface FivemScriptsContentProps {
 }
 
 type ViewMode = 'grid' | 'list';
-type Filter = 'All' | 'ESX' | 'QBCore' | 'Standalone' | 'Released' | 'In Development' | 'Coming Soon';
+type Filter = 'All' | 'ESX' | 'QBCore' | 'Standalone' | 'Released' | 'In Development' | 'Coming Soon' | 'Deprecated';
 type SortOption = 'date-desc' | 'date-asc' | 'alphabetical' | 'price-asc' | 'price-desc';
 
 export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsContentProps) {
@@ -30,6 +31,8 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
     const [isSearching, setIsSearching] = useState(false);
     const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
     const [sortBy, setSortBy] = useState<SortOption>('date-desc');
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 12;
 
     // Extract all frameworks and statuses
     const frameworks = ['ESX', 'QBCore', 'Standalone'];
@@ -39,14 +42,20 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
     useEffect(() => {
         const timer = setTimeout(() => {
             setDebouncedSearchQuery(searchQuery);
+            setCurrentPage(1);
         }, 300);
         return () => clearTimeout(timer);
     }, [searchQuery]);
+
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [filter, sortBy, viewMode]);
 
     // Filter scripts
     const filteredScripts = scripts
         .filter(script => {
             if (filter === 'All') return true;
+            if (filter === 'Deprecated') return script.deprecated === true;
             if (filter === 'ESX' || filter === 'QBCore' || filter === 'Standalone') {
                 return script.framework === filter || script.framework === 'Both';
             }
@@ -83,6 +92,31 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
         const match = price.match(/\d+(\.\d+)?/);
         return match ? parseFloat(match[0]) : 0;
     }
+
+    const totalPages = Math.ceil(filteredScripts.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const paginatedScripts = filteredScripts.slice(startIndex, endIndex);
+
+    const getVisiblePages = () => {
+        const pages = [];
+        const showPages = 3; // Show 3 page numbers at a time
+        const halfShow = Math.floor(showPages / 2);
+
+        let start = Math.max(1, currentPage - halfShow);
+        let end = Math.min(totalPages, start + showPages - 1);
+
+        // Adjust start if we're near the end
+        if (end - start + 1 < showPages) {
+            start = Math.max(1, end - showPages + 1);
+        }
+
+        for (let i = start; i <= end; i++) {
+            pages.push(i);
+        }
+
+        return pages;
+    };
 
     const toggleSearch = () => {
         setIsSearching(!isSearching);
@@ -221,6 +255,24 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                                         </div>
                                     </DropdownMenu.Item>
                                 ))}
+
+                                <DropdownMenu.Separator className="h-px bg-color-border my-1" asChild>
+                                    <div />
+                                </DropdownMenu.Separator>
+                                <DropdownMenu.Item
+                                    className={`text-sm px-3 py-2.5 rounded-lg cursor-pointer outline-none transition-all duration-200
+                                        ${filter === 'Deprecated'
+                                            ? 'bg-red-500/20 text-red-300 font-medium border border-red-500/20'
+                                            : 'text-color-text-muted hover:bg-white/10 hover:text-color-text'
+                                        }`}
+                                    onClick={() => setFilter('Deprecated')}
+                                >
+                                    <div className="flex items-center w-full">
+                                        <IoWarning className="w-4 h-4 mr-2" />
+                                        Deprecated
+                                        {filter === 'Deprecated' && <span className="ml-2 text-xs">✓</span>}
+                                    </div>
+                                </DropdownMenu.Item>
                             </DropdownMenu.Content>
                         </DropdownMenu.Portal>
                     </DropdownMenu.Root>
@@ -541,29 +593,131 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                 ) : (
                     <>
                         {viewMode === 'grid' ? (
-                            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                {filteredScripts.map((script, index) => (
-                                    <ScriptGridCard
-                                        key={script.id}
-                                        script={script}
-                                        index={index}
-                                        isHovered={hoveredScript === script.id}
-                                        onHover={setHoveredScript}
-                                    />
-                                ))}
-                            </div>
+                            <>
+                                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    {paginatedScripts.map((script, index) => (
+                                        <ScriptGridCard
+                                            key={script.id}
+                                            script={script}
+                                            index={index}
+                                            isHovered={hoveredScript === script.id}
+                                            onHover={setHoveredScript}
+                                        />
+                                    ))}
+                                </div>
+                                {totalPages > 1 && (
+                                    <div className="flex items-center justify-between mt-12 pt-8 border-t border-white/10">
+                                        <div className="text-sm text-color-text-muted">
+                                            Showing <span className="text-primary-300 font-semibold">{startIndex + 1}</span>-<span className="text-primary-300 font-semibold">{Math.min(endIndex, filteredScripts.length)}</span> of <span className="text-primary-300 font-semibold">{filteredScripts.length}</span>
+                                        </div>
+                                        <div className="flex items-center gap-3">
+                                            <button
+                                                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                                                disabled={currentPage === 1}
+                                                className={`p-2.5 rounded-lg transition-all duration-300 flex items-center gap-2 ${currentPage === 1
+                                                    ? 'text-color-text-muted/50 cursor-not-allowed bg-white/5'
+                                                    : 'text-primary-300 hover:bg-white/10 hover:text-primary-200 glass-frost border border-white/10'
+                                                    }`}
+                                                aria-label="Previous page"
+                                            >
+                                                <IoChevronBack className="w-4 h-4" />
+                                                <span className="hidden sm:inline text-sm font-medium">Previous</span>
+                                            </button>
+
+                                            <div className="flex items-center gap-2">
+                                                {getVisiblePages().map(page => (
+                                                    <button
+                                                        key={page}
+                                                        onClick={() => setCurrentPage(page)}
+                                                        className={`w-10 h-10 rounded-lg transition-all duration-300 text-sm font-medium ${currentPage === page
+                                                            ? 'bg-gradient-to-r from-primary-600 to-primary-400 text-white shadow-lg shadow-primary-500/30'
+                                                            : 'glass-frost text-color-text-muted border border-white/10 hover:bg-white/10 hover:text-primary-300'
+                                                            }`}
+                                                    >
+                                                        {page}
+                                                    </button>
+                                                ))}
+                                            </div>
+
+                                            <button
+                                                onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                                                disabled={currentPage === totalPages}
+                                                className={`p-2.5 rounded-lg transition-all duration-300 flex items-center gap-2 ${currentPage === totalPages
+                                                    ? 'text-color-text-muted/50 cursor-not-allowed bg-white/5'
+                                                    : 'text-primary-300 hover:bg-white/10 hover:text-primary-200 glass-frost border border-white/10'
+                                                    }`}
+                                                aria-label="Next page"
+                                            >
+                                                <span className="hidden sm:inline text-sm font-medium">Next</span>
+                                                <IoChevronForward className="w-4 h-4" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+                            </>
                         ) : (
-                            <div className="flex flex-col gap-4">
-                                {filteredScripts.map((script, index) => (
-                                    <ScriptListItem
-                                        key={script.id}
-                                        script={script}
-                                        index={index}
-                                        isHovered={hoveredScript === script.id}
-                                        onHover={setHoveredScript}
-                                    />
-                                ))}
-                            </div>
+                            <>
+                                <div className="flex flex-col gap-4">
+                                    {paginatedScripts.map((script, index) => (
+                                        <ScriptListItem
+                                            key={script.id}
+                                            script={script}
+                                            index={index}
+                                            isHovered={hoveredScript === script.id}
+                                            onHover={setHoveredScript}
+                                        />
+                                    ))}
+                                </div>
+                                {totalPages > 1 && (
+                                    <div className="flex items-center justify-between mt-12 pt-8 border-t border-white/10">
+                                        <div className="text-sm text-color-text-muted">
+                                            Showing <span className="text-primary-300 font-semibold">{startIndex + 1}</span>-<span className="text-primary-300 font-semibold">{Math.min(endIndex, filteredScripts.length)}</span> of <span className="text-primary-300 font-semibold">{filteredScripts.length}</span>
+                                        </div>
+                                        <div className="flex items-center gap-3">
+                                            <button
+                                                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                                                disabled={currentPage === 1}
+                                                className={`p-2.5 rounded-lg transition-all duration-300 flex items-center gap-2 ${currentPage === 1
+                                                    ? 'text-color-text-muted/50 cursor-not-allowed bg-white/5'
+                                                    : 'text-primary-300 hover:bg-white/10 hover:text-primary-200 glass-frost border border-white/10'
+                                                    }`}
+                                                aria-label="Previous page"
+                                            >
+                                                <IoChevronBack className="w-4 h-4" />
+                                                <span className="hidden sm:inline text-sm font-medium">Previous</span>
+                                            </button>
+
+                                            <div className="flex items-center gap-2">
+                                                {getVisiblePages().map(page => (
+                                                    <button
+                                                        key={page}
+                                                        onClick={() => setCurrentPage(page)}
+                                                        className={`w-10 h-10 rounded-lg transition-all duration-300 text-sm font-medium ${currentPage === page
+                                                            ? 'bg-gradient-to-r from-primary-600 to-primary-400 text-white shadow-lg shadow-primary-500/30'
+                                                            : 'glass-frost text-color-text-muted border border-white/10 hover:bg-white/10 hover:text-primary-300'
+                                                            }`}
+                                                    >
+                                                        {page}
+                                                    </button>
+                                                ))}
+                                            </div>
+
+                                            <button
+                                                onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                                                disabled={currentPage === totalPages}
+                                                className={`p-2.5 rounded-lg transition-all duration-300 flex items-center gap-2 ${currentPage === totalPages
+                                                    ? 'text-color-text-muted/50 cursor-not-allowed bg-white/5'
+                                                    : 'text-primary-300 hover:bg-white/10 hover:text-primary-200 glass-frost border border-white/10'
+                                                    }`}
+                                                aria-label="Next page"
+                                            >
+                                                <span className="hidden sm:inline text-sm font-medium">Next</span>
+                                                <IoChevronForward className="w-4 h-4" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+                            </>
                         )}
                     </>
                 )}
@@ -588,24 +742,36 @@ function ScriptGridCard({ script, index, isHovered, onHover }: ScriptCardProps) 
             onMouseLeave={() => onHover(null)}
         >
             <Link href={`/fivem/${script.links.slug}`} className="block h-full">
-                <div className={`relative h-full overflow-hidden rounded-xl bg-card border border-color-border animated-border transition-all duration-300 group hover:shadow-lg hover:shadow-primary-900/10 ${isHovered ? '-translate-y-2' : ''}`}>
+                <div className={`relative h-full overflow-hidden rounded-xl bg-card border ${script.deprecated ? 'border-red-500/30' : 'border-color-border'} animated-border transition-all duration-300 group hover:shadow-lg hover:shadow-primary-900/10 ${isHovered ? '-translate-y-2' : ''}`}>
                     {/* Top gradient accent bar */}
-                    <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-primary-500 to-primary-400 opacity-60 group-hover:opacity-100 transition-opacity z-10"></div>
+                    <div className={`absolute top-0 left-0 right-0 h-1.5 ${script.deprecated ? 'bg-gradient-to-r from-red-500 to-red-600' : 'bg-gradient-to-r from-primary-500 to-primary-400'} opacity-60 group-hover:opacity-100 transition-opacity z-10`}></div>
 
                     {/* Status badge */}
                     <div className="absolute top-4 right-4 z-20">
-                        <StatusBadge status={script.status} />
+                        <StatusBadge status={script.status} deprecated={script.deprecated} />
                     </div>
 
+                    {/* Deprecated overlay indicator */}
+                    {script.deprecated && (
+                        <div className="absolute top-4 left-4 z-20 px-2 py-1 rounded bg-red-500/80 text-white text-xs font-bold flex items-center gap-1">
+                            <IoWarning className="w-3 h-3" />
+                            Deprecated
+                        </div>
+                    )}
+
                     {/* Image */}
-                    <div className="relative h-48 overflow-hidden">
-                        <Image
-                            src={script.images[0] || '/projects/fivem/placeholder.jpg'}
-                            alt={script.title}
-                            fill
-                            className="object-cover transition-transform duration-300 group-hover:scale-105"
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        />
+                    <div className="relative h-48 overflow-hidden bg-gradient-to-br from-primary-900/30 to-bg">
+                        {script.images && script.images.length > 0 ? (
+                            <Image
+                                src={script.images[0]}
+                                alt={script.title}
+                                fill
+                                className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            />
+                        ) : (
+                            <FivemScriptLogo title={script.title} />
+                        )}
                         <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent opacity-80"></div>
                     </div>
 
@@ -681,26 +847,38 @@ function ScriptListItem({ script, index, isHovered, onHover }: ScriptCardProps) 
             onMouseLeave={() => onHover(null)}
         >
             <Link href={`/fivem/${script.links.slug}`}>
-                <div className={`relative overflow-hidden rounded-xl bg-card border border-color-border animated-border transition-all duration-300 hover:shadow-lg hover:shadow-primary-900/10 group-hover:border-primary-700/30 ${isHovered ? '-translate-y-1' : ''}`}>
+                <div className={`relative overflow-hidden rounded-xl bg-card border ${script.deprecated ? 'border-red-500/30' : 'border-color-border'} animated-border transition-all duration-300 hover:shadow-lg hover:shadow-primary-900/10 group-hover:border-primary-700/30 ${isHovered ? '-translate-y-1' : ''}`}>
                     {/* Top gradient accent bar */}
-                    <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-primary-500 to-primary-400 opacity-60 group-hover:opacity-100 transition-opacity z-10"></div>
+                    <div className={`absolute top-0 left-0 right-0 h-1.5 ${script.deprecated ? 'bg-gradient-to-r from-red-500 to-red-600' : 'bg-gradient-to-r from-primary-500 to-primary-400'} opacity-60 group-hover:opacity-100 transition-opacity z-10`}></div>
 
                     <div className="flex flex-col md:flex-row">
                         {/* Image */}
-                        <div className="relative md:w-64 h-40 md:h-auto overflow-hidden">
-                            <Image
-                                src={script.images[0] || '/projects/fivem/placeholder.jpg'}
-                                alt={script.title}
-                                fill
-                                className="object-cover transition-transform duration-300 group-hover:scale-105"
-                                sizes="(max-width: 768px) 100vw, 256px"
-                            />
+                        <div className="relative md:w-64 h-40 md:h-auto overflow-hidden bg-gradient-to-br from-primary-900/30 to-bg">
+                            {script.images && script.images.length > 0 ? (
+                                <Image
+                                    src={script.images[0]}
+                                    alt={script.title}
+                                    fill
+                                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                    sizes="(max-width: 768px) 100vw, 256px"
+                                />
+                            ) : (
+                                <FivemScriptLogo title={script.title} />
+                            )}
                             <div className="absolute inset-0 bg-gradient-to-r from-transparent to-card opacity-0 md:opacity-80"></div>
 
                             {/* Status badge (mobile position) */}
                             <div className="absolute top-4 right-4 md:hidden">
-                                <StatusBadge status={script.status} />
+                                <StatusBadge status={script.status} deprecated={script.deprecated} />
                             </div>
+
+                            {/* Deprecated overlay indicator */}
+                            {script.deprecated && (
+                                <div className="absolute top-4 left-4 px-2 py-1 rounded bg-red-500/80 text-white text-xs font-bold flex items-center gap-1 z-10">
+                                    <IoWarning className="w-3 h-3" />
+                                    Deprecated
+                                </div>
+                            )}
                         </div>
 
                         {/* Content */}
@@ -711,7 +889,7 @@ function ScriptListItem({ script, index, isHovered, onHover }: ScriptCardProps) 
 
                                     {/* Status badge (desktop position) */}
                                     <div className="hidden md:block">
-                                        <StatusBadge status={script.status} />
+                                        <StatusBadge status={script.status} deprecated={script.deprecated} />
                                     </div>
                                 </div>
 
@@ -774,7 +952,16 @@ function ScriptListItem({ script, index, isHovered, onHover }: ScriptCardProps) 
     );
 }
 
-function StatusBadge({ status }: { status: FivemScript['status'] }) {
+function StatusBadge({ status, deprecated }: { status: FivemScript['status']; deprecated?: boolean }) {
+    if (deprecated) {
+        return (
+            <span className="px-2 py-1 rounded-full text-xs font-medium bg-red-900/30 text-red-300 border-red-700/30 border flex items-center gap-1">
+                <IoWarning className="w-3 h-3" />
+                Deprecated
+            </span>
+        );
+    }
+
     let bgColor = 'bg-primary-900/30';
     let textColor = 'text-primary-300';
     let borderColor = 'border-primary-700/30';
@@ -791,6 +978,10 @@ function StatusBadge({ status }: { status: FivemScript['status'] }) {
         bgColor = 'bg-purple-900/30';
         textColor = 'text-purple-300';
         borderColor = 'border-purple-700/30';
+    } else if (status === 'Archived') {
+        bgColor = 'bg-slate-900/30';
+        textColor = 'text-slate-300';
+        borderColor = 'border-slate-700/30';
     }
 
     return (

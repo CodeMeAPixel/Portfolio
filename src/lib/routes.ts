@@ -17,11 +17,10 @@ export const routeConfig: Record<string, RouteInfo> = {
         showNotification: false
     },
     fivem: {
-        title: "FiveM Resources Coming Soon",
-        description: "I am working on an exciting new section where you can browse, purchase and download my FiveM scripts, view instructions for adding them to your server and more.",
-        completionPercentage: 25,
-        inDevelopment: true,
-        launchDate: new Date(new Date().setDate(new Date().getDate() + 60)),
+        title: "FiveM Resources",
+        description: "Browse, purchase and download my FiveM scripts, view instructions for adding them to your server and more.",
+        completionPercentage: 100,
+        inDevelopment: false,
         showNotification: false
     },
 };

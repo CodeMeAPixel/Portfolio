@@ -100,7 +100,7 @@ export default function Hero() {
       >
         {/* Premium status badge */}
         <div
-          className="inline-flex items-center gap-2 mb-10 animate-fade-up"
+          className="flex justify-center w-full mb-10 animate-fade-up"
           style={{ animationDelay: '0.2s' }}
         >
           <span className="relative group">
@@ -118,23 +118,20 @@ export default function Hero() {
 
         {/* Main heading with spectacular gradient */}
         <h1
-          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black mb-8 leading-[1.1] tracking-tight animate-fade-up"
+          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black mb-8 leading-[1.1] tracking-tight animate-fade-up inline-flex items-center justify-center flex-wrap gap-x-4"
           style={{ animationDelay: '0.3s' }}
         >
-          <span className="text-color-text block sm:inline">Hi, I&apos;m </span>
-          <span className="relative inline-block">
-            <span className="animated-gradient-text text-shadow-glow">CodeMeAPixel</span>
+          <span className="text-color-text">Hi, I&apos;m</span>
+          <span className="relative inline-flex items-center gap-2">
+            <span className="animated-gradient-text text-shadow-glow">Tyler</span>
             <span
-              className="absolute -bottom-2 left-0 h-1.5 bg-gradient-to-r from-primary-500 via-primary-400 to-primary-500 rounded-full w-full animate-fade-in"
+              className="absolute -bottom-2 left-0 h-1.5 bg-gradient-to-r from-primary-500 via-primary-400 to-primary-500 rounded-full w-[calc(100%-2rem)] animate-fade-in"
               style={{ animationDelay: '1.2s' }}
             />
-            {/* Decorative sparkle */}
-            <span
-              className="absolute -top-4 -right-4 animate-fade-in"
+            <IoSparkles
+              className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-primary-400 animate-fade-in"
               style={{ animationDelay: '1.5s' }}
-            >
-              <IoSparkles className="w-6 h-6 text-primary-400" />
-            </span>
+            />
           </span>
         </h1>
 

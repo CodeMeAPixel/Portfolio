@@ -65,30 +65,34 @@ export default function DocsSidebar() {
             <div className="mb-6 relative">
                 <button
                     onClick={() => setSectionDropdownOpen(!isSectionDropdownOpen)}
-                    className="w-full flex items-center justify-between rounded-xl p-3 bg-white/5 border border-white/10 hover:border-primary-500/30 hover:bg-white/10 transition-all"
+                    className="w-full flex items-center justify-between rounded-xl p-3 glass-ultra border border-white/10 hover:border-primary-500/30 transition-all group"
                 >
-                    <div className="flex items-center gap-2">
-                        {currentSection.icon && <currentSection.icon className="w-4 h-4 text-primary-400" />}
+                    <div className="flex items-center gap-3">
+                        <div className="p-2 rounded-lg bg-primary-500/20">
+                            {currentSection.icon && <currentSection.icon className="w-4 h-4 text-primary-400" />}
+                        </div>
                         <span className="font-medium text-color-text">{currentSection.name}</span>
                     </div>
-                    <IoChevronDown className={`w-4 h-4 text-color-text-muted transition-transform ${isSectionDropdownOpen ? 'rotate-180' : ''}`} />
+                    <IoChevronDown className={`w-4 h-4 text-color-text-muted transition-transform duration-200 ${isSectionDropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
 
                 {isSectionDropdownOpen && (
                     <div
-                        className="absolute top-full left-0 right-0 mt-2 bg-gray-950/95 border border-white/10 rounded-xl shadow-2xl z-10 py-2 max-h-64 overflow-y-auto custom-scrollbar animate-fade-in"
+                        className="absolute top-full left-0 right-0 mt-2 glass-ultra border border-white/10 rounded-xl shadow-2xl z-10 py-2 max-h-64 overflow-y-auto custom-scrollbar animate-fade-in"
                     >
                         {docsConfig.sections.map((section) => (
                             <button
                                 key={section.slug}
                                 onClick={() => handleSectionChange(section.slug)}
-                                className={`w-full text-left px-4 py-2.5 flex items-center gap-3 hover:bg-white/5 transition-colors ${section.slug === currentSection.slug ? 'text-primary-400 bg-primary-500/10' : 'text-color-text-muted'
+                                className={`w-full text-left px-4 py-3 flex items-center gap-3 hover:bg-white/5 transition-colors ${section.slug === currentSection.slug ? 'text-primary-400 bg-primary-500/10' : 'text-color-text-muted'
                                     }`}
                             >
-                                {section.icon && <section.icon className="w-4 h-4" />}
+                                <div className={`p-2 rounded-lg ${section.slug === currentSection.slug ? 'bg-primary-500/20' : 'bg-white/5'}`}>
+                                    {section.icon && <section.icon className="w-4 h-4" />}
+                                </div>
                                 <div className="flex flex-col">
-                                    <span className="font-medium">{section.name}</span>
-                                    <span className="text-xs opacity-60">{section.description}</span>
+                                    <span className="font-medium text-sm">{section.name}</span>
+                                    <span className="text-xs opacity-60 line-clamp-1">{section.description}</span>
                                 </div>
                             </button>
                         ))}
@@ -97,26 +101,28 @@ export default function DocsSidebar() {
             </div>
 
             {/* Category navigation for current section */}
-            <nav className="space-y-1">
+            <nav className="space-y-2">
                 {currentSection.categories.map((category) => (
-                    <div key={category.title} className="mb-2">
+                    <div key={category.title} className="mb-3">
                         <button
                             onClick={() => toggleSection(category.title)}
-                            className="flex items-center justify-between w-full py-2 px-3 text-sm font-medium rounded-lg hover:bg-white/5 transition-colors group"
+                            className="flex items-center justify-between w-full py-2 px-3 text-sm font-semibold rounded-lg hover:bg-white/5 transition-colors group"
                         >
                             <span className={expandedSections[category.title] ? 'text-primary-400' : 'text-color-text-muted group-hover:text-color-text'}>
                                 {category.title}
                             </span>
-                            {expandedSections[category.title] ? (
-                                <IoChevronDown className="w-3.5 h-3.5 text-primary-400" />
-                            ) : (
-                                <IoChevronForward className="w-3.5 h-3.5 text-color-text-muted group-hover:text-color-text" />
-                            )}
+                            <div className={`p-1 rounded transition-colors ${expandedSections[category.title] ? 'bg-primary-500/20' : 'bg-transparent group-hover:bg-white/5'}`}>
+                                {expandedSections[category.title] ? (
+                                    <IoChevronDown className="w-3 h-3 text-primary-400" />
+                                ) : (
+                                    <IoChevronForward className="w-3 h-3 text-color-text-muted group-hover:text-color-text" />
+                                )}
+                            </div>
                         </button>
 
                         {expandedSections[category.title] && (
                             <ul
-                                className="ml-3 space-y-0.5 border-l border-white/10 pl-3 pt-1 pb-1 animate-fade-in"
+                                className="ml-3 space-y-1 border-l-2 border-white/10 pl-3 pt-2 pb-1 animate-fade-in"
                             >
                                 {category.items.map((item) => {
                                     const isActive = pathname === item.href;
@@ -126,17 +132,15 @@ export default function DocsSidebar() {
                                             <Link
                                                 href={item.href}
                                                 className={`
-                                                    block py-1.5 text-sm rounded-lg pl-2 transition-colors
+                                                    flex items-center gap-2.5 py-2 px-3 text-sm rounded-lg transition-all duration-200
                                                     ${isActive
-                                                        ? "text-primary-400 font-medium bg-primary-500/10"
+                                                        ? "text-primary-400 font-medium bg-primary-500/15 border-l-2 border-primary-400 -ml-[2px] pl-[14px]"
                                                         : "text-color-text-muted hover:text-color-text hover:bg-white/5"
                                                     }
                                                 `}
                                             >
-                                                <div className="flex items-center gap-2">
-                                                    {item.icon && <item.icon className="w-3.5 h-3.5 flex-shrink-0" />}
-                                                    <span className="line-clamp-1">{item.title}</span>
-                                                </div>
+                                                {item.icon && <item.icon className={`w-4 h-4 flex-shrink-0 ${isActive ? 'text-primary-400' : ''}`} />}
+                                                <span className="line-clamp-1">{item.title}</span>
                                             </Link>
                                         </li>
                                     );
@@ -148,8 +152,8 @@ export default function DocsSidebar() {
             </nav>
 
             {/* Quick links at the bottom */}
-            <div className="mt-8 pt-4 border-t border-white/10">
-                <div className="text-xs font-medium text-color-text-muted mb-3 uppercase tracking-wider">Quick Links</div>
+            <div className="mt-8 pt-6 border-t border-white/10">
+                <div className="text-xs font-semibold text-color-text-muted mb-4 uppercase tracking-wider">Quick Links</div>
                 <div className="flex flex-col gap-1">
                     {docsConfig.quickLinks.map((link, index) => (
                         <a
@@ -157,9 +161,11 @@ export default function DocsSidebar() {
                             href={link.href}
                             target={link.href.startsWith('http') ? '_blank' : undefined}
                             rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                            className="flex items-center gap-2 px-3 py-2 text-sm text-color-text-muted hover:text-primary-400 hover:bg-white/5 rounded-lg transition-all"
+                            className="flex items-center gap-3 px-3 py-2.5 text-sm text-color-text-muted hover:text-primary-400 hover:bg-white/5 rounded-lg transition-all group"
                         >
-                            {link.icon && <link.icon className="w-4 h-4" />}
+                            <div className="p-1.5 rounded-lg bg-white/5 group-hover:bg-primary-500/20 transition-colors">
+                                {link.icon && <link.icon className="w-4 h-4" />}
+                            </div>
                             <span>{link.name}</span>
                         </a>
                     ))}

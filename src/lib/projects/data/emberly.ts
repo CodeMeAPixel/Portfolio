@@ -137,7 +137,7 @@ This project represents everything I believe about software: it should be fast, 
         "Self-hostable with Docker or bare metal deployment",
         "Two-factor authentication with TOTP support"
     ],
-    date: "2022-01-01",
+    date: "2025-07-10",
     role: "Founder & Lead Developer",
     teamSize: 3,
     testimonials: [

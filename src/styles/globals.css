@@ -272,6 +272,70 @@
     }
   }
 
+  /* Font customization */
+  [data-font="system"] {
+    --font-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  }
+
+  [data-font="monospace"] {
+    --font-primary: "Monaco", "Menlo", "Courier New", monospace !important;
+  }
+
+  [data-font="serif"] {
+    --font-primary: "Georgia", "Garamond", "Times New Roman", serif !important;
+  }
+
+  [data-font="rounded"] {
+    --font-primary: "Trebuchet MS", "Lucida Grande", sans-serif !important;
+  }
+
+  /* Apply font family to all text - override Tailwind */
+  html,
+  html * {
+    font-family: var(--font-primary, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif) !important;
+  }
+
+  /* Layout density customization */
+  :root {
+    --density-scale: 1;
+  }
+
+  [data-density="compact"] {
+    --density-scale: 0.85;
+  }
+
+  [data-density="normal"] {
+    --density-scale: 1;
+  }
+
+  [data-density="spacious"] {
+    --density-scale: 1.15;
+  }
+
+  /* Apply density to gaps in flex/grid containers */
+  main > *,
+  section > *,
+  [role="main"] > *,
+  [role="region"] > * {
+    gap: calc(1rem * var(--density-scale, 1)) !important;
+  }
+
+  /* Apply density to all gap utilities */
+  [class*="gap-"] {
+    gap: calc(var(--density-scale, 1) * 1rem) !important;
+  }
+
+
+  /* Animations disable support */
+  .animations-disabled,
+  .animations-disabled *,
+  .animations-disabled *::before,
+  .animations-disabled *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
   /* Better focus-visible styling for accessibility */
   :focus-visible {
     outline: 2px solid rgb(var(--color-primary-500) / 0.7);
@@ -999,6 +1063,789 @@
     --color-border: 80, 30, 100;
     --color-glow: 255, 0, 255;
     --color-code-bg: 8, 4, 15;
+  }
+
+  [data-theme="tokyo-night"] {
+    /* Tokyo Night - Japanese-inspired dark theme */
+    --color-primary-50: 224, 222, 255;
+    --color-primary-100: 204, 200, 255;
+    --color-primary-200: 164, 160, 255;
+    --color-primary-300: 124, 120, 255;
+    --color-primary-400: 100, 95, 255;
+    --color-primary-500: 125, 207, 255;
+    --color-primary-600: 115, 197, 245;
+    --color-primary-700: 95, 177, 225;
+    --color-primary-800: 75, 157, 205;
+    --color-primary-900: 55, 137, 185;
+
+    /* Tokyo night dark aesthetic */
+    --color-bg: 26, 27, 38;
+    --color-bg-alt: 33, 35, 48;
+    --color-bg-accent: 29, 30, 43;
+    --color-card: 41, 43, 60;
+    --color-card-alt: 51, 54, 75;
+    --color-text: 235, 237, 245;
+    --color-text-muted: 165, 170, 185;
+    --color-border: 75, 80, 100;
+    --color-glow: 125, 207, 255;
+    --color-code-bg: 23, 24, 34;
+  }
+
+  [data-theme="winter-coming"] {
+    /* Winter is Coming - Game of Thrones inspired theme */
+    --color-primary-50: 226, 239, 245;
+    --color-primary-100: 207, 226, 239;
+    --color-primary-200: 168, 198, 220;
+    --color-primary-300: 129, 170, 201;
+    --color-primary-400: 90, 142, 182;
+    --color-primary-500: 59, 130, 172;
+    --color-primary-600: 53, 117, 155;
+    --color-primary-700: 43, 95, 127;
+    --color-primary-800: 33, 73, 99;
+    --color-primary-900: 23, 51, 71;
+
+    /* Icy direwolf grey aesthetic */
+    --color-bg: 20, 25, 32;
+    --color-bg-alt: 28, 35, 44;
+    --color-bg-accent: 24, 30, 38;
+    --color-card: 40, 50, 62;
+    --color-card-alt: 52, 65, 80;
+    --color-text: 235, 240, 245;
+    --color-text-muted: 160, 175, 190;
+    --color-border: 80, 100, 120;
+    --color-glow: 59, 130, 172;
+    --color-code-bg: 18, 22, 28;
+  }
+
+  [data-theme="gruvbox"] {
+    /* Gruvbox - Warm retro groove theme */
+    --color-primary-50: 242, 217, 207;
+    --color-primary-100: 235, 202, 187;
+    --color-primary-200: 214, 153, 126;
+    --color-primary-300: 193, 104, 65;
+    --color-primary-400: 184, 122, 82;
+    --color-primary-500: 184, 122, 82;
+    --color-primary-600: 166, 104, 58;
+    --color-primary-700: 157, 98, 56;
+    --color-primary-800: 131, 73, 38;
+    --color-primary-900: 96, 43, 20;
+
+    /* Gruvbox dark warm aesthetic */
+    --color-bg: 40, 40, 40;
+    --color-bg-alt: 50, 48, 47;
+    --color-bg-accent: 45, 43, 42;
+    --color-card: 60, 56, 54;
+    --color-card-alt: 80, 73, 69;
+    --color-text: 235, 219, 178;
+    --color-text-muted: 168, 153, 132;
+    --color-border: 102, 92, 84;
+    --color-glow: 184, 122, 82;
+    --color-code-bg: 29, 32, 33;
+  }
+
+  [data-theme="solarized"] {
+    /* Solarized Dark - Precision colors for machines and people */
+    --color-primary-50: 220, 240, 247;
+    --color-primary-100: 204, 227, 243;
+    --color-primary-200: 168, 204, 232;
+    --color-primary-300: 132, 181, 221;
+    --color-primary-400: 96, 158, 210;
+    --color-primary-500: 38, 139, 210;
+    --color-primary-600: 34, 125, 189;
+    --color-primary-700: 28, 102, 155;
+    --color-primary-800: 22, 79, 121;
+    --color-primary-900: 16, 56, 87;
+
+    /* Solarized dark aesthetic */
+    --color-bg: 0, 43, 54;
+    --color-bg-alt: 7, 54, 66;
+    --color-bg-accent: 5, 48, 59;
+    --color-card: 14, 66, 80;
+    --color-card-alt: 24, 84, 101;
+    --color-text: 131, 148, 150;
+    --color-text-muted: 101, 123, 128;
+    --color-border: 51, 97, 118;
+    --color-glow: 38, 139, 210;
+    --color-code-bg: 0, 39, 50;
+  }
+
+  [data-theme="one-dark"] {
+    /* One Dark - Atom's dark theme */
+    --color-primary-50: 227, 229, 247;
+    --color-primary-100: 214, 219, 243;
+    --color-primary-200: 189, 198, 235;
+    --color-primary-300: 164, 177, 227;
+    --color-primary-400: 139, 156, 219;
+    --color-primary-500: 97, 175, 239;
+    --color-primary-600: 87, 165, 229;
+    --color-primary-700: 68, 145, 209;
+    --color-primary-800: 49, 125, 189;
+    --color-primary-900: 30, 105, 169;
+
+    /* One Dark aesthetic */
+    --color-bg: 40, 44, 52;
+    --color-bg-alt: 49, 54, 64;
+    --color-bg-accent: 44, 48, 56;
+    --color-card: 61, 67, 79;
+    --color-card-alt: 78, 86, 101;
+    --color-text: 171, 178, 191;
+    --color-text-muted: 129, 137, 152;
+    --color-border: 97, 106, 121;
+    --color-glow: 97, 175, 239;
+    --color-code-bg: 36, 40, 48;
+  }
+
+  [data-theme="palenight"] {
+    /* Palenight - Soft material design dark theme */
+    --color-primary-50: 224, 214, 254;
+    --color-primary-100: 208, 193, 252;
+    --color-primary-200: 176, 151, 249;
+    --color-primary-300: 144, 109, 246;
+    --color-primary-400: 128, 87, 244;
+    --color-primary-500: 187, 128, 255;
+    --color-primary-600: 176, 114, 244;
+    --color-primary-700: 155, 89, 182;
+    --color-primary-800: 124, 71, 145;
+    --color-primary-900: 93, 53, 108;
+
+    /* Palenight aesthetic */
+    --color-bg: 41, 45, 62;
+    --color-bg-alt: 50, 56, 77;
+    --color-bg-accent: 44, 50, 68;
+    --color-card: 62, 69, 95;
+    --color-card-alt: 79, 88, 117;
+    --color-text: 202, 211, 245;
+    --color-text-muted: 145, 154, 184;
+    --color-border: 100, 110, 142;
+    --color-glow: 187, 128, 255;
+    --color-code-bg: 37, 40, 55;
+  }
+
+  [data-theme="atom"] {
+    /* Atom - GitHub's Atom editor theme */
+    --color-primary-50: 224, 224, 250;
+    --color-primary-100: 208, 208, 246;
+    --color-primary-200: 176, 176, 238;
+    --color-primary-300: 144, 144, 230;
+    --color-primary-400: 128, 128, 224;
+    --color-primary-500: 102, 102, 204;
+    --color-primary-600: 92, 92, 184;
+    --color-primary-700: 72, 72, 164;
+    --color-primary-800: 52, 52, 144;
+    --color-primary-900: 32, 32, 124;
+
+    /* Atom One Dark aesthetic */
+    --color-bg: 40, 44, 52;
+    --color-bg-alt: 49, 54, 64;
+    --color-bg-accent: 44, 48, 56;
+    --color-card: 61, 67, 79;
+    --color-card-alt: 78, 86, 101;
+    --color-text: 171, 178, 191;
+    --color-text-muted: 129, 137, 152;
+    --color-border: 97, 106, 121;
+    --color-glow: 102, 102, 204;
+    --color-code-bg: 36, 40, 48;
+  }
+
+  [data-theme="vscode"] {
+    /* VS Code Default Dark Theme */
+    --color-primary-50: 221, 224, 244;
+    --color-primary-100: 206, 212, 237;
+    --color-primary-200: 176, 189, 222;
+    --color-primary-300: 146, 166, 207;
+    --color-primary-400: 126, 151, 197;
+    --color-primary-500: 75, 110, 175;
+    --color-primary-600: 68, 99, 158;
+    --color-primary-700: 56, 81, 132;
+    --color-primary-800: 44, 63, 106;
+    --color-primary-900: 32, 45, 80;
+
+    /* VS Code dark aesthetic */
+    --color-bg: 30, 30, 30;
+    --color-bg-alt: 39, 39, 39;
+    --color-bg-accent: 34, 34, 34;
+    --color-card: 52, 52, 52;
+    --color-card-alt: 66, 66, 66;
+    --color-text: 204, 204, 204;
+    --color-text-muted: 154, 154, 154;
+    --color-border: 102, 102, 102;
+    --color-glow: 75, 110, 175;
+    --color-code-bg: 25, 25, 25;
+  }
+
+  [data-theme="indigo"] {
+    /* Indigo - Vibrant blue-purple */
+    --color-primary-50: 224, 220, 252;
+    --color-primary-100: 208, 200, 250;
+    --color-primary-200: 176, 160, 244;
+    --color-primary-300: 144, 120, 238;
+    --color-primary-400: 118, 100, 230;
+    --color-primary-500: 79, 70, 229;
+    --color-primary-600: 71, 63, 206;
+    --color-primary-700: 56, 50, 165;
+    --color-primary-800: 41, 37, 124;
+    --color-primary-900: 26, 24, 83;
+
+    --color-bg: 20, 19, 35;
+    --color-bg-alt: 28, 26, 48;
+    --color-bg-accent: 24, 22, 42;
+    --color-card: 40, 37, 65;
+    --color-card-alt: 52, 49, 85;
+    --color-text: 230, 228, 245;
+    --color-text-muted: 160, 155, 185;
+    --color-border: 90, 80, 140;
+    --color-glow: 79, 70, 229;
+    --color-code-bg: 16, 15, 28;
+  }
+
+  [data-theme="violet"] {
+    /* Violet - Deep purple aesthetic */
+    --color-primary-50: 237, 220, 252;
+    --color-primary-100: 224, 200, 250;
+    --color-primary-200: 198, 150, 245;
+    --color-primary-300: 172, 100, 240;
+    --color-primary-400: 158, 85, 237;
+    --color-primary-500: 168, 85, 247;
+    --color-primary-600: 152, 76, 224;
+    --color-primary-700: 127, 63, 187;
+    --color-primary-800: 102, 50, 150;
+    --color-primary-900: 77, 37, 113;
+
+    --color-bg: 25, 20, 40;
+    --color-bg-alt: 35, 28, 52;
+    --color-bg-accent: 30, 24, 46;
+    --color-card: 48, 38, 70;
+    --color-card-alt: 62, 50, 90;
+    --color-text: 235, 225, 250;
+    --color-text-muted: 165, 150, 190;
+    --color-border: 100, 80, 140;
+    --color-glow: 168, 85, 247;
+    --color-code-bg: 20, 16, 32;
+  }
+
+  [data-theme="coral"] {
+    /* Coral - Warm coral and orange */
+    --color-primary-50: 255, 240, 230;
+    --color-primary-100: 255, 220, 200;
+    --color-primary-200: 255, 180, 140;
+    --color-primary-300: 255, 140, 80;
+    --color-primary-400: 255, 110, 60;
+    --color-primary-500: 255, 127, 80;
+    --color-primary-600: 230, 110, 70;
+    --color-primary-700: 200, 85, 50;
+    --color-primary-800: 170, 65, 35;
+    --color-primary-900: 140, 45, 20;
+
+    --color-bg: 35, 25, 20;
+    --color-bg-alt: 50, 35, 28;
+    --color-bg-accent: 45, 30, 24;
+    --color-card: 68, 48, 40;
+    --color-card-alt: 85, 60, 50;
+    --color-text: 245, 235, 225;
+    --color-text-muted: 180, 155, 135;
+    --color-border: 120, 85, 65;
+    --color-glow: 255, 127, 80;
+    --color-code-bg: 28, 20, 16;
+  }
+
+  [data-theme="sage"] {
+    /* Sage - Muted green aesthetic */
+    --color-primary-50: 232, 242, 237;
+    --color-primary-100: 214, 232, 223;
+    --color-primary-200: 178, 207, 192;
+    --color-primary-300: 142, 182, 161;
+    --color-primary-400: 122, 167, 146;
+    --color-primary-500: 106, 156, 125;
+    --color-primary-600: 96, 140, 112;
+    --color-primary-700: 76, 115, 92;
+    --color-primary-800: 56, 90, 72;
+    --color-primary-900: 36, 65, 52;
+
+    --color-bg: 25, 35, 28;
+    --color-bg-alt: 35, 48, 40;
+    --color-bg-accent: 30, 42, 35;
+    --color-card: 50, 65, 56;
+    --color-card-alt: 65, 85, 72;
+    --color-text: 230, 240, 235;
+    --color-text-muted: 155, 175, 165;
+    --color-border: 85, 120, 100;
+    --color-glow: 106, 156, 125;
+    --color-code-bg: 20, 28, 24;
+  }
+
+  [data-theme="slate"] {
+    /* Slate - Cool grey aesthetic */
+    --color-primary-50: 240, 242, 245;
+    --color-primary-100: 226, 232, 240;
+    --color-primary-200: 203, 213, 225;
+    --color-primary-300: 180, 194, 210;
+    --color-primary-400: 148, 163, 184;
+    --color-primary-500: 100, 116, 139;
+    --color-primary-600: 71, 85, 105;
+    --color-primary-700: 51, 65, 85;
+    --color-primary-800: 30, 41, 59;
+    --color-primary-900: 15, 23, 42;
+
+    --color-bg: 20, 25, 35;
+    --color-bg-alt: 30, 37, 48;
+    --color-bg-accent: 26, 32, 42;
+    --color-card: 45, 55, 70;
+    --color-card-alt: 60, 72, 88;
+    --color-text: 230, 235, 242;
+    --color-text-muted: 155, 170, 190;
+    --color-border: 85, 105, 130;
+    --color-glow: 100, 116, 139;
+    --color-code-bg: 18, 22, 32;
+  }
+
+  [data-theme="peach"] {
+    /* Peach - Warm peachy tones */
+    --color-primary-50: 255, 245, 235;
+    --color-primary-100: 255, 235, 215;
+    --color-primary-200: 255, 210, 175;
+    --color-primary-300: 255, 185, 135;
+    --color-primary-400: 255, 160, 95;
+    --color-primary-500: 255, 179, 102;
+    --color-primary-600: 230, 160, 85;
+    --color-primary-700: 200, 135, 65;
+    --color-primary-800: 170, 110, 45;
+    --color-primary-900: 140, 85, 25;
+
+    --color-bg: 38, 28, 20;
+    --color-bg-alt: 52, 38, 28;
+    --color-bg-accent: 48, 35, 25;
+    --color-card: 70, 50, 38;
+    --color-card-alt: 88, 65, 50;
+    --color-text: 248, 235, 225;
+    --color-text-muted: 185, 160, 135;
+    --color-border: 125, 95, 70;
+    --color-glow: 255, 179, 102;
+    --color-code-bg: 30, 22, 16;
+  }
+
+  [data-theme="lavender"] {
+    /* Lavender - Soft purple tones */
+    --color-primary-50: 245, 240, 255;
+    --color-primary-100: 235, 225, 255;
+    --color-primary-200: 210, 190, 255;
+    --color-primary-300: 200, 175, 250;
+    --color-primary-400: 190, 160, 245;
+    --color-primary-500: 180, 160, 255;
+    --color-primary-600: 160, 140, 230;
+    --color-primary-700: 135, 115, 200;
+    --color-primary-800: 110, 90, 170;
+    --color-primary-900: 85, 65, 140;
+
+    --color-bg: 30, 25, 40;
+    --color-bg-alt: 42, 35, 55;
+    --color-bg-accent: 37, 30, 48;
+    --color-card: 55, 45, 70;
+    --color-card-alt: 72, 60, 92;
+    --color-text: 238, 232, 250;
+    --color-text-muted: 170, 155, 195;
+    --color-border: 110, 90, 150;
+    --color-glow: 180, 160, 255;
+    --color-code-bg: 24, 20, 32;
+  }
+
+  [data-theme="rust"] {
+    /* Rust - Warm rust and copper */
+    --color-primary-50: 255, 235, 210;
+    --color-primary-100: 255, 215, 180;
+    --color-primary-200: 255, 170, 110;
+    --color-primary-300: 245, 130, 60;
+    --color-primary-400: 230, 110, 50;
+    --color-primary-500: 200, 100, 50;
+    --color-primary-600: 180, 85, 40;
+    --color-primary-700: 155, 70, 35;
+    --color-primary-800: 130, 55, 30;
+    --color-primary-900: 105, 40, 25;
+
+    --color-bg: 35, 22, 15;
+    --color-bg-alt: 48, 30, 20;
+    --color-bg-accent: 42, 26, 17;
+    --color-card: 65, 40, 28;
+    --color-card-alt: 82, 52, 38;
+    --color-text: 245, 230, 210;
+    --color-text-muted: 175, 145, 115;
+    --color-border: 115, 75, 55;
+    --color-glow: 200, 100, 50;
+    --color-code-bg: 28, 18, 12;
+  }
+
+  [data-theme="lime"] {
+    /* Lime - Bright lime green */
+    --color-primary-50: 240, 253, 200;
+    --color-primary-100: 225, 250, 165;
+    --color-primary-200: 200, 245, 110;
+    --color-primary-300: 170, 240, 60;
+    --color-primary-400: 150, 235, 35;
+    --color-primary-500: 132, 204, 22;
+    --color-primary-600: 118, 183, 20;
+    --color-primary-700: 98, 152, 18;
+    --color-primary-800: 78, 121, 16;
+    --color-primary-900: 58, 90, 12;
+
+    --color-bg: 28, 35, 15;
+    --color-bg-alt: 38, 48, 20;
+    --color-bg-accent: 34, 42, 18;
+    --color-card: 55, 70, 30;
+    --color-card-alt: 70, 90, 40;
+    --color-text: 235, 245, 210;
+    --color-text-muted: 160, 185, 120;
+    --color-border: 100, 140, 60;
+    --color-glow: 132, 204, 22;
+    --color-code-bg: 22, 28, 12;
+  }
+
+  [data-theme="everforest"] {
+    /* Everforest - Muted green forest theme */
+    --color-primary-50: 226, 236, 230;
+    --color-primary-100: 212, 227, 218;
+    --color-primary-200: 178, 205, 192;
+    --color-primary-300: 144, 183, 166;
+    --color-primary-400: 120, 167, 148;
+    --color-primary-500: 91, 132, 97;
+    --color-primary-600: 82, 119, 87;
+    --color-primary-700: 65, 96, 71;
+    --color-primary-800: 48, 73, 55;
+    --color-primary-900: 31, 50, 39;
+
+    --color-bg: 26, 32, 28;
+    --color-bg-alt: 37, 45, 40;
+    --color-bg-accent: 32, 40, 36;
+    --color-card: 52, 65, 58;
+    --color-card-alt: 68, 85, 76;
+    --color-text: 232, 240, 236;
+    --color-text-muted: 160, 178, 170;
+    --color-border: 95, 125, 110;
+    --color-glow: 91, 132, 97;
+    --color-code-bg: 22, 28, 25;
+  }
+
+  [data-theme="kanagawa"] {
+    /* Kanagawa - Japanese wave-inspired theme */
+    --color-primary-50: 250, 230, 200;
+    --color-primary-100: 245, 215, 170;
+    --color-primary-200: 235, 170, 110;
+    --color-primary-300: 220, 140, 80;
+    --color-primary-400: 200, 120, 70;
+    --color-primary-500: 220, 140, 80;
+    --color-primary-600: 200, 120, 65;
+    --color-primary-700: 170, 95, 50;
+    --color-primary-800: 140, 70, 35;
+    --color-primary-900: 110, 50, 20;
+
+    --color-bg: 26, 28, 35;
+    --color-bg-alt: 38, 41, 52;
+    --color-bg-accent: 34, 36, 46;
+    --color-card: 56, 60, 75;
+    --color-card-alt: 72, 78, 98;
+    --color-text: 235, 237, 245;
+    --color-text-muted: 165, 170, 185;
+    --color-border: 100, 105, 125;
+    --color-glow: 220, 140, 80;
+    --color-code-bg: 23, 25, 32;
+  }
+
+  [data-theme="tron"] {
+    /* Tron - Neon cyan and blue */
+    --color-primary-50: 200, 255, 255;
+    --color-primary-100: 150, 255, 255;
+    --color-primary-200: 100, 250, 255;
+    --color-primary-300: 50, 240, 255;
+    --color-primary-400: 20, 230, 255;
+    --color-primary-500: 0, 255, 255;
+    --color-primary-600: 0, 220, 230;
+    --color-primary-700: 0, 180, 200;
+    --color-primary-800: 0, 140, 170;
+    --color-primary-900: 0, 100, 140;
+
+    --color-bg: 0, 10, 20;
+    --color-bg-alt: 5, 20, 35;
+    --color-bg-accent: 2, 15, 28;
+    --color-card: 10, 40, 60;
+    --color-card-alt: 20, 60, 85;
+    --color-text: 220, 255, 255;
+    --color-text-muted: 150, 200, 220;
+    --color-border: 50, 150, 200;
+    --color-glow: 0, 255, 255;
+    --color-code-bg: 0, 8, 16;
+  }
+
+  [data-theme="vaporwave"] {
+    /* Vaporwave - Pink, purple and cyan aesthetic */
+    --color-primary-50: 255, 200, 240;
+    --color-primary-100: 255, 170, 230;
+    --color-primary-200: 255, 120, 210;
+    --color-primary-300: 255, 70, 190;
+    --color-primary-400: 255, 30, 170;
+    --color-primary-500: 255, 51, 153;
+    --color-primary-600: 230, 40, 140;
+    --color-primary-700: 200, 30, 120;
+    --color-primary-800: 170, 20, 100;
+    --color-primary-900: 140, 10, 80;
+
+    --color-bg: 25, 15, 30;
+    --color-bg-alt: 38, 22, 45;
+    --color-bg-accent: 32, 18, 38;
+    --color-card: 55, 35, 65;
+    --color-card-alt: 72, 48, 85;
+    --color-text: 240, 220, 255;
+    --color-text-muted: 180, 150, 200;
+    --color-border: 120, 80, 160;
+    --color-glow: 255, 51, 153;
+    --color-code-bg: 20, 12, 25;
+  }
+
+  [data-theme="evangelion"] {
+    /* Evangelion - Yellow, red and purple */
+    --color-primary-50: 255, 250, 150;
+    --color-primary-100: 255, 240, 100;
+    --color-primary-200: 255, 220, 50;
+    --color-primary-300: 255, 200, 0;
+    --color-primary-400: 255, 160, 0;
+    --color-primary-500: 255, 215, 0;
+    --color-primary-600: 255, 190, 0;
+    --color-primary-700: 220, 150, 0;
+    --color-primary-800: 180, 110, 0;
+    --color-primary-900: 140, 70, 0;
+
+    --color-bg: 30, 20, 10;
+    --color-bg-alt: 45, 30, 15;
+    --color-bg-accent: 40, 26, 12;
+    --color-card: 65, 45, 25;
+    --color-card-alt: 85, 60, 35;
+    --color-text: 245, 240, 220;
+    --color-text-muted: 180, 160, 130;
+    --color-border: 120, 90, 50;
+    --color-glow: 255, 215, 0;
+    --color-code-bg: 25, 18, 10;
+  }
+
+  [data-theme="elden-ring"] {
+    /* Elden Ring - Golden mystical theme */
+    --color-primary-50: 255, 250, 200;
+    --color-primary-100: 255, 245, 150;
+    --color-primary-200: 255, 235, 100;
+    --color-primary-300: 255, 220, 50;
+    --color-primary-400: 255, 200, 30;
+    --color-primary-500: 218, 165, 32;
+    --color-primary-600: 196, 148, 28;
+    --color-primary-700: 164, 122, 24;
+    --color-primary-800: 132, 96, 20;
+    --color-primary-900: 100, 70, 16;
+
+    --color-bg: 28, 18, 8;
+    --color-bg-alt: 40, 25, 12;
+    --color-bg-accent: 36, 22, 10;
+    --color-card: 60, 40, 20;
+    --color-card-alt: 80, 55, 30;
+    --color-text: 240, 235, 210;
+    --color-text-muted: 175, 155, 120;
+    --color-border: 120, 85, 50;
+    --color-glow: 218, 165, 32;
+    --color-code-bg: 22, 14, 6;
+  }
+
+  [data-theme="dark-souls"] {
+    /* Dark Souls - Dark amber aesthetic */
+    --color-primary-50: 200, 150, 80;
+    --color-primary-100: 190, 140, 70;
+    --color-primary-200: 170, 115, 50;
+    --color-primary-300: 150, 90, 35;
+    --color-primary-400: 130, 70, 25;
+    --color-primary-500: 139, 69, 19;
+    --color-primary-600: 125, 62, 17;
+    --color-primary-700: 102, 51, 14;
+    --color-primary-800: 80, 40, 11;
+    --color-primary-900: 60, 30, 8;
+
+    --color-bg: 20, 15, 10;
+    --color-bg-alt: 30, 22, 15;
+    --color-bg-accent: 27, 20, 14;
+    --color-card: 45, 33, 23;
+    --color-card-alt: 60, 45, 32;
+    --color-text: 235, 225, 210;
+    --color-text-muted: 170, 150, 125;
+    --color-border: 100, 75, 50;
+    --color-glow: 139, 69, 19;
+    --color-code-bg: 16, 12, 8;
+  }
+
+  [data-theme="apex-legends"] {
+    /* Apex Legends - Orange and red */
+    --color-primary-50: 255, 220, 180;
+    --color-primary-100: 255, 200, 150;
+    --color-primary-200: 255, 150, 100;
+    --color-primary-300: 255, 100, 50;
+    --color-primary-400: 255, 80, 30;
+    --color-primary-500: 255, 69, 0;
+    --color-primary-600: 230, 60, 0;
+    --color-primary-700: 200, 50, 0;
+    --color-primary-800: 170, 40, 0;
+    --color-primary-900: 140, 30, 0;
+
+    --color-bg: 32, 16, 8;
+    --color-bg-alt: 48, 24, 12;
+    --color-bg-accent: 42, 21, 10;
+    --color-card: 70, 35, 18;
+    --color-card-alt: 90, 50, 25;
+    --color-text: 245, 235, 220;
+    --color-text-muted: 180, 140, 100;
+    --color-border: 130, 80, 40;
+    --color-glow: 255, 69, 0;
+    --color-code-bg: 25, 12, 6;
+  }
+
+  [data-theme="csgo"] {
+    /* CS:GO - Blue tactical theme */
+    --color-primary-50: 220, 235, 250;
+    --color-primary-100: 200, 220, 245;
+    --color-primary-200: 150, 190, 240;
+    --color-primary-300: 100, 160, 235;
+    --color-primary-400: 50, 130, 225;
+    --color-primary-500: 0, 102, 204;
+    --color-primary-600: 0, 92, 184;
+    --color-primary-700: 0, 72, 152;
+    --color-primary-800: 0, 52, 120;
+    --color-primary-900: 0, 32, 88;
+
+    --color-bg: 15, 25, 38;
+    --color-bg-alt: 22, 35, 52;
+    --color-bg-accent: 19, 30, 45;
+    --color-card: 40, 60, 85;
+    --color-card-alt: 55, 80, 110;
+    --color-text: 225, 235, 248;
+    --color-text-muted: 150, 170, 195;
+    --color-border: 80, 120, 160;
+    --color-glow: 0, 102, 204;
+    --color-code-bg: 12, 20, 30;
+  }
+
+  [data-theme="rose-pine"] {
+    /* Rose Pine - Soft rose aesthetic */
+    --color-primary-50: 245, 230, 240;
+    --color-primary-100: 240, 210, 230;
+    --color-primary-200: 235, 180, 215;
+    --color-primary-300: 230, 150, 200;
+    --color-primary-400: 233, 163, 201;
+    --color-primary-500: 233, 163, 201;
+    --color-primary-600: 210, 145, 180;
+    --color-primary-700: 185, 120, 155;
+    --color-primary-800: 160, 95, 130;
+    --color-primary-900: 135, 70, 105;
+
+    --color-bg: 32, 28, 35;
+    --color-bg-alt: 45, 38, 50;
+    --color-bg-accent: 40, 34, 45;
+    --color-card: 62, 52, 68;
+    --color-card-alt: 80, 68, 88;
+    --color-text: 238, 232, 245;
+    --color-text-muted: 170, 155, 180;
+    --color-border: 110, 90, 120;
+    --color-glow: 233, 163, 201;
+    --color-code-bg: 26, 22, 32;
+  }
+
+  [data-theme="catppuccin"] {
+    /* Catppuccin - Warm peachy aesthetic */
+    --color-primary-50: 255, 245, 220;
+    --color-primary-100: 255, 230, 190;
+    --color-primary-200: 255, 210, 140;
+    --color-primary-300: 255, 190, 100;
+    --color-primary-400: 255, 170, 70;
+    --color-primary-500: 245, 194, 144;
+    --color-primary-600: 220, 174, 128;
+    --color-primary-700: 195, 154, 112;
+    --color-primary-800: 170, 134, 96;
+    --color-primary-900: 145, 114, 80;
+
+    --color-bg: 30, 26, 24;
+    --color-bg-alt: 42, 36, 32;
+    --color-bg-accent: 37, 32, 29;
+    --color-card: 60, 50, 45;
+    --color-card-alt: 78, 66, 58;
+    --color-text: 240, 235, 230;
+    --color-text-muted: 170, 155, 140;
+    --color-border: 110, 90, 75;
+    --color-glow: 245, 194, 144;
+    --color-code-bg: 24, 20, 18;
+  }
+
+  [data-theme="nightfox"] {
+    /* Nightfox - Purple and lavender */
+    --color-primary-50: 230, 220, 255;
+    --color-primary-100: 215, 200, 250;
+    --color-primary-200: 190, 160, 245;
+    --color-primary-300: 173, 142, 230;
+    --color-primary-400: 160, 130, 235;
+    --color-primary-500: 173, 142, 230;
+    --color-primary-600: 156, 128, 207;
+    --color-primary-700: 130, 105, 180;
+    --color-primary-800: 104, 82, 153;
+    --color-primary-900: 78, 59, 126;
+
+    --color-bg: 28, 25, 40;
+    --color-bg-alt: 38, 34, 56;
+    --color-bg-accent: 34, 30, 50;
+    --color-card: 56, 50, 75;
+    --color-card-alt: 72, 65, 95;
+    --color-text: 232, 230, 248;
+    --color-text-muted: 160, 150, 190;
+    --color-border: 100, 85, 140;
+    --color-glow: 173, 142, 230;
+    --color-code-bg: 22, 20, 32;
+  }
+
+  [data-theme="github-dark"] {
+    /* GitHub Dark - Blue GitHub theme */
+    --color-primary-50: 220, 240, 255;
+    --color-primary-100: 200, 225, 255;
+    --color-primary-200: 150, 200, 255;
+    --color-primary-300: 110, 175, 255;
+    --color-primary-400: 88, 166, 255;
+    --color-primary-500: 88, 166, 255;
+    --color-primary-600: 79, 150, 230;
+    --color-primary-700: 65, 125, 200;
+    --color-primary-800: 51, 100, 170;
+    --color-primary-900: 37, 75, 140;
+
+    --color-bg: 13, 17, 23;
+    --color-bg-alt: 22, 27, 34;
+    --color-bg-accent: 19, 24, 30;
+    --color-card: 40, 50, 65;
+    --color-card-alt: 55, 68, 85;
+    --color-text: 230, 237, 243;
+    --color-text-muted: 139, 148, 158;
+    --color-border: 48, 60, 76;
+    --color-glow: 88, 166, 255;
+    --color-code-bg: 10, 12, 16;
+  }
+
+  [data-theme="flexoki"] {
+    /* Flexoki - Warm brown aesthetic */
+    --color-primary-50: 255, 245, 230;
+    --color-primary-100: 255, 230, 205;
+    --color-primary-200: 255, 200, 155;
+    --color-primary-300: 240, 170, 110;
+    --color-primary-400: 220, 140, 85;
+    --color-primary-500: 207, 118, 85;
+    --color-primary-600: 186, 106, 76;
+    --color-primary-700: 158, 85, 64;
+    --color-primary-800: 130, 64, 52;
+    --color-primary-900: 102, 48, 40;
+
+    --color-bg: 27, 24, 22;
+    --color-bg-alt: 38, 33, 30;
+    --color-bg-accent: 33, 29, 27;
+    --color-card: 56, 48, 44;
+    --color-card-alt: 72, 62, 56;
+    --color-text: 241, 237, 232;
+    --color-text-muted: 165, 153, 140;
+    --color-border: 115, 95, 80;
+    --color-glow: 207, 118, 85;
+    --color-code-bg: 21, 18, 16;
   }
 }
 
@@ -2749,4 +3596,173 @@ body {
   html {
     scroll-behavior: auto;
   }
+}
+
+/* ========================================
+   FiveM Markdown Styles
+   ======================================== */
+
+.fivem-markdown {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+@media (min-width: 640px) {
+  .fivem-markdown {
+    font-size: 1rem;
+  }
+}
+
+/* GFM Alert styling */
+.fivem-markdown .gfm-alert {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.fivem-markdown .gfm-alert-icon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
+@media (min-width: 640px) {
+  .fivem-markdown .gfm-alert-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
+
+/* GFM Alert nested content cleanup */
+.fivem-markdown .gfm-alert-content p {
+  margin-bottom: 0.5rem;
+}
+
+.fivem-markdown .gfm-alert-content p:last-child {
+  margin-bottom: 0;
+}
+
+.fivem-markdown .gfm-alert-content {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Code block enhancements */
+.fivem-markdown .fivem-code-block {
+  backdrop-filter: blur(8px);
+  max-width: 100%;
+}
+
+.fivem-markdown .fivem-code-block pre {
+  margin: 0;
+  background: transparent;
+  white-space: pre;
+  word-wrap: normal;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.fivem-markdown .fivem-code-block code {
+  background: transparent;
+  padding: 0;
+  border: none;
+  font-size: inherit;
+}
+
+/* Task lists (GFM) */
+.fivem-markdown ul.contains-task-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.fivem-markdown .task-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.fivem-markdown .task-list-item input[type="checkbox"] {
+  margin-top: 0.375rem;
+  accent-color: rgb(var(--color-primary-500));
+}
+
+/* Strikethrough */
+.fivem-markdown del {
+  opacity: 0.6;
+}
+
+/* Tables responsive wrapper */
+.fivem-markdown .table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+}
+
+/* Footnotes */
+.fivem-markdown .footnotes {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.875rem;
+}
+
+.fivem-markdown .footnote-ref {
+  font-size: 0.75rem;
+  vertical-align: super;
+}
+
+/* Image styling */
+.fivem-markdown img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.75rem;
+  margin: 1rem 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Inline code overflow handling */
+.fivem-markdown code:not(.hljs) {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Lists overflow */
+.fivem-markdown ul,
+.fivem-markdown ol {
+  padding-left: 1.25rem;
+}
+
+/* Paragraph overflow */
+.fivem-markdown p {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Custom Scrollbar Styling - Consistent with UI */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to right, rgb(var(--color-primary-500)), rgb(var(--color-primary-400)));
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to right, rgb(var(--color-primary-600)), rgb(var(--color-primary-500)));
+  background-clip: content-box;
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-color: linear-gradient(to right, rgb(var(--color-primary-500)), rgb(var(--color-primary-400))) transparent;
+  scrollbar-width: thin;
 }

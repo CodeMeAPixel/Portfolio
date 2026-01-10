@@ -61,16 +61,25 @@ const config: Config = {
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
       },
+      spacing: {
+        'dense-xs': 'calc(0.25rem * var(--density-scale, 1))',
+        'dense-sm': 'calc(0.5rem * var(--density-scale, 1))',
+        'dense-md': 'calc(1rem * var(--density-scale, 1))',
+        'dense-lg': 'calc(1.5rem * var(--density-scale, 1))',
+        'dense-xl': 'calc(2rem * var(--density-scale, 1))',
+        'dense-2xl': 'calc(2.5rem * var(--density-scale, 1))',
+        'dense-3xl': 'calc(3rem * var(--density-scale, 1))',
+      },
+      safelist: [
+        'section-bg-accent',
+        'bg-mesh-gradient',
+        {
+          pattern: /bg-(primary|bg|card)-(50|100|200|300|400|500|600|700|800|900|alt|accent)/,
+        },
+      ],
+      plugins: [],
     },
   },
-  safelist: [
-    'section-bg-accent',
-    'bg-mesh-gradient',
-    {
-      pattern: /bg-(primary|bg|card)-(50|100|200|300|400|500|600|700|800|900|alt|accent)/,
-    },
-  ],
-  plugins: [],
 };
 
 export default config;

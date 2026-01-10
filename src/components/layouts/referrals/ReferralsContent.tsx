@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { Referral, ReferralCategory } from '@/types/referrals';
 import * as IoIcons from 'react-icons/io5';
-import { IoClipboardOutline, IoCheckmarkOutline, IoArrowForward, IoSearchOutline, IoClose, IoSparkles, IoGiftOutline } from 'react-icons/io5';
+import { IoClipboardOutline, IoCheckmarkOutline, IoArrowForward, IoSearchOutline, IoClose, IoSparkles, IoGiftOutline, IoChevronDown } from 'react-icons/io5';
 
 interface ReferralsContentProps {
     referrals: Referral[];
@@ -15,6 +15,19 @@ export default function ReferralsContent({ referrals, categories }: ReferralsCon
     const [activeCategory, setActiveCategory] = useState<string | null>(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [copiedCode, setCopiedCode] = useState<string | null>(null);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    // Close dropdown when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsDropdownOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
 
     // Get the dynamic icon component
     const getIconComponent = (iconName: string) => {
@@ -116,34 +129,97 @@ export default function ReferralsContent({ referrals, categories }: ReferralsCon
                         </div>
                     </div>
 
-                    {/* Premium Category tabs */}
-                    <div className="flex flex-wrap justify-center gap-3 p-3 rounded-2xl glass-ultra animate-fade-in-up" style={{ animationDelay: '200ms' }}>
-                        <button
-                            className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 flex items-center gap-2 hover:scale-105 active:scale-95
-                                ${activeCategory === null
-                                    ? 'bg-gradient-to-r from-primary-600 to-primary-400 text-white shadow-lg shadow-primary-500/30'
-                                    : 'text-color-text-muted hover:text-color-text glass-frost'
-                                }`}
-                            onClick={() => setActiveCategory(null)}
-                        >
-                            <IoSparkles className="w-4 h-4" />
-                            All Referrals
-                        </button>
-
-                        {categories.map(category => (
+                    {/* Premium Category tabs - Mobile and Desktop */}
+                    <div className="animate-fade-in-up" style={{ animationDelay: '200ms' }}>
+                        {/* Mobile: Custom Dropdown */}
+                        <div className="md:hidden" ref={dropdownRef}>
                             <button
-                                key={category.id}
-                                className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 flex items-center gap-2 hover:scale-105 active:scale-95
-                                    ${activeCategory === category.id
-                                        ? 'bg-gradient-to-r from-primary-600 to-primary-400 text-white shadow-lg shadow-primary-500/30'
-                                        : 'text-color-text-muted hover:text-color-text glass-frost'
-                                    }`}
-                                onClick={() => setActiveCategory(category.id)}
+                                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                                className="w-full flex items-center justify-between px-5 py-3.5 text-sm font-medium glass-ultra rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500/30 text-color-text"
                             >
-                                {category.icon && getIconComponent(category.icon)}
-                                {category.name}
+                                <span className="flex items-center gap-2">
+                                    {activeCategory === null ? (
+                                        <>
+                                            <IoSparkles className="w-4 h-4 text-primary-400" />
+                                            All Categories
+                                        </>
+                                    ) : (
+                                        <>
+                                            {categories.find(c => c.id === activeCategory)?.icon && getIconComponent(categories.find(c => c.id === activeCategory)?.icon || '')}
+                                            <span className="text-primary-300">{categories.find(c => c.id === activeCategory)?.name}</span>
+                                        </>
+                                    )}
+                                </span>
+                                <IoChevronDown className={`w-5 h-5 text-primary-400 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
                             </button>
-                        ))}
+
+                            {/* Dropdown Menu */}
+                            {isDropdownOpen && (
+                                <div className="absolute left-4 right-4 mt-2 py-2 bg-card rounded-xl border border-white/10 shadow-xl shadow-black/20 z-50 max-h-80 overflow-y-auto">
+                                    <button
+                                        onClick={() => { setActiveCategory(null); setIsDropdownOpen(false); }}
+                                        className={`w-full flex items-center justify-between px-4 py-3 text-sm font-medium transition-colors ${activeCategory === null
+                                            ? 'text-primary-300 bg-primary-500/10'
+                                            : 'text-color-text-muted hover:text-color-text hover:bg-white/5'
+                                            }`}
+                                    >
+                                        <span className="flex items-center gap-3">
+                                            <IoSparkles className="w-4 h-4" />
+                                            All Referrals
+                                        </span>
+                                        {activeCategory === null && <IoCheckmarkOutline className="w-4 h-4 text-primary-400" />}
+                                    </button>
+                                    {categories.map((category) => (
+                                        <button
+                                            key={category.id}
+                                            onClick={() => { setActiveCategory(category.id); setIsDropdownOpen(false); }}
+                                            className={`w-full flex items-center justify-between px-4 py-3 text-sm font-medium transition-colors ${activeCategory === category.id
+                                                ? 'text-primary-300 bg-primary-500/10'
+                                                : 'text-color-text-muted hover:text-color-text hover:bg-white/5'
+                                                }`}
+                                        >
+                                            <span className="flex items-center gap-3">
+                                                {category.icon && getIconComponent(category.icon)}
+                                                {category.name}
+                                            </span>
+                                            {activeCategory === category.id && <IoCheckmarkOutline className="w-4 h-4 text-primary-400" />}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Desktop: Horizontal scrollable tabs */}
+                        <div className="hidden md:flex items-center overflow-x-auto gap-2.5 pb-2 -mx-4 px-4 lg:-mx-0 lg:px-0">
+                            <button
+                                className={`px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-300 flex items-center gap-2.5 flex-shrink-0 group relative overflow-hidden
+                                    ${activeCategory === null
+                                        ? 'bg-gradient-to-r from-primary-600 to-primary-400 text-white shadow-lg shadow-primary-500/30'
+                                        : 'text-color-text-muted hover:text-color-text border border-white/5 hover:border-primary-500/20 hover:bg-white/5'
+                                    }`}
+                                onClick={() => setActiveCategory(null)}
+                            >
+                                <IoSparkles className="w-4 h-4 flex-shrink-0" />
+                                <span className="hidden lg:inline">All Referrals</span>
+                                <span className="lg:hidden">All</span>
+                            </button>
+
+                            {categories.map(category => (
+                                <button
+                                    key={category.id}
+                                    className={`px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-300 flex items-center gap-2.5 flex-shrink-0 group relative overflow-hidden
+                                        ${activeCategory === category.id
+                                            ? 'bg-gradient-to-r from-primary-600 to-primary-400 text-white shadow-lg shadow-primary-500/30'
+                                            : 'text-color-text-muted hover:text-color-text border border-white/5 hover:border-primary-500/20 hover:bg-white/5'
+                                        }`}
+                                    onClick={() => setActiveCategory(category.id)}
+                                >
+                                    {category.icon && getIconComponent(category.icon)}
+                                    <span className="hidden lg:inline">{category.name}</span>
+                                    <span className="lg:hidden text-xs">{category.name.substring(0, 3)}</span>
+                                </button>
+                            ))}
+                        </div>
                     </div>
                 </div>
 

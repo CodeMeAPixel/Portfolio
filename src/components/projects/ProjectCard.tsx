@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Project } from "@/types/project";
+import { ProjectLogo } from "@/components/projects/ProjectLogo";
 import { IoRocketOutline, IoLogoGithub, IoBookOutline, IoCalendarOutline, IoArrowForward } from "react-icons/io5";
 
 interface ProjectCardProps {
@@ -49,7 +50,10 @@ export default function ProjectCard({
             onMouseLeave={() => onHover?.(null)}
         >
             <Link href={`/projects/${project.id}`}>
-                <article className="relative h-full glass-ultra border border-primary-500/20 rounded-3xl overflow-hidden transition-all duration-500 hover:border-primary-400 hover:shadow-2xl hover:shadow-primary-500/30 hover:-translate-y-1">
+                <article className="relative h-full glass-ultra border border-primary-500/10 rounded-3xl overflow-hidden transition-all duration-500 hover:border-primary-400/50 hover:shadow-2xl hover:shadow-primary-500/20 hover:-translate-y-2">
+                    {/* Animated glow on hover */}
+                    <div className="absolute -inset-1 bg-gradient-to-r from-primary-500/0 via-primary-500/20 to-primary-500/0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
+
                     {/* Image Section */}
                     <div className="relative aspect-video overflow-hidden bg-gradient-to-br from-primary-900/50 to-bg">
                         {project.images?.[0] && !imageError ? (
@@ -62,9 +66,7 @@ export default function ProjectCard({
                                 onError={() => setImageError(true)}
                             />
                         ) : (
-                            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-primary-900/30 to-bg">
-                                <IoRocketOutline className="w-12 h-12 text-primary-500/40" />
-                            </div>
+                            <ProjectLogo title={project.title} />
                         )}
 
                         {/* Overlay */}
@@ -181,9 +183,7 @@ export function ProjectCardCompact({
                                 onError={() => setImageError(true)}
                             />
                         ) : (
-                            <div className="absolute inset-0 flex items-center justify-center">
-                                <IoRocketOutline className="w-8 h-8 text-primary-500/40" />
-                            </div>
+                            <ProjectLogo title={project.title} />
                         )}
                     </div>
 

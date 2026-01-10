@@ -1,6 +1,6 @@
 export const cvData = {
     personal: {
-        name: "Tyler",
+        name: "Tyler. H",
         title: "Fullstack Developer",
         location: "Canada",
         email: "hello@codemeapixel.dev",

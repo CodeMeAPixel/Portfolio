@@ -52,10 +52,10 @@ export default function About() {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
+        <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-start">
           {/* Avatar with premium glass design */}
           <div
-            className="relative mx-auto lg:mx-0 animate-fade-in"
+            className="relative mx-auto lg:mx-0 animate-fade-in sticky top-32"
             style={{ animationDelay: '0.2s' }}
           >
             {/* Glow effect behind image */}
@@ -133,79 +133,87 @@ export default function About() {
             className="space-y-8 animate-fade-in"
             style={{ animationDelay: '0.3s' }}
           >
-            <div className="space-y-6">
+            <div className="space-y-4">
               <p className="text-color-text-muted text-lg leading-relaxed">
-                Hi, I&apos;m <span className="text-primary-300 font-bold">Tyler</span>! While I go by CodeMeAPixel online, my friends and colleagues know me by my real name.
-                I&apos;m a passionate developer with a keen eye for design and a love for creating exceptional digital experiences.
+                Hey there! I'm <span className="text-primary-300 font-bold">Tyler</span>, though you might know me as CodeMeAPixel, Pixel or Pixelated online. I'm a full stack developer from Canada with a passion for building beautiful, functional web experiences that users actually love.
               </p>
 
               <p className="text-color-text-muted text-lg leading-relaxed">
-                My journey in web development has been driven by curiosity and a constant desire to learn and improve.
-                I specialize in building modern, responsive, and user-friendly web applications using the latest technologies and best practices.
+                Over the past decade, I've worked with everything from startups to established companies, helping bring ideas to life through thoughtful design and solid engineering. I believe the best digital products are the ones that feel natural to use and look great doing it.
+              </p>
+
+              <p className="text-color-text-muted text-lg leading-relaxed">
+                When I'm not coding, you'll find me exploring new tools, contributing to open source projects, or probably drinking way too much coffee. I'm always open to interesting projects and love collaborating with talented people
               </p>
             </div>
+          </div>
+        </div>
 
-            {/* Stats grid with premium cards */}
-            <div className="grid grid-cols-3 gap-4">
-              {stats.map((stat, index) => (
-                <div
-                  key={stat.label}
-                  className="group relative animate-fade-in"
-                  style={{ animationDelay: `${0.3 + index * 0.1}s` }}
-                >
-                  <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} rounded-2xl blur-xl opacity-0 group-hover:opacity-30 transition-opacity duration-500`}></div>
-                  <div className="relative p-5 rounded-2xl glass-ultra text-center hover:border-primary-500/30 transition-all duration-300 card-lift">
-                    <div className={`w-10 h-10 mx-auto mb-3 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center`}>
-                      <stat.icon className="w-5 h-5 text-white" />
-                    </div>
-                    <div className="text-2xl md:text-3xl font-black bg-gradient-to-br from-color-text to-color-text-muted bg-clip-text text-transparent">{stat.value}</div>
-                    <div className="text-xs text-color-text-muted mt-1 font-medium">{stat.label}</div>
+        {/* Stats, Tech Tags, and CTAs - Full Width Below */}
+        <div
+          className="space-y-8 mt-16 animate-fade-in"
+          style={{ animationDelay: '0.4s' }}
+        >
+          {/* Stats grid with premium cards */}
+          <div className="grid grid-cols-3 gap-4">
+            {stats.map((stat, index) => (
+              <div
+                key={stat.label}
+                className="group relative animate-fade-in"
+                style={{ animationDelay: `${0.3 + index * 0.1}s` }}
+              >
+                <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} rounded-2xl blur-xl opacity-0 group-hover:opacity-30 transition-opacity duration-500`}></div>
+                <div className="relative p-5 rounded-2xl glass-ultra text-center hover:border-primary-500/30 transition-all duration-300 card-lift">
+                  <div className={`w-10 h-10 mx-auto mb-3 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center`}>
+                    <stat.icon className="w-5 h-5 text-white" />
                   </div>
+                  <div className="text-2xl md:text-3xl font-black bg-gradient-to-br from-color-text to-color-text-muted bg-clip-text text-transparent">{stat.value}</div>
+                  <div className="text-xs text-color-text-muted mt-1 font-medium">{stat.label}</div>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
+          </div>
 
-            {/* Tech tags with premium styling */}
-            <div
-              className="flex flex-wrap gap-2 animate-fade-in"
-              style={{ animationDelay: '0.5s' }}
-            >
-              {['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Node.js', 'PostgreSQL'].map((tech, index) => (
-                <span
-                  key={tech}
-                  className="group relative px-4 py-2 rounded-xl text-sm font-semibold glass-ultra cursor-default overflow-hidden hover:-translate-y-1 hover:scale-102 transition-transform duration-300 animate-fade-in"
-                  style={{ animationDelay: `${0.6 + index * 0.05}s` }}
-                >
-                  <span className="absolute inset-0 bg-gradient-to-r from-primary-500/0 via-primary-500/20 to-primary-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500"></span>
-                  <span className="relative text-primary-300 group-hover:text-primary-200 transition-colors">{tech}</span>
-                </span>
-              ))}
-            </div>
+          {/* Tech tags with premium styling */}
+          <div
+            className="flex flex-wrap gap-2 animate-fade-in"
+            style={{ animationDelay: '0.5s' }}
+          >
+            {['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Node.js', 'PostgreSQL'].map((tech, index) => (
+              <span
+                key={tech}
+                className="group relative px-4 py-2 rounded-xl text-sm font-semibold glass-ultra cursor-default overflow-hidden hover:-translate-y-1 hover:scale-102 transition-transform duration-300 animate-fade-in"
+                style={{ animationDelay: `${0.6 + index * 0.05}s` }}
+              >
+                <span className="absolute inset-0 bg-gradient-to-r from-primary-500/0 via-primary-500/20 to-primary-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500"></span>
+                <span className="relative text-primary-300 group-hover:text-primary-200 transition-colors">{tech}</span>
+              </span>
+            ))}
+          </div>
 
-            {/* CTA with premium button */}
-            <div
-              className="pt-4 flex flex-wrap gap-4 animate-fade-in"
-              style={{ animationDelay: '0.7s' }}
+          {/* CTA with premium button */}
+          <div
+            className="flex flex-wrap gap-4 animate-fade-in"
+            style={{ animationDelay: '0.7s' }}
+          >
+            <Link
+              href="/about"
+              className="group inline-flex items-center gap-3 px-6 py-3 rounded-xl glass-frost hover-glow transition-all duration-300"
             >
-              <Link
-                href="/about"
-                className="group inline-flex items-center gap-3 px-6 py-3 rounded-xl glass-frost hover-glow transition-all duration-300"
-              >
-                <span className="text-primary-300 font-semibold group-hover:text-primary-200 transition-colors">
-                  Learn more about me
-                </span>
-                <IoArrowForward className="w-5 h-5 text-primary-400 group-hover:translate-x-2 transition-transform duration-300" />
-              </Link>
-              <Link
-                href="/cv"
-                className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl glass-frost hover-glow transition-all duration-300"
-              >
-                <IoDocumentTextOutline className="w-5 h-5 text-primary-400" />
-                <span className="text-primary-300 font-semibold group-hover:text-primary-200 transition-colors">
-                  Download CV
-                </span>
-              </Link>
-            </div>
+              <span className="text-primary-300 font-semibold group-hover:text-primary-200 transition-colors">
+                Learn more about me
+              </span>
+              <IoArrowForward className="w-5 h-5 text-primary-400 group-hover:translate-x-2 transition-transform duration-300" />
+            </Link>
+            <Link
+              href="/cv"
+              className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl glass-frost hover-glow transition-all duration-300"
+            >
+              <IoDocumentTextOutline className="w-5 h-5 text-primary-400" />
+              <span className="text-primary-300 font-semibold group-hover:text-primary-200 transition-colors">
+                Download CV
+              </span>
+            </Link>
           </div>
         </div>
       </div>

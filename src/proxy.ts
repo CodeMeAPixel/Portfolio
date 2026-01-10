@@ -71,7 +71,7 @@ export function proxy(request: NextRequest) {
     }
 
     // CASE 2: Access to under construction pages (docs or fivem)
-    const isUnderConstruction = path.startsWith('/docs') || path.startsWith('/fivem');
+    const isUnderConstruction = path.startsWith('/docs');
 
     // Redirect in production mode (or if we want to test in development)
     const isDevelopment = process.env.NODE_ENV === 'development';
@@ -115,5 +115,5 @@ export function proxy(request: NextRequest) {
 
 // Update the matcher to include the coming-soon page
 export const config = {
-    matcher: ['/docs/:path*', '/fivem/:path*', '/coming-soon'],
+    matcher: ['/docs/:path*', '/coming-soon'],
 };

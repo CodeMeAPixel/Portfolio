@@ -12,7 +12,7 @@ export default function MainLayout({
             <main>
                 {children}
             </main>
-            {/**<Footer />*/}
+            <Footer />
         </>
     );
 }

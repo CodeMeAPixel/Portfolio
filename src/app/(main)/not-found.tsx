@@ -2,7 +2,7 @@
 
 import Navbar from "@/components/static/Navbar";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IoHome, IoArrowBack, IoCodeSlash } from "react-icons/io5";
 
 export default function NotFoundPage() {

@@ -13,8 +13,9 @@ export async function generateStaticParams() {
 }
 
 // Generate metadata for each script
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-    const script = getScriptBySlug(params.slug);
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+    const { slug } = await params;
+    const script = getScriptBySlug(slug);
 
     if (!script) {
         return {
@@ -35,8 +36,9 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     };
 }
 
-export default function ScriptPage({ params }: { params: { slug: string } }) {
-    const script = getScriptBySlug(params.slug);
+export default async function ScriptPage({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params;
+    const script = getScriptBySlug(slug);
 
     if (!script) {
         notFound();

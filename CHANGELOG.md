@@ -7,6 +7,72 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.2.0] - 2026-01-10
+
+### Added
+
+#### Customization System
+- **Comprehensive User Preferences** with localStorage persistence
+  - Font selection: system, monospace, serif, rounded
+  - Layout density control: compact (0.85x), normal (1x), spacious (1.15x)
+  - Animations toggle: enable/disable all site animations globally
+  - Sound effects toggle: synthetic audio feedback on interactions
+
+#### New Components
+- **useSounds.ts** (`src/hooks/useSounds.ts`) - Web Audio API hook for synthetic sound generation
+  - Generates 4 sound types without external audio files:
+    - `click` - 800Hz, 0.08s (UI interactions)
+    - `hover` - 600Hz, 0.05s (hover feedback)
+    - `success` - 1000Hz, 0.15s (success actions)
+    - `error` - 300Hz, 0.2s (error states)
+  - Respects soundsEnabled setting from context
+  - Exponential gain envelope for natural sound decay
+
+#### Features
+- Sound effects integrated into CustomizationPanel
+- Sound feedback on theme selection (ThemeSelector and MobileThemeMenu)
+- All customization settings persist via localStorage
+- Settings accessible via Settings tab in theme menu (desktop & mobile)
+
+### Changed
+
+#### Customization UI
+- **CustomizationPanel** refactored:
+  - Replaced dark mode toggle with sound effects toggle
+  - Added sound feedback (playSound("click")) to all customization buttons
+  - Updated settings summary to display: Animations, Sounds, Font, Density
+  - Improved button styling and grouping
+
+#### Theme Selection
+- **ThemeSelector.tsx** - Added sound effect on theme color selection
+- **MobileThemeMenu.tsx** - Added sound effect on theme color selection
+
+#### State Management
+- **ThemeContext.tsx** - Replaced `darkMode`/`setDarkMode` with `soundsEnabled`/`setSoundsEnabled`
+- Updated localStorage keys: "soundsEnabled" replaces "darkMode"
+- Simplified context effects after dark mode removal
+
+#### Component Updates
+- **ApplyCustomizations.tsx** - Removed dark mode logic, simplified to active features only
+- **layout.tsx** - Cleaned up initialization script, removed dark mode references
+- **globals.css** - Removed dark mode CSS rules (no longer needed)
+
+### Fixed
+
+- **Font changes not applying** - Added universal CSS selector with !important to override Tailwind font-family defaults
+- **Density spacing not working** - Enhanced gap selectors with [class*="gap-"] rule and !important specificity
+- **Tailwind syntax error** - Fixed extra closing braces in tailwind.config.ts
+- **CSS specificity issues** - Improved customization CSS rules to reliably override framework defaults
+
+### Technical
+
+- Web Audio API implementation for lightweight sound synthesis (no dependencies)
+- Enhanced CSS specificity for customization features
+- Type-safe state management with proper localStorage persistence
+- Clean separation of concerns between sound generation, state, and UI
+
+---
+
 ## [3.1.0] - 2026-01-08
 
 ### Added
@@ -180,6 +246,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **v2.x.x** - Previous stable releases (pre-glassmorphism)
 - **v1.x.x** - Initial portfolio release
 
-[Unreleased]: https://github.com/CodeMeAPixel/Portfolio/compare/v3.1.0...HEAD
+[Unreleased]: https://github.com/CodeMeAPixel/Portfolio/compare/v3.2.0...HEAD
+[3.2.0]: https://github.com/CodeMeAPixel/Portfolio/compare/v3.1.0...v3.2.0
 [3.1.0]: https://github.com/CodeMeAPixel/Portfolio/compare/v3.0.0...v3.1.0
 [3.0.0]: https://github.com/CodeMeAPixel/Portfolio/releases/tag/v3.0.0

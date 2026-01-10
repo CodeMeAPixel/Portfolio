@@ -66,36 +66,42 @@ export default function DocsSearch({ onClose }: DocsSearchProps) {
 
     return createPortal(
         <div
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-start justify-center pt-[15vh] animate-fade-in"
+            className="fixed inset-0 bg-black/70 backdrop-blur-md z-50 flex items-start justify-center pt-[12vh] animate-fade-in"
             onClick={handleBackdropClick}
         >
             <div
-                className="bg-card border border-color-border rounded-lg w-full max-w-xl max-h-[70vh] overflow-hidden flex flex-col animate-fade-up"
+                className="glass-ultra border border-white/10 rounded-2xl w-full max-w-xl max-h-[70vh] overflow-hidden flex flex-col animate-fade-in-up shadow-2xl"
             >
                 {/* Search input */}
-                <div className="flex items-center border-b border-color-border p-4">
-                    <IoSearch className="w-5 h-5 text-color-text-muted mr-3 flex-shrink-0" />
+                <div className="flex items-center border-b border-white/10 p-4">
+                    <div className="p-2 rounded-lg bg-primary-500/20 mr-3">
+                        <IoSearch className="w-5 h-5 text-primary-400" />
+                    </div>
                     <input
                         ref={inputRef}
                         type="text"
                         placeholder="Search documentation..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="bg-transparent border-none outline-none flex-grow text-color-text placeholder:text-color-text-muted"
+                        className="bg-transparent border-none outline-none flex-grow text-color-text placeholder:text-color-text-muted text-lg"
                     />
                     <button
                         onClick={onClose}
-                        className="p-1 rounded-full hover:bg-bg-alt transition-colors"
+                        className="p-2 rounded-lg hover:bg-white/10 transition-colors"
                     >
-                        <IoClose className="w-5 h-5 text-color-text-muted" />
+                        <IoClose className="w-5 h-5 text-color-text-muted hover:text-color-text" />
                     </button>
                 </div>
 
                 {/* Search results */}
-                <div className="overflow-y-auto">
+                <div className="overflow-y-auto custom-scrollbar">
                     {results.length === 0 ? (
-                        <div className="p-6 text-center text-color-text-muted">
-                            No results found for "{searchQuery}"
+                        <div className="p-8 text-center">
+                            <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-white/5 flex items-center justify-center">
+                                <IoSearch className="w-8 h-8 text-color-text-muted" />
+                            </div>
+                            <p className="text-color-text-muted">No results found for "{searchQuery}"</p>
+                            <p className="text-sm text-color-text-muted/60 mt-2">Try different keywords or browse categories</p>
                         </div>
                     ) : (
                         <ul className="py-2">
@@ -103,13 +109,19 @@ export default function DocsSearch({ onClose }: DocsSearchProps) {
                                 <li key={item.href}>
                                     <button
                                         onClick={() => handleSelectResult(item.href)}
-                                        className="w-full text-left px-4 py-3 hover:bg-bg-alt transition-colors flex items-start gap-3"
+                                        className="w-full text-left px-4 py-3.5 hover:bg-white/5 transition-all flex items-start gap-4 group border-l-2 border-transparent hover:border-primary-400"
                                     >
-                                        {item.icon && <item.icon className="w-5 h-5 text-primary-400 flex-shrink-0 mt-0.5" />}
-                                        <div>
-                                            <div className="font-medium text-color-text">{item.title}</div>
-                                            <div className="text-sm text-color-text-muted">{item.description}</div>
-                                            <div className="text-xs text-primary-400 mt-1">{item.section}</div>
+                                        <div className="p-2 rounded-lg bg-white/5 group-hover:bg-primary-500/20 transition-colors flex-shrink-0">
+                                            {item.icon && <item.icon className="w-5 h-5 text-color-text-muted group-hover:text-primary-400 transition-colors" />}
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <div className="font-medium text-color-text group-hover:text-primary-300 transition-colors">{item.title}</div>
+                                            <div className="text-sm text-color-text-muted line-clamp-1">{item.description}</div>
+                                            <div className="text-xs text-primary-400/80 mt-1.5 flex items-center gap-2">
+                                                <span className="px-2 py-0.5 rounded-full bg-primary-500/10">{item.section}</span>
+                                                <span className="text-color-text-muted/50">•</span>
+                                                <span className="text-color-text-muted/60">{item.category}</span>
+                                            </div>
                                         </div>
                                     </button>
                                 </li>
@@ -119,9 +131,22 @@ export default function DocsSearch({ onClose }: DocsSearchProps) {
                 </div>
 
                 {/* Keyboard shortcut help */}
-                <div className="border-t border-color-border p-3 text-xs text-color-text-muted flex justify-between items-center">
-                    <div>Press <kbd className="px-2 py-1 bg-bg-alt rounded border border-color-border">↑</kbd> <kbd className="px-2 py-1 bg-bg-alt rounded border border-color-border">↓</kbd> to navigate</div>
-                    <div>Press <kbd className="px-2 py-1 bg-bg-alt rounded border border-color-border">ESC</kbd> to close</div>
+                <div className="border-t border-white/10 p-4 text-xs text-color-text-muted flex justify-between items-center bg-white/5">
+                    <div className="flex items-center gap-4">
+                        <span className="flex items-center gap-2">
+                            <kbd className="px-2 py-1 rounded-lg glass-frost border border-white/10 font-mono">↑</kbd>
+                            <kbd className="px-2 py-1 rounded-lg glass-frost border border-white/10 font-mono">↓</kbd>
+                            <span>navigate</span>
+                        </span>
+                        <span className="flex items-center gap-2">
+                            <kbd className="px-2 py-1 rounded-lg glass-frost border border-white/10 font-mono">↵</kbd>
+                            <span>select</span>
+                        </span>
+                    </div>
+                    <span className="flex items-center gap-2">
+                        <kbd className="px-2 py-1 rounded-lg glass-frost border border-white/10 font-mono">esc</kbd>
+                        <span>close</span>
+                    </span>
                 </div>
             </div>
         </div>,

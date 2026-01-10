@@ -1,23 +1,58 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useTheme } from "@/context/ThemeContext";
 import ThemeSelector from "./ThemeSelector";
 import MobileThemeMenu from "./MobileThemeMenu";
-import { IoMenu, IoClose } from "react-icons/io5";
+import { IoMenu, IoClose, IoChevronDown } from "react-icons/io5";
 import { CMAP } from "@/components/icons/CMAP";
 import { FaStar } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 import packageJson from "@/../package.json";
-import { IoHomeOutline, IoPersonOutline, IoNewspaperOutline, IoCodeSlashOutline, IoFolderOutline, IoStarOutline, IoMailOutline, IoFlashOutline } from "react-icons/io5";
+import {
+    IoHomeOutline, IoPersonOutline, IoNewspaperOutline, IoCodeSlashOutline,
+    IoFolderOutline, IoStarOutline, IoMailOutline, IoFlashOutline,
+    IoGameControllerOutline, IoGridOutline, IoBookOutline, IoLogoGithub
+} from "react-icons/io5";
 
-const navLinks = [
+// Primary navigation links (always visible)
+const primaryLinks = [
+    { href: "/", label: "Home", icon: IoHomeOutline },
+    { href: "/about", label: "About", icon: IoPersonOutline },
+    { href: "/blog", label: "Blog", icon: IoNewspaperOutline },
+];
+
+// Dropdown menu items
+const workDropdown = {
+    label: "Work",
+    icon: IoGridOutline,
+    items: [
+        { href: "/skills", label: "Skills", icon: IoCodeSlashOutline, description: "Technologies I work with" },
+        { href: "/projects", label: "Projects", icon: IoFolderOutline, description: "Things I've built/worked on" },
+        { href: "/other-works", label: "Other Works", icon: IoLogoGithub, description: "Open source on GitHub", isNew: true },
+        { href: "/fivem", label: "FiveM Scripts", icon: IoGameControllerOutline, description: "Scripts for FiveM servers", isNew: true },
+    ]
+};
+
+const moreDropdown = {
+    label: "More",
+    icon: IoStarOutline,
+    items: [
+        { href: "/referrals", label: "Referrals", icon: IoStarOutline, description: "Services I recommend" },
+        { href: "/just-ask", label: "Just Ask", icon: IoFlashOutline, description: "Chat etiquette guide" }
+    ]
+};
+
+// All links for mobile menu
+const allNavLinks = [
     { href: "/", label: "Home", icon: IoHomeOutline },
     { href: "/about", label: "About", icon: IoPersonOutline },
     { href: "/blog", label: "Blog", icon: IoNewspaperOutline },
     { href: "/skills", label: "Skills", icon: IoCodeSlashOutline },
     { href: "/projects", label: "Projects", icon: IoFolderOutline },
+    { href: "/other-works", label: "Other Works", icon: IoLogoGithub },
+    { href: "/fivem", label: "FiveM Scripts", icon: IoGameControllerOutline, isNew: true },
     { href: "/referrals", label: "Referrals", icon: IoStarOutline },
     { href: "/just-ask", label: "Just Ask", icon: IoFlashOutline },
     { href: "/contact", label: "Contact", icon: IoMailOutline }
@@ -63,13 +98,27 @@ export function LinkComponent({
 export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
+    const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
     const { isLoaded } = useTheme();
     const pathname = usePathname();
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
     // Close menu when route changes
     useEffect(() => {
         setIsMenuOpen(false);
+        setActiveDropdown(null);
     }, [pathname]);
+
+    // Close dropdown when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setActiveDropdown(null);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
 
     // Prevent body scroll when menu is open
     useEffect(() => {
@@ -92,16 +141,77 @@ export default function Navbar() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    // Check if any item in a dropdown is active
+    const isDropdownActive = (items: typeof workDropdown.items) => {
+        return items.some(item => pathname === item.href || pathname?.startsWith(item.href + '/'));
+    };
+
     // Don't render theme-dependent parts until client-side theme is loaded
     const renderThemeUI = () => {
         if (!isLoaded) {
-            // Return a placeholder with the same dimensions
             return <div className="w-10 h-10" />;
         }
-
         return (
             <div className="mr-2">
                 <MobileThemeMenu />
+            </div>
+        );
+    };
+
+    // Dropdown component
+    const NavDropdown = ({ dropdown, id }: { dropdown: typeof workDropdown; id: string }) => {
+        const isOpen = activeDropdown === id;
+        const hasActiveItem = isDropdownActive(dropdown.items);
+
+        return (
+            <div className="relative">
+                <button
+                    onClick={() => setActiveDropdown(isOpen ? null : id)}
+                    className={`relative flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 ${hasActiveItem
+                        ? "text-white"
+                        : "text-color-text-muted hover:text-color-text"
+                        }`}
+                >
+                    {hasActiveItem && (
+                        <div className="absolute inset-0 bg-gradient-to-r from-primary-600 to-primary-500 rounded-full" />
+                    )}
+                    <span className="relative z-10">{dropdown.label}</span>
+                    <IoChevronDown className={`relative z-10 w-3 h-3 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+                </button>
+
+                {/* Dropdown Menu */}
+                {isOpen && (
+                    <div className="absolute top-full left-0 mt-2 w-56 py-2 bg-bg border border-white/10 rounded-xl shadow-2xl shadow-black/50 animate-fade-in z-50">
+                        {dropdown.items.map((item) => {
+                            const isActive = pathname === item.href || pathname?.startsWith(item.href + '/');
+                            const Icon = item.icon;
+                            return (
+                                <Link
+                                    key={item.href}
+                                    href={item.href}
+                                    className={`flex items-start gap-3 px-4 py-2.5 transition-all duration-200 ${isActive
+                                        ? "bg-primary-500/10 text-primary-400"
+                                        : "text-color-text-muted hover:text-color-text hover:bg-white/5"
+                                        }`}
+                                    onClick={() => setActiveDropdown(null)}
+                                >
+                                    <Icon className={`w-4 h-4 mt-0.5 flex-shrink-0 ${isActive ? 'text-primary-400' : 'text-primary-500/70'}`} />
+                                    <div className="flex-1 min-w-0">
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-sm font-medium">{item.label}</span>
+                                            {item.isNew && (
+                                                <span className="px-1.5 py-0.5 text-[10px] font-bold bg-gradient-to-r from-primary-500 to-accent-500 text-white rounded-full">
+                                                    NEW
+                                                </span>
+                                            )}
+                                        </div>
+                                        <span className="text-[11px] text-color-text-muted/70 line-clamp-1">{item.description}</span>
+                                    </div>
+                                </Link>
+                            );
+                        })}
+                    </div>
+                )}
             </div>
         );
     };
@@ -136,11 +246,12 @@ export default function Navbar() {
                             </span>
                         </Link>
 
-                        {/* Desktop Navigation - Sleek Centered Pills */}
-                        <nav className="hidden lg:flex items-center absolute left-1/2 -translate-x-1/2">
+                        {/* Desktop Navigation - Clean with Dropdowns */}
+                        <nav className="hidden lg:flex items-center absolute left-1/2 -translate-x-1/2" ref={dropdownRef}>
                             <div className="flex items-center gap-0.5 px-1 py-1 rounded-full bg-white/5 backdrop-blur-sm border border-white/5">
-                                {navLinks.map(({ href, label }) => {
-                                    const isActive = pathname === href || (pathname?.startsWith(href) && href !== '/');
+                                {/* Primary Links */}
+                                {primaryLinks.map(({ href, label }) => {
+                                    const isActive = pathname === href || (href !== '/' && pathname?.startsWith(href));
                                     return (
                                         <div key={href} className="relative">
                                             <LinkComponent
@@ -151,15 +262,39 @@ export default function Navbar() {
                                                     }`}
                                             >
                                                 {isActive && (
-                                                    <div
-                                                        className="absolute inset-0 bg-gradient-to-r from-primary-600 to-primary-500 rounded-full transition-all duration-300"
-                                                    />
+                                                    <div className="absolute inset-0 bg-gradient-to-r from-primary-600 to-primary-500 rounded-full transition-all duration-300" />
                                                 )}
                                                 <span className="relative z-10">{label}</span>
                                             </LinkComponent>
                                         </div>
                                     );
                                 })}
+
+                                {/* Divider */}
+                                <div className="w-px h-4 bg-white/10 mx-1"></div>
+
+                                {/* Work Dropdown */}
+                                <NavDropdown dropdown={workDropdown} id="work" />
+
+                                {/* More Dropdown */}
+                                <NavDropdown dropdown={moreDropdown} id="more" />
+
+                                {/* Divider */}
+                                <div className="w-px h-4 bg-white/10 mx-1"></div>
+
+                                {/* Contact - Always visible */}
+                                <LinkComponent
+                                    href="/contact"
+                                    className={`relative px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-300 ${pathname === '/contact'
+                                        ? "text-white"
+                                        : "text-color-text-muted hover:text-color-text"
+                                        }`}
+                                >
+                                    {pathname === '/contact' && (
+                                        <div className="absolute inset-0 bg-gradient-to-r from-primary-600 to-primary-500 rounded-full transition-all duration-300" />
+                                    )}
+                                    <span className="relative z-10">Contact</span>
+                                </LinkComponent>
                             </div>
                         </nav>
 
@@ -229,8 +364,8 @@ export default function Navbar() {
 
                             <div className="py-2 px-2 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 180px)' }}>
                                 <div className="grid gap-0.5">
-                                    {navLinks.map(({ href, label, icon: Icon }, index) => {
-                                        const isActive = pathname === href || (pathname?.startsWith(href) && href !== '/');
+                                    {allNavLinks.map(({ href, label, icon: Icon, isNew }, index) => {
+                                        const isActive = pathname === href || (href !== '/' && pathname?.startsWith(href));
                                         return (
                                             <div
                                                 key={href}
@@ -249,6 +384,11 @@ export default function Navbar() {
                                                         <Icon className={`w-4 h-4 mr-3 ${isActive ? 'text-white' : 'text-primary-400'}`} />
                                                     )}
                                                     <span className="text-sm font-medium">{label}</span>
+                                                    {isNew && (
+                                                        <span className="ml-2 px-1.5 py-0.5 text-[10px] font-bold bg-gradient-to-r from-primary-500 to-accent-500 text-white rounded-full">
+                                                            NEW
+                                                        </span>
+                                                    )}
                                                     {isActive && (
                                                         <div className="ml-auto w-1.5 h-1.5 rounded-full bg-white"></div>
                                                     )}

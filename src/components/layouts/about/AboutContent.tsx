@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { IoPersonOutline, IoSchoolOutline, IoBriefcaseOutline, IoTimeOutline, IoCode, IoRocketOutline, IoArrowForward, IoHeart, IoSparkles, IoLocationOutline, IoOpenOutline, IoDocumentTextOutline } from "react-icons/io5";
+import DiscordPresence from "@/components/discord/DiscordPresence";
 
 export default function AboutContent() {
     return (
@@ -173,6 +174,9 @@ export default function AboutContent() {
                     </div>
                 </div>
 
+                {/* Discord Presence Section */}
+                <DiscordPresence />
+
                 {/* Experience section */}
                 <div
                     className="mb-24 animate-fade-up"
@@ -188,24 +192,25 @@ export default function AboutContent() {
 
                     <div className="grid gap-5">
                         <TimelineItem
+                            title="Chief of Operations"
+                            company="NodeByte"
+                            period="Present"
+                            description="Help lead the development team, contribute to daily operations within the company, and ensure the quality of our products. I also mentor junior developers."
+                            delay={0.1}
+                        />
+
+                        <TimelineItem
                             title="System Administrator"
                             company="Purrquinox Technologies"
                             period="Present"
                             description="Manage and maintain the IT infrastructure, ensuring system reliability and security. I also handle network administration, server management, and user support."
                             delay={0.2}
                         />
-                        <TimelineItem
-                            title="Chief of Operations"
-                            company="NodeByte"
-                            period="2024 - Present"
-                            description="Help lead the development team, contribute to daily operations within the company, and ensure the quality of our products. I also mentor junior developers."
-                            delay={0.1}
-                        />
 
                         <TimelineItem
                             title="Chief Executive Officer"
                             company="ByteBrush Studios"
-                            period="2020 - Present"
+                            period="2020"
                             description="Oversee the strategic direction of the company, manage client relationships, and ensure the successful delivery of projects."
                             delay={0.2}
                         />

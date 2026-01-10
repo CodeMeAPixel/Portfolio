@@ -4,10 +4,10 @@ import Link from "next/link";
 import { IoLogoDiscord, IoLogoGithub, IoLogoLinkedin, IoLogoTwitter, IoMailOutline, IoArrowForward, IoSparkles, IoLocationOutline } from "react-icons/io5";
 
 const socialLinks = [
-  { href: "https://github.com/CodeMeAPixel", icon: IoLogoGithub, label: "GitHub", gradient: "from-gray-700 to-gray-900" },
-  { href: "https://linkedin.com/in/codemeapixel", icon: IoLogoLinkedin, label: "LinkedIn", gradient: "from-blue-600 to-blue-800" },
-  { href: "https://twitter.com/codemeapixel", icon: IoLogoTwitter, label: "Twitter", gradient: "from-sky-500 to-sky-700" },
-  { href: "https://discord.gg/Vv2bdC44Ge", icon: IoLogoDiscord, label: "Discord", gradient: "from-indigo-500 to-indigo-700" },
+  { href: "https://github.com/CodeMeAPixel", icon: IoLogoGithub, label: "GitHub", gradient: "from-gray-600 to-gray-800", hoverBg: "group-hover:bg-gray-700" },
+  { href: "https://linkedin.com/in/codemeapixel", icon: IoLogoLinkedin, label: "LinkedIn", gradient: "from-blue-500 to-blue-700", hoverBg: "group-hover:bg-blue-600" },
+  { href: "https://twitter.com/codemeapixel", icon: IoLogoTwitter, label: "Twitter", gradient: "from-sky-400 to-sky-600", hoverBg: "group-hover:bg-sky-500" },
+  { href: "https://discord.gg/Vv2bdC44Ge", icon: IoLogoDiscord, label: "Discord", gradient: "from-indigo-500 to-indigo-700", hoverBg: "group-hover:bg-indigo-600" },
 ];
 
 export default function Contact() {
@@ -107,7 +107,7 @@ export default function Contact() {
                 </div>
 
                 {/* Social Links - Premium Cards */}
-                <div className="flex flex-wrap justify-center gap-4">
+                <div className="flex flex-wrap justify-center gap-3">
                   {socialLinks.map((social, index) => (
                     <div
                       key={social.label}
@@ -118,15 +118,17 @@ export default function Contact() {
                         href={social.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group relative flex items-center gap-3 px-5 py-3 rounded-xl glass-frost overflow-hidden transition-all duration-300 hover:scale-105"
+                        className="group relative flex items-center gap-3 px-5 py-3 rounded-xl glass-frost overflow-hidden transition-all duration-300 hover:scale-105 hover:-translate-y-1"
                         aria-label={social.label}
                       >
                         {/* Hover gradient background */}
                         <span className={`absolute inset-0 bg-gradient-to-r ${social.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></span>
+                        {/* Shine effect */}
+                        <span className="absolute inset-0 shine-sweep opacity-0 group-hover:opacity-100"></span>
 
                         <span className="relative z-10 flex items-center gap-3">
-                          <social.icon className="w-5 h-5 text-primary-300 group-hover:text-white transition-colors" />
-                          <span className="text-sm font-semibold text-color-text-muted group-hover:text-white transition-colors">
+                          <social.icon className="w-5 h-5 text-primary-300 group-hover:text-white transition-colors duration-300" />
+                          <span className="text-sm font-semibold text-color-text-muted group-hover:text-white transition-colors duration-300">
                             {social.label}
                           </span>
                         </span>

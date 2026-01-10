@@ -82,10 +82,10 @@ export default function DocsLayout({
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/20 to-transparent"></div>
 
             {/* Mobile sidebar toggle */}
-            <div className="fixed top-20 left-4 z-40 md:hidden">
+            <div className="fixed top-24 left-4 z-40 md:hidden">
                 <button
                     onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                    className="p-2.5 rounded-lg bg-gray-950/90 border border-white/10 text-color-text-muted hover:text-primary-400 transition-all"
+                    className="p-2.5 rounded-xl glass-ultra border border-white/10 text-color-text-muted hover:text-primary-400 hover:border-primary-500/30 transition-all shadow-lg"
                     aria-label="Toggle sidebar"
                 >
                     {isSidebarOpen ? (
@@ -102,8 +102,8 @@ export default function DocsLayout({
                 <aside
                     className={`
                         w-64 flex-shrink-0 md:block fixed md:sticky top-24 left-0 bottom-0 
-                        md:h-[calc(100vh-6rem)] overflow-y-auto z-30 bg-bg md:bg-transparent
-                        transition-all duration-300 transform custom-scrollbar
+                        md:h-[calc(100vh-6rem)] overflow-y-auto z-30 bg-bg/95 backdrop-blur-xl md:bg-transparent
+                        transition-all duration-300 transform custom-scrollbar border-r border-white/5 md:border-none
                         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
                         md:pr-6
                     `}
@@ -114,7 +114,7 @@ export default function DocsLayout({
                 {/* Main content */}
                 <main className="flex-grow md:pl-8 w-full">
                     {/* Breadcrumb and search bar */}
-                    <div className="flex items-center justify-between mb-8 sticky top-20 z-20 bg-bg py-3 border-b border-white/10">
+                    <div className="flex items-center justify-between mb-8 sticky top-20 z-20 py-4 -mx-4 px-4 bg-bg/80 backdrop-blur-xl border-b border-white/5">
                         <div className="text-sm flex items-center">
                             {breadcrumbs.map((crumb, index) => (
                                 <div key={crumb.href} className="flex items-center">
@@ -122,7 +122,7 @@ export default function DocsLayout({
                                         <IoChevronForward className="mx-2 text-color-text-muted w-3 h-3" />
                                     )}
                                     {index === breadcrumbs.length - 1 ? (
-                                        <span className="text-primary-400">{crumb.label}</span>
+                                        <span className="text-primary-400 font-medium">{crumb.label}</span>
                                     ) : (
                                         <Link href={crumb.href} className="text-color-text-muted hover:text-primary-400 transition-colors">
                                             {crumb.label}
@@ -133,11 +133,11 @@ export default function DocsLayout({
                         </div>
                         <button
                             onClick={() => setIsSearchOpen(true)}
-                            className="flex items-center gap-2 px-3 py-1.5 text-sm text-color-text-muted rounded-lg bg-white/5 border border-white/10 hover:border-primary-500/30 hover:bg-white/10 transition-all"
+                            className="flex items-center gap-2 px-4 py-2 text-sm text-color-text-muted rounded-xl glass-frost border border-white/10 hover:border-primary-500/30 hover:bg-white/5 transition-all group"
                         >
-                            <IoSearch className="w-4 h-4" />
-                            <span className="hidden sm:inline">Search docs...</span>
-                            <span className="text-xs border border-white/10 rounded-lg px-2 py-0.5 ml-2 bg-white/5">
+                            <IoSearch className="w-4 h-4 group-hover:text-primary-400 transition-colors" />
+                            <span className="hidden sm:inline">Search</span>
+                            <span className="text-xs border border-white/10 rounded-lg px-2 py-0.5 bg-white/5 font-mono">
                                 ⌘K
                             </span>
                         </button>

@@ -204,20 +204,20 @@ export default function SkillsContent({ skills }: SkillsContentProps) {
                         )}
                     </div>
 
-                    {/* Desktop: Premium Pills */}
+                    {/* Desktop: Premium Horizontal Tabs */}
                     <div className="hidden md:block">
-                        <div className="flex flex-wrap gap-3 p-2 rounded-2xl glass-ultra">
+                        <div className="flex items-center overflow-x-auto gap-2 pb-2 -mx-4 px-4 md:-mx-0 md:px-0">
                             <button
                                 onClick={() => setActiveCategory('all')}
-                                className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 whitespace-nowrap relative overflow-hidden
+                                className={`px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-300 whitespace-nowrap relative overflow-hidden flex-shrink-0 group
                                     ${activeCategory === 'all'
                                         ? 'bg-gradient-to-r from-primary-600 to-primary-400 text-white shadow-lg shadow-primary-500/30'
-                                        : 'text-color-text-muted hover:text-color-text hover:bg-white/5'
+                                        : 'text-color-text-muted hover:text-color-text hover:bg-white/5 border border-white/5'
                                     }`}
                             >
                                 <span className="relative z-10 flex items-center gap-2">
                                     <IoGridOutline className="w-4 h-4" />
-                                    All Categories
+                                    All
                                 </span>
                                 {activeCategory === 'all' && <div className="absolute inset-0 shine-sweep" />}
                             </button>
@@ -226,15 +226,16 @@ export default function SkillsContent({ skills }: SkillsContentProps) {
                                 <button
                                     key={category.name}
                                     onClick={() => setActiveCategory(category.name.toLowerCase())}
-                                    className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 whitespace-nowrap flex items-center gap-2 relative overflow-hidden
+                                    className={`px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-300 whitespace-nowrap flex items-center gap-2 relative overflow-hidden flex-shrink-0 group
                                         ${activeCategory === category.name.toLowerCase()
                                             ? 'bg-gradient-to-r from-primary-600 to-primary-400 text-white shadow-lg shadow-primary-500/30'
-                                            : 'text-color-text-muted hover:text-color-text hover:bg-white/5'
+                                            : 'text-color-text-muted hover:text-color-text hover:bg-white/5 border border-white/5 hover:border-primary-500/20'
                                         }`}
                                 >
                                     <span className="relative z-10 flex items-center gap-2">
                                         {getCategoryIcon(category.name)}
-                                        {getShortName(category.name)}
+                                        <span className="hidden lg:inline">{getShortName(category.name)}</span>
+                                        <span className="lg:hidden">{getShortName(category.name).substring(0, 3)}</span>
                                     </span>
                                     {activeCategory === category.name.toLowerCase() && <div className="absolute inset-0 shine-sweep" />}
                                 </button>

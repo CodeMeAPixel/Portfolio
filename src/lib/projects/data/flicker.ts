@@ -82,6 +82,9 @@ After capture, screenshots are automatically:
 - Custom theme creation
 - Multiple monitor support
     `,
+    images: [
+        "/previews/flicker/preview-1.png"
+    ],
     tags: ["Tauri", "React", "TypeScript", "Rust", "Desktop App", "Open Source", "WIP"],
     links: {
         github: "https://github.com/EmberlyOSS/Flicker",

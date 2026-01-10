@@ -31,6 +31,9 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
     const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
     const [layout, setLayout] = useState<LayoutType>('list'); // Changed to 'list' as default
     const [sortBy, setSortBy] = useState<SortOption>('date-desc');
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const itemsPerPage = 6;
 
     // Include 'All' at the beginning of the categories and tags arrays
     const allCategories = ['All', ...categories.map(c => c.name)];
@@ -40,10 +43,16 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
     useEffect(() => {
         const timer = setTimeout(() => {
             setDebouncedSearchQuery(searchQuery);
+            setCurrentPage(1); // Reset to page 1 when search changes
         }, 300);
 
         return () => clearTimeout(timer);
     }, [searchQuery]);
+
+    // Reset page when filter or sort changes
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [activeFilter, sortBy]);
 
     // Filter posts based on selected category/tag and search query
     const filteredPosts = posts
@@ -75,6 +84,36 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
                     return 0;
             }
         });
+
+    // Pagination calculation
+    const totalPages = Math.ceil(filteredPosts.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const paginatedPosts = filteredPosts.slice(startIndex, endIndex);
+
+    // Get visible page numbers for pagination (show 3 pages: prev, current, next)
+    const getVisiblePages = (): number[] => {
+        const pages: number[] = [];
+        const maxPages = Math.min(3, totalPages);
+
+        if (totalPages <= 3) {
+            for (let i = 1; i <= totalPages; i++) {
+                pages.push(i);
+            }
+        } else {
+            if (currentPage === 1) {
+                pages.push(1, 2, 3);
+            } else if (currentPage === totalPages) {
+                pages.push(totalPages - 2, totalPages - 1, totalPages);
+            } else {
+                pages.push(currentPage - 1, currentPage, currentPage + 1);
+            }
+        }
+
+        return pages;
+    };
+
+    const visiblePages = getVisiblePages();
 
     // Toggle search input visibility
     const toggleSearch = () => {
@@ -184,51 +223,51 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
                                         align="end"
                                         sideOffset={8}
                                     >
-                                    <DropdownMenu.Item
-                                        className={`group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between ${sortBy === 'date-desc' ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20' : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'
-                                            }`}
-                                        onClick={() => setSortBy('date-desc')}
-                                    >
-                                        <div className="flex items-center gap-3">
-                                            <div className={`p-1.5 rounded-lg transition-colors ${sortBy === 'date-desc' ? 'bg-primary-500/20' : 'bg-white/5 group-hover:bg-white/10'}`}>
-                                                <IoCalendarOutline className="w-4 h-4" />
+                                        <DropdownMenu.Item
+                                            className={`group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between ${sortBy === 'date-desc' ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20' : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'
+                                                }`}
+                                            onClick={() => setSortBy('date-desc')}
+                                        >
+                                            <div className="flex items-center gap-3">
+                                                <div className={`p-1.5 rounded-lg transition-colors ${sortBy === 'date-desc' ? 'bg-primary-500/20' : 'bg-white/5 group-hover:bg-white/10'}`}>
+                                                    <IoCalendarOutline className="w-4 h-4" />
+                                                </div>
+                                                <span>Newest first</span>
                                             </div>
-                                            <span>Newest first</span>
-                                        </div>
-                                        {sortBy === 'date-desc' && <IoCheckmarkCircleOutline className="w-4 h-4 text-primary-400" />}
-                                    </DropdownMenu.Item>
+                                            {sortBy === 'date-desc' && <IoCheckmarkCircleOutline className="w-4 h-4 text-primary-400" />}
+                                        </DropdownMenu.Item>
 
-                                    <DropdownMenu.Item
-                                        className={`group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between ${sortBy === 'date-asc' ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20' : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'
-                                            }`}
-                                        onClick={() => setSortBy('date-asc')}
-                                    >
-                                        <div className="flex items-center gap-3">
-                                            <div className={`p-1.5 rounded-lg transition-colors ${sortBy === 'date-asc' ? 'bg-primary-500/20' : 'bg-white/5 group-hover:bg-white/10'}`}>
-                                                <IoCalendarOutline className="w-4 h-4" />
+                                        <DropdownMenu.Item
+                                            className={`group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between ${sortBy === 'date-asc' ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20' : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'
+                                                }`}
+                                            onClick={() => setSortBy('date-asc')}
+                                        >
+                                            <div className="flex items-center gap-3">
+                                                <div className={`p-1.5 rounded-lg transition-colors ${sortBy === 'date-asc' ? 'bg-primary-500/20' : 'bg-white/5 group-hover:bg-white/10'}`}>
+                                                    <IoCalendarOutline className="w-4 h-4" />
+                                                </div>
+                                                <span>Oldest first</span>
                                             </div>
-                                            <span>Oldest first</span>
-                                        </div>
-                                        {sortBy === 'date-asc' && <IoCheckmarkCircleOutline className="w-4 h-4 text-primary-400" />}
-                                    </DropdownMenu.Item>
+                                            {sortBy === 'date-asc' && <IoCheckmarkCircleOutline className="w-4 h-4 text-primary-400" />}
+                                        </DropdownMenu.Item>
 
-                                    <DropdownMenu.Item
-                                        className={`group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between ${sortBy === 'alphabetical' ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20' : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'
-                                            }`}
-                                        onClick={() => setSortBy('alphabetical')}
-                                    >
-                                        <div className="flex items-center gap-3">
-                                            <div className={`p-1.5 rounded-lg transition-colors ${sortBy === 'alphabetical' ? 'bg-primary-500/20' : 'bg-white/5 group-hover:bg-white/10'}`}>
-                                                <span className="w-4 h-4 flex items-center justify-center text-[10px] font-bold">AZ</span>
+                                        <DropdownMenu.Item
+                                            className={`group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between ${sortBy === 'alphabetical' ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20' : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'
+                                                }`}
+                                            onClick={() => setSortBy('alphabetical')}
+                                        >
+                                            <div className="flex items-center gap-3">
+                                                <div className={`p-1.5 rounded-lg transition-colors ${sortBy === 'alphabetical' ? 'bg-primary-500/20' : 'bg-white/5 group-hover:bg-white/10'}`}>
+                                                    <span className="w-4 h-4 flex items-center justify-center text-[10px] font-bold">AZ</span>
+                                                </div>
+                                                <span>Alphabetical</span>
                                             </div>
-                                            <span>Alphabetical</span>
-                                        </div>
-                                        {sortBy === 'alphabetical' && <IoCheckmarkCircleOutline className="w-4 h-4 text-primary-400" />}
-                                    </DropdownMenu.Item>
-                                </DropdownMenu.Content>
-                            </DropdownMenu.Portal>
-                        </DropdownMenu.Root>
-                    </div>
+                                            {sortBy === 'alphabetical' && <IoCheckmarkCircleOutline className="w-4 h-4 text-primary-400" />}
+                                        </DropdownMenu.Item>
+                                    </DropdownMenu.Content>
+                                </DropdownMenu.Portal>
+                            </DropdownMenu.Root>
+                        </div>
 
                         {/* Search button and input - Hidden on mobile */}
                         <div className="hidden md:flex relative items-center">
@@ -287,76 +326,76 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
                                         align="end"
                                         sideOffset={8}
                                     >
-                                    {/* Categories section */}
-                                    <DropdownMenu.Label className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary-400 px-4 py-3">
-                                        Categories
-                                    </DropdownMenu.Label>
+                                        {/* Categories section */}
+                                        <DropdownMenu.Label className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary-400 px-4 py-3">
+                                            Categories
+                                        </DropdownMenu.Label>
 
-                                    {allCategories.map(category => (
-                                        <DropdownMenu.Item
-                                            key={category}
-                                            className={`
+                                        {allCategories.map(category => (
+                                            <DropdownMenu.Item
+                                                key={category}
+                                                className={`
                                                 group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between
                                                 ${activeFilter === category
-                                                    ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20'
-                                                    : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'
-                                                }
+                                                        ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20'
+                                                        : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'
+                                                    }
                                             `}
-                                            onClick={() => {
-                                                setActiveFilter(category);
-                                                setFilterOpen(false);
-                                            }}
-                                        >
-                                            <div className="flex items-center gap-3">
-                                                <div className={`w-2 h-2 rounded-full transition-all ${activeFilter === category ? 'bg-primary-500 shadow-[0_0_8px_rgba(var(--color-primary),0.5)]' : 'bg-white/20 group-hover:bg-white/40'}`} />
-                                                <span>{category}</span>
-                                            </div>
-                                            {activeFilter === category && (
-                                                <IoCheckmarkCircleOutline className="w-4 h-4 text-primary-400" />
-                                            )}
-                                        </DropdownMenu.Item>
-                                    ))}
+                                                onClick={() => {
+                                                    setActiveFilter(category);
+                                                    setFilterOpen(false);
+                                                }}
+                                            >
+                                                <div className="flex items-center gap-3">
+                                                    <div className={`w-2 h-2 rounded-full transition-all ${activeFilter === category ? 'bg-primary-500 shadow-[0_0_8px_rgba(var(--color-primary),0.5)]' : 'bg-white/20 group-hover:bg-white/40'}`} />
+                                                    <span>{category}</span>
+                                                </div>
+                                                {activeFilter === category && (
+                                                    <IoCheckmarkCircleOutline className="w-4 h-4 text-primary-400" />
+                                                )}
+                                            </DropdownMenu.Item>
+                                        ))}
 
-                                    {/* Tags section - if we have tags */}
-                                    {tags.length > 0 && (
-                                        <>
-                                            <DropdownMenu.Separator className="h-px bg-white/5 my-2" asChild>
-                                                <div />
-                                            </DropdownMenu.Separator>
-                                            <DropdownMenu.Label className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary-400 px-4 py-3">
-                                                Tags
-                                            </DropdownMenu.Label>
+                                        {/* Tags section - if we have tags */}
+                                        {tags.length > 0 && (
+                                            <>
+                                                <DropdownMenu.Separator className="h-px bg-white/5 my-2" asChild>
+                                                    <div />
+                                                </DropdownMenu.Separator>
+                                                <DropdownMenu.Label className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary-400 px-4 py-3">
+                                                    Tags
+                                                </DropdownMenu.Label>
 
-                                            {allTags.slice(1).map(tag => (
-                                                <DropdownMenu.Item
-                                                    key={tag}
-                                                    className={`
+                                                {allTags.slice(1).map(tag => (
+                                                    <DropdownMenu.Item
+                                                        key={tag}
+                                                        className={`
                                                         group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between
                                                         ${activeFilter === tag
-                                                            ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20'
-                                                            : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'
-                                                        }
+                                                                ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20'
+                                                                : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'
+                                                            }
                                                     `}
-                                                    onClick={() => {
-                                                        setActiveFilter(tag);
-                                                        setFilterOpen(false);
-                                                    }}
-                                                >
-                                                    <div className="flex items-center gap-3">
-                                                        <div className={`w-2 h-2 rounded-full transition-all ${activeFilter === tag ? 'bg-primary-500 shadow-[0_0_8px_rgba(var(--color-primary),0.5)]' : 'bg-white/10 group-hover:bg-white/30'}`} />
-                                                        <span>{tag}</span>
-                                                    </div>
-                                                    {activeFilter === tag && (
-                                                        <IoCheckmarkCircleOutline className="w-4 h-4 text-primary-400" />
-                                                    )}
-                                                </DropdownMenu.Item>
-                                            ))}
-                                        </>
-                                    )}
-                                </DropdownMenu.Content>
-                            </DropdownMenu.Portal>
-                        </DropdownMenu.Root>
-                    </div>
+                                                        onClick={() => {
+                                                            setActiveFilter(tag);
+                                                            setFilterOpen(false);
+                                                        }}
+                                                    >
+                                                        <div className="flex items-center gap-3">
+                                                            <div className={`w-2 h-2 rounded-full transition-all ${activeFilter === tag ? 'bg-primary-500 shadow-[0_0_8px_rgba(var(--color-primary),0.5)]' : 'bg-white/10 group-hover:bg-white/30'}`} />
+                                                            <span>{tag}</span>
+                                                        </div>
+                                                        {activeFilter === tag && (
+                                                            <IoCheckmarkCircleOutline className="w-4 h-4 text-primary-400" />
+                                                        )}
+                                                    </DropdownMenu.Item>
+                                                ))}
+                                            </>
+                                        )}
+                                    </DropdownMenu.Content>
+                                </DropdownMenu.Portal>
+                            </DropdownMenu.Root>
+                        </div>
                     </div>
                 </div>
 
@@ -502,7 +541,7 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
                                 key="grid"
                                 className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 animate-fade-in"
                             >
-                                {filteredPosts.map((post, index) => {
+                                {paginatedPosts.map((post, index) => {
                                     const readingTime = calculateReadingTime(post.content);
                                     const formattedDate = new Date(post.metadata.date).toLocaleDateString('en-US', {
                                         year: 'numeric',
@@ -532,7 +571,7 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
                                 key="list"
                                 className="flex flex-col gap-4 animate-fade-in"
                             >
-                                {filteredPosts.map((post, index) => {
+                                {paginatedPosts.map((post, index) => {
                                     const readingTime = calculateReadingTime(post.content);
                                     const formattedDate = new Date(post.metadata.date).toLocaleDateString('en-US', {
                                         year: 'numeric',
@@ -555,6 +594,57 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
                                         />
                                     );
                                 })}
+                            </div>
+                        )}
+
+                        {/* Pagination controls */}
+                        {totalPages > 1 && (
+                            <div className="mt-12 flex flex-col items-center gap-6 animate-fade-in">
+                                {/* Results counter */}
+                                <div className="text-sm text-color-text-muted">
+                                    Showing <span className="font-semibold text-color-text">{startIndex + 1}</span> to <span className="font-semibold text-color-text">{Math.min(endIndex, filteredPosts.length)}</span> of <span className="font-semibold text-color-text">{filteredPosts.length}</span> article{filteredPosts.length !== 1 ? 's' : ''}
+                                </div>
+
+                                {/* Pagination buttons */}
+                                <div className="flex items-center gap-3 flex-wrap justify-center">
+                                    {/* Previous button */}
+                                    <button
+                                        onClick={() => setCurrentPage(currentPage - 1)}
+                                        disabled={currentPage === 1}
+                                        className="px-4 py-2 rounded-lg border border-primary-700/20 text-primary-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary-800/20 transition-all"
+                                        aria-label="Previous page"
+                                    >
+                                        Previous
+                                    </button>
+
+                                    {/* Page numbers */}
+                                    <div className="flex gap-2">
+                                        {visiblePages.map((page) => (
+                                            <button
+                                                key={page}
+                                                onClick={() => setCurrentPage(page)}
+                                                className={`px-4 py-2 rounded-lg transition-all font-semibold ${currentPage === page
+                                                    ? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-lg shadow-primary-500/30'
+                                                    : 'border border-primary-700/20 text-color-text hover:bg-primary-800/20'
+                                                    }`}
+                                                aria-label={`Go to page ${page}`}
+                                                aria-current={currentPage === page ? 'page' : undefined}
+                                            >
+                                                {page}
+                                            </button>
+                                        ))}
+                                    </div>
+
+                                    {/* Next button */}
+                                    <button
+                                        onClick={() => setCurrentPage(currentPage + 1)}
+                                        disabled={currentPage === totalPages}
+                                        className="px-4 py-2 rounded-lg border border-primary-700/20 text-primary-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary-800/20 transition-all"
+                                        aria-label="Next page"
+                                    >
+                                        Next
+                                    </button>
+                                </div>
                             </div>
                         )}
                     </>

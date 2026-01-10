@@ -69,6 +69,10 @@ Building Void taught me:
 - **UI Design** - Modern glassmorphic CSS effects
 - **Infrastructure** - Integration with load balancers and orchestration tools
     `,
+    images: [
+        "/previews/void/preview-1.png",
+        "/previews/void/preview-2.png"
+    ],
     tags: ["Go", "Reverse Proxy", "DevOps", "Infrastructure", "Open Source"],
     links: {
         github: "https://github.com/ByteBrushStudios/void",

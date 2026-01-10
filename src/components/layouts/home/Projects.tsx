@@ -67,10 +67,16 @@ export default function Projects() {
             href="/projects"
             className="group relative px-8 py-4 rounded-2xl font-bold text-lg overflow-hidden"
           >
-            <span className="absolute inset-0 glass-frost border border-white/10"></span>
+            {/* Animated border */}
+            <span className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary-500/50 via-primary-400/30 to-primary-500/50 p-[1px]">
+              <span className="absolute inset-[1px] rounded-[15px] bg-bg"></span>
+            </span>
+            {/* Glass effect */}
+            <span className="absolute inset-[1px] rounded-[15px] glass-frost"></span>
+            {/* Shine sweep */}
             <span className="absolute inset-0 bg-gradient-to-r from-primary-500/0 via-primary-500/10 to-primary-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></span>
             <span className="relative z-10 flex items-center gap-3 text-primary-300 group-hover:text-primary-200 transition-colors">
-              <IoRocketOutline className="w-5 h-5" />
+              <IoRocketOutline className="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" />
               Explore All Projects
               <IoArrowForward className="w-5 h-5 group-hover:translate-x-2 transition-transform duration-300" />
             </span>

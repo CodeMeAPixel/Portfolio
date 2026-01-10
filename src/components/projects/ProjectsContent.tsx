@@ -5,7 +5,7 @@ import { Project } from '@/types/project';
 import {
     IoSearch, IoClose, IoGridOutline, IoListOutline, IoSwapVertical,
     IoChevronDown, IoBookmarkOutline, IoCalendarOutline, IoSparkles,
-    IoCheckmarkCircleOutline
+    IoCheckmarkCircleOutline, IoChevronBack, IoChevronForward
 } from 'react-icons/io5';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import ComingSoon from '@/components/ui/ComingSoon';
@@ -18,12 +18,14 @@ interface ProjectsContentProps {
     projects: Project[];
     allTags: string[];
     showComingSoonIfEmpty?: boolean;
+    itemsPerPage?: number;
 }
 
 export default function ProjectsContent({
     projects,
     allTags,
-    showComingSoonIfEmpty = true
+    showComingSoonIfEmpty = true,
+    itemsPerPage = 4
 }: ProjectsContentProps) {
     const [activeFilter, setActiveFilter] = useState('All');
     const [filterOpen, setFilterOpen] = useState(false);
@@ -34,12 +36,14 @@ export default function ProjectsContent({
     const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
     const [layout, setLayout] = useState<LayoutType>('grid');
     const [sortBy, setSortBy] = useState<SortOption>('date-desc');
+    const [currentPage, setCurrentPage] = useState(1);
 
     const filterTags = ['All', ...allTags];
 
     useEffect(() => {
         const timer = setTimeout(() => {
             setDebouncedSearchQuery(searchQuery);
+            setCurrentPage(1); // Reset to first page on search
         }, 300);
         return () => clearTimeout(timer);
     }, [searchQuery]);
@@ -57,6 +61,12 @@ export default function ProjectsContent({
             );
         })
         .sort((a, b) => {
+            // Featured projects always come first
+            if (a.featured !== b.featured) {
+                return a.featured ? -1 : 1;
+            }
+
+            // Then sort by selected option
             switch (sortBy) {
                 case 'date-desc':
                     return new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime();
@@ -68,6 +78,32 @@ export default function ProjectsContent({
                     return 0;
             }
         });
+
+    // Pagination logic
+    const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const paginatedProjects = filteredProjects.slice(startIndex, endIndex);
+
+    const getVisiblePages = () => {
+        const pages = [];
+        const showPages = 3; // Show 3 page numbers at a time
+        const halfShow = Math.floor(showPages / 2);
+
+        let start = Math.max(1, currentPage - halfShow);
+        let end = Math.min(totalPages, start + showPages - 1);
+
+        // Adjust start if we're near the end
+        if (end - start + 1 < showPages) {
+            start = Math.max(1, end - showPages + 1);
+        }
+
+        for (let i = start; i <= end; i++) {
+            pages.push(i);
+        }
+
+        return pages;
+    };
 
     if (projects.length === 0 && showComingSoonIfEmpty) {
         return (
@@ -187,21 +223,21 @@ export default function ProjectsContent({
                                         align="end"
                                         sideOffset={8}
                                     >
-                                    {(['date-desc', 'date-asc', 'alphabetical'] as SortOption[]).map((option) => (
-                                        <DropdownMenu.Item
-                                            key={option}
-                                            className={`group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between ${sortBy === option ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20' : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'}`}
-                                            onClick={() => setSortBy(option)}
-                                        >
-                                            <div className="flex items-center gap-3">
-                                                <div className={`p-1.5 rounded-lg transition-colors ${sortBy === option ? 'bg-primary-500/20' : 'bg-white/5 group-hover:bg-white/10'}`}>
-                                                    <IoCalendarOutline className="w-4 h-4" />
+                                        {(['date-desc', 'date-asc', 'alphabetical'] as SortOption[]).map((option) => (
+                                            <DropdownMenu.Item
+                                                key={option}
+                                                className={`group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between ${sortBy === option ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20' : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'}`}
+                                                onClick={() => setSortBy(option)}
+                                            >
+                                                <div className="flex items-center gap-3">
+                                                    <div className={`p-1.5 rounded-lg transition-colors ${sortBy === option ? 'bg-primary-500/20' : 'bg-white/5 group-hover:bg-white/10'}`}>
+                                                        <IoCalendarOutline className="w-4 h-4" />
+                                                    </div>
+                                                    <span>{getSortOptionText(option)}</span>
                                                 </div>
-                                                <span>{getSortOptionText(option)}</span>
-                                            </div>
-                                            {sortBy === option && <IoCheckmarkCircleOutline className="w-4 h-4 text-primary-400" />}
-                                        </DropdownMenu.Item>
-                                    ))}
+                                                {sortBy === option && <IoCheckmarkCircleOutline className="w-4 h-4 text-primary-400" />}
+                                            </DropdownMenu.Item>
+                                        ))}
                                     </DropdownMenu.Content>
                                 </DropdownMenu.Portal>
                             </DropdownMenu.Root>
@@ -259,25 +295,25 @@ export default function ProjectsContent({
                                         align="end"
                                         sideOffset={8}
                                     >
-                                    <DropdownMenu.Label className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary-400 px-4 py-3">
-                                        Technologies
-                                    </DropdownMenu.Label>
-                                    {filterTags.map(tag => (
-                                        <DropdownMenu.Item
-                                            key={tag}
-                                            className={`group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between ${activeFilter === tag
-                                                ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20'
-                                                : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'
-                                                }`}
-                                            onClick={() => { setActiveFilter(tag); setFilterOpen(false); }}
-                                        >
-                                            <div className="flex items-center gap-3">
-                                                <div className={`w-2 h-2 rounded-full transition-all ${activeFilter === tag ? 'bg-primary-500 shadow-[0_0_8px_rgba(var(--color-primary),0.5)]' : 'bg-white/20 group-hover:bg-white/40'}`} />
-                                                <span>{tag}</span>
-                                            </div>
-                                            {activeFilter === tag && <IoCheckmarkCircleOutline className="w-4 h-4 text-primary-400" />}
-                                        </DropdownMenu.Item>
-                                    ))}
+                                        <DropdownMenu.Label className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary-400 px-4 py-3">
+                                            Technologies
+                                        </DropdownMenu.Label>
+                                        {filterTags.map(tag => (
+                                            <DropdownMenu.Item
+                                                key={tag}
+                                                className={`group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between ${activeFilter === tag
+                                                    ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20'
+                                                    : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'
+                                                    }`}
+                                                onClick={() => { setActiveFilter(tag); setFilterOpen(false); }}
+                                            >
+                                                <div className="flex items-center gap-3">
+                                                    <div className={`w-2 h-2 rounded-full transition-all ${activeFilter === tag ? 'bg-primary-500 shadow-[0_0_8px_rgba(var(--color-primary),0.5)]' : 'bg-white/20 group-hover:bg-white/40'}`} />
+                                                    <span>{tag}</span>
+                                                </div>
+                                                {activeFilter === tag && <IoCheckmarkCircleOutline className="w-4 h-4 text-primary-400" />}
+                                            </DropdownMenu.Item>
+                                        ))}
                                     </DropdownMenu.Content>
                                 </DropdownMenu.Portal>
                             </DropdownMenu.Root>
@@ -398,7 +434,7 @@ export default function ProjectsContent({
                                 key="grid"
                                 className="grid md:grid-cols-2 gap-8"
                             >
-                                {filteredProjects.map((project, index) => (
+                                {paginatedProjects.map((project, index) => (
                                     <ProjectCard
                                         key={project.id}
                                         project={project}
@@ -414,7 +450,7 @@ export default function ProjectsContent({
                                 key="table"
                                 className="flex flex-col gap-5"
                             >
-                                {filteredProjects.map((project, index) => (
+                                {paginatedProjects.map((project, index) => (
                                     <ProjectCardCompact
                                         key={project.id}
                                         project={project}
@@ -424,6 +460,58 @@ export default function ProjectsContent({
                                         isHovered={hoveredProject === project.id}
                                     />
                                 ))}
+                            </div>
+                        )}
+
+                        {/* Pagination Controls */}
+                        {totalPages > 1 && (
+                            <div className="flex items-center justify-between mt-12 pt-8 border-t border-white/10">
+                                <div className="text-sm text-color-text-muted">
+                                    Showing <span className="text-primary-300 font-semibold">{startIndex + 1}</span>-<span className="text-primary-300 font-semibold">{Math.min(endIndex, filteredProjects.length)}</span> of <span className="text-primary-300 font-semibold">{filteredProjects.length}</span>
+                                </div>
+
+                                <div className="flex items-center gap-3">
+                                    <button
+                                        onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                                        disabled={currentPage === 1}
+                                        className={`p-2.5 rounded-lg transition-all duration-300 flex items-center gap-2 ${currentPage === 1
+                                            ? 'text-color-text-muted/50 cursor-not-allowed bg-white/5'
+                                            : 'text-primary-300 hover:bg-white/10 hover:text-primary-200 glass-frost border border-white/10'
+                                            }`}
+                                        aria-label="Previous page"
+                                    >
+                                        <IoChevronBack className="w-4 h-4" />
+                                        <span className="hidden sm:inline text-sm font-medium">Previous</span>
+                                    </button>
+
+                                    <div className="flex items-center gap-2">
+                                        {getVisiblePages().map(page => (
+                                            <button
+                                                key={page}
+                                                onClick={() => setCurrentPage(page)}
+                                                className={`w-10 h-10 rounded-lg transition-all duration-300 text-sm font-medium ${currentPage === page
+                                                    ? 'bg-gradient-to-r from-primary-600 to-primary-400 text-white shadow-lg shadow-primary-500/30'
+                                                    : 'glass-frost text-color-text-muted border border-white/10 hover:bg-white/10 hover:text-primary-300'
+                                                    }`}
+                                            >
+                                                {page}
+                                            </button>
+                                        ))}
+                                    </div>
+
+                                    <button
+                                        onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                                        disabled={currentPage === totalPages}
+                                        className={`p-2.5 rounded-lg transition-all duration-300 flex items-center gap-2 ${currentPage === totalPages
+                                            ? 'text-color-text-muted/50 cursor-not-allowed bg-white/5'
+                                            : 'text-primary-300 hover:bg-white/10 hover:text-primary-200 glass-frost border border-white/10'
+                                            }`}
+                                        aria-label="Next page"
+                                    >
+                                        <span className="hidden sm:inline text-sm font-medium">Next</span>
+                                        <IoChevronForward className="w-4 h-4" />
+                                    </button>
+                                </div>
                             </div>
                         )}
                     </>

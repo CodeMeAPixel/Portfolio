@@ -4,7 +4,9 @@ import { useTheme } from "@/context/ThemeContext";
 import { useState } from "react";
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import * as Tooltip from '@radix-ui/react-tooltip';
-import { IoChevronDown, IoColorPaletteOutline, IoCheckmark, IoCheckmarkCircleOutline, IoGameController, IoSparkles, IoCodeSlash } from "react-icons/io5";
+import { IoChevronDown, IoColorPaletteOutline, IoCheckmark, IoCheckmarkCircleOutline, IoGameController, IoSparkles, IoCodeSlash, IoSettings } from "react-icons/io5";
+import { CustomizationPanel } from "./CustomizationPanel";
+import { useSounds } from "@/hooks/useSounds";
 
 type ThemeCategory = "gaming" | "popculture" | "classic" | "developer";
 
@@ -225,6 +227,253 @@ const themeOptions: ThemeOption[] = [
         color: "rgb(34, 197, 94)",
         gradient: "from-green-600 to-green-400",
         category: "classic"
+    },
+    {
+        name: "indigo",
+        label: "Indigo",
+        color: "rgb(79, 70, 229)",
+        gradient: "from-indigo-600 to-indigo-400",
+        category: "classic"
+    },
+    {
+        name: "violet",
+        label: "Violet",
+        color: "rgb(168, 85, 247)",
+        gradient: "from-violet-600 to-violet-400",
+        category: "classic"
+    },
+    {
+        name: "coral",
+        label: "Coral",
+        color: "rgb(255, 127, 80)",
+        gradient: "from-orange-500 to-red-400",
+        category: "classic"
+    },
+    {
+        name: "sage",
+        label: "Sage",
+        color: "rgb(106, 156, 125)",
+        gradient: "from-green-700 to-emerald-500",
+        category: "classic"
+    },
+    {
+        name: "slate",
+        label: "Slate",
+        color: "rgb(100, 116, 139)",
+        gradient: "from-slate-700 to-slate-500",
+        category: "classic"
+    },
+    {
+        name: "peach",
+        label: "Peach",
+        color: "rgb(255, 179, 102)",
+        gradient: "from-orange-400 to-pink-300",
+        category: "classic"
+    },
+    {
+        name: "lavender",
+        label: "Lavender",
+        color: "rgb(180, 160, 255)",
+        gradient: "from-purple-400 to-pink-300",
+        category: "classic"
+    },
+    {
+        name: "rust",
+        label: "Rust",
+        color: "rgb(200, 100, 50)",
+        gradient: "from-orange-600 to-amber-500",
+        category: "classic"
+    },
+    {
+        name: "lime",
+        label: "Lime",
+        color: "rgb(132, 204, 22)",
+        gradient: "from-lime-500 to-green-400",
+        category: "classic"
+    },
+    {
+        name: "everforest",
+        label: "Everforest",
+        color: "rgb(91, 132, 97)",
+        gradient: "from-green-700 to-emerald-600",
+        category: "classic",
+        icon: "🌲"
+    },
+    {
+        name: "kanagawa",
+        label: "Kanagawa",
+        color: "rgb(220, 140, 80)",
+        gradient: "from-orange-500 via-red-400 to-blue-500",
+        category: "classic",
+        icon: "🌊"
+    },
+
+    // 🎬 Pop Culture Inspired Themes
+    {
+        name: "tron",
+        label: "Tron",
+        color: "rgb(0, 255, 255)",
+        gradient: "from-cyan-500 to-blue-600",
+        category: "popculture",
+        icon: "🕹️"
+    },
+    {
+        name: "vaporwave",
+        label: "Vaporwave",
+        color: "rgb(255, 51, 153)",
+        gradient: "from-pink-500 via-purple-500 to-cyan-400",
+        category: "popculture",
+        icon: "🌈"
+    },
+    {
+        name: "evangelion",
+        label: "Evangelion",
+        color: "rgb(255, 215, 0)",
+        gradient: "from-yellow-500 via-red-500 to-purple-600",
+        category: "popculture",
+        icon: "⚡"
+    },
+
+    // 🎮 Gaming Inspired Themes
+    {
+        name: "elden-ring",
+        label: "Elden Ring",
+        color: "rgb(218, 165, 32)",
+        gradient: "from-yellow-600 via-red-600 to-purple-700",
+        category: "gaming",
+        icon: "👑"
+    },
+    {
+        name: "dark-souls",
+        label: "Dark Souls",
+        color: "rgb(139, 69, 19)",
+        gradient: "from-amber-900 to-orange-700",
+        category: "gaming",
+        icon: "💀"
+    },
+    {
+        name: "apex-legends",
+        label: "Apex Legends",
+        color: "rgb(255, 69, 0)",
+        gradient: "from-red-600 via-orange-500 to-yellow-500",
+        category: "gaming",
+        icon: "🏹"
+    },
+    {
+        name: "csgo",
+        label: "CS:GO",
+        color: "rgb(0, 102, 204)",
+        gradient: "from-blue-700 to-blue-400",
+        category: "gaming",
+        icon: "🔫"
+    },
+
+    // 💻 Developer Themes
+    {
+        name: "tokyo-night",
+        label: "Tokyo Night",
+        color: "rgb(125, 207, 255)",
+        gradient: "from-blue-400 to-cyan-400",
+        category: "developer",
+        icon: "🌃"
+    },
+    {
+        name: "gruvbox",
+        label: "Gruvbox",
+        color: "rgb(184, 122, 82)",
+        gradient: "from-amber-600 to-orange-500",
+        category: "developer",
+        icon: "🌳"
+    },
+    {
+        name: "solarized",
+        label: "Solarized",
+        color: "rgb(38, 139, 210)",
+        gradient: "from-blue-500 to-blue-400",
+        category: "developer",
+        icon: "☀️"
+    },
+    {
+        name: "one-dark",
+        label: "One Dark",
+        color: "rgb(97, 175, 239)",
+        gradient: "from-blue-500 to-sky-400",
+        category: "developer",
+        icon: "⚛️"
+    },
+    {
+        name: "palenight",
+        label: "Palenight",
+        color: "rgb(187, 128, 255)",
+        gradient: "from-purple-500 to-violet-400",
+        category: "developer",
+        icon: "✨"
+    },
+    {
+        name: "atom",
+        label: "Atom",
+        color: "rgb(102, 102, 204)",
+        gradient: "from-indigo-600 to-blue-500",
+        category: "developer",
+        icon: "⚛️"
+    },
+    {
+        name: "vscode",
+        label: "VS Code",
+        color: "rgb(75, 110, 175)",
+        gradient: "from-blue-700 to-blue-500",
+        category: "developer",
+        icon: "</>"
+    },
+    {
+        name: "rose-pine",
+        label: "Rose Pine",
+        color: "rgb(233, 163, 201)",
+        gradient: "from-pink-500 to-rose-400",
+        category: "developer",
+        icon: "🌹"
+    },
+    {
+        name: "catppuccin",
+        label: "Catppuccin",
+        color: "rgb(245, 194, 144)",
+        gradient: "from-yellow-400 to-orange-400",
+        category: "developer",
+        icon: "🐱"
+    },
+    {
+        name: "nightfox",
+        label: "Nightfox",
+        color: "rgb(173, 142, 230)",
+        gradient: "from-purple-500 to-blue-400",
+        category: "developer",
+        icon: "🦊"
+    },
+    {
+        name: "github-dark",
+        label: "GitHub Dark",
+        color: "rgb(88, 166, 255)",
+        gradient: "from-blue-500 to-cyan-400",
+        category: "developer",
+        icon: "🐙"
+    },
+    {
+        name: "flexoki",
+        label: "Flexoki",
+        color: "rgb(207, 118, 85)",
+        gradient: "from-orange-500 to-amber-400",
+        category: "developer",
+        icon: "✨"
+    },
+
+    // 🎬 Pop Culture Themes
+    {
+        name: "winter-coming",
+        label: "Winter is Coming",
+        color: "rgb(59, 130, 172)",
+        gradient: "from-blue-600 to-slate-500",
+        category: "popculture",
+        icon: "❄️"
     }
 ];
 
@@ -237,8 +486,10 @@ const categoryConfig: Record<ThemeCategory, { label: string; icon: React.ReactNo
 
 export default function ThemeSelector({ minimal = false }: { minimal?: boolean }) {
     const { themeColor, setThemeColor, isLoaded } = useTheme();
+    const { playSound } = useSounds();
     const [isOpen, setIsOpen] = useState(false);
     const [activeCategory, setActiveCategory] = useState<ThemeCategory | "all">("all");
+    const [activeTab, setActiveTab] = useState<"themes" | "settings">("themes");
 
     // Don't render anything until client-side theme is loaded
     if (!isLoaded) {
@@ -308,84 +559,119 @@ export default function ThemeSelector({ minimal = false }: { minimal?: boolean }
 
             <DropdownMenu.Portal>
                 <DropdownMenu.Content
-                    className="dropdown-animate z-[1000] min-w-[300px] max-h-[500px] overflow-hidden bg-card/95 backdrop-blur-2xl border border-white/20 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.6)]"
+                    className="dropdown-animate z-[1000] min-w-[350px] max-h-[500px] overflow-hidden bg-card/95 backdrop-blur-2xl border border-white/20 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.6)]"
                     sideOffset={8}
                     align="end"
                 >
-                    {/* Category Tabs */}
-                    <div className="flex items-center gap-1 p-2 border-b border-white/10 overflow-x-auto">
+                    {/* Main Tabs */}
+                    <div className="flex items-center gap-0.5 p-2 border-b border-white/10 bg-white/5">
                         <button
-                            onClick={() => setActiveCategory("all")}
-                            className={`px-3 py-1.5 rounded-lg text-[10px] font-semibold uppercase tracking-wider whitespace-nowrap transition-all duration-200 ${activeCategory === "all"
-                                ? "bg-gradient-to-r from-primary-500/30 to-accent-500/20 text-primary-300 border border-primary-500/30"
+                            onClick={() => setActiveTab("themes")}
+                            className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all duration-200 ${activeTab === "themes"
+                                ? "bg-primary-500/30 text-primary-300 border border-primary-500/30"
                                 : "text-color-text-muted hover:bg-white/5"
                                 }`}
                         >
-                            All
+                            <IoColorPaletteOutline className="w-4 h-4" />
+                            Themes
                         </button>
-                        {(Object.keys(categoryConfig) as ThemeCategory[]).map((cat) => (
-                            <button
-                                key={cat}
-                                onClick={() => setActiveCategory(cat)}
-                                className={`px-3 py-1.5 rounded-lg text-[10px] font-semibold uppercase tracking-wider whitespace-nowrap transition-all duration-200 flex items-center gap-1 ${activeCategory === cat
-                                    ? "bg-gradient-to-r from-primary-500/30 to-accent-500/20 text-primary-300 border border-primary-500/30"
-                                    : "text-color-text-muted hover:bg-white/5"
-                                    }`}
-                            >
-                                {categoryConfig[cat].icon}
-                                {categoryConfig[cat].label}
-                            </button>
-                        ))}
+                        <button
+                            onClick={() => setActiveTab("settings")}
+                            className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all duration-200 ${activeTab === "settings"
+                                ? "bg-primary-500/30 text-primary-300 border border-primary-500/30"
+                                : "text-color-text-muted hover:bg-white/5"
+                                }`}
+                        >
+                            <IoSettings className="w-4 h-4" />
+                            Settings
+                        </button>
                     </div>
 
-                    {/* Theme Grid */}
-                    <div className="p-2 max-h-[400px] overflow-y-auto">
-                        <div className="grid grid-cols-2 gap-1.5">
-                            {filteredThemes.map((option) => (
-                                <DropdownMenu.Item
-                                    key={option.name}
-                                    className={`
+                    {/* Settings Tab Content */}
+                    {activeTab === "settings" && (
+                        <CustomizationPanel />
+                    )}
+
+                    {/* Themes Tab Content */}
+                    {activeTab === "themes" && (
+                        <>
+                            {/* Category Tabs */}
+                            <div className="flex items-center gap-1 p-2 border-b border-white/10 overflow-x-auto">
+                                <button
+                                    onClick={() => setActiveCategory("all")}
+                                    className={`px-3 py-1.5 rounded-lg text-[10px] font-semibold uppercase tracking-wider whitespace-nowrap transition-all duration-200 ${activeCategory === "all"
+                                        ? "bg-gradient-to-r from-primary-500/30 to-accent-500/20 text-primary-300 border border-primary-500/30"
+                                        : "text-color-text-muted hover:bg-white/5"
+                                        }`}
+                                >
+                                    All
+                                </button>
+                                {(Object.keys(categoryConfig) as ThemeCategory[]).map((cat) => (
+                                    <button
+                                        key={cat}
+                                        onClick={() => setActiveCategory(cat)}
+                                        className={`px-3 py-1.5 rounded-lg text-[10px] font-semibold uppercase tracking-wider whitespace-nowrap transition-all duration-200 flex items-center gap-1 ${activeCategory === cat
+                                            ? "bg-gradient-to-r from-primary-500/30 to-accent-500/20 text-primary-300 border border-primary-500/30"
+                                            : "text-color-text-muted hover:bg-white/5"
+                                            }`}
+                                    >
+                                        {categoryConfig[cat].icon}
+                                        {categoryConfig[cat].label}
+                                    </button>
+                                ))}
+                            </div>
+
+                            {/* Theme Grid */}
+                            <div className="p-2 max-h-[400px] overflow-y-auto">
+                                <div className="grid grid-cols-2 gap-1.5">
+                                    {filteredThemes.map((option) => (
+                                        <DropdownMenu.Item
+                                            key={option.name}
+                                            className={`
                                         group flex items-center justify-between gap-2.5 px-4 py-3 rounded-xl text-xs
                                         focus:outline-none cursor-pointer transition-all duration-300
                                         ${themeColor === option.name
-                                            ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20'
-                                            : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'
-                                        }
+                                                    ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20'
+                                                    : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'
+                                                }
                                     `}
-                                    onClick={() => {
-                                        setThemeColor(option.name as any);
-                                        setIsOpen(false);
-                                    }}
-                                >
-                                    <div className="flex items-center gap-3 min-w-0">
-                                        <div className="relative w-7 h-7 rounded-lg overflow-hidden ring-1 ring-white/10 flex-shrink-0">
-                                            <div
-                                                className={`absolute inset-0 bg-gradient-to-br ${option.gradient}`}
-                                            />
-                                        </div>
-                                        <div className="flex flex-col min-w-0">
-                                            <span className="font-medium truncate flex items-center gap-1.5">
-                                                {option.label}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    {themeColor === option.name && (
-                                        <IoCheckmarkCircleOutline className="w-4 h-4 text-primary-400 flex-shrink-0" />
-                                    )}
-                                </DropdownMenu.Item>
-                            ))}
-                        </div>
-                    </div>
+                                            onClick={() => {
+                                                playSound("click");
+                                                setThemeColor(option.name as any);
+                                                setIsOpen(false);
+                                            }}
+                                        >
+                                            <div className="flex items-center gap-3 min-w-0">
+                                                <div className="relative w-7 h-7 rounded-lg overflow-hidden ring-1 ring-white/10 flex-shrink-0">
+                                                    <div
+                                                        className={`absolute inset-0 bg-gradient-to-br ${option.gradient}`}
+                                                    />
+                                                </div>
+                                                <div className="flex flex-col min-w-0">
+                                                    <span className="font-medium truncate flex items-center gap-1.5">
+                                                        {option.label}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            {themeColor === option.name && (
+                                                <IoCheckmarkCircleOutline className="w-4 h-4 text-primary-400 flex-shrink-0" />
+                                            )}
+                                        </DropdownMenu.Item>
+                                    ))}
+                                </div>
+                            </div>
 
-                    {/* Current Theme Info */}
-                    <div className="p-2 border-t border-white/10 bg-white/5">
-                        <div className="flex items-center gap-2 text-[10px] text-color-text-muted">
-                            <div
-                                className={`w-3 h-3 rounded-full bg-gradient-to-br ${currentTheme.gradient}`}
-                            />
-                            <span>Current: <strong className="text-primary-300">{currentTheme.label}</strong></span>
-                        </div>
-                    </div>
+                            {/* Current Theme Info */}
+                            <div className="p-2 border-t border-white/10 bg-white/5">
+                                <div className="flex items-center gap-2 text-[10px] text-color-text-muted">
+                                    <div
+                                        className={`w-3 h-3 rounded-full bg-gradient-to-br ${currentTheme.gradient}`}
+                                    />
+                                    <span>Current: <strong className="text-primary-300">{currentTheme.label}</strong></span>
+                                </div>
+                            </div>
+                        </>
+                    )}
                 </DropdownMenu.Content>
             </DropdownMenu.Portal>
         </DropdownMenu.Root>

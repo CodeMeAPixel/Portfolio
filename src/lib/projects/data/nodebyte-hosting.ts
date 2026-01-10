@@ -93,7 +93,7 @@ This role has been an incredible learning experience in startup operations, cust
         "Mod support including Forge, Fabric, and Oxide/uMod",
         "Free trials available for new users"
     ],
-    date: "2024-01-01",
+    date: "2025-12-12",
     role: "Chief Operations Officer",
     teamSize: 6,
     partners: [

@@ -7,6 +7,7 @@ import byteproxy from './byteproxy';
 import socket0 from './socket0';
 import voidProject from './void';
 import flicker from './flicker';
+import noadmin from './noadmin';
 
 // Export all projects as an array
 export const allProjects = [
@@ -16,6 +17,7 @@ export const allProjects = [
     byteproxy,
     socket0,
     voidProject,
+    noadmin,
     infinityList,
     nodebyteHosting,
     nodebyteLtd
@@ -29,6 +31,7 @@ export {
     byteproxy,
     socket0,
     voidProject,
+    noadmin,
     infinityList,
     nodebyteHosting,
     nodebyteLtd

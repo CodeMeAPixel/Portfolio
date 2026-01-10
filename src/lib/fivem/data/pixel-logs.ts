@@ -4,12 +4,40 @@ const script: FivemScript = {
     id: "pxl",
     title: "Pixel Logs",
     description: "An advanced Discord logging system for FiveM and RedM servers, providing comprehensive logging capabilities with a clean and modern interface.",
-    longDescription: "Pixel Logs is a powerful and customizable Discord logging system designed specifically for FiveM and RedM servers. It provides comprehensive event tracking, detailed debug capabilities, extensive configuration options, and seamless Discord integration to help server administrators monitor and troubleshoot their servers with ease. Whether you're tracking player activities, monitoring administrative actions, or debugging server issues, Pixel Logs delivers the information you need with a clean, organized interface.",
-    price: "$5.00",
-    framework: "Standalone",
+    longDescription: `
+An advanced Discord logging system for **FiveM** and **RedM** servers, providing comprehensive logging capabilities with a clean and modern interface.
+
+> [!CAUTION]
+> This resource is not yet ready for production use and is only public at this stage for transparency. Please check back in a few days for an official release :D
+
+
+## 📚 Documentation
+
+For detailed information about Pixel Logs, please refer to the following documentation:
+
+- [Installation Guide](/docs/installation.md) - Detailed installation instructions
+- [Configuration Guide](/docs/configuration.md) - How to configure Pixel Logs
+- [Events Guide](/docs/events.md) - Information about events and exports
+- [Customization Guide](/docs/customization.md) - How to customize message templates and appearance
+- [Debug Guide](/docs/debug.md) - How to use the debug system
+- [Proxy Support Guide](/docs/proxy.md) - How to use proxy support
+- [Troubleshooting Guide](/docs/troubleshooting.md) - Solutions for common issues
+- [Integration Guide](/docs/integration.md) - How to integrate with other resources
+- [Convars Guide](/docs/convars.md) - Detailed information about convars
+
+
+## ❓ Support
+
+> [!IMPORTANT]
+> For support, feature requests, or bug reports, please:
+> 1. Check the [GitHub Issues](https://github.com/ByteBrushStudios/pixel_logs/issues)
+> 2. Join our [Discord Server](https://discord.gg/Vv2bdC44Ge)
+    `,
+    price: "TBA",
+    framework: "ESX, QBCore, Standalone",
     status: "In Development",
     version: "1.px0001a",
-    lastUpdated: "2025-04-10",
+    lastUpdated: "2025-07-31",
     features: [
         "📝 Event Logging for player joins/leaves, chat messages, deaths, commands, admin actions, resources, and custom events",
         "🔍 Detailed death tracking with cause, weapon details, location, and killer information",
@@ -33,9 +61,9 @@ const script: FivemScript = {
     video: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     tags: ["Logging", "Discord", "Admin", "Debug", "Standalone"],
     links: {
-        demo: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-        purchase: "https://tebex.io/",
-        documentation: "https://docs.codemeapixel.dev/pixel-logs",
+        // demo: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        //purchase: "https://tebex.io/",
+        //documentation: "https://docs.codemeapixel.dev/pixel-logs",
         slug: "pixel-logs"
     },
     requirements: [
@@ -43,7 +71,7 @@ const script: FivemScript = {
         "Discord webhook permissions",
         "Server owner or access to server.cfg"
     ],
-    installation: "1. Download the script files\n2. Upload to your resources folder\n3. Add to server.cfg\n4. Configure your Discord webhooks\n5. Set the appropriate convars in server.cfg\n6. Restart your server"
+    installation: `1. Download the latest release from the GitHub Repository\n2. Extract the files to your server's resources directory`
 };
 
 export default script;

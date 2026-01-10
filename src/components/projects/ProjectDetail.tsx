@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Project } from '@/types/project';
 import { useState, useEffect } from 'react';
 import { ImageCarousel } from '@/components/ui/ImageCarousel';
+import { ProjectLogo } from '@/components/projects/ProjectLogo';
 import { IoArrowBack, IoCalendarOutline, IoCodeSlash, IoLogoGithub, IoGlobeOutline, IoDocumentText, IoPersonOutline, IoPeopleOutline, IoChatbubbles, IoBusinessOutline } from 'react-icons/io5';
 import { TechIcon } from '@/components/ui/TechIcon';
 import { MDXRemote, MDXRemoteSerializeResult } from 'next-mdx-remote';
@@ -161,7 +162,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                                 style={{ animationDelay: '0.1s' }}
                             >
                                 <div className="aspect-video relative w-full overflow-hidden rounded-xl">
-                                    <ImageCarousel images={project.images} className="w-full h-full" />
+                                    <ImageCarousel images={project.images} title={project.title} className="w-full h-full" />
                                 </div>
                             </div>
                         ) : (
@@ -170,10 +171,8 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                                 className="glass-ultra rounded-2xl p-8 animate-fade-up flex flex-col items-center justify-center text-center border border-white/10"
                                 style={{ animationDelay: '0.1s' }}
                             >
-                                <div className="w-20 h-20 mb-4 rounded-2xl glass-frost flex items-center justify-center">
-                                    <IoCodeSlash className="w-10 h-10 text-primary-400" />
-                                </div>
-                                <h3 className="text-lg font-semibold text-color-text mb-2">No Visual Preview</h3>
+                                <ProjectLogo title={project.title} className="w-32 h-32 mb-4" showText={false} />
+                                <h3 className="text-lg font-semibold text-color-text mb-2 mt-4">No Visual Preview</h3>
                                 <p className="text-color-text-muted text-sm max-w-sm">
                                     This project doesn&apos;t have visual screenshots. Check out the links and documentation to learn more about it.
                                 </p>
