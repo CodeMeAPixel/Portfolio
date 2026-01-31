@@ -51,6 +51,18 @@ The community's "pissed off" meter pegged when Discord started using **Dark Patt
 
 ---
 
+## 6. The Logan Paul Phishing Epidemic
+One of the most insidious threats currently circulating on the platform is the "Logan Paul Image Token Grabber." This scam leverages social engineering and the technical flaws we've discussed to drain accounts at an alarming rate.
+
+- **The Mechanism:** Users receive a DM or see a post from a compromised account sharing a "leaked screenshot" or a "hot crypto tip" featuring Logan Paul. The image often looks like a broken thumbnail or a high-res marketing graphic. 
+- **The "Invisible" Payload:** In reality, the "image" is often an HTML smuggling or a script laden attachment. When a user interacts with the file (or sometimes just allows it to cache in a vulnerable client), it triggers a JavaScript based infostealer (like the **VVS Stealer**).
+- **Zero Touch Takeover:** Within milliseconds of the script running, it scrapes the `discord_token` from your local storage and sends it to a remote C2 (Command & Control) server. 
+
+> ### **Analysis: The Persistence of Token Vulnerability**
+> This scam works because Discord __**still**__ treats the **session token as the ultimate key**. Unlike modern banking apps or even GitHub, Discord doesn't "heartbeat" your session to your specific IP address or hardware ID by default. If a scammer in another country grabs your token via a fake Logan Paul image, they don't need your password, they don't need your 2FA, and they don't need your permission. They *are* you. Discord’s refusal to patch this fundamental session handling flaw is why these "token grabbers" continue to thrive years after they were first identified.
+
+---
+
 # The Conclusion: A Requiem for the Wumpus
 Discord started with the slogan "It’s time to ditch Skype." Well, the sentiment is coming full circle. The community is looking at decentralized alternatives like Matrix or self hosted options because Discord became the very thing it promised to destroy: a bloated, corporate mess that views its users as the product, not the customer.
 
