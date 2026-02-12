@@ -1,0 +1,335 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model user {
+  id            String   @id @default(cuid())
+  name          String
+  email         String   @unique
+  emailVerified Boolean  @default(false)
+  image         String?
+  role          UserRole @default(MEMBER)
+  banned        Boolean  @default(false)
+  banReason     String?
+  banExpires    DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  sessions Session[]
+  accounts Account[]
+  reviews  ClientReview[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      user     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id @default(cuid())
+  accountId             String
+  providerId            String
+  userId                String
+  user                  user      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@map("account")
+}
+
+model Verification {
+  id         String    @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime? @default(now())
+  updatedAt  DateTime? @updatedAt
+
+  @@map("verification")
+}
+
+model Project {
+  id              String   @id @default(cuid())
+  slug            String   @unique
+  title           String
+  description     String
+  longDescription String?  @db.Text
+  images          String[] @default([])
+  tags            String[] @default([])
+  featured        Boolean  @default(false)
+  date            String?
+  role            String?
+  teamSize        Int?
+  demoUrl         String?
+  githubUrl       String?
+  docsUrl         String?
+  supportUrl      String?
+  technologies    Json?
+  challenges      String[] @default([])
+  solutions       String[] @default([])
+  keyFeatures     String[] @default([])
+  partners        Json?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  testimonials ProjectTestimonial[]
+
+  @@map("project")
+}
+
+model ProjectTestimonial {
+  id        String  @id @default(cuid())
+  quote     String  @db.Text
+  author    String
+  position  String?
+  company   String?
+  avatar    String?
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@map("project_testimonial")
+}
+
+model BlogPost {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  title       String
+  description String?
+  content     String    @db.Text
+  image       String?
+  author      String    @default("Tyler. H")
+  tags        String[]  @default([])
+  categories  String[]  @default([])
+  featured    Boolean   @default(false)
+  published   Boolean   @default(false)
+  readingTime String?
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("blog_post")
+}
+
+model Product {
+  id              String           @id @default(cuid())
+  slug            String           @unique
+  title           String
+  description     String
+  longDescription String?          @db.Text
+  author          String           @default("CodeMeAPixel")
+  price           Float?
+  currency        Currency         @default(USD)
+  isFree          Boolean          @default(true)
+  platforms       ProductPlatform[]  @default([])
+  frameworks      ProductFramework[] @default([])
+  status          ProductStatus    @default(Released)
+  version         String           @default("1.0.0")
+  images          String[]         @default([])
+  video           String?
+  tags            String[]         @default([])
+  features        String[]         @default([])
+  lastUpdated     String?
+  purchaseUrl     String?
+  githubUrl       String?
+  docsUrl         String?
+  discordUrl      String?
+  demoUrl         String?
+  requirements    String[]         @default([])
+  installation    Json?
+  deprecated      Boolean          @default(false)
+  deprecationMessage String?
+  successorUrl    String?
+  migrationGuide  Json?
+  language        String?
+  license         String?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  @@map("product")
+}
+
+model ClientReview {
+  id             String       @id @default(cuid())
+  name           String
+  company        String?
+  position       String?
+  avatar         String?
+  rating         Int          @default(5)
+  review         String       @db.Text
+  workDone       String?      @db.Text
+  projectName    String?
+  featured       Boolean      @default(false)
+  status         ReviewStatus @default(PENDING)
+  denialReason   String?      @db.Text
+  userId         String?
+  user           user?        @relation(fields: [userId], references: [id], onDelete: SetNull)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  comments ReviewComment[]
+
+  @@map("client_review")
+}
+
+model ReviewComment {
+  id         String   @id @default(cuid())
+  content    String   @db.Text
+  authorId   String
+  authorName String
+  authorRole CommentRole
+  reviewId   String
+  review     ClientReview @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+
+  @@map("review_comment")
+}
+
+model ReferralCategory {
+  id          String  @id @default(cuid())
+  slug        String  @unique
+  name        String
+  description String?
+  icon        String?
+  color       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  referrals Referral[]
+
+  @@map("referral_category")
+}
+
+model Referral {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  company     String
+  bannerImage String?
+  color       String?
+  url         String
+  code        String?
+  discount    String?
+  benefits    String[] @default([])
+  featured    Boolean  @default(false)
+  isNew       Boolean  @default(false)
+  expiryDate  String?
+  categoryId  String
+  category    ReferralCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("referral")
+}
+
+model DocSection {
+  id         String @id @default(cuid())
+  slug       String @unique
+  name       String
+  description String
+  icon       String
+  projectUrl String?
+  sortOrder  Int    @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  categories DocCategory[]
+
+  @@map("doc_section")
+}
+
+model DocCategory {
+  id        String @id @default(cuid())
+  title     String
+  sortOrder Int    @default(0)
+  sectionId String
+  section   DocSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  items DocItem[]
+
+  @@map("doc_category")
+}
+
+model DocItem {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String
+  description String
+  icon        String?
+  content     String?  @db.Text
+  keywords    String[] @default([])
+  sortOrder   Int      @default(0)
+  categoryId  String
+  category    DocCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("doc_item")
+}
+
+enum UserRole {
+  ADMIN
+  MEMBER
+}
+
+enum ProductPlatform {
+  FiveM
+  RedM
+}
+
+enum ProductFramework {
+  Standalone
+  QBCore
+  QBox
+  ESX
+}
+
+enum ProductStatus {
+  Released
+  InDevelopment
+  ComingSoon
+  Deprecated
+  Archived
+}
+
+enum Currency {
+  USD
+  CAD
+  EUR
+  GBP
+}
+
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  DENIED
+  CHANGES_REQUESTED
+}
+
+enum CommentRole {
+  ADMIN
+  USER
+}

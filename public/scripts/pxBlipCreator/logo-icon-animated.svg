@@ -1,0 +1,151 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg-grad" x1="0" y1="0" x2="128" y2="128" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#1c1c20"/>
+      <stop offset="100%" stop-color="#09090b"/>
+    </linearGradient>
+    <linearGradient id="px-grad" x1="28" y1="24" x2="100" y2="104" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#748ffc"/>
+      <stop offset="100%" stop-color="#4263eb"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="pulse-glow">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="128" height="128" rx="28" fill="url(#bg-grad)"/>
+  <rect width="128" height="128" rx="28" stroke="white" stroke-opacity="0.08" stroke-width="1"/>
+
+  <!-- Pulsing background glow -->
+  <ellipse cx="64" cy="60" rx="40" ry="35" fill="#4263eb" opacity="0.06">
+    <animate attributeName="opacity" values="0.06;0;0.06" dur="4s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1"/>
+  </ellipse>
+
+  <!-- Grid dots with staggered fade -->
+  <rect x="14" y="14" width="6" height="6" rx="1.5" fill="white" opacity="0.04">
+    <animate attributeName="opacity" values="0.04;0.1;0.04" dur="3s" begin="0s" repeatCount="indefinite"/>
+  </rect>
+  <rect x="28" y="14" width="6" height="6" rx="1.5" fill="white" opacity="0.04">
+    <animate attributeName="opacity" values="0.04;0.1;0.04" dur="3s" begin="0.5s" repeatCount="indefinite"/>
+  </rect>
+  <rect x="14" y="28" width="6" height="6" rx="1.5" fill="white" opacity="0.04">
+    <animate attributeName="opacity" values="0.04;0.1;0.04" dur="3s" begin="1s" repeatCount="indefinite"/>
+  </rect>
+  <rect x="108" y="108" width="6" height="6" rx="1.5" fill="white" opacity="0.04">
+    <animate attributeName="opacity" values="0.04;0.1;0.04" dur="3s" begin="1.5s" repeatCount="indefinite"/>
+  </rect>
+  <rect x="94" y="108" width="6" height="6" rx="1.5" fill="white" opacity="0.04">
+    <animate attributeName="opacity" values="0.04;0.1;0.04" dur="3s" begin="2s" repeatCount="indefinite"/>
+  </rect>
+  <rect x="108" y="94" width="6" height="6" rx="1.5" fill="white" opacity="0.04">
+    <animate attributeName="opacity" values="0.04;0.1;0.04" dur="3s" begin="2.5s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- Pixel "P" mark — starts visible, dissolves away, then reassembles (6s loop)
+       Timeline: 0-2s visible | 2-3s dissolve out (staggered) | 3-4s gone | 4-5s reassemble (staggered) | 5-6s visible -->
+  <g filter="url(#glow)">
+    <!-- Stem block 1 (top) — dissolves at 2.0s, returns at 4.0s -->
+    <rect x="28" y="24" width="14" height="14" rx="2" fill="url(#px-grad)" opacity="1">
+      <animate attributeName="opacity" values="1;1;0;0;1;1" keyTimes="0;0.333;0.358;0.667;0.692;1" dur="6s" repeatCount="indefinite"/>
+    </rect>
+    <!-- Stem block 2 — dissolves at 2.1s, returns at 4.1s -->
+    <rect x="28" y="44" width="14" height="14" rx="2" fill="url(#px-grad)" opacity="1">
+      <animate attributeName="opacity" values="1;1;0;0;1;1" keyTimes="0;0.35;0.375;0.683;0.708;1" dur="6s" repeatCount="indefinite"/>
+    </rect>
+    <!-- Stem block 3 — dissolves at 2.2s, returns at 4.2s -->
+    <rect x="28" y="64" width="14" height="14" rx="2" fill="url(#px-grad)" opacity="1">
+      <animate attributeName="opacity" values="1;1;0;0;1;1" keyTimes="0;0.367;0.392;0.7;0.725;1" dur="6s" repeatCount="indefinite"/>
+    </rect>
+    <!-- Stem block 4 (bottom) — dissolves at 2.3s, returns at 4.3s -->
+    <rect x="28" y="84" width="14" height="14" rx="2" fill="url(#px-grad)" opacity="1">
+      <animate attributeName="opacity" values="1;1;0;0;1;1" keyTimes="0;0.383;0.408;0.717;0.742;1" dur="6s" repeatCount="indefinite"/>
+    </rect>
+
+    <!-- Top bar 1 — dissolves at 2.4s, returns at 4.4s -->
+    <rect x="48" y="24" width="14" height="14" rx="2" fill="url(#px-grad)" opacity="1">
+      <animate attributeName="opacity" values="1;1;0;0;1;1" keyTimes="0;0.4;0.425;0.733;0.758;1" dur="6s" repeatCount="indefinite"/>
+    </rect>
+    <!-- Top bar 2 — dissolves at 2.5s, returns at 4.5s -->
+    <rect x="68" y="24" width="14" height="14" rx="2" fill="url(#px-grad)" opacity="1">
+      <animate attributeName="opacity" values="1;1;0;0;1;1" keyTimes="0;0.417;0.442;0.75;0.775;1" dur="6s" repeatCount="indefinite"/>
+    </rect>
+
+    <!-- Bowl right top — dissolves at 2.6s, returns at 4.6s -->
+    <rect x="82" y="34" width="14" height="14" rx="2" fill="url(#px-grad)" opacity="0.85">
+      <animate attributeName="opacity" values="0.85;0.85;0;0;0.85;0.85" keyTimes="0;0.433;0.458;0.767;0.792;1" dur="6s" repeatCount="indefinite"/>
+    </rect>
+    <!-- Bowl right bottom — dissolves at 2.7s, returns at 4.7s -->
+    <rect x="82" y="54" width="14" height="14" rx="2" fill="url(#px-grad)" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;0.5;0;0;0.5;0.5" keyTimes="0;0.45;0.475;0.783;0.808;1" dur="6s" repeatCount="indefinite"/>
+    </rect>
+
+    <!-- Mid bar 1 — dissolves at 2.8s, returns at 4.8s -->
+    <rect x="48" y="64" width="14" height="14" rx="2" fill="url(#px-grad)" opacity="1">
+      <animate attributeName="opacity" values="1;1;0;0;1;1" keyTimes="0;0.467;0.492;0.8;0.825;1" dur="6s" repeatCount="indefinite"/>
+    </rect>
+    <!-- Mid bar 2 — dissolves at 2.9s, returns at 4.9s -->
+    <rect x="68" y="64" width="14" height="14" rx="2" fill="url(#px-grad)" opacity="0.55">
+      <animate attributeName="opacity" values="0.55;0.55;0;0;0.55;0.55" keyTimes="0;0.483;0.508;0.817;0.842;1" dur="6s" repeatCount="indefinite"/>
+    </rect>
+  </g>
+
+  <!-- Breathing glow overlay — synced to P visibility -->
+  <g filter="url(#pulse-glow)">
+    <!-- Master visibility: visible when P is visible, hidden when dissolved -->
+    <animate attributeName="opacity" values="0.12;0.12;0;0;0.12;0.12" keyTimes="0;0.3;0.4;0.65;0.8;1" dur="6s" repeatCount="indefinite"/>
+    <!-- Breathing pulse on top -->
+    <animate attributeName="opacity" values="0.12;0.05;0.12" dur="2s" repeatCount="indefinite" additive="sum"/>
+    <rect x="28" y="24" width="14" height="14" rx="2" fill="#748ffc"/>
+    <rect x="28" y="44" width="14" height="14" rx="2" fill="#748ffc"/>
+    <rect x="28" y="64" width="14" height="14" rx="2" fill="#748ffc"/>
+    <rect x="28" y="84" width="14" height="14" rx="2" fill="#748ffc"/>
+    <rect x="48" y="24" width="14" height="14" rx="2" fill="#748ffc"/>
+    <rect x="68" y="24" width="14" height="14" rx="2" fill="#748ffc"/>
+    <rect x="82" y="34" width="14" height="14" rx="2" fill="#748ffc"/>
+    <rect x="82" y="54" width="14" height="14" rx="2" fill="#748ffc"/>
+    <rect x="48" y="64" width="14" height="14" rx="2" fill="#748ffc"/>
+    <rect x="68" y="64" width="14" height="14" rx="2" fill="#748ffc"/>
+  </g>
+
+  <!-- Accent pixel — top right, pulses -->
+  <rect x="98" y="20" width="10" height="10" rx="2" fill="#748ffc" opacity="0.12">
+    <animate attributeName="opacity" values="0.12;0.15;0.08;0.15;0.12" dur="5s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- Accent pixel — bottom right, counter-phase -->
+  <rect x="98" y="98" width="10" height="10" rx="2" fill="#748ffc" opacity="0.08">
+    <animate attributeName="opacity" values="0.08;0.15;0.08;0.15;0.08" dur="5s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- Floating particle — drifts up-left -->
+  <rect x="95" y="80" width="4" height="4" rx="1" fill="#5c7cfa" opacity="0.08">
+    <animate attributeName="opacity" values="0.08;0.12;0" dur="6s" repeatCount="indefinite"/>
+    <animate attributeName="y" values="80;60" dur="6s" repeatCount="indefinite"/>
+    <animate attributeName="x" values="95;85" dur="6s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- Floating particle — drifts down-right -->
+  <rect x="20" y="50" width="3" height="3" rx="0.8" fill="#748ffc" opacity="0.06">
+    <animate attributeName="opacity" values="0.06;0.1;0" dur="7s" repeatCount="indefinite"/>
+    <animate attributeName="y" values="50;70" dur="7s" repeatCount="indefinite"/>
+    <animate attributeName="x" values="20;30" dur="7s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- Floating particle — slow drift up -->
+  <rect x="60" y="110" width="3" height="3" rx="0.8" fill="#4263eb" opacity="0.05">
+    <animate attributeName="opacity" values="0.05;0.08;0" dur="8s" repeatCount="indefinite"/>
+    <animate attributeName="y" values="110;90" dur="8s" repeatCount="indefinite"/>
+  </rect>
+</svg>
