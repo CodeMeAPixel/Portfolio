@@ -1,14 +1,27 @@
 import { defineConfig } from 'vite'
 import { devtools } from '@tanstack/devtools-vite'
 import { tanstackStart } from '@tanstack/react-start/plugin/vite'
+import { nitro } from 'nitro/vite'
 import viteReact from '@vitejs/plugin-react'
 import viteTsConfigPaths from 'vite-tsconfig-paths'
 import { fileURLToPath, URL } from 'url'
 
 import tailwindcss from '@tailwindcss/vite'
-import { cloudflare } from '@cloudflare/vite-plugin'
 
 export default defineConfig(({ command }) => ({
+  server: {
+    port: 9496,
+    host: '0.0.0.0',
+    allowedHosts: [
+      'www.beta.codemeapixel.dev',
+      'www.codemeapixel.dev',
+      'www.beta.cmap.lol',
+      'beta.codemeapixel.dev',
+      'codemeapixel.dev',
+      'beta.cmap.lol',
+      'cmap.lol'
+    ]
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
@@ -18,9 +31,7 @@ export default defineConfig(({ command }) => ({
   plugins: [
     devtools(),
     tanstackStart(),
-    ...(command === 'build'
-      ? [cloudflare({ viteEnvironment: { name: 'ssr' } })]
-      : []),
+    nitro(),
     viteTsConfigPaths({
       projects: ['./tsconfig.json'],
     }),

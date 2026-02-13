@@ -17,24 +17,7 @@ interface RouterContext {
   queryClient: QueryClient
 }
 
-// Security: Block access to sensitive directories
-const BLOCKED_PATHS = ['.git', '.env', 'node_modules', '.aws', '.ssh', '.vscode']
-
 export const Route = createRootRouteWithContext<RouterContext>()({
-  beforeLoad: ({ location }) => {
-    const pathname = location.pathname
-    const isSensitivePath = BLOCKED_PATHS.some(
-      (blocked) =>
-        pathname.startsWith(`/${blocked}/`) ||
-        pathname === `/${blocked}` ||
-        pathname.includes(`/${blocked}/`)
-    )
-
-    if (isSensitivePath) {
-      throw new Error('Access denied', { cause: 403 })
-    }
-  },
-
   head: () => ({
     meta: [
       { charSet: 'utf-8' },

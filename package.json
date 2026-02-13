@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "dotenv -e .env -e .env.local -- cross-env NODE_OPTIONS=\"--import ./instrument.server.mjs\" vite dev --port 3000",
+    "dev": "dotenv -e .env -e .env.local -- cross-env NODE_OPTIONS=\"--import ./instrument.server.mjs\" vite dev",
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest run",
@@ -16,8 +16,7 @@
     "db:push": "dotenv -e .env -- prisma db push",
     "db:migrate": "dotenv -e .env -- prisma migrate dev",
     "db:studio": "dotenv -e .env -- prisma studio",
-    "db:seed": "dotenv -e .env -- prisma db seed",
-    "start": "node --import ./.output/server/instrument.server.mjs .output/server/index.mjs"
+    "db:seed": "dotenv -e .env -- prisma db seed"
   },
   "dependencies": {
     "@cloudflare/vite-plugin": "^1.13.8",
@@ -33,7 +32,7 @@
     "@tanstack/react-router-ssr-query": "^1.131.7",
     "@tanstack/react-start": "^1.132.0",
     "@tanstack/router-plugin": "^1.132.0",
-    "better-auth": "^1.4.12",
+    "better-auth": "^1.4.18",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
@@ -65,7 +64,6 @@
     "@vitejs/plugin-react": "^5.0.4",
     "babel-plugin-react-compiler": "^1.0.0",
     "cross-env": "^10.1.0",
-    "dotenv-cli": "^10.0.0",
     "jsdom": "^27.0.0",
     "tsx": "^4.20.6",
     "typescript": "^5.7.2",
