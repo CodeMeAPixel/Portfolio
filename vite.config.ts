@@ -10,7 +10,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig(({ command }) => ({
   server: {
-    port: 9496,
+    port: 94369,
     host: '0.0.0.0',
     allowedHosts: [
       'www.beta.codemeapixel.dev',

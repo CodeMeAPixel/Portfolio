@@ -1,0 +1,12 @@
+.env
+.env.local
+.env.*.local
+wrangler.jsonc
+.wrangler
+.output
+dist
+node_modules
+.git
+.gitignore
+.vscode
+prisma/migrations
