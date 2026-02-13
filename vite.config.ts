@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite'
 import { devtools } from '@tanstack/devtools-vite'
 import { tanstackStart } from '@tanstack/react-start/plugin/vite'
-import { nitro } from 'nitro/vite'
 import viteReact from '@vitejs/plugin-react'
 import viteTsConfigPaths from 'vite-tsconfig-paths'
 import { fileURLToPath, URL } from 'url'
@@ -10,7 +9,6 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig(({ command }) => ({
   server: {
-    port: 94369,
     host: '0.0.0.0',
     allowedHosts: [
       'www.beta.codemeapixel.dev',
@@ -28,10 +26,18 @@ export default defineConfig(({ command }) => ({
       '~': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  ssr: {
+    noExternal: [],
+    external: [
+      'better-auth',
+      'zod',
+      '@prisma/client',
+      '@prisma/adapter-pg',
+    ],
+  },
   plugins: [
     devtools(),
     tanstackStart(),
-    nitro(),
     viteTsConfigPaths({
       projects: ['./tsconfig.json'],
     }),

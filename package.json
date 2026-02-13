@@ -5,21 +5,19 @@
   "scripts": {
     "dev": "dotenv -e .env -e .env.local -- cross-env NODE_OPTIONS=\"--import ./instrument.server.mjs\" vite dev",
     "build": "vite build && bun run db:generate",
+    "start": "dotenv -e .env -- node start.mjs",
     "preview": "vite preview",
     "test": "vitest run",
     "format": "biome format",
     "lint": "biome lint",
     "check": "biome check",
-    "post-cta-init": "npx create-db@latest --user-agent tanstack/tsrouter",
     "db:generate": "dotenv -e .env -- prisma generate",
     "db:push": "dotenv -e .env -- prisma db push",
     "db:migrate": "dotenv -e .env -- prisma migrate dev",
     "db:studio": "dotenv -e .env -- prisma studio",
-    "db:seed": "dotenv -e .env -- prisma db seed",
-    "start": "node --import ./instrument.server.mjs .output/server/index.mjs"
+    "db:seed": "dotenv -e .env -- prisma db seed"
   },
   "dependencies": {
-    "@cloudflare/vite-plugin": "^1.13.8",
     "@prisma/adapter-pg": "^7.2.0",
     "@prisma/client": "^7.2.0",
     "@sentry/tanstackstart-react": "^10.22.0",
@@ -39,7 +37,6 @@
     "dotenv-cli": "^11.0.0",
     "lucide-react": "^0.561.0",
     "marked": "^17.0.2",
-    "nitro": "npm:nitro-nightly@latest",
     "prisma": "^7.2.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
@@ -52,7 +49,8 @@
     "tailwind-merge": "^3.0.2",
     "tailwindcss": "^4.0.6",
     "tw-animate-css": "^1.3.6",
-    "vite-tsconfig-paths": "^6.0.2"
+    "vite-tsconfig-paths": "^6.0.2",
+    "zod": "^3.23.0"
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.4",
