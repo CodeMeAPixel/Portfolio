@@ -10,4 +10,7 @@ count.txt
 .wrangler
 .output
 .vinxi
-todos.json
+todos.json.git/
+.aws/
+.ssh/
+.vscode/
