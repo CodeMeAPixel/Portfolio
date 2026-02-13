@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "dotenv -e .env -e .env.local -- cross-env NODE_OPTIONS=\"--import ./instrument.server.mjs\" vite dev",
     "build": "vite build && bun run db:generate",
-    "start": "dotenv -e .env -- node start.mjs",
-    "preview": "vite preview",
+    "start": "dotenv -e .env -- cross-env NODE_OPTIONS=\"--import ./instrument.server.mjs\" node start.mjs",
+    "preview": "dotenv -e .env -e .env.local -- cross-env NODE_OPTIONS=\"--import ./instrument.server.mjs\" vite preview",
     "test": "vitest run",
     "format": "biome format",
     "lint": "biome lint",

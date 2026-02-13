@@ -237,7 +237,10 @@ function Home() {
                 <img
                   src="/character.png"
                   alt="Tyler H."
+                  width={2048}
+                  height={2048}
                   className="h-full w-full object-cover"
+                  style={{ minHeight: '100%', minWidth: '100%' }}
                 />
               </div>
               {/* Shine sweep on hover */}
