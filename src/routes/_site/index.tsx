@@ -239,7 +239,7 @@ function Home() {
                   alt="Tyler H."
                   width={2048}
                   height={2048}
-                  className="block h-full w-full object-cover"
+                  className="relative z-10 block h-full w-full object-cover"
                   loading="eager"
                   decoding="async"
                   fetchPriority="high"
