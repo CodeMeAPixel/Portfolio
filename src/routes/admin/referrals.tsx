@@ -2,6 +2,8 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useSuspenseQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { createMeta } from '~/lib/meta'
+import { useConfirm } from '~/components/ConfirmDialog'
+import { useToast } from '~/components/Toast'
 import {
   Link2,
   Trash2,
@@ -149,17 +151,28 @@ function AdminReferrals() {
       }
       queryClient.invalidateQueries({ queryKey: ['admin', 'referrals'] })
       setDrawerOpen(false)
+      toast.success(editingReferral ? 'Referral updated' : 'Referral created')
+    } catch (err) {
+      console.error('Failed to save referral:', err)
+      toast.error(err instanceof Error ? err.message : 'Failed to save referral')
     } finally {
       setSaving(false)
     }
   }
 
+  const confirm = useConfirm()
+  const toast = useToast()
+
   const handleDelete = async (id: string, title: string) => {
-    if (!confirm(`Delete referral "${title}"? This cannot be undone.`)) return
+    if (!(await confirm({ message: `Delete referral "${title}"? This cannot be undone.` }))) return
     setLoading(id)
     try {
       await deleteReferral({ data: { referralId: id } })
       queryClient.invalidateQueries({ queryKey: ['admin', 'referrals'] })
+      toast.success(`Referral "${title}" deleted`)
+    } catch (err) {
+      console.error('Failed to delete referral:', err)
+      toast.error(err instanceof Error ? err.message : 'Failed to delete referral')
     } finally {
       setLoading(null)
     }
@@ -170,6 +183,10 @@ function AdminReferrals() {
     try {
       await updateReferral({ data: { referralId: referral.id, featured: !referral.featured } })
       queryClient.invalidateQueries({ queryKey: ['admin', 'referrals'] })
+      toast.success(referral.featured ? 'Removed from featured' : 'Marked as featured')
+    } catch (err) {
+      console.error('Failed to toggle featured:', err)
+      toast.error(err instanceof Error ? err.message : 'Failed to toggle featured')
     } finally {
       setLoading(null)
     }
@@ -182,18 +199,26 @@ function AdminReferrals() {
       await createReferralCategory({ data: catForm })
       queryClient.invalidateQueries({ queryKey: ['admin', 'referral-categories'] })
       setCatDrawerOpen(false)
+      toast.success('Category created')
+    } catch (err) {
+      console.error('Failed to create category:', err)
+      toast.error(err instanceof Error ? err.message : 'Failed to create category')
     } finally {
       setCatSaving(false)
     }
   }
 
   const handleDeleteCategory = async (id: string, name: string) => {
-    if (!confirm(`Delete category "${name}"? All referrals in this category will also be deleted.`)) return
+    if (!(await confirm({ title: 'Delete Category', message: `Delete category "${name}"? All referrals in this category will also be deleted.` }))) return
     setLoading(id)
     try {
       await deleteReferralCategory({ data: { categoryId: id } })
       queryClient.invalidateQueries({ queryKey: ['admin', 'referral-categories'] })
       queryClient.invalidateQueries({ queryKey: ['admin', 'referrals'] })
+      toast.success(`Category "${name}" deleted`)
+    } catch (err) {
+      console.error('Failed to delete category:', err)
+      toast.error(err instanceof Error ? err.message : 'Failed to delete category')
     } finally {
       setLoading(null)
     }
@@ -496,11 +521,11 @@ function AdminReferrals() {
         </FormRow>
 
         <FormRow>
-          <FormField label="Banner Image URL">
+          <FormField label="Banner Image" hint="URL or /public path">
             <FormInput
               value={form.bannerImage}
               onChange={(e) => setForm((f) => ({ ...f, bannerImage: e.target.value }))}
-              placeholder="https://..."
+              placeholder="/referrals/banner.png or https://..."
             />
           </FormField>
           <FormField label="Brand Color" hint="Hex color code">

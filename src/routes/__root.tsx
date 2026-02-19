@@ -10,6 +10,8 @@ import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 import { themeScript } from '../lib/theme'
 import { NotFoundPage } from '../components/NotFoundPage'
 import { ErrorPage } from '../components/ErrorPage'
+import { ConfirmProvider } from '../components/ConfirmDialog'
+import { ToastProvider } from '../components/Toast'
 import appCss from '../styles.css?url'
 import type { QueryClient } from '@tanstack/react-query'
 
@@ -68,5 +70,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 }
 
 function RootComponent() {
-  return <Outlet />
+  return (
+    <ConfirmProvider>
+      <ToastProvider>
+        <Outlet />
+      </ToastProvider>
+    </ConfirmProvider>
+  )
 }

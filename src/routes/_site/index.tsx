@@ -239,8 +239,10 @@ function Home() {
                   alt="Tyler H."
                   width={2048}
                   height={2048}
-                  className="h-full w-full object-cover"
-                  style={{ minHeight: '100%', minWidth: '100%' }}
+                  className="block h-full w-full object-cover"
+                  loading="eager"
+                  decoding="async"
+                  fetchPriority="high"
                 />
               </div>
               {/* Shine sweep on hover */}

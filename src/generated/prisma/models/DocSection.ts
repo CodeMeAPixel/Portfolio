@@ -40,7 +40,6 @@ export type DocSectionMinAggregateOutputType = {
   name: string | null
   description: string | null
   icon: string | null
-  projectUrl: string | null
   sortOrder: number | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -52,7 +51,6 @@ export type DocSectionMaxAggregateOutputType = {
   name: string | null
   description: string | null
   icon: string | null
-  projectUrl: string | null
   sortOrder: number | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -64,7 +62,6 @@ export type DocSectionCountAggregateOutputType = {
   name: number
   description: number
   icon: number
-  projectUrl: number
   sortOrder: number
   createdAt: number
   updatedAt: number
@@ -86,7 +83,6 @@ export type DocSectionMinAggregateInputType = {
   name?: true
   description?: true
   icon?: true
-  projectUrl?: true
   sortOrder?: true
   createdAt?: true
   updatedAt?: true
@@ -98,7 +94,6 @@ export type DocSectionMaxAggregateInputType = {
   name?: true
   description?: true
   icon?: true
-  projectUrl?: true
   sortOrder?: true
   createdAt?: true
   updatedAt?: true
@@ -110,7 +105,6 @@ export type DocSectionCountAggregateInputType = {
   name?: true
   description?: true
   icon?: true
-  projectUrl?: true
   sortOrder?: true
   createdAt?: true
   updatedAt?: true
@@ -209,7 +203,6 @@ export type DocSectionGroupByOutputType = {
   name: string
   description: string
   icon: string
-  projectUrl: string | null
   sortOrder: number
   createdAt: Date
   updatedAt: Date
@@ -244,7 +237,6 @@ export type DocSectionWhereInput = {
   name?: Prisma.StringFilter<"DocSection"> | string
   description?: Prisma.StringFilter<"DocSection"> | string
   icon?: Prisma.StringFilter<"DocSection"> | string
-  projectUrl?: Prisma.StringNullableFilter<"DocSection"> | string | null
   sortOrder?: Prisma.IntFilter<"DocSection"> | number
   createdAt?: Prisma.DateTimeFilter<"DocSection"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DocSection"> | Date | string
@@ -257,7 +249,6 @@ export type DocSectionOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   icon?: Prisma.SortOrder
-  projectUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -273,7 +264,6 @@ export type DocSectionWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"DocSection"> | string
   description?: Prisma.StringFilter<"DocSection"> | string
   icon?: Prisma.StringFilter<"DocSection"> | string
-  projectUrl?: Prisma.StringNullableFilter<"DocSection"> | string | null
   sortOrder?: Prisma.IntFilter<"DocSection"> | number
   createdAt?: Prisma.DateTimeFilter<"DocSection"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DocSection"> | Date | string
@@ -286,7 +276,6 @@ export type DocSectionOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   icon?: Prisma.SortOrder
-  projectUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -306,7 +295,6 @@ export type DocSectionScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"DocSection"> | string
   description?: Prisma.StringWithAggregatesFilter<"DocSection"> | string
   icon?: Prisma.StringWithAggregatesFilter<"DocSection"> | string
-  projectUrl?: Prisma.StringNullableWithAggregatesFilter<"DocSection"> | string | null
   sortOrder?: Prisma.IntWithAggregatesFilter<"DocSection"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"DocSection"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"DocSection"> | Date | string
@@ -318,7 +306,6 @@ export type DocSectionCreateInput = {
   name: string
   description: string
   icon: string
-  projectUrl?: string | null
   sortOrder?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -331,7 +318,6 @@ export type DocSectionUncheckedCreateInput = {
   name: string
   description: string
   icon: string
-  projectUrl?: string | null
   sortOrder?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -344,7 +330,6 @@ export type DocSectionUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.StringFieldUpdateOperationsInput | string
-  projectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -357,7 +342,6 @@ export type DocSectionUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.StringFieldUpdateOperationsInput | string
-  projectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -370,7 +354,6 @@ export type DocSectionCreateManyInput = {
   name: string
   description: string
   icon: string
-  projectUrl?: string | null
   sortOrder?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -382,7 +365,6 @@ export type DocSectionUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.StringFieldUpdateOperationsInput | string
-  projectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -394,7 +376,6 @@ export type DocSectionUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.StringFieldUpdateOperationsInput | string
-  projectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -406,7 +387,6 @@ export type DocSectionCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   icon?: Prisma.SortOrder
-  projectUrl?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -422,7 +402,6 @@ export type DocSectionMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   icon?: Prisma.SortOrder
-  projectUrl?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -434,7 +413,6 @@ export type DocSectionMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   icon?: Prisma.SortOrder
-  projectUrl?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -469,7 +447,6 @@ export type DocSectionCreateWithoutCategoriesInput = {
   name: string
   description: string
   icon: string
-  projectUrl?: string | null
   sortOrder?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -481,7 +458,6 @@ export type DocSectionUncheckedCreateWithoutCategoriesInput = {
   name: string
   description: string
   icon: string
-  projectUrl?: string | null
   sortOrder?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -509,7 +485,6 @@ export type DocSectionUpdateWithoutCategoriesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.StringFieldUpdateOperationsInput | string
-  projectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -521,7 +496,6 @@ export type DocSectionUncheckedUpdateWithoutCategoriesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.StringFieldUpdateOperationsInput | string
-  projectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -564,7 +538,6 @@ export type DocSectionSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   name?: boolean
   description?: boolean
   icon?: boolean
-  projectUrl?: boolean
   sortOrder?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -578,7 +551,6 @@ export type DocSectionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   name?: boolean
   description?: boolean
   icon?: boolean
-  projectUrl?: boolean
   sortOrder?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -590,7 +562,6 @@ export type DocSectionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   name?: boolean
   description?: boolean
   icon?: boolean
-  projectUrl?: boolean
   sortOrder?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -602,13 +573,12 @@ export type DocSectionSelectScalar = {
   name?: boolean
   description?: boolean
   icon?: boolean
-  projectUrl?: boolean
   sortOrder?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type DocSectionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "name" | "description" | "icon" | "projectUrl" | "sortOrder" | "createdAt" | "updatedAt", ExtArgs["result"]["docSection"]>
+export type DocSectionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "name" | "description" | "icon" | "sortOrder" | "createdAt" | "updatedAt", ExtArgs["result"]["docSection"]>
 export type DocSectionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   categories?: boolean | Prisma.DocSection$categoriesArgs<ExtArgs>
   _count?: boolean | Prisma.DocSectionCountOutputTypeDefaultArgs<ExtArgs>
@@ -627,7 +597,6 @@ export type $DocSectionPayload<ExtArgs extends runtime.Types.Extensions.Internal
     name: string
     description: string
     icon: string
-    projectUrl: string | null
     sortOrder: number
     createdAt: Date
     updatedAt: Date
@@ -1060,7 +1029,6 @@ export interface DocSectionFieldRefs {
   readonly name: Prisma.FieldRef<"DocSection", 'String'>
   readonly description: Prisma.FieldRef<"DocSection", 'String'>
   readonly icon: Prisma.FieldRef<"DocSection", 'String'>
-  readonly projectUrl: Prisma.FieldRef<"DocSection", 'String'>
   readonly sortOrder: Prisma.FieldRef<"DocSection", 'Int'>
   readonly createdAt: Prisma.FieldRef<"DocSection", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"DocSection", 'DateTime'>

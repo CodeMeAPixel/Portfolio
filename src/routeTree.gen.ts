@@ -38,7 +38,8 @@ import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as SiteShopSlugRouteImport } from './routes/_site/shop/$slug'
 import { Route as SiteProjectsSlugRouteImport } from './routes/_site/projects/$slug'
 import { Route as SiteBlogSlugRouteImport } from './routes/_site/blog/$slug'
-import { Route as SiteDocsSectionSlugRouteImport } from './routes/_site/docs/$section.$slug'
+import { Route as SiteDocsSectionCategorySlugIndexRouteImport } from './routes/_site/docs/$section/$category/$slug/index'
+import { Route as SiteDocsSectionCategorySlugSubpageRouteImport } from './routes/_site/docs/$section/$category/$slug/$subpage'
 
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
@@ -184,11 +185,18 @@ const SiteBlogSlugRoute = SiteBlogSlugRouteImport.update({
   path: '/blog/$slug',
   getParentRoute: () => SiteRoute,
 } as any)
-const SiteDocsSectionSlugRoute = SiteDocsSectionSlugRouteImport.update({
-  id: '/docs/$section/$slug',
-  path: '/docs/$section/$slug',
-  getParentRoute: () => SiteRoute,
-} as any)
+const SiteDocsSectionCategorySlugIndexRoute =
+  SiteDocsSectionCategorySlugIndexRouteImport.update({
+    id: '/docs/$section/$category/$slug/',
+    path: '/docs/$section/$category/$slug/',
+    getParentRoute: () => SiteRoute,
+  } as any)
+const SiteDocsSectionCategorySlugSubpageRoute =
+  SiteDocsSectionCategorySlugSubpageRouteImport.update({
+    id: '/docs/$section/$category/$slug/$subpage',
+    path: '/docs/$section/$category/$slug/$subpage',
+    getParentRoute: () => SiteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof SiteIndexRoute
@@ -219,7 +227,8 @@ export interface FileRoutesByFullPath {
   '/referrals/': typeof SiteReferralsIndexRoute
   '/reviews/': typeof SiteReviewsIndexRoute
   '/shop/': typeof SiteShopIndexRoute
-  '/docs/$section/$slug': typeof SiteDocsSectionSlugRoute
+  '/docs/$section/$category/$slug/$subpage': typeof SiteDocsSectionCategorySlugSubpageRoute
+  '/docs/$section/$category/$slug/': typeof SiteDocsSectionCategorySlugIndexRoute
 }
 export interface FileRoutesByTo {
   '/auth-error': typeof SiteAuthErrorRoute
@@ -248,7 +257,8 @@ export interface FileRoutesByTo {
   '/referrals': typeof SiteReferralsIndexRoute
   '/reviews': typeof SiteReviewsIndexRoute
   '/shop': typeof SiteShopIndexRoute
-  '/docs/$section/$slug': typeof SiteDocsSectionSlugRoute
+  '/docs/$section/$category/$slug/$subpage': typeof SiteDocsSectionCategorySlugSubpageRoute
+  '/docs/$section/$category/$slug': typeof SiteDocsSectionCategorySlugIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -281,7 +291,8 @@ export interface FileRoutesById {
   '/_site/referrals/': typeof SiteReferralsIndexRoute
   '/_site/reviews/': typeof SiteReviewsIndexRoute
   '/_site/shop/': typeof SiteShopIndexRoute
-  '/_site/docs/$section/$slug': typeof SiteDocsSectionSlugRoute
+  '/_site/docs/$section/$category/$slug/$subpage': typeof SiteDocsSectionCategorySlugSubpageRoute
+  '/_site/docs/$section/$category/$slug/': typeof SiteDocsSectionCategorySlugIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -314,7 +325,8 @@ export interface FileRouteTypes {
     | '/referrals/'
     | '/reviews/'
     | '/shop/'
-    | '/docs/$section/$slug'
+    | '/docs/$section/$category/$slug/$subpage'
+    | '/docs/$section/$category/$slug/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/auth-error'
@@ -343,7 +355,8 @@ export interface FileRouteTypes {
     | '/referrals'
     | '/reviews'
     | '/shop'
-    | '/docs/$section/$slug'
+    | '/docs/$section/$category/$slug/$subpage'
+    | '/docs/$section/$category/$slug'
   id:
     | '__root__'
     | '/_site'
@@ -375,7 +388,8 @@ export interface FileRouteTypes {
     | '/_site/referrals/'
     | '/_site/reviews/'
     | '/_site/shop/'
-    | '/_site/docs/$section/$slug'
+    | '/_site/docs/$section/$category/$slug/$subpage'
+    | '/_site/docs/$section/$category/$slug/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -590,11 +604,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteBlogSlugRouteImport
       parentRoute: typeof SiteRoute
     }
-    '/_site/docs/$section/$slug': {
-      id: '/_site/docs/$section/$slug'
-      path: '/docs/$section/$slug'
-      fullPath: '/docs/$section/$slug'
-      preLoaderRoute: typeof SiteDocsSectionSlugRouteImport
+    '/_site/docs/$section/$category/$slug/': {
+      id: '/_site/docs/$section/$category/$slug/'
+      path: '/docs/$section/$category/$slug'
+      fullPath: '/docs/$section/$category/$slug/'
+      preLoaderRoute: typeof SiteDocsSectionCategorySlugIndexRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/docs/$section/$category/$slug/$subpage': {
+      id: '/_site/docs/$section/$category/$slug/$subpage'
+      path: '/docs/$section/$category/$slug/$subpage'
+      fullPath: '/docs/$section/$category/$slug/$subpage'
+      preLoaderRoute: typeof SiteDocsSectionCategorySlugSubpageRouteImport
       parentRoute: typeof SiteRoute
     }
   }
@@ -616,7 +637,8 @@ interface SiteRouteChildren {
   SiteReferralsIndexRoute: typeof SiteReferralsIndexRoute
   SiteReviewsIndexRoute: typeof SiteReviewsIndexRoute
   SiteShopIndexRoute: typeof SiteShopIndexRoute
-  SiteDocsSectionSlugRoute: typeof SiteDocsSectionSlugRoute
+  SiteDocsSectionCategorySlugSubpageRoute: typeof SiteDocsSectionCategorySlugSubpageRoute
+  SiteDocsSectionCategorySlugIndexRoute: typeof SiteDocsSectionCategorySlugIndexRoute
 }
 
 const SiteRouteChildren: SiteRouteChildren = {
@@ -635,7 +657,9 @@ const SiteRouteChildren: SiteRouteChildren = {
   SiteReferralsIndexRoute: SiteReferralsIndexRoute,
   SiteReviewsIndexRoute: SiteReviewsIndexRoute,
   SiteShopIndexRoute: SiteShopIndexRoute,
-  SiteDocsSectionSlugRoute: SiteDocsSectionSlugRoute,
+  SiteDocsSectionCategorySlugSubpageRoute:
+    SiteDocsSectionCategorySlugSubpageRoute,
+  SiteDocsSectionCategorySlugIndexRoute: SiteDocsSectionCategorySlugIndexRoute,
 }
 
 const SiteRouteWithChildren = SiteRoute._addFileChildren(SiteRouteChildren)

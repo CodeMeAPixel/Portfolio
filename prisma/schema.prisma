@@ -146,6 +146,8 @@ model Product {
   frameworks      ProductFramework[] @default([])
   status          ProductStatus    @default(Released)
   version         String           @default("1.0.0")
+  banner          String?
+  previewImages   String[]         @default([])
   images          String[]         @default([])
   video           String?
   tags            String[]         @default([])
@@ -249,7 +251,6 @@ model DocSection {
   name       String
   description String
   icon       String
-  projectUrl String?
   sortOrder  Int    @default(0)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
@@ -262,6 +263,7 @@ model DocSection {
 model DocCategory {
   id        String @id @default(cuid())
   title     String
+  slug      String
   sortOrder Int    @default(0)
   sectionId String
   section   DocSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
@@ -270,6 +272,7 @@ model DocCategory {
 
   items DocItem[]
 
+  @@unique([sectionId, slug])
   @@map("doc_category")
 }
 
@@ -280,13 +283,18 @@ model DocItem {
   description String
   icon        String?
   content     String?  @db.Text
+  projectUrl  String?
   keywords    String[] @default([])
   sortOrder   Int      @default(0)
   categoryId  String
   category    DocCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  parentId    String?
+  parent      DocItem?    @relation("DocItemChildren", fields: [parentId], references: [id], onDelete: Cascade)
+  children    DocItem[]   @relation("DocItemChildren")
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  @@unique([categoryId, slug, parentId])
   @@map("doc_item")
 }
 

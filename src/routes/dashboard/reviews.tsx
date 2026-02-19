@@ -6,6 +6,8 @@ import {
   Star, Trash2, Plus, X, Send, MessageSquare, CheckCircle2,
   XCircle, AlertTriangle, Clock, Edit3,
 } from 'lucide-react'
+import { useConfirm } from '~/components/ConfirmDialog'
+import { useToast } from '~/components/Toast'
 import {
   getUserReviews, submitReview, deleteOwnReview,
   getReviewComments, addReviewComment,
@@ -34,6 +36,8 @@ const statusConfig = {
 function DashboardReviews() {
   const { data: reviews } = useSuspenseQuery(reviewsQueryOptions)
   const queryClient = useQueryClient()
+  const confirm = useConfirm()
+  const toast = useToast()
   const [showForm, setShowForm] = useState(false)
   const [loading, setLoading] = useState(false)
   const [deleteLoading, setDeleteLoading] = useState<string | null>(null)
@@ -75,17 +79,25 @@ function DashboardReviews() {
       } })
       queryClient.invalidateQueries({ queryKey: ['dashboard', 'reviews'] })
       resetForm()
+      toast.success('Review submitted for approval')
+    } catch (err) {
+      console.error('Failed to submit review:', err)
+      toast.error(err instanceof Error ? err.message : 'Failed to submit review')
     } finally {
       setLoading(false)
     }
   }
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Delete this review? This cannot be undone.')) return
+    if (!(await confirm({ message: 'Delete this review? This cannot be undone.' }))) return
     setDeleteLoading(id)
     try {
       await deleteOwnReview({ data: { reviewId: id } })
       queryClient.invalidateQueries({ queryKey: ['dashboard', 'reviews'] })
+      toast.success('Review deleted')
+    } catch (err) {
+      console.error('Failed to delete review:', err)
+      toast.error(err instanceof Error ? err.message : 'Failed to delete review')
     } finally {
       setDeleteLoading(null)
     }
@@ -352,6 +364,8 @@ function UserReviewThread({ reviewId }: { reviewId: string }) {
       const data = await getReviewComments({ data: { reviewId } })
       setComments(data)
       setLoaded(true)
+    } catch (err) {
+      console.error('Failed to load comments:', err)
     } finally { setLoadingComments(false) }
   }
 
@@ -363,6 +377,8 @@ function UserReviewThread({ reviewId }: { reviewId: string }) {
       setNewComment('')
       await loadComments()
       queryClient.invalidateQueries({ queryKey: ['dashboard', 'reviews'] })
+    } catch (err) {
+      console.error('Failed to send comment:', err)
     } finally { setSending(false) }
   }
 

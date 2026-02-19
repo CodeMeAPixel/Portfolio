@@ -89,6 +89,11 @@
   50% { transform: rotate(1deg); }
 }
 
+@keyframes toast-progress {
+  0% { width: 100%; }
+  100% { width: 0%; }
+}
+
 /* ─── Reduced Motion ──────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -1886,25 +1891,40 @@ code {
   }
   .prose-custom .table-wrapper {
     overflow-x: auto;
-    margin: 1em 0;
+    margin: 1.5em 0;
     -webkit-overflow-scrolling: touch;
+    border: 1px solid color-mix(in srgb, var(--foreground) 8%, transparent);
+    border-radius: 0.75rem;
+    background: color-mix(in srgb, var(--foreground) 3%, transparent);
   }
   .prose-custom table {
     width: 100%;
     border-collapse: collapse;
-    margin: 1em 0;
+    margin: 0;
+    font-size: 0.8125rem;
   }
   .prose-custom th {
     text-align: left;
-    padding: 0.5em 0.75em;
-    border-bottom: 2px solid color-mix(in srgb, var(--foreground) 12%, transparent);
+    padding: 0.625em 1em;
+    border-bottom: 2px solid color-mix(in srgb, var(--primary) 20%, transparent);
     font-weight: 600;
     color: var(--foreground);
-    font-size: 0.85em;
+    font-size: 0.8125em;
+    white-space: nowrap;
+    background: color-mix(in srgb, var(--foreground) 4%, transparent);
   }
+  .prose-custom th:first-child { border-radius: 0.75rem 0 0 0; }
+  .prose-custom th:last-child { border-radius: 0 0.75rem 0 0; }
   .prose-custom td {
-    padding: 0.5em 0.75em;
+    padding: 0.5em 1em;
     border-bottom: 1px solid color-mix(in srgb, var(--foreground) 6%, transparent);
+    vertical-align: top;
+  }
+  .prose-custom tr:last-child td {
+    border-bottom: none;
+  }
+  .prose-custom tr:hover td {
+    background: color-mix(in srgb, var(--foreground) 3%, transparent);
   }
   .prose-custom img {
     max-width: 100%;
@@ -1914,4 +1934,56 @@ code {
   .prose-custom > *:first-child {
     margin-top: 0;
   }
+
+  /* ─── Code block language label ────────────────────── */
+  .prose-custom pre {
+    position: relative;
+  }
+  .prose-custom pre code[class*="language-"]::before {
+    content: attr(data-lang);
+    position: absolute;
+    top: 0.5em;
+    right: 0.75em;
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--primary);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  /* ─── Syntax Highlighting (highlight.js) ───────────── */
+  .hljs { color: var(--foreground); }
+  .hljs-comment,
+  .hljs-quote { color: color-mix(in srgb, var(--foreground) 40%, transparent); font-style: italic; }
+  .hljs-keyword,
+  .hljs-selector-tag,
+  .hljs-built_in { color: var(--primary); }
+  .hljs-string,
+  .hljs-title.class_,
+  .hljs-section,
+  .hljs-attribute,
+  .hljs-literal,
+  .hljs-template-tag,
+  .hljs-template-variable,
+  .hljs-type { color: color-mix(in srgb, var(--glow-secondary) 90%, white); }
+  .hljs-number,
+  .hljs-meta,
+  .hljs-meta .hljs-keyword { color: color-mix(in srgb, var(--primary) 75%, white 25%); }
+  .hljs-function,
+  .hljs-title { color: color-mix(in srgb, var(--glow) 85%, white 15%); }
+  .hljs-variable,
+  .hljs-symbol,
+  .hljs-bullet,
+  .hljs-addition { color: #98c379; }
+  .hljs-params { color: color-mix(in srgb, var(--foreground) 80%, transparent); }
+  .hljs-deletion { color: #e06c75; }
+  .hljs-emphasis { font-style: italic; }
+  .hljs-strong { font-weight: 700; }
+  .hljs-punctuation { color: color-mix(in srgb, var(--foreground) 55%, transparent); }
+  .hljs-attr { color: color-mix(in srgb, var(--primary) 80%, white 20%); }
+  .hljs-name,
+  .hljs-tag { color: var(--primary); }
+  .hljs-operator { color: color-mix(in srgb, var(--foreground) 65%, transparent); }
 }

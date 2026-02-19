@@ -3,6 +3,8 @@ import { useSuspenseQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { Eye, EyeOff, Trash2, Search, PenLine, Plus, Pencil } from 'lucide-react'
 import { createMeta } from '~/lib/meta'
+import { useConfirm } from '~/components/ConfirmDialog'
+import { useToast } from '~/components/Toast'
 import {
   getAdminBlogPosts,
   deleteBlogPost,
@@ -106,6 +108,10 @@ function AdminBlog() {
       }
       queryClient.invalidateQueries({ queryKey: ['admin', 'blog'] })
       setDrawerOpen(false)
+      toast.success(editingPost ? 'Post updated' : 'Post created')
+    } catch (err) {
+      console.error('Failed to save post:', err)
+      toast.error(err instanceof Error ? err.message : 'Failed to save post')
     } finally {
       setSaving(false)
     }
@@ -116,17 +122,28 @@ function AdminBlog() {
     try {
       await toggleBlogPostPublished({ data: { postId: id, published: !current } })
       queryClient.invalidateQueries({ queryKey: ['admin', 'blog'] })
+      toast.success(current ? 'Post unpublished' : 'Post published')
+    } catch (err) {
+      console.error('Failed to toggle publish:', err)
+      toast.error(err instanceof Error ? err.message : 'Failed to toggle publish status')
     } finally {
       setLoading(null)
     }
   }
 
+  const confirm = useConfirm()
+  const toast = useToast()
+
   const handleDelete = async (id: string, title: string) => {
-    if (!confirm(`Delete post "${title}"? This cannot be undone.`)) return
+    if (!(await confirm({ message: `Delete post "${title}"? This cannot be undone.` }))) return
     setLoading(id)
     try {
       await deleteBlogPost({ data: { postId: id } })
       queryClient.invalidateQueries({ queryKey: ['admin', 'blog'] })
+      toast.success(`Post "${title}" deleted`)
+    } catch (err) {
+      console.error('Failed to delete post:', err)
+      toast.error(err instanceof Error ? err.message : 'Failed to delete post')
     } finally {
       setLoading(null)
     }
@@ -174,17 +191,17 @@ function AdminBlog() {
             placeholder="Search by title or slug..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="h-9 w-full rounded-lg border border-border/50 bg-foreground/[0.02] pl-9 pr-3 text-sm outline-none transition-colors placeholder:text-muted-foreground/40 focus:border-primary/30 focus:bg-foreground/[0.04]"
+            className="h-9 w-full rounded-lg border border-border/50 bg-foreground/2 pl-9 pr-3 text-sm outline-none transition-colors placeholder:text-muted-foreground/40 focus:border-primary/30 focus:bg-foreground/4"
           />
         </div>
-        <div className="flex items-center gap-1 rounded-lg border border-border/50 bg-foreground/[0.02] p-0.5">
+        <div className="flex items-center gap-1 rounded-lg border border-border/50 bg-foreground/2 p-0.5">
           {(['ALL', 'PUBLISHED', 'DRAFT'] as const).map((f) => (
             <button
               key={f}
               onClick={() => setFilter(f)}
               className={`rounded-md px-3 py-1.5 text-xs font-medium transition-all ${
                 filter === f
-                  ? 'bg-foreground/[0.08] text-foreground'
+                  ? 'bg-foreground/8 text-foreground'
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
@@ -199,7 +216,7 @@ function AdminBlog() {
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-border/50 bg-foreground/[0.02]">
+              <tr className="border-b border-border/50 bg-foreground/2">
                 <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">Post</th>
                 <th className="hidden px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground md:table-cell">Tags</th>
                 <th className="hidden px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground sm:table-cell">Status</th>
@@ -208,7 +225,7 @@ function AdminBlog() {
             </thead>
             <tbody className="divide-y divide-border/30">
               {filtered.map((post) => (
-                <tr key={post.id} className="group transition-colors hover:bg-foreground/[0.02]">
+                <tr key={post.id} className="group transition-colors hover:bg-foreground/2">
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-3">
                       {post.image ? (
@@ -231,7 +248,7 @@ function AdminBlog() {
                   <td className="hidden px-4 py-3 md:table-cell">
                     <div className="flex flex-wrap gap-1">
                       {post.tags.slice(0, 3).map((tag) => (
-                        <span key={tag} className="rounded-md bg-foreground/[0.04] px-1.5 py-0.5 text-[10px] text-muted-foreground/70">
+                        <span key={tag} className="rounded-md bg-foreground/4 px-1.5 py-0.5 text-[10px] text-muted-foreground/70">
                           {tag}
                         </span>
                       ))}
@@ -348,11 +365,11 @@ function AdminBlog() {
         </FormField>
 
         <FormRow>
-          <FormField label="Cover Image URL">
+          <FormField label="Cover Image" hint="URL or /public path">
             <FormInput
               value={form.image}
               onChange={(e) => setForm((f) => ({ ...f, image: e.target.value }))}
-              placeholder="https://..."
+              placeholder="/previews/cover.png or https://..."
             />
           </FormField>
           <FormField label="Author">

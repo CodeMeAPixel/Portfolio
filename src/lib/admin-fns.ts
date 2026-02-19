@@ -224,6 +224,8 @@ export const createProduct = createServerFn({ method: 'POST' })
       frameworks: ('Standalone' | 'QBCore' | 'QBox' | 'ESX')[]
       status?: 'Released' | 'InDevelopment' | 'ComingSoon' | 'Deprecated' | 'Archived'
       version?: string
+      banner?: string
+      previewImages?: string[]
       images?: string[]
       video?: string
       tags?: string[]
@@ -257,6 +259,8 @@ export const createProduct = createServerFn({ method: 'POST' })
         frameworks: data.frameworks || [],
         status: data.status || 'Released',
         version: data.version || '1.0.0',
+        banner: data.banner || null,
+        previewImages: data.previewImages || [],
         images: data.images || [],
         video: data.video || null,
         tags: data.tags || [],
@@ -292,6 +296,8 @@ export const updateProduct = createServerFn({ method: 'POST' })
       frameworks?: ('Standalone' | 'QBCore' | 'QBox' | 'ESX')[]
       status?: 'Released' | 'InDevelopment' | 'ComingSoon' | 'Deprecated' | 'Archived'
       version?: string
+      banner?: string
+      previewImages?: string[]
       images?: string[]
       video?: string
       tags?: string[]
@@ -700,7 +706,13 @@ export const getAdminDocSections = createServerFn({ method: 'GET' }).handler(
         categories: {
           orderBy: { sortOrder: 'asc' },
           include: {
-            items: { orderBy: { sortOrder: 'asc' } },
+            items: {
+              where: { parentId: null },
+              orderBy: { sortOrder: 'asc' },
+              include: {
+                children: { orderBy: { sortOrder: 'asc' } },
+              },
+            },
             _count: { select: { items: true } },
           },
         },
@@ -716,7 +728,6 @@ export const createDocSection = createServerFn({ method: 'POST' })
       name: string
       description: string
       icon: string
-      projectUrl?: string
       sortOrder?: number
     }) => data,
   )
@@ -728,7 +739,6 @@ export const createDocSection = createServerFn({ method: 'POST' })
         name: data.name,
         description: data.description,
         icon: data.icon,
-        projectUrl: data.projectUrl || null,
         sortOrder: data.sortOrder || 0,
       },
     })
@@ -742,7 +752,6 @@ export const updateDocSection = createServerFn({ method: 'POST' })
       name?: string
       description?: string
       icon?: string
-      projectUrl?: string
       sortOrder?: number
     }) => data,
   )
@@ -770,6 +779,7 @@ export const createDocCategory = createServerFn({ method: 'POST' })
   .inputValidator(
     (data: {
       title: string
+      slug: string
       sectionId: string
       sortOrder?: number
     }) => data,
@@ -779,6 +789,7 @@ export const createDocCategory = createServerFn({ method: 'POST' })
     return db.docCategory.create({
       data: {
         title: data.title,
+        slug: data.slug,
         sectionId: data.sectionId,
         sortOrder: data.sortOrder || 0,
       },
@@ -790,6 +801,7 @@ export const updateDocCategory = createServerFn({ method: 'POST' })
     (data: {
       categoryId: string
       title?: string
+      slug?: string
       sortOrder?: number
     }) => data,
   )
@@ -821,9 +833,11 @@ export const createDocItem = createServerFn({ method: 'POST' })
       description: string
       icon?: string
       content?: string
+      projectUrl?: string
       keywords?: string[]
       sortOrder?: number
       categoryId: string
+      parentId?: string
     }) => data,
   )
   .handler(async ({ data }) => {
@@ -835,9 +849,11 @@ export const createDocItem = createServerFn({ method: 'POST' })
         description: data.description,
         icon: data.icon || null,
         content: data.content || null,
+        projectUrl: data.projectUrl || null,
         keywords: data.keywords || [],
         sortOrder: data.sortOrder || 0,
         categoryId: data.categoryId,
+        parentId: data.parentId || null,
       },
     })
   })
@@ -851,8 +867,10 @@ export const updateDocItem = createServerFn({ method: 'POST' })
       description?: string
       icon?: string
       content?: string
+      projectUrl?: string
       keywords?: string[]
       sortOrder?: number
+      parentId?: string | null
     }) => data,
   )
   .handler(async ({ data }) => {

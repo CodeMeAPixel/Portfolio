@@ -5,6 +5,8 @@ import {
   Star, StarOff, Trash2, Search, MessageSquare, CheckCircle2,
   XCircle, AlertTriangle, Clock, Send,
 } from 'lucide-react'
+import { useConfirm } from '~/components/ConfirmDialog'
+import { useToast } from '~/components/Toast'
 import {
   getAdminReviews, deleteReview, toggleReviewFeatured,
   approveReview, denyReview, requestReviewChanges,
@@ -63,15 +65,26 @@ function AdminReviews() {
     try {
       await toggleReviewFeatured({ data: { reviewId: id, featured: !current } })
       invalidate()
+      toast.success(current ? 'Removed from featured' : 'Marked as featured')
+    } catch (err) {
+      console.error('Failed to toggle featured:', err)
+      toast.error(err instanceof Error ? err.message : 'Failed to toggle featured')
     } finally { setLoading(null) }
   }
 
+  const confirm = useConfirm()
+  const toast = useToast()
+
   const handleDelete = async (id: string, name: string) => {
-    if (!confirm(`Delete review by "${name}"? This cannot be undone.`)) return
+    if (!(await confirm({ message: `Delete review by "${name}"? This cannot be undone.` }))) return
     setLoading(id)
     try {
       await deleteReview({ data: { reviewId: id } })
       invalidate()
+      toast.success('Review deleted')
+    } catch (err) {
+      console.error('Failed to delete review:', err)
+      toast.error(err instanceof Error ? err.message : 'Failed to delete review')
     } finally { setLoading(null) }
   }
 
@@ -80,6 +93,10 @@ function AdminReviews() {
     try {
       await approveReview({ data: { reviewId: id } })
       invalidate()
+      toast.success('Review approved')
+    } catch (err) {
+      console.error('Failed to approve review:', err)
+      toast.error(err instanceof Error ? err.message : 'Failed to approve review')
     } finally { setLoading(null) }
   }
 
@@ -91,6 +108,10 @@ function AdminReviews() {
       invalidate()
       setDenyModalId(null)
       setDenyReason('')
+      toast.success('Review denied')
+    } catch (err) {
+      console.error('Failed to deny review:', err)
+      toast.error(err instanceof Error ? err.message : 'Failed to deny review')
     } finally { setLoading(null) }
   }
 
@@ -102,6 +123,10 @@ function AdminReviews() {
       invalidate()
       setChangesModalId(null)
       setChangesComment('')
+      toast.success('Changes requested')
+    } catch (err) {
+      console.error('Failed to request changes:', err)
+      toast.error(err instanceof Error ? err.message : 'Failed to request changes')
     } finally { setLoading(null) }
   }
 
@@ -318,6 +343,8 @@ function ReviewThread({ reviewId }: { reviewId: string }) {
       const data = await getReviewComments({ data: { reviewId } })
       setComments(data)
       setLoaded(true)
+    } catch (err) {
+      console.error('Failed to load comments:', err)
     } finally { setLoadingComments(false) }
   }
 
@@ -329,6 +356,8 @@ function ReviewThread({ reviewId }: { reviewId: string }) {
       setNewComment('')
       await loadComments()
       queryClient.invalidateQueries({ queryKey: ['admin', 'reviews'] })
+    } catch (err) {
+      console.error('Failed to send comment:', err)
     } finally { setSending(false) }
   }
 

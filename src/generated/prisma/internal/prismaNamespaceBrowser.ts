@@ -223,6 +223,8 @@ export const ProductScalarFieldEnum = {
   frameworks: 'frameworks',
   status: 'status',
   version: 'version',
+  banner: 'banner',
+  previewImages: 'previewImages',
   images: 'images',
   video: 'video',
   tags: 'tags',
@@ -324,7 +326,6 @@ export const DocSectionScalarFieldEnum = {
   name: 'name',
   description: 'description',
   icon: 'icon',
-  projectUrl: 'projectUrl',
   sortOrder: 'sortOrder',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -336,6 +337,7 @@ export type DocSectionScalarFieldEnum = (typeof DocSectionScalarFieldEnum)[keyof
 export const DocCategoryScalarFieldEnum = {
   id: 'id',
   title: 'title',
+  slug: 'slug',
   sortOrder: 'sortOrder',
   sectionId: 'sectionId',
   createdAt: 'createdAt',
@@ -352,9 +354,11 @@ export const DocItemScalarFieldEnum = {
   description: 'description',
   icon: 'icon',
   content: 'content',
+  projectUrl: 'projectUrl',
   keywords: 'keywords',
   sortOrder: 'sortOrder',
   categoryId: 'categoryId',
+  parentId: 'parentId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

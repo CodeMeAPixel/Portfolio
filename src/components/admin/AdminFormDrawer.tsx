@@ -61,7 +61,7 @@ export function AdminFormDrawer({
           <h2 className="text-lg font-semibold tracking-tight">{title}</h2>
           <button
             onClick={onClose}
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-foreground/[0.06] hover:text-foreground"
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-foreground/6 hover:text-foreground"
           >
             <X className="h-4 w-4" />
           </button>
@@ -84,7 +84,7 @@ export function AdminFormDrawer({
             <button
               type="button"
               onClick={onClose}
-              className="rounded-lg border border-border/50 px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-foreground/[0.04] hover:text-foreground"
+              className="rounded-lg border border-border/50 px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-foreground/4 hover:text-foreground"
             >
               Cancel
             </button>
@@ -135,7 +135,7 @@ export function FormInput({
   return (
     <input
       {...props}
-      className={`h-9 w-full rounded-lg border border-border/50 bg-foreground/[0.02] px-3 text-sm outline-none transition-colors placeholder:text-muted-foreground/40 focus:border-primary/30 focus:bg-foreground/[0.04] ${props.className || ''}`}
+      className={`h-9 w-full rounded-lg border border-border/50 bg-foreground/2 px-3 text-sm outline-none transition-colors placeholder:text-muted-foreground/40 focus:border-primary/30 focus:bg-foreground/4 ${props.className || ''}`}
     />
   )
 }
@@ -148,7 +148,7 @@ export function FormTextarea({
     <textarea
       rows={rows}
       {...props}
-      className={`w-full rounded-lg border border-border/50 bg-foreground/[0.02] px-3 py-2 text-sm outline-none transition-colors placeholder:text-muted-foreground/40 focus:border-primary/30 focus:bg-foreground/[0.04] ${props.className || ''}`}
+      className={`w-full rounded-lg border border-border/50 bg-foreground/2 px-3 py-2 text-sm outline-none transition-colors placeholder:text-muted-foreground/40 focus:border-primary/30 focus:bg-foreground/4 ${props.className || ''}`}
     />
   )
 }
@@ -200,7 +200,7 @@ export function FormSelect({
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className={`flex h-9 w-full items-center justify-between rounded-lg border border-border/50 bg-foreground/[0.02] px-3 text-sm outline-none transition-colors hover:border-border focus:border-primary/30 focus:bg-foreground/[0.04] ${props.className || ''}`}
+        className={`flex h-9 w-full items-center justify-between rounded-lg border border-border/50 bg-foreground/2 px-3 text-sm outline-none transition-colors hover:border-border focus:border-primary/30 focus:bg-foreground/4 ${props.className || ''}`}
       >
         <span className={value ? 'text-foreground' : 'text-muted-foreground/60'}>
           {selectedLabel}
@@ -222,7 +222,7 @@ export function FormSelect({
               className={`flex w-full items-center px-3 py-2 text-left text-sm transition-colors ${
                 opt.value === value
                   ? 'bg-primary/10 text-primary'
-                  : 'text-foreground hover:bg-foreground/[0.06]'
+                  : 'text-foreground hover:bg-foreground/6'
               }`}
             >
               {opt.label}
@@ -254,7 +254,7 @@ export function FormCheckbox({
       <input
         type="checkbox"
         {...props}
-        className="h-4 w-4 rounded border-border/50 bg-foreground/[0.02] accent-primary"
+        className="h-4 w-4 rounded border-border/50 bg-foreground/2 accent-primary"
       />
       <span className="text-sm text-foreground">{label}</span>
     </label>
@@ -287,11 +287,11 @@ export function FormTagInput({
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-1.5 rounded-lg border border-border/50 bg-foreground/[0.02] px-2 py-1.5 transition-colors focus-within:border-primary/30 focus-within:bg-foreground/[0.04]">
+    <div className="flex flex-wrap items-center gap-1.5 rounded-lg border border-border/50 bg-foreground/2 px-2 py-1.5 transition-colors focus-within:border-primary/30 focus-within:bg-foreground/4">
       {value.map((tag) => (
         <span
           key={tag}
-          className="inline-flex items-center gap-1 rounded-md bg-foreground/[0.06] px-2 py-0.5 text-xs text-foreground"
+          className="inline-flex items-center gap-1 rounded-md bg-foreground/6 px-2 py-0.5 text-xs text-foreground"
         >
           {tag}
           <button
@@ -308,7 +308,7 @@ export function FormTagInput({
         type="text"
         placeholder={value.length === 0 ? placeholder : ''}
         onKeyDown={handleKeyDown}
-        className="min-w-[100px] flex-1 bg-transparent py-0.5 text-sm outline-none placeholder:text-muted-foreground/40"
+        className="min-w-25 flex-1 bg-transparent py-0.5 text-sm outline-none placeholder:text-muted-foreground/40"
       />
     </div>
   )

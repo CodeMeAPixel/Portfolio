@@ -173,7 +173,7 @@ function ReviewsPage() {
                 {sortOpen && (
                   <>
                     <div className="fixed inset-0 z-40" onClick={() => setSortOpen(false)} />
-                    <div className="absolute right-0 z-50 mt-1 w-44 glass-strong rounded-xl p-1 shadow-xl animate-fade-up">
+                    <div className="absolute left-0 sm:left-auto sm:right-0 z-50 mt-1 w-44 glass-strong rounded-xl p-1 shadow-xl animate-fade-up">
                       {(Object.entries(sortLabels) as [SortOption, string][]).map(([key, label]) => (
                         <button
                           key={key}
