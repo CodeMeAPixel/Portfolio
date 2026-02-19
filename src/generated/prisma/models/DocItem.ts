@@ -41,8 +41,10 @@ export type DocItemMinAggregateOutputType = {
   description: string | null
   icon: string | null
   content: string | null
+  projectUrl: string | null
   sortOrder: number | null
   categoryId: string | null
+  parentId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -54,8 +56,10 @@ export type DocItemMaxAggregateOutputType = {
   description: string | null
   icon: string | null
   content: string | null
+  projectUrl: string | null
   sortOrder: number | null
   categoryId: string | null
+  parentId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -67,9 +71,11 @@ export type DocItemCountAggregateOutputType = {
   description: number
   icon: number
   content: number
+  projectUrl: number
   keywords: number
   sortOrder: number
   categoryId: number
+  parentId: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -91,8 +97,10 @@ export type DocItemMinAggregateInputType = {
   description?: true
   icon?: true
   content?: true
+  projectUrl?: true
   sortOrder?: true
   categoryId?: true
+  parentId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -104,8 +112,10 @@ export type DocItemMaxAggregateInputType = {
   description?: true
   icon?: true
   content?: true
+  projectUrl?: true
   sortOrder?: true
   categoryId?: true
+  parentId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -117,9 +127,11 @@ export type DocItemCountAggregateInputType = {
   description?: true
   icon?: true
   content?: true
+  projectUrl?: true
   keywords?: true
   sortOrder?: true
   categoryId?: true
+  parentId?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -218,9 +230,11 @@ export type DocItemGroupByOutputType = {
   description: string
   icon: string | null
   content: string | null
+  projectUrl: string | null
   keywords: string[]
   sortOrder: number
   categoryId: string
+  parentId: string | null
   createdAt: Date
   updatedAt: Date
   _count: DocItemCountAggregateOutputType | null
@@ -255,12 +269,16 @@ export type DocItemWhereInput = {
   description?: Prisma.StringFilter<"DocItem"> | string
   icon?: Prisma.StringNullableFilter<"DocItem"> | string | null
   content?: Prisma.StringNullableFilter<"DocItem"> | string | null
+  projectUrl?: Prisma.StringNullableFilter<"DocItem"> | string | null
   keywords?: Prisma.StringNullableListFilter<"DocItem">
   sortOrder?: Prisma.IntFilter<"DocItem"> | number
   categoryId?: Prisma.StringFilter<"DocItem"> | string
+  parentId?: Prisma.StringNullableFilter<"DocItem"> | string | null
   createdAt?: Prisma.DateTimeFilter<"DocItem"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DocItem"> | Date | string
   category?: Prisma.XOR<Prisma.DocCategoryScalarRelationFilter, Prisma.DocCategoryWhereInput>
+  parent?: Prisma.XOR<Prisma.DocItemNullableScalarRelationFilter, Prisma.DocItemWhereInput> | null
+  children?: Prisma.DocItemListRelationFilter
 }
 
 export type DocItemOrderByWithRelationInput = {
@@ -270,16 +288,21 @@ export type DocItemOrderByWithRelationInput = {
   description?: Prisma.SortOrder
   icon?: Prisma.SortOrderInput | Prisma.SortOrder
   content?: Prisma.SortOrderInput | Prisma.SortOrder
+  projectUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   keywords?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
+  parentId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   category?: Prisma.DocCategoryOrderByWithRelationInput
+  parent?: Prisma.DocItemOrderByWithRelationInput
+  children?: Prisma.DocItemOrderByRelationAggregateInput
 }
 
 export type DocItemWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  categoryId_slug_parentId?: Prisma.DocItemCategoryIdSlugParentIdCompoundUniqueInput
   AND?: Prisma.DocItemWhereInput | Prisma.DocItemWhereInput[]
   OR?: Prisma.DocItemWhereInput[]
   NOT?: Prisma.DocItemWhereInput | Prisma.DocItemWhereInput[]
@@ -288,13 +311,17 @@ export type DocItemWhereUniqueInput = Prisma.AtLeast<{
   description?: Prisma.StringFilter<"DocItem"> | string
   icon?: Prisma.StringNullableFilter<"DocItem"> | string | null
   content?: Prisma.StringNullableFilter<"DocItem"> | string | null
+  projectUrl?: Prisma.StringNullableFilter<"DocItem"> | string | null
   keywords?: Prisma.StringNullableListFilter<"DocItem">
   sortOrder?: Prisma.IntFilter<"DocItem"> | number
   categoryId?: Prisma.StringFilter<"DocItem"> | string
+  parentId?: Prisma.StringNullableFilter<"DocItem"> | string | null
   createdAt?: Prisma.DateTimeFilter<"DocItem"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DocItem"> | Date | string
   category?: Prisma.XOR<Prisma.DocCategoryScalarRelationFilter, Prisma.DocCategoryWhereInput>
-}, "id">
+  parent?: Prisma.XOR<Prisma.DocItemNullableScalarRelationFilter, Prisma.DocItemWhereInput> | null
+  children?: Prisma.DocItemListRelationFilter
+}, "id" | "categoryId_slug_parentId">
 
 export type DocItemOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -303,9 +330,11 @@ export type DocItemOrderByWithAggregationInput = {
   description?: Prisma.SortOrder
   icon?: Prisma.SortOrderInput | Prisma.SortOrder
   content?: Prisma.SortOrderInput | Prisma.SortOrder
+  projectUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   keywords?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
+  parentId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.DocItemCountOrderByAggregateInput
@@ -325,9 +354,11 @@ export type DocItemScalarWhereWithAggregatesInput = {
   description?: Prisma.StringWithAggregatesFilter<"DocItem"> | string
   icon?: Prisma.StringNullableWithAggregatesFilter<"DocItem"> | string | null
   content?: Prisma.StringNullableWithAggregatesFilter<"DocItem"> | string | null
+  projectUrl?: Prisma.StringNullableWithAggregatesFilter<"DocItem"> | string | null
   keywords?: Prisma.StringNullableListFilter<"DocItem">
   sortOrder?: Prisma.IntWithAggregatesFilter<"DocItem"> | number
   categoryId?: Prisma.StringWithAggregatesFilter<"DocItem"> | string
+  parentId?: Prisma.StringNullableWithAggregatesFilter<"DocItem"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"DocItem"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"DocItem"> | Date | string
 }
@@ -339,11 +370,14 @@ export type DocItemCreateInput = {
   description: string
   icon?: string | null
   content?: string | null
+  projectUrl?: string | null
   keywords?: Prisma.DocItemCreatekeywordsInput | string[]
   sortOrder?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   category: Prisma.DocCategoryCreateNestedOneWithoutItemsInput
+  parent?: Prisma.DocItemCreateNestedOneWithoutChildrenInput
+  children?: Prisma.DocItemCreateNestedManyWithoutParentInput
 }
 
 export type DocItemUncheckedCreateInput = {
@@ -353,11 +387,14 @@ export type DocItemUncheckedCreateInput = {
   description: string
   icon?: string | null
   content?: string | null
+  projectUrl?: string | null
   keywords?: Prisma.DocItemCreatekeywordsInput | string[]
   sortOrder?: number
   categoryId: string
+  parentId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  children?: Prisma.DocItemUncheckedCreateNestedManyWithoutParentInput
 }
 
 export type DocItemUpdateInput = {
@@ -367,11 +404,14 @@ export type DocItemUpdateInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   keywords?: Prisma.DocItemUpdatekeywordsInput | string[]
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   category?: Prisma.DocCategoryUpdateOneRequiredWithoutItemsNestedInput
+  parent?: Prisma.DocItemUpdateOneWithoutChildrenNestedInput
+  children?: Prisma.DocItemUpdateManyWithoutParentNestedInput
 }
 
 export type DocItemUncheckedUpdateInput = {
@@ -381,11 +421,14 @@ export type DocItemUncheckedUpdateInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   keywords?: Prisma.DocItemUpdatekeywordsInput | string[]
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  children?: Prisma.DocItemUncheckedUpdateManyWithoutParentNestedInput
 }
 
 export type DocItemCreateManyInput = {
@@ -395,9 +438,11 @@ export type DocItemCreateManyInput = {
   description: string
   icon?: string | null
   content?: string | null
+  projectUrl?: string | null
   keywords?: Prisma.DocItemCreatekeywordsInput | string[]
   sortOrder?: number
   categoryId: string
+  parentId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -409,6 +454,7 @@ export type DocItemUpdateManyMutationInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   keywords?: Prisma.DocItemUpdatekeywordsInput | string[]
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -422,9 +468,11 @@ export type DocItemUncheckedUpdateManyInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   keywords?: Prisma.DocItemUpdatekeywordsInput | string[]
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -439,6 +487,17 @@ export type DocItemOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type DocItemNullableScalarRelationFilter = {
+  is?: Prisma.DocItemWhereInput | null
+  isNot?: Prisma.DocItemWhereInput | null
+}
+
+export type DocItemCategoryIdSlugParentIdCompoundUniqueInput = {
+  categoryId: string
+  slug: string
+  parentId: string
+}
+
 export type DocItemCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
@@ -446,9 +505,11 @@ export type DocItemCountOrderByAggregateInput = {
   description?: Prisma.SortOrder
   icon?: Prisma.SortOrder
   content?: Prisma.SortOrder
+  projectUrl?: Prisma.SortOrder
   keywords?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
+  parentId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -464,8 +525,10 @@ export type DocItemMaxOrderByAggregateInput = {
   description?: Prisma.SortOrder
   icon?: Prisma.SortOrder
   content?: Prisma.SortOrder
+  projectUrl?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
+  parentId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -477,8 +540,10 @@ export type DocItemMinOrderByAggregateInput = {
   description?: Prisma.SortOrder
   icon?: Prisma.SortOrder
   content?: Prisma.SortOrder
+  projectUrl?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   categoryId?: Prisma.SortOrder
+  parentId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -533,9 +598,67 @@ export type DocItemCreatekeywordsInput = {
   set: string[]
 }
 
+export type DocItemCreateNestedOneWithoutChildrenInput = {
+  create?: Prisma.XOR<Prisma.DocItemCreateWithoutChildrenInput, Prisma.DocItemUncheckedCreateWithoutChildrenInput>
+  connectOrCreate?: Prisma.DocItemCreateOrConnectWithoutChildrenInput
+  connect?: Prisma.DocItemWhereUniqueInput
+}
+
+export type DocItemCreateNestedManyWithoutParentInput = {
+  create?: Prisma.XOR<Prisma.DocItemCreateWithoutParentInput, Prisma.DocItemUncheckedCreateWithoutParentInput> | Prisma.DocItemCreateWithoutParentInput[] | Prisma.DocItemUncheckedCreateWithoutParentInput[]
+  connectOrCreate?: Prisma.DocItemCreateOrConnectWithoutParentInput | Prisma.DocItemCreateOrConnectWithoutParentInput[]
+  createMany?: Prisma.DocItemCreateManyParentInputEnvelope
+  connect?: Prisma.DocItemWhereUniqueInput | Prisma.DocItemWhereUniqueInput[]
+}
+
+export type DocItemUncheckedCreateNestedManyWithoutParentInput = {
+  create?: Prisma.XOR<Prisma.DocItemCreateWithoutParentInput, Prisma.DocItemUncheckedCreateWithoutParentInput> | Prisma.DocItemCreateWithoutParentInput[] | Prisma.DocItemUncheckedCreateWithoutParentInput[]
+  connectOrCreate?: Prisma.DocItemCreateOrConnectWithoutParentInput | Prisma.DocItemCreateOrConnectWithoutParentInput[]
+  createMany?: Prisma.DocItemCreateManyParentInputEnvelope
+  connect?: Prisma.DocItemWhereUniqueInput | Prisma.DocItemWhereUniqueInput[]
+}
+
 export type DocItemUpdatekeywordsInput = {
   set?: string[]
   push?: string | string[]
+}
+
+export type DocItemUpdateOneWithoutChildrenNestedInput = {
+  create?: Prisma.XOR<Prisma.DocItemCreateWithoutChildrenInput, Prisma.DocItemUncheckedCreateWithoutChildrenInput>
+  connectOrCreate?: Prisma.DocItemCreateOrConnectWithoutChildrenInput
+  upsert?: Prisma.DocItemUpsertWithoutChildrenInput
+  disconnect?: Prisma.DocItemWhereInput | boolean
+  delete?: Prisma.DocItemWhereInput | boolean
+  connect?: Prisma.DocItemWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DocItemUpdateToOneWithWhereWithoutChildrenInput, Prisma.DocItemUpdateWithoutChildrenInput>, Prisma.DocItemUncheckedUpdateWithoutChildrenInput>
+}
+
+export type DocItemUpdateManyWithoutParentNestedInput = {
+  create?: Prisma.XOR<Prisma.DocItemCreateWithoutParentInput, Prisma.DocItemUncheckedCreateWithoutParentInput> | Prisma.DocItemCreateWithoutParentInput[] | Prisma.DocItemUncheckedCreateWithoutParentInput[]
+  connectOrCreate?: Prisma.DocItemCreateOrConnectWithoutParentInput | Prisma.DocItemCreateOrConnectWithoutParentInput[]
+  upsert?: Prisma.DocItemUpsertWithWhereUniqueWithoutParentInput | Prisma.DocItemUpsertWithWhereUniqueWithoutParentInput[]
+  createMany?: Prisma.DocItemCreateManyParentInputEnvelope
+  set?: Prisma.DocItemWhereUniqueInput | Prisma.DocItemWhereUniqueInput[]
+  disconnect?: Prisma.DocItemWhereUniqueInput | Prisma.DocItemWhereUniqueInput[]
+  delete?: Prisma.DocItemWhereUniqueInput | Prisma.DocItemWhereUniqueInput[]
+  connect?: Prisma.DocItemWhereUniqueInput | Prisma.DocItemWhereUniqueInput[]
+  update?: Prisma.DocItemUpdateWithWhereUniqueWithoutParentInput | Prisma.DocItemUpdateWithWhereUniqueWithoutParentInput[]
+  updateMany?: Prisma.DocItemUpdateManyWithWhereWithoutParentInput | Prisma.DocItemUpdateManyWithWhereWithoutParentInput[]
+  deleteMany?: Prisma.DocItemScalarWhereInput | Prisma.DocItemScalarWhereInput[]
+}
+
+export type DocItemUncheckedUpdateManyWithoutParentNestedInput = {
+  create?: Prisma.XOR<Prisma.DocItemCreateWithoutParentInput, Prisma.DocItemUncheckedCreateWithoutParentInput> | Prisma.DocItemCreateWithoutParentInput[] | Prisma.DocItemUncheckedCreateWithoutParentInput[]
+  connectOrCreate?: Prisma.DocItemCreateOrConnectWithoutParentInput | Prisma.DocItemCreateOrConnectWithoutParentInput[]
+  upsert?: Prisma.DocItemUpsertWithWhereUniqueWithoutParentInput | Prisma.DocItemUpsertWithWhereUniqueWithoutParentInput[]
+  createMany?: Prisma.DocItemCreateManyParentInputEnvelope
+  set?: Prisma.DocItemWhereUniqueInput | Prisma.DocItemWhereUniqueInput[]
+  disconnect?: Prisma.DocItemWhereUniqueInput | Prisma.DocItemWhereUniqueInput[]
+  delete?: Prisma.DocItemWhereUniqueInput | Prisma.DocItemWhereUniqueInput[]
+  connect?: Prisma.DocItemWhereUniqueInput | Prisma.DocItemWhereUniqueInput[]
+  update?: Prisma.DocItemUpdateWithWhereUniqueWithoutParentInput | Prisma.DocItemUpdateWithWhereUniqueWithoutParentInput[]
+  updateMany?: Prisma.DocItemUpdateManyWithWhereWithoutParentInput | Prisma.DocItemUpdateManyWithWhereWithoutParentInput[]
+  deleteMany?: Prisma.DocItemScalarWhereInput | Prisma.DocItemScalarWhereInput[]
 }
 
 export type DocItemCreateWithoutCategoryInput = {
@@ -545,10 +668,13 @@ export type DocItemCreateWithoutCategoryInput = {
   description: string
   icon?: string | null
   content?: string | null
+  projectUrl?: string | null
   keywords?: Prisma.DocItemCreatekeywordsInput | string[]
   sortOrder?: number
   createdAt?: Date | string
   updatedAt?: Date | string
+  parent?: Prisma.DocItemCreateNestedOneWithoutChildrenInput
+  children?: Prisma.DocItemCreateNestedManyWithoutParentInput
 }
 
 export type DocItemUncheckedCreateWithoutCategoryInput = {
@@ -558,10 +684,13 @@ export type DocItemUncheckedCreateWithoutCategoryInput = {
   description: string
   icon?: string | null
   content?: string | null
+  projectUrl?: string | null
   keywords?: Prisma.DocItemCreatekeywordsInput | string[]
   sortOrder?: number
+  parentId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  children?: Prisma.DocItemUncheckedCreateNestedManyWithoutParentInput
 }
 
 export type DocItemCreateOrConnectWithoutCategoryInput = {
@@ -600,11 +729,151 @@ export type DocItemScalarWhereInput = {
   description?: Prisma.StringFilter<"DocItem"> | string
   icon?: Prisma.StringNullableFilter<"DocItem"> | string | null
   content?: Prisma.StringNullableFilter<"DocItem"> | string | null
+  projectUrl?: Prisma.StringNullableFilter<"DocItem"> | string | null
   keywords?: Prisma.StringNullableListFilter<"DocItem">
   sortOrder?: Prisma.IntFilter<"DocItem"> | number
   categoryId?: Prisma.StringFilter<"DocItem"> | string
+  parentId?: Prisma.StringNullableFilter<"DocItem"> | string | null
   createdAt?: Prisma.DateTimeFilter<"DocItem"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DocItem"> | Date | string
+}
+
+export type DocItemCreateWithoutChildrenInput = {
+  id?: string
+  title: string
+  slug: string
+  description: string
+  icon?: string | null
+  content?: string | null
+  projectUrl?: string | null
+  keywords?: Prisma.DocItemCreatekeywordsInput | string[]
+  sortOrder?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  category: Prisma.DocCategoryCreateNestedOneWithoutItemsInput
+  parent?: Prisma.DocItemCreateNestedOneWithoutChildrenInput
+}
+
+export type DocItemUncheckedCreateWithoutChildrenInput = {
+  id?: string
+  title: string
+  slug: string
+  description: string
+  icon?: string | null
+  content?: string | null
+  projectUrl?: string | null
+  keywords?: Prisma.DocItemCreatekeywordsInput | string[]
+  sortOrder?: number
+  categoryId: string
+  parentId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type DocItemCreateOrConnectWithoutChildrenInput = {
+  where: Prisma.DocItemWhereUniqueInput
+  create: Prisma.XOR<Prisma.DocItemCreateWithoutChildrenInput, Prisma.DocItemUncheckedCreateWithoutChildrenInput>
+}
+
+export type DocItemCreateWithoutParentInput = {
+  id?: string
+  title: string
+  slug: string
+  description: string
+  icon?: string | null
+  content?: string | null
+  projectUrl?: string | null
+  keywords?: Prisma.DocItemCreatekeywordsInput | string[]
+  sortOrder?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  category: Prisma.DocCategoryCreateNestedOneWithoutItemsInput
+  children?: Prisma.DocItemCreateNestedManyWithoutParentInput
+}
+
+export type DocItemUncheckedCreateWithoutParentInput = {
+  id?: string
+  title: string
+  slug: string
+  description: string
+  icon?: string | null
+  content?: string | null
+  projectUrl?: string | null
+  keywords?: Prisma.DocItemCreatekeywordsInput | string[]
+  sortOrder?: number
+  categoryId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  children?: Prisma.DocItemUncheckedCreateNestedManyWithoutParentInput
+}
+
+export type DocItemCreateOrConnectWithoutParentInput = {
+  where: Prisma.DocItemWhereUniqueInput
+  create: Prisma.XOR<Prisma.DocItemCreateWithoutParentInput, Prisma.DocItemUncheckedCreateWithoutParentInput>
+}
+
+export type DocItemCreateManyParentInputEnvelope = {
+  data: Prisma.DocItemCreateManyParentInput | Prisma.DocItemCreateManyParentInput[]
+  skipDuplicates?: boolean
+}
+
+export type DocItemUpsertWithoutChildrenInput = {
+  update: Prisma.XOR<Prisma.DocItemUpdateWithoutChildrenInput, Prisma.DocItemUncheckedUpdateWithoutChildrenInput>
+  create: Prisma.XOR<Prisma.DocItemCreateWithoutChildrenInput, Prisma.DocItemUncheckedCreateWithoutChildrenInput>
+  where?: Prisma.DocItemWhereInput
+}
+
+export type DocItemUpdateToOneWithWhereWithoutChildrenInput = {
+  where?: Prisma.DocItemWhereInput
+  data: Prisma.XOR<Prisma.DocItemUpdateWithoutChildrenInput, Prisma.DocItemUncheckedUpdateWithoutChildrenInput>
+}
+
+export type DocItemUpdateWithoutChildrenInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keywords?: Prisma.DocItemUpdatekeywordsInput | string[]
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  category?: Prisma.DocCategoryUpdateOneRequiredWithoutItemsNestedInput
+  parent?: Prisma.DocItemUpdateOneWithoutChildrenNestedInput
+}
+
+export type DocItemUncheckedUpdateWithoutChildrenInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keywords?: Prisma.DocItemUpdatekeywordsInput | string[]
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type DocItemUpsertWithWhereUniqueWithoutParentInput = {
+  where: Prisma.DocItemWhereUniqueInput
+  update: Prisma.XOR<Prisma.DocItemUpdateWithoutParentInput, Prisma.DocItemUncheckedUpdateWithoutParentInput>
+  create: Prisma.XOR<Prisma.DocItemCreateWithoutParentInput, Prisma.DocItemUncheckedCreateWithoutParentInput>
+}
+
+export type DocItemUpdateWithWhereUniqueWithoutParentInput = {
+  where: Prisma.DocItemWhereUniqueInput
+  data: Prisma.XOR<Prisma.DocItemUpdateWithoutParentInput, Prisma.DocItemUncheckedUpdateWithoutParentInput>
+}
+
+export type DocItemUpdateManyWithWhereWithoutParentInput = {
+  where: Prisma.DocItemScalarWhereInput
+  data: Prisma.XOR<Prisma.DocItemUpdateManyMutationInput, Prisma.DocItemUncheckedUpdateManyWithoutParentInput>
 }
 
 export type DocItemCreateManyCategoryInput = {
@@ -614,8 +883,10 @@ export type DocItemCreateManyCategoryInput = {
   description: string
   icon?: string | null
   content?: string | null
+  projectUrl?: string | null
   keywords?: Prisma.DocItemCreatekeywordsInput | string[]
   sortOrder?: number
+  parentId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -627,10 +898,13 @@ export type DocItemUpdateWithoutCategoryInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   keywords?: Prisma.DocItemUpdatekeywordsInput | string[]
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  parent?: Prisma.DocItemUpdateOneWithoutChildrenNestedInput
+  children?: Prisma.DocItemUpdateManyWithoutParentNestedInput
 }
 
 export type DocItemUncheckedUpdateWithoutCategoryInput = {
@@ -640,10 +914,13 @@ export type DocItemUncheckedUpdateWithoutCategoryInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   keywords?: Prisma.DocItemUpdatekeywordsInput | string[]
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  children?: Prisma.DocItemUncheckedUpdateManyWithoutParentNestedInput
 }
 
 export type DocItemUncheckedUpdateManyWithoutCategoryInput = {
@@ -653,12 +930,105 @@ export type DocItemUncheckedUpdateManyWithoutCategoryInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   keywords?: Prisma.DocItemUpdatekeywordsInput | string[]
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  parentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type DocItemCreateManyParentInput = {
+  id?: string
+  title: string
+  slug: string
+  description: string
+  icon?: string | null
+  content?: string | null
+  projectUrl?: string | null
+  keywords?: Prisma.DocItemCreatekeywordsInput | string[]
+  sortOrder?: number
+  categoryId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type DocItemUpdateWithoutParentInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keywords?: Prisma.DocItemUpdatekeywordsInput | string[]
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  category?: Prisma.DocCategoryUpdateOneRequiredWithoutItemsNestedInput
+  children?: Prisma.DocItemUpdateManyWithoutParentNestedInput
+}
+
+export type DocItemUncheckedUpdateWithoutParentInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keywords?: Prisma.DocItemUpdatekeywordsInput | string[]
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  children?: Prisma.DocItemUncheckedUpdateManyWithoutParentNestedInput
+}
+
+export type DocItemUncheckedUpdateManyWithoutParentInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  content?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keywords?: Prisma.DocItemUpdatekeywordsInput | string[]
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  categoryId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+
+/**
+ * Count Type DocItemCountOutputType
+ */
+
+export type DocItemCountOutputType = {
+  children: number
+}
+
+export type DocItemCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  children?: boolean | DocItemCountOutputTypeCountChildrenArgs
+}
+
+/**
+ * DocItemCountOutputType without action
+ */
+export type DocItemCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DocItemCountOutputType
+   */
+  select?: Prisma.DocItemCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * DocItemCountOutputType without action
+ */
+export type DocItemCountOutputTypeCountChildrenArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DocItemWhereInput
+}
 
 
 export type DocItemSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -668,12 +1038,17 @@ export type DocItemSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   description?: boolean
   icon?: boolean
   content?: boolean
+  projectUrl?: boolean
   keywords?: boolean
   sortOrder?: boolean
   categoryId?: boolean
+  parentId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   category?: boolean | Prisma.DocCategoryDefaultArgs<ExtArgs>
+  parent?: boolean | Prisma.DocItem$parentArgs<ExtArgs>
+  children?: boolean | Prisma.DocItem$childrenArgs<ExtArgs>
+  _count?: boolean | Prisma.DocItemCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["docItem"]>
 
 export type DocItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -683,12 +1058,15 @@ export type DocItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   description?: boolean
   icon?: boolean
   content?: boolean
+  projectUrl?: boolean
   keywords?: boolean
   sortOrder?: boolean
   categoryId?: boolean
+  parentId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   category?: boolean | Prisma.DocCategoryDefaultArgs<ExtArgs>
+  parent?: boolean | Prisma.DocItem$parentArgs<ExtArgs>
 }, ExtArgs["result"]["docItem"]>
 
 export type DocItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -698,12 +1076,15 @@ export type DocItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   description?: boolean
   icon?: boolean
   content?: boolean
+  projectUrl?: boolean
   keywords?: boolean
   sortOrder?: boolean
   categoryId?: boolean
+  parentId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   category?: boolean | Prisma.DocCategoryDefaultArgs<ExtArgs>
+  parent?: boolean | Prisma.DocItem$parentArgs<ExtArgs>
 }, ExtArgs["result"]["docItem"]>
 
 export type DocItemSelectScalar = {
@@ -713,28 +1094,37 @@ export type DocItemSelectScalar = {
   description?: boolean
   icon?: boolean
   content?: boolean
+  projectUrl?: boolean
   keywords?: boolean
   sortOrder?: boolean
   categoryId?: boolean
+  parentId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type DocItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "description" | "icon" | "content" | "keywords" | "sortOrder" | "categoryId" | "createdAt" | "updatedAt", ExtArgs["result"]["docItem"]>
+export type DocItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "description" | "icon" | "content" | "projectUrl" | "keywords" | "sortOrder" | "categoryId" | "parentId" | "createdAt" | "updatedAt", ExtArgs["result"]["docItem"]>
 export type DocItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   category?: boolean | Prisma.DocCategoryDefaultArgs<ExtArgs>
+  parent?: boolean | Prisma.DocItem$parentArgs<ExtArgs>
+  children?: boolean | Prisma.DocItem$childrenArgs<ExtArgs>
+  _count?: boolean | Prisma.DocItemCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type DocItemIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   category?: boolean | Prisma.DocCategoryDefaultArgs<ExtArgs>
+  parent?: boolean | Prisma.DocItem$parentArgs<ExtArgs>
 }
 export type DocItemIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   category?: boolean | Prisma.DocCategoryDefaultArgs<ExtArgs>
+  parent?: boolean | Prisma.DocItem$parentArgs<ExtArgs>
 }
 
 export type $DocItemPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "DocItem"
   objects: {
     category: Prisma.$DocCategoryPayload<ExtArgs>
+    parent: Prisma.$DocItemPayload<ExtArgs> | null
+    children: Prisma.$DocItemPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -743,9 +1133,11 @@ export type $DocItemPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     description: string
     icon: string | null
     content: string | null
+    projectUrl: string | null
     keywords: string[]
     sortOrder: number
     categoryId: string
+    parentId: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["docItem"]>
@@ -1143,6 +1535,8 @@ readonly fields: DocItemFieldRefs;
 export interface Prisma__DocItemClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   category<T extends Prisma.DocCategoryDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DocCategoryDefaultArgs<ExtArgs>>): Prisma.Prisma__DocCategoryClient<runtime.Types.Result.GetResult<Prisma.$DocCategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  parent<T extends Prisma.DocItem$parentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DocItem$parentArgs<ExtArgs>>): Prisma.Prisma__DocItemClient<runtime.Types.Result.GetResult<Prisma.$DocItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  children<T extends Prisma.DocItem$childrenArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DocItem$childrenArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1178,9 +1572,11 @@ export interface DocItemFieldRefs {
   readonly description: Prisma.FieldRef<"DocItem", 'String'>
   readonly icon: Prisma.FieldRef<"DocItem", 'String'>
   readonly content: Prisma.FieldRef<"DocItem", 'String'>
+  readonly projectUrl: Prisma.FieldRef<"DocItem", 'String'>
   readonly keywords: Prisma.FieldRef<"DocItem", 'String[]'>
   readonly sortOrder: Prisma.FieldRef<"DocItem", 'Int'>
   readonly categoryId: Prisma.FieldRef<"DocItem", 'String'>
+  readonly parentId: Prisma.FieldRef<"DocItem", 'String'>
   readonly createdAt: Prisma.FieldRef<"DocItem", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"DocItem", 'DateTime'>
 }
@@ -1576,6 +1972,49 @@ export type DocItemDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Limit how many DocItems to delete.
    */
   limit?: number
+}
+
+/**
+ * DocItem.parent
+ */
+export type DocItem$parentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DocItem
+   */
+  select?: Prisma.DocItemSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DocItem
+   */
+  omit?: Prisma.DocItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DocItemInclude<ExtArgs> | null
+  where?: Prisma.DocItemWhereInput
+}
+
+/**
+ * DocItem.children
+ */
+export type DocItem$childrenArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DocItem
+   */
+  select?: Prisma.DocItemSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DocItem
+   */
+  omit?: Prisma.DocItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DocItemInclude<ExtArgs> | null
+  where?: Prisma.DocItemWhereInput
+  orderBy?: Prisma.DocItemOrderByWithRelationInput | Prisma.DocItemOrderByWithRelationInput[]
+  cursor?: Prisma.DocItemWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DocItemScalarFieldEnum | Prisma.DocItemScalarFieldEnum[]
 }
 
 /**

@@ -3,6 +3,8 @@ import { useSuspenseQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { Shield, ShieldOff, Ban, UserCheck, Trash2, Search, Users as UsersIcon, Filter } from 'lucide-react'
 import { createMeta } from '~/lib/meta'
+import { useConfirm } from '~/components/ConfirmDialog'
+import { useToast } from '~/components/Toast'
 import { getAdminUsers, updateUserRole, toggleUserBan, deleteUser } from '~/lib/admin-fns'
 
 const usersQueryOptions = {
@@ -33,11 +35,19 @@ function AdminUsers() {
     return matchesSearch && matchesRole
   })
 
+  const confirm = useConfirm()
+  const toast = useToast()
+
   const handleRoleToggle = async (userId: string, currentRole: string) => {
     setLoading(userId)
     try {
-      await updateUserRole({ data: { userId, role: currentRole === 'ADMIN' ? 'MEMBER' : 'ADMIN' } })
+      const newRole = currentRole === 'ADMIN' ? 'MEMBER' : 'ADMIN'
+      await updateUserRole({ data: { userId, role: newRole } })
       queryClient.invalidateQueries({ queryKey: ['admin', 'users'] })
+      toast.success(`Role updated to ${newRole}`)
+    } catch (err) {
+      console.error('Failed to update role:', err)
+      toast.error(err instanceof Error ? err.message : 'Failed to update role')
     } finally {
       setLoading(null)
     }
@@ -52,17 +62,25 @@ function AdminUsers() {
         banReason: !currentlyBanned ? 'Banned by admin' : undefined,
       } })
       queryClient.invalidateQueries({ queryKey: ['admin', 'users'] })
+      toast.success(currentlyBanned ? 'User unbanned' : 'User banned')
+    } catch (err) {
+      console.error('Failed to toggle ban:', err)
+      toast.error(err instanceof Error ? err.message : 'Failed to toggle ban')
     } finally {
       setLoading(null)
     }
   }
 
   const handleDelete = async (userId: string, name: string) => {
-    if (!confirm(`Delete user "${name}"? This cannot be undone.`)) return
+    if (!(await confirm({ message: `Delete user "${name}"? This cannot be undone.` }))) return
     setLoading(userId)
     try {
       await deleteUser({ data: { userId } })
       queryClient.invalidateQueries({ queryKey: ['admin', 'users'] })
+      toast.success(`User "${name}" deleted`)
+    } catch (err) {
+      console.error('Failed to delete user:', err)
+      toast.error(err instanceof Error ? err.message : 'Failed to delete user')
     } finally {
       setLoading(null)
     }

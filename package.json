@@ -14,6 +14,7 @@
     "db:generate": "dotenv -e .env -- prisma generate",
     "db:push": "dotenv -e .env -- prisma db push",
     "db:migrate": "dotenv -e .env -- prisma migrate dev",
+    "db:migrate:createonly": "dotenv -e .env -- prisma migrate dev --create-only",
     "db:studio": "dotenv -e .env -- prisma studio",
     "db:seed": "dotenv -e .env -- prisma db seed"
   },
@@ -35,6 +36,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "dotenv-cli": "^11.0.0",
+    "highlight.js": "^11.11.1",
     "lucide-react": "^0.561.0",
     "marked": "^17.0.2",
     "prisma": "^7.2.0",

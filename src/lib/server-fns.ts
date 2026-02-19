@@ -94,7 +94,13 @@ export const getDocSections = createServerFn({ method: 'GET' }).handler(
     return db.docSection.findMany({
       include: {
         categories: {
-          include: { items: { orderBy: { sortOrder: 'asc' } } },
+          include: {
+            items: {
+              where: { parentId: null },
+              include: { children: { orderBy: { sortOrder: 'asc' } } },
+              orderBy: { sortOrder: 'asc' },
+            },
+          },
           orderBy: { sortOrder: 'asc' },
         },
       },
@@ -104,27 +110,57 @@ export const getDocSections = createServerFn({ method: 'GET' }).handler(
 )
 
 export const getDocItemBySlug = createServerFn({ method: 'GET' })
-  .inputValidator((data: { sectionSlug: string; itemSlug: string }) => data)
-  .handler(async ({ data: { sectionSlug, itemSlug } }) => {
+  .inputValidator((data: { sectionSlug: string; categorySlug: string; itemSlug: string; subSlug?: string }) => data)
+  .handler(async ({ data: { sectionSlug, categorySlug, itemSlug, subSlug } }) => {
     const section = await db.docSection.findUnique({
       where: { slug: sectionSlug },
       include: {
         categories: {
+          where: { slug: categorySlug },
           include: {
             items: {
-              where: { slug: itemSlug },
+              where: { slug: itemSlug, parentId: null },
+              include: {
+                children: { orderBy: { sortOrder: 'asc' } },
+              },
             },
           },
         },
       },
     })
     if (!section) throw new Error('Doc section not found')
-    const item = section.categories.flatMap((c) => c.items).find((i) => i.slug === itemSlug)
-    if (!item) throw new Error('Doc item not found')
+    const category = section.categories[0]
+    if (!category) throw new Error('Doc category not found')
+    const parentItem = category.items[0]
+    if (!parentItem) throw new Error('Doc item not found')
+
+    // If requesting a sub-page, find it among children
+    if (subSlug) {
+      const child = parentItem.children.find((c) => c.slug === subSlug)
+      if (!child) throw new Error('Doc sub-item not found')
+      return {
+        ...child,
+        sectionName: section.name,
+        sectionSlug: section.slug,
+        sectionDescription: section.description,
+        categoryName: category.title,
+        categorySlug: category.slug,
+        parentName: parentItem.title,
+        parentSlug: parentItem.slug,
+        siblings: parentItem.children.map((c) => ({ slug: c.slug, title: c.title, sortOrder: c.sortOrder })),
+      }
+    }
+
+    // Return the parent item with its children list
     return {
-      ...item,
+      ...parentItem,
       sectionName: section.name,
       sectionSlug: section.slug,
       sectionDescription: section.description,
+      categoryName: category.title,
+      categorySlug: category.slug,
+      parentName: null,
+      parentSlug: null,
+      siblings: [],
     }
   })

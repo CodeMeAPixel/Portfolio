@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { BookOpen, ExternalLink, FileText, FolderOpen, ChevronRight, Search, ArrowRight, ArrowUpDown, ChevronDown, LayoutGrid, List } from 'lucide-react'
+import { DynamicIcon } from '~/components/DynamicIcon'
 import { useState, useMemo } from 'react'
 import { getDocSections } from '~/lib/server-fns'
 import { createMeta } from '~/lib/meta'
@@ -165,7 +166,7 @@ function DocsPage() {
               {sortOpen && (
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setSortOpen(false)} />
-                  <div className="absolute right-0 z-50 mt-1 w-40 glass-strong rounded-xl p-1 shadow-xl animate-fade-up">
+                  <div className="absolute left-0 sm:left-auto sm:right-0 z-50 mt-1 w-40 glass-strong rounded-xl p-1 shadow-xl animate-fade-up">
                     {([['a-z', 'A → Z'], ['z-a', 'Z → A'], ['newest', 'Newest'], ['oldest', 'Oldest']] as [SortOption, string][]).map(([key, label]) => (
                       <button
                         key={key}
@@ -220,21 +221,11 @@ function DocsPage() {
                   className="flex h-10 w-10 items-center justify-center rounded-xl"
                   style={{ background: 'color-mix(in srgb, var(--primary) 15%, transparent)' }}
                 >
-                  <BookOpen className="h-5 w-5 text-primary" />
+                  <DynamicIcon name={section.icon} className="h-5 w-5 text-primary" fallback={<BookOpen className="h-5 w-5 text-primary" />} />
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-3">
                     <h2 className="text-2xl font-bold">{section.name}</h2>
-                    {section.projectUrl && (
-                      <a
-                        href={section.projectUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex h-7 w-7 items-center justify-center rounded-lg text-muted-foreground transition-all hover:text-primary hover:bg-foreground/5"
-                      >
-                        <ExternalLink className="w-4 h-4" />
-                      </a>
-                    )}
                   </div>
                   {section.description && (
                     <p className="text-sm text-muted-foreground">{section.description}</p>
@@ -256,8 +247,8 @@ function DocsPage() {
                       layout === 'grid' ? (
                         <Link
                           key={item.id}
-                          to="/docs/$section/$slug"
-                          params={{ section: section.slug, slug: item.slug }}
+                          to="/docs/$section/$category/$slug"
+                          params={{ section: section.slug, category: cat.slug, slug: item.slug }}
                           className="group glass-card overflow-hidden rounded-2xl transition-all duration-300 hover:-translate-y-1 animate-fade-up block"
                           style={{ animationDelay: `${(catIdx * 0.05) + (itemIdx * 0.04)}s` }}
                         >
@@ -269,7 +260,20 @@ function DocsPage() {
 
                           <div className="p-5 space-y-2">
                             <div className="flex items-start justify-between gap-2">
-                              <h4 className="font-semibold text-sm transition-colors group-hover:text-primary">{item.title}</h4>
+                              <div className="flex items-center gap-2 min-w-0">
+                                <h4 className="font-semibold text-sm transition-colors group-hover:text-primary">{item.title}</h4>
+                                {item.projectUrl && (
+                                  <a
+                                    href={item.projectUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    onClick={(e) => e.stopPropagation()}
+                                    className="flex h-5 w-5 shrink-0 items-center justify-center rounded text-muted-foreground/50 transition-all hover:text-primary"
+                                  >
+                                    <ExternalLink className="h-3 w-3" />
+                                  </a>
+                                )}
+                              </div>
                               <ArrowRight className="h-3.5 w-3.5 shrink-0 text-muted-foreground/50 transition-all group-hover:text-primary group-hover:translate-x-0.5" />
                             </div>
                             <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
@@ -281,8 +285,8 @@ function DocsPage() {
                         /* ═══ LIST LAYOUT ═══ */
                         <Link
                           key={item.id}
-                          to="/docs/$section/$slug"
-                          params={{ section: section.slug, slug: item.slug }}
+                          to="/docs/$section/$category/$slug"
+                          params={{ section: section.slug, category: cat.slug, slug: item.slug }}
                           className="group glass-card flex items-center gap-4 rounded-2xl p-4 transition-all duration-300 hover:-translate-y-0.5 animate-fade-up sm:p-5"
                           style={{ animationDelay: `${(catIdx * 0.05) + (itemIdx * 0.03)}s` }}
                         >
@@ -293,7 +297,20 @@ function DocsPage() {
                             <FileText className="h-5 w-5 text-primary" />
                           </div>
                           <div className="flex-1 min-w-0 space-y-0.5">
-                            <h4 className="text-sm font-semibold transition-colors group-hover:text-primary line-clamp-1">{item.title}</h4>
+                            <div className="flex items-center gap-2">
+                              <h4 className="text-sm font-semibold transition-colors group-hover:text-primary line-clamp-1">{item.title}</h4>
+                              {item.projectUrl && (
+                                <a
+                                  href={item.projectUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  onClick={(e) => e.stopPropagation()}
+                                  className="flex h-5 w-5 shrink-0 items-center justify-center rounded text-muted-foreground/50 transition-all hover:text-primary"
+                                >
+                                  <ExternalLink className="h-3 w-3" />
+                                </a>
+                              )}
+                            </div>
                             {item.description && (
                               <p className="text-xs text-muted-foreground line-clamp-1 leading-relaxed">{item.description}</p>
                             )}

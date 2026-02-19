@@ -151,7 +151,7 @@ function ShopPage() {
               {sortOpen && (
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setSortOpen(false)} />
-                  <div className="absolute right-0 z-50 mt-1 w-40 glass-strong rounded-xl p-1 shadow-xl animate-fade-up">
+                  <div className="absolute left-0 sm:left-auto sm:right-0 z-50 mt-1 w-40 glass-strong rounded-xl p-1 shadow-xl animate-fade-up">
                     {(Object.entries(sortLabels) as [SortOption, string][]).map(([key, label]) => (
                       <button key={key} onClick={() => { setSort(key); setSortOpen(false); setPage(1) }} className={`w-full rounded-lg px-3 py-2 text-left text-sm transition-colors ${sort === key ? 'text-primary font-medium' : 'text-foreground hover:text-primary'}`} style={sort === key ? { background: 'color-mix(in srgb, var(--primary) 10%, transparent)' } : {}}>{label}</button>
                     ))}
@@ -219,8 +219,8 @@ function ShopPage() {
             layout === 'grid' ? (
               <Link key={product.id} to="/shop/$slug" params={{ slug: product.slug }} className="group glass-card overflow-hidden rounded-2xl transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl animate-fade-up block" style={{ animationDelay: `${i * 0.06}s` }}>
                 <div className="relative aspect-3/2 overflow-hidden">
-                  {product.images && product.images.length > 0 ? (
-                    <img src={product.images[0]} alt={product.title} className="absolute inset-0 h-full w-full object-cover transition-all duration-500 group-hover:scale-105" />
+                  {(product.banner || (product.images && product.images.length > 0)) ? (
+                    <img src={product.banner || product.images[0]} alt={product.title} className="absolute inset-0 h-full w-full object-cover transition-all duration-500 group-hover:scale-105" />
                   ) : (
                     <ProductPlaceholder title={product.title} status={product.status} className="absolute inset-0 h-full w-full object-cover transition-all duration-500 group-hover:scale-105" />
                   )}
@@ -258,8 +258,8 @@ function ShopPage() {
               /* ═══ LIST LAYOUT ═══ */
               <Link key={product.id} to="/shop/$slug" params={{ slug: product.slug }} className="group glass-card flex gap-4 rounded-2xl p-4 transition-all duration-300 hover:-translate-y-0.5 animate-fade-up sm:gap-6 sm:p-5" style={{ animationDelay: `${i * 0.04}s` }}>
                 <div className="relative h-24 w-32 shrink-0 overflow-hidden rounded-xl sm:h-28 sm:w-40">
-                  {product.images && product.images.length > 0 ? (
-                    <img src={product.images[0]} alt={product.title} className="h-full w-full object-cover transition-all duration-500 group-hover:scale-105" />
+                  {(product.banner || (product.images && product.images.length > 0)) ? (
+                    <img src={product.banner || product.images[0]} alt={product.title} className="h-full w-full object-cover transition-all duration-500 group-hover:scale-105" />
                   ) : (
                     <ProductPlaceholder title={product.title} className="h-full w-full object-cover" />
                   )}

@@ -24,7 +24,7 @@ export const Route = createFileRoute('/_site/shop/$slug')({
       title: p?.name ?? 'Product',
       description: p?.description ?? 'View product details.',
       path: `/shop/${p?.slug ?? ''}`,
-      image: p?.images?.[0],
+      image: p?.banner || p?.images?.[0],
     })
   },
   loader: async ({ context: { queryClient }, params }) => {
@@ -208,6 +208,17 @@ function ProductDetailPage() {
           style={{ background: 'var(--glow-secondary)' }}
         />
 
+        {product.banner && (
+          <div className="absolute inset-0 z-0">
+            <img
+              src={product.banner}
+              alt={`${product.title} banner`}
+              className="h-full w-full object-cover opacity-15"
+            />
+            <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, var(--card) 30%, transparent 100%)' }} />
+          </div>
+        )}
+
         <div
           className="relative z-10 space-y-5 p-5 sm:p-8 md:p-10"
           style={{
@@ -296,15 +307,18 @@ function ProductDetailPage() {
       </div>
 
       {/* ═══ IMAGE GALLERY ═══ */}
-      {product.images.length > 0 ? (
-        <div className="animate-fade-up" style={{ animationDelay: '0.1s' }}>
-          <ImageGallery images={product.images} title={product.title} />
-        </div>
-      ) : (
-        <div className="animate-fade-up overflow-hidden rounded-2xl" style={{ animationDelay: '0.1s' }}>
-          <ProductPlaceholder title={product.title} />
-        </div>
-      )}
+      {(() => {
+        const galleryImages = product.previewImages?.length > 0 ? product.previewImages : product.images
+        return galleryImages.length > 0 ? (
+          <div className="animate-fade-up" style={{ animationDelay: '0.1s' }}>
+            <ImageGallery images={galleryImages} title={product.title} />
+          </div>
+        ) : (
+          <div className="animate-fade-up overflow-hidden rounded-2xl" style={{ animationDelay: '0.1s' }}>
+            <ProductPlaceholder title={product.title} />
+          </div>
+        )
+      })()}
 
       {/* ═══ CONTENT ═══ */}
       <div className="grid gap-8 lg:grid-cols-3">

@@ -49,7 +49,7 @@ function ChatBubble({
       >
         {avatar}
       </div>
-      <div className={`flex max-w-[280px] flex-col gap-1.5 ${isRight ? 'items-end' : 'items-start'}`}>
+      <div className={`flex max-w-70 flex-col gap-1.5 ${isRight ? 'items-end' : 'items-start'}`}>
         <span className={`px-1 text-xs text-muted-foreground ${isRight ? 'text-right' : ''}`}>{name}</span>
         {messages.map((msg, i) => (
           <div key={i} className="flex flex-col gap-0.5">
@@ -172,7 +172,7 @@ function JustAskPage() {
         {/* Bad Example */}
         <div className="animate-fade-up" style={{ animationDelay: '0.2s' }}>
           <div className="glass-card relative overflow-hidden rounded-2xl border-destructive/20 p-6 md:p-8">
-            <div className="absolute left-0 right-0 top-0 h-1 bg-gradient-to-r from-red-500 to-orange-500" />
+            <div className="absolute left-0 right-0 top-0 h-1 bg-linear-to-r from-red-500 to-orange-500" />
             <div className="mb-6 flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-red-500/20">
                 <XCircle className="h-5 w-5 text-red-400" />
@@ -183,7 +183,7 @@ function JustAskPage() {
               </div>
             </div>
 
-            <div className="custom-scrollbar max-h-[400px] space-y-4 overflow-y-auto pr-2">
+            <div className="custom-scrollbar max-h-100 space-y-4 overflow-y-auto pr-2">
               <ChatBubble avatar="Y" name="You" isRight messages={[{ text: 'Hey', time: '14:30', day: 'Monday' }]} delay={0.1} />
               <ChatBubble avatar="C" name="CodeMeAPixel" messages={[{ text: 'Hi there!', time: '16:45' }]} delay={0.2} />
               <ChatBubble avatar="Y" name="You" isRight messages={[{ text: "How's it going?", time: '16:52' }]} delay={0.3} />
@@ -207,7 +207,7 @@ function JustAskPage() {
         {/* Good Example */}
         <div className="animate-fade-up" style={{ animationDelay: '0.3s' }}>
           <div className="glass-card relative overflow-hidden rounded-2xl border-emerald-500/20 p-6 md:p-8">
-            <div className="absolute left-0 right-0 top-0 h-1 bg-gradient-to-r from-green-500 to-emerald-500" />
+            <div className="absolute left-0 right-0 top-0 h-1 bg-linear-to-r from-green-500 to-emerald-500" />
             <div className="mb-6 flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-green-500/20">
                 <CheckCircle2 className="h-5 w-5 text-green-400" />

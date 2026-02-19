@@ -3,6 +3,8 @@ import { useSuspenseQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { Star, StarOff, Trash2, Search, Eye, FolderKanban, Plus, Pencil } from 'lucide-react'
 import { createMeta } from '~/lib/meta'
+import { useConfirm } from '~/components/ConfirmDialog'
+import { useToast } from '~/components/Toast'
 import {
   getAdminProjects,
   deleteProject,
@@ -119,6 +121,10 @@ function AdminProjects() {
       }
       queryClient.invalidateQueries({ queryKey: ['admin', 'projects'] })
       setDrawerOpen(false)
+      toast.success(editingProject ? 'Project updated' : 'Project created')
+    } catch (err) {
+      console.error('Failed to save project:', err)
+      toast.error(err instanceof Error ? err.message : 'Failed to save project')
     } finally {
       setSaving(false)
     }
@@ -129,17 +135,28 @@ function AdminProjects() {
     try {
       await toggleProjectFeatured({ data: { projectId: id, featured: !current } })
       queryClient.invalidateQueries({ queryKey: ['admin', 'projects'] })
+      toast.success(current ? 'Removed from featured' : 'Marked as featured')
+    } catch (err) {
+      console.error('Failed to toggle featured:', err)
+      toast.error(err instanceof Error ? err.message : 'Failed to toggle featured')
     } finally {
       setLoading(null)
     }
   }
 
+  const confirm = useConfirm()
+  const toast = useToast()
+
   const handleDelete = async (id: string, title: string) => {
-    if (!confirm(`Delete project "${title}"? This cannot be undone.`)) return
+    if (!(await confirm({ message: `Delete project "${title}"? This cannot be undone.` }))) return
     setLoading(id)
     try {
       await deleteProject({ data: { projectId: id } })
       queryClient.invalidateQueries({ queryKey: ['admin', 'projects'] })
+      toast.success(`Project "${title}" deleted`)
+    } catch (err) {
+      console.error('Failed to delete project:', err)
+      toast.error(err instanceof Error ? err.message : 'Failed to delete project')
     } finally {
       setLoading(null)
     }

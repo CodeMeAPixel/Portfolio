@@ -2,6 +2,8 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { useSuspenseQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { Trash2, Search, Eye, DollarSign, ShoppingCart, Plus, Pencil } from 'lucide-react'
+import { useConfirm } from '~/components/ConfirmDialog'
+import { useToast } from '~/components/Toast'
 import { getAdminProducts, deleteProduct, createProduct, updateProduct } from '~/lib/admin-fns'
 import { createMeta } from '~/lib/meta'
 import {
@@ -42,6 +44,8 @@ const emptyForm = {
   frameworks: ['Standalone'] as string[],
   status: 'Released' as const,
   version: '1.0.0',
+  banner: '',
+  previewImages: [] as string[],
   images: [] as string[],
   video: '',
   tags: [] as string[],
@@ -71,6 +75,7 @@ function AdminProducts() {
   const [editingProduct, setEditingProduct] = useState<Product | null>(null)
   const [form, setForm] = useState(emptyForm)
   const [saving, setSaving] = useState(false)
+  const toast = useToast()
 
   const filtered = products.filter(
     (p) =>
@@ -99,6 +104,8 @@ function AdminProducts() {
       frameworks: product.frameworks as string[] || [],
       status: product.status as any,
       version: product.version,
+      banner: product.banner || '',
+      previewImages: product.previewImages || [],
       images: product.images,
       video: product.video || '',
       tags: product.tags,
@@ -136,6 +143,16 @@ function AdminProducts() {
       const payload = {
         ...form,
         price: form.price ? parseFloat(form.price) : undefined,
+        banner: form.banner || undefined,
+        video: form.video || undefined,
+        language: form.language || undefined,
+        license: form.license || undefined,
+        purchaseUrl: form.purchaseUrl || undefined,
+        githubUrl: form.githubUrl || undefined,
+        docsUrl: form.docsUrl || undefined,
+        discordUrl: form.discordUrl || undefined,
+        demoUrl: form.demoUrl || undefined,
+        longDescription: form.longDescription || undefined,
         deprecated: form.deprecated,
         deprecationMessage: form.deprecationMessage || undefined,
         successorUrl: form.successorUrl || undefined,
@@ -150,17 +167,27 @@ function AdminProducts() {
       }
       queryClient.invalidateQueries({ queryKey: ['admin', 'products'] })
       setDrawerOpen(false)
+      toast.success(editingProduct ? 'Product updated' : 'Product created')
+    } catch (err) {
+      console.error('Failed to save product:', err)
+      toast.error(err instanceof Error ? err.message : 'Failed to save product. Check the console for details.', 'Save Failed')
     } finally {
       setSaving(false)
     }
   }
 
+  const confirm = useConfirm()
+
   const handleDelete = async (id: string, title: string) => {
-    if (!confirm(`Delete product "${title}"? This cannot be undone.`)) return
+    if (!(await confirm({ message: `Delete product "${title}"? This cannot be undone.` }))) return
     setLoading(id)
     try {
       await deleteProduct({ data: { productId: id } })
       queryClient.invalidateQueries({ queryKey: ['admin', 'products'] })
+      toast.success(`Product "${title}" deleted`)
+    } catch (err) {
+      console.error('Failed to delete product:', err)
+      toast.error(err instanceof Error ? err.message : 'Failed to delete product')
     } finally {
       setLoading(null)
     }
@@ -234,9 +261,9 @@ function AdminProducts() {
                   <tr key={product.id} className="group transition-colors hover:bg-foreground/[0.02]">
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3">
-                        {product.images[0] ? (
+                        {(product.banner || product.images[0]) ? (
                           <img
-                            src={product.images[0]}
+                            src={product.banner || product.images[0]}
                             alt={product.title}
                             className="h-9 w-9 rounded-lg object-cover ring-1 ring-border/50"
                           />
@@ -260,10 +287,10 @@ function AdminProducts() {
                     <td className="hidden px-4 py-3 md:table-cell">
                       <div className="flex items-center gap-1.5">
                         <span className="rounded-md bg-foreground/[0.04] px-1.5 py-0.5 text-[10px] text-muted-foreground/70">
-                          {(product as any).platforms?.join(', ') || '—'}
+                          {product.platforms?.join(', ') || '—'}
                         </span>
                         <span className="rounded-md bg-foreground/[0.04] px-1.5 py-0.5 text-[10px] text-muted-foreground/70">
-                          {(product as any).frameworks?.join(', ') || '—'}
+                          {product.frameworks?.join(', ') || '—'}
                         </span>
                       </div>
                     </td>
@@ -521,6 +548,70 @@ function AdminProducts() {
           />
         </FormField>
 
+        <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider pt-2">Media</h3>
+
+        <FormField label="Banner Image" hint="Full URL or path from /public (e.g. /products/banner.png)">
+          <FormInput
+            value={form.banner}
+            onChange={(e) => setForm((f) => ({ ...f, banner: e.target.value }))}
+            placeholder="/products/banner.png or https://..."
+          />
+        </FormField>
+
+        {form.banner && (
+          <div className="relative overflow-hidden rounded-lg border border-border/50">
+            <img src={form.banner} alt="Banner preview" className="w-full aspect-3/1 object-cover" />
+            <button
+              type="button"
+              onClick={() => setForm((f) => ({ ...f, banner: '' }))}
+              className="absolute top-2 right-2 glass-strong flex h-6 w-6 items-center justify-center rounded-full text-muted-foreground hover:text-destructive transition-colors"
+            >
+              ×
+            </button>
+          </div>
+        )}
+
+        <FormField label="Preview Images" hint="Full URLs or /public paths, press Enter to add">
+          <FormTagInput
+            value={form.previewImages}
+            onChange={(previewImages) => setForm((f) => ({ ...f, previewImages }))}
+            placeholder="/products/preview1.png or https://..."
+          />
+        </FormField>
+
+        {form.previewImages.length > 0 && (
+          <div className="grid grid-cols-3 gap-2">
+            {form.previewImages.map((url, i) => (
+              <div key={i} className="relative overflow-hidden rounded-lg border border-border/50">
+                <img src={url} alt={`Preview ${i + 1}`} className="w-full aspect-video object-cover" />
+                <button
+                  type="button"
+                  onClick={() => setForm((f) => ({ ...f, previewImages: f.previewImages.filter((_, idx) => idx !== i) }))}
+                  className="absolute top-1 right-1 glass-strong flex h-5 w-5 items-center justify-center rounded-full text-[10px] text-muted-foreground hover:text-destructive transition-colors"
+                >
+                  ×
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+
+        <FormField label="Images" hint="Full URLs or /public paths, press Enter to add">
+          <FormTagInput
+            value={form.images}
+            onChange={(images) => setForm((f) => ({ ...f, images }))}
+            placeholder="/products/image.png or https://..."
+          />
+        </FormField>
+
+        <FormField label="Video URL" hint="YouTube or direct video link">
+          <FormInput
+            value={form.video}
+            onChange={(e) => setForm((f) => ({ ...f, video: e.target.value }))}
+            placeholder="https://youtube.com/watch?v=..."
+          />
+        </FormField>
+
         <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider pt-2">URLs</h3>
         <FormRow>
           <FormField label="Purchase URL">
@@ -546,14 +637,22 @@ function AdminProducts() {
               placeholder="https://docs..."
             />
           </FormField>
-          <FormField label="Demo URL">
+          <FormField label="Discord URL">
             <FormInput
-              value={form.demoUrl}
-              onChange={(e) => setForm((f) => ({ ...f, demoUrl: e.target.value }))}
-              placeholder="https://demo..."
+              value={form.discordUrl}
+              onChange={(e) => setForm((f) => ({ ...f, discordUrl: e.target.value }))}
+              placeholder="https://discord.gg/..."
             />
           </FormField>
         </FormRow>
+
+        <FormField label="Demo URL">
+          <FormInput
+            value={form.demoUrl}
+            onChange={(e) => setForm((f) => ({ ...f, demoUrl: e.target.value }))}
+            placeholder="https://demo..."
+          />
+        </FormField>
 
         <FormRow>
           <FormField label="Language">

@@ -46,6 +46,7 @@ export type ProductMinAggregateOutputType = {
   isFree: boolean | null
   status: $Enums.ProductStatus | null
   version: string | null
+  banner: string | null
   video: string | null
   lastUpdated: string | null
   purchaseUrl: string | null
@@ -74,6 +75,7 @@ export type ProductMaxAggregateOutputType = {
   isFree: boolean | null
   status: $Enums.ProductStatus | null
   version: string | null
+  banner: string | null
   video: string | null
   lastUpdated: string | null
   purchaseUrl: string | null
@@ -104,6 +106,8 @@ export type ProductCountAggregateOutputType = {
   frameworks: number
   status: number
   version: number
+  banner: number
+  previewImages: number
   images: number
   video: number
   tags: number
@@ -148,6 +152,7 @@ export type ProductMinAggregateInputType = {
   isFree?: true
   status?: true
   version?: true
+  banner?: true
   video?: true
   lastUpdated?: true
   purchaseUrl?: true
@@ -176,6 +181,7 @@ export type ProductMaxAggregateInputType = {
   isFree?: true
   status?: true
   version?: true
+  banner?: true
   video?: true
   lastUpdated?: true
   purchaseUrl?: true
@@ -206,6 +212,8 @@ export type ProductCountAggregateInputType = {
   frameworks?: true
   status?: true
   version?: true
+  banner?: true
+  previewImages?: true
   images?: true
   video?: true
   tags?: true
@@ -329,6 +337,8 @@ export type ProductGroupByOutputType = {
   frameworks: $Enums.ProductFramework[]
   status: $Enums.ProductStatus
   version: string
+  banner: string | null
+  previewImages: string[]
   images: string[]
   video: string | null
   tags: string[]
@@ -388,6 +398,8 @@ export type ProductWhereInput = {
   frameworks?: Prisma.EnumProductFrameworkNullableListFilter<"Product">
   status?: Prisma.EnumProductStatusFilter<"Product"> | $Enums.ProductStatus
   version?: Prisma.StringFilter<"Product"> | string
+  banner?: Prisma.StringNullableFilter<"Product"> | string | null
+  previewImages?: Prisma.StringNullableListFilter<"Product">
   images?: Prisma.StringNullableListFilter<"Product">
   video?: Prisma.StringNullableFilter<"Product"> | string | null
   tags?: Prisma.StringNullableListFilter<"Product">
@@ -424,6 +436,8 @@ export type ProductOrderByWithRelationInput = {
   frameworks?: Prisma.SortOrder
   status?: Prisma.SortOrder
   version?: Prisma.SortOrder
+  banner?: Prisma.SortOrderInput | Prisma.SortOrder
+  previewImages?: Prisma.SortOrder
   images?: Prisma.SortOrder
   video?: Prisma.SortOrderInput | Prisma.SortOrder
   tags?: Prisma.SortOrder
@@ -463,6 +477,8 @@ export type ProductWhereUniqueInput = Prisma.AtLeast<{
   frameworks?: Prisma.EnumProductFrameworkNullableListFilter<"Product">
   status?: Prisma.EnumProductStatusFilter<"Product"> | $Enums.ProductStatus
   version?: Prisma.StringFilter<"Product"> | string
+  banner?: Prisma.StringNullableFilter<"Product"> | string | null
+  previewImages?: Prisma.StringNullableListFilter<"Product">
   images?: Prisma.StringNullableListFilter<"Product">
   video?: Prisma.StringNullableFilter<"Product"> | string | null
   tags?: Prisma.StringNullableListFilter<"Product">
@@ -499,6 +515,8 @@ export type ProductOrderByWithAggregationInput = {
   frameworks?: Prisma.SortOrder
   status?: Prisma.SortOrder
   version?: Prisma.SortOrder
+  banner?: Prisma.SortOrderInput | Prisma.SortOrder
+  previewImages?: Prisma.SortOrder
   images?: Prisma.SortOrder
   video?: Prisma.SortOrderInput | Prisma.SortOrder
   tags?: Prisma.SortOrder
@@ -543,6 +561,8 @@ export type ProductScalarWhereWithAggregatesInput = {
   frameworks?: Prisma.EnumProductFrameworkNullableListFilter<"Product">
   status?: Prisma.EnumProductStatusWithAggregatesFilter<"Product"> | $Enums.ProductStatus
   version?: Prisma.StringWithAggregatesFilter<"Product"> | string
+  banner?: Prisma.StringNullableWithAggregatesFilter<"Product"> | string | null
+  previewImages?: Prisma.StringNullableListFilter<"Product">
   images?: Prisma.StringNullableListFilter<"Product">
   video?: Prisma.StringNullableWithAggregatesFilter<"Product"> | string | null
   tags?: Prisma.StringNullableListFilter<"Product">
@@ -579,6 +599,8 @@ export type ProductCreateInput = {
   frameworks?: Prisma.ProductCreateframeworksInput | $Enums.ProductFramework[]
   status?: $Enums.ProductStatus
   version?: string
+  banner?: string | null
+  previewImages?: Prisma.ProductCreatepreviewImagesInput | string[]
   images?: Prisma.ProductCreateimagesInput | string[]
   video?: string | null
   tags?: Prisma.ProductCreatetagsInput | string[]
@@ -615,6 +637,8 @@ export type ProductUncheckedCreateInput = {
   frameworks?: Prisma.ProductCreateframeworksInput | $Enums.ProductFramework[]
   status?: $Enums.ProductStatus
   version?: string
+  banner?: string | null
+  previewImages?: Prisma.ProductCreatepreviewImagesInput | string[]
   images?: Prisma.ProductCreateimagesInput | string[]
   video?: string | null
   tags?: Prisma.ProductCreatetagsInput | string[]
@@ -651,6 +675,8 @@ export type ProductUpdateInput = {
   frameworks?: Prisma.ProductUpdateframeworksInput | $Enums.ProductFramework[]
   status?: Prisma.EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
   version?: Prisma.StringFieldUpdateOperationsInput | string
+  banner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  previewImages?: Prisma.ProductUpdatepreviewImagesInput | string[]
   images?: Prisma.ProductUpdateimagesInput | string[]
   video?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.ProductUpdatetagsInput | string[]
@@ -687,6 +713,8 @@ export type ProductUncheckedUpdateInput = {
   frameworks?: Prisma.ProductUpdateframeworksInput | $Enums.ProductFramework[]
   status?: Prisma.EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
   version?: Prisma.StringFieldUpdateOperationsInput | string
+  banner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  previewImages?: Prisma.ProductUpdatepreviewImagesInput | string[]
   images?: Prisma.ProductUpdateimagesInput | string[]
   video?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.ProductUpdatetagsInput | string[]
@@ -723,6 +751,8 @@ export type ProductCreateManyInput = {
   frameworks?: Prisma.ProductCreateframeworksInput | $Enums.ProductFramework[]
   status?: $Enums.ProductStatus
   version?: string
+  banner?: string | null
+  previewImages?: Prisma.ProductCreatepreviewImagesInput | string[]
   images?: Prisma.ProductCreateimagesInput | string[]
   video?: string | null
   tags?: Prisma.ProductCreatetagsInput | string[]
@@ -759,6 +789,8 @@ export type ProductUpdateManyMutationInput = {
   frameworks?: Prisma.ProductUpdateframeworksInput | $Enums.ProductFramework[]
   status?: Prisma.EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
   version?: Prisma.StringFieldUpdateOperationsInput | string
+  banner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  previewImages?: Prisma.ProductUpdatepreviewImagesInput | string[]
   images?: Prisma.ProductUpdateimagesInput | string[]
   video?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.ProductUpdatetagsInput | string[]
@@ -795,6 +827,8 @@ export type ProductUncheckedUpdateManyInput = {
   frameworks?: Prisma.ProductUpdateframeworksInput | $Enums.ProductFramework[]
   status?: Prisma.EnumProductStatusFieldUpdateOperationsInput | $Enums.ProductStatus
   version?: Prisma.StringFieldUpdateOperationsInput | string
+  banner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  previewImages?: Prisma.ProductUpdatepreviewImagesInput | string[]
   images?: Prisma.ProductUpdateimagesInput | string[]
   video?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.ProductUpdatetagsInput | string[]
@@ -847,6 +881,8 @@ export type ProductCountOrderByAggregateInput = {
   frameworks?: Prisma.SortOrder
   status?: Prisma.SortOrder
   version?: Prisma.SortOrder
+  banner?: Prisma.SortOrder
+  previewImages?: Prisma.SortOrder
   images?: Prisma.SortOrder
   video?: Prisma.SortOrder
   tags?: Prisma.SortOrder
@@ -885,6 +921,7 @@ export type ProductMaxOrderByAggregateInput = {
   isFree?: Prisma.SortOrder
   status?: Prisma.SortOrder
   version?: Prisma.SortOrder
+  banner?: Prisma.SortOrder
   video?: Prisma.SortOrder
   lastUpdated?: Prisma.SortOrder
   purchaseUrl?: Prisma.SortOrder
@@ -913,6 +950,7 @@ export type ProductMinOrderByAggregateInput = {
   isFree?: Prisma.SortOrder
   status?: Prisma.SortOrder
   version?: Prisma.SortOrder
+  banner?: Prisma.SortOrder
   video?: Prisma.SortOrder
   lastUpdated?: Prisma.SortOrder
   purchaseUrl?: Prisma.SortOrder
@@ -939,6 +977,10 @@ export type ProductCreateplatformsInput = {
 
 export type ProductCreateframeworksInput = {
   set: $Enums.ProductFramework[]
+}
+
+export type ProductCreatepreviewImagesInput = {
+  set: string[]
 }
 
 export type ProductCreateimagesInput = {
@@ -983,6 +1025,11 @@ export type EnumProductStatusFieldUpdateOperationsInput = {
   set?: $Enums.ProductStatus
 }
 
+export type ProductUpdatepreviewImagesInput = {
+  set?: string[]
+  push?: string | string[]
+}
+
 export type ProductUpdateimagesInput = {
   set?: string[]
   push?: string | string[]
@@ -1019,6 +1066,8 @@ export type ProductSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   frameworks?: boolean
   status?: boolean
   version?: boolean
+  banner?: boolean
+  previewImages?: boolean
   images?: boolean
   video?: boolean
   tags?: boolean
@@ -1055,6 +1104,8 @@ export type ProductSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   frameworks?: boolean
   status?: boolean
   version?: boolean
+  banner?: boolean
+  previewImages?: boolean
   images?: boolean
   video?: boolean
   tags?: boolean
@@ -1091,6 +1142,8 @@ export type ProductSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   frameworks?: boolean
   status?: boolean
   version?: boolean
+  banner?: boolean
+  previewImages?: boolean
   images?: boolean
   video?: boolean
   tags?: boolean
@@ -1127,6 +1180,8 @@ export type ProductSelectScalar = {
   frameworks?: boolean
   status?: boolean
   version?: boolean
+  banner?: boolean
+  previewImages?: boolean
   images?: boolean
   video?: boolean
   tags?: boolean
@@ -1149,7 +1204,7 @@ export type ProductSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ProductOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "title" | "description" | "longDescription" | "author" | "price" | "currency" | "isFree" | "platforms" | "frameworks" | "status" | "version" | "images" | "video" | "tags" | "features" | "lastUpdated" | "purchaseUrl" | "githubUrl" | "docsUrl" | "discordUrl" | "demoUrl" | "requirements" | "installation" | "deprecated" | "deprecationMessage" | "successorUrl" | "migrationGuide" | "language" | "license" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>
+export type ProductOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "title" | "description" | "longDescription" | "author" | "price" | "currency" | "isFree" | "platforms" | "frameworks" | "status" | "version" | "banner" | "previewImages" | "images" | "video" | "tags" | "features" | "lastUpdated" | "purchaseUrl" | "githubUrl" | "docsUrl" | "discordUrl" | "demoUrl" | "requirements" | "installation" | "deprecated" | "deprecationMessage" | "successorUrl" | "migrationGuide" | "language" | "license" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>
 
 export type $ProductPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Product"
@@ -1168,6 +1223,8 @@ export type $ProductPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     frameworks: $Enums.ProductFramework[]
     status: $Enums.ProductStatus
     version: string
+    banner: string | null
+    previewImages: string[]
     images: string[]
     video: string | null
     tags: string[]
@@ -1624,6 +1681,8 @@ export interface ProductFieldRefs {
   readonly frameworks: Prisma.FieldRef<"Product", 'ProductFramework[]'>
   readonly status: Prisma.FieldRef<"Product", 'ProductStatus'>
   readonly version: Prisma.FieldRef<"Product", 'String'>
+  readonly banner: Prisma.FieldRef<"Product", 'String'>
+  readonly previewImages: Prisma.FieldRef<"Product", 'String[]'>
   readonly images: Prisma.FieldRef<"Product", 'String[]'>
   readonly video: Prisma.FieldRef<"Product", 'String'>
   readonly tags: Prisma.FieldRef<"Product", 'String[]'>

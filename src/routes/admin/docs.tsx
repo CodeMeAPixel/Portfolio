@@ -13,6 +13,9 @@ import {
   FileText,
   GripVertical,
 } from 'lucide-react'
+import { DynamicIcon } from '~/components/DynamicIcon'
+import { useConfirm } from '~/components/ConfirmDialog'
+import { useToast } from '~/components/Toast'
 import {
   getAdminDocSections,
   createDocSection,
@@ -58,12 +61,12 @@ const emptySectionForm = {
   name: '',
   description: '',
   icon: '',
-  projectUrl: '',
   sortOrder: '0',
 }
 
 const emptyCategoryForm = {
   title: '',
+  slug: '',
   sortOrder: '0',
   sectionId: '',
 }
@@ -74,9 +77,11 @@ const emptyItemForm = {
   description: '',
   icon: '',
   content: '',
+  projectUrl: '',
   keywords: [] as string[],
   sortOrder: '0',
   categoryId: '',
+  parentId: '',
 }
 
 /* ─── Main component ────────────────────────────────── */
@@ -84,11 +89,14 @@ const emptyItemForm = {
 function AdminDocs() {
   const { data: sections } = useSuspenseQuery(docsQueryOptions)
   const queryClient = useQueryClient()
+  const confirm = useConfirm()
+  const toast = useToast()
   const [loading, setLoading] = useState<string | null>(null)
 
   // Expanded state
   const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set())
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set())
+  const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set())
 
   // Drawer state
   const [drawerType, setDrawerType] = useState<'section' | 'category' | 'item' | null>(null)
@@ -114,8 +122,16 @@ function AdminDocs() {
     })
   }
 
+  const toggleItem = (id: string) => {
+    setExpandedItems((prev) => {
+      const next = new Set(prev)
+      next.has(id) ? next.delete(id) : next.add(id)
+      return next
+    })
+  }
+
   const totalItems = sections.reduce(
-    (acc, s) => acc + s.categories.reduce((a, c) => a + c.items.length, 0),
+    (acc, s) => acc + s.categories.reduce((a, c) => a + c._count.items, 0),
     0,
   )
   const totalCategories = sections.reduce((acc, s) => acc + s.categories.length, 0)
@@ -135,7 +151,6 @@ function AdminDocs() {
       name: section.name,
       description: section.description,
       icon: section.icon,
-      projectUrl: section.projectUrl || '',
       sortOrder: section.sortOrder.toString(),
     })
     setDrawerType('section')
@@ -153,17 +168,25 @@ function AdminDocs() {
       }
       queryClient.invalidateQueries({ queryKey: ['admin', 'docs'] })
       setDrawerType(null)
+      toast.success(editingId ? 'Section updated' : 'Section created')
+    } catch (err) {
+      console.error('Failed to save section:', err)
+      toast.error(err instanceof Error ? err.message : 'Failed to save section')
     } finally {
       setSaving(false)
     }
   }
 
   const handleDeleteSection = async (id: string, name: string) => {
-    if (!confirm(`Delete section "${name}" and ALL its categories & items? This cannot be undone.`)) return
+    if (!(await confirm({ title: 'Delete Section', message: `Delete section "${name}" and ALL its categories & items? This cannot be undone.` }))) return
     setLoading(id)
     try {
       await deleteDocSection({ data: { sectionId: id } })
       queryClient.invalidateQueries({ queryKey: ['admin', 'docs'] })
+      toast.success(`Section "${name}" deleted`)
+    } catch (err) {
+      console.error('Failed to delete section:', err)
+      toast.error(err instanceof Error ? err.message : 'Failed to delete section')
     } finally {
       setLoading(null)
     }
@@ -181,6 +204,7 @@ function AdminDocs() {
     setEditingId(category.id)
     setCategoryForm({
       title: category.title,
+      slug: category.slug || '',
       sortOrder: category.sortOrder.toString(),
       sectionId: category.sectionId,
     })
@@ -188,11 +212,12 @@ function AdminDocs() {
   }
 
   const handleSubmitCategory = async () => {
-    if (!categoryForm.title || !categoryForm.sectionId) return
+    if (!categoryForm.title || !categoryForm.slug || !categoryForm.sectionId) return
     setSaving(true)
     try {
       const payload = {
         title: categoryForm.title,
+        slug: categoryForm.slug,
         sectionId: categoryForm.sectionId,
         sortOrder: parseInt(categoryForm.sortOrder) || 0,
       }
@@ -203,17 +228,25 @@ function AdminDocs() {
       }
       queryClient.invalidateQueries({ queryKey: ['admin', 'docs'] })
       setDrawerType(null)
+      toast.success(editingId ? 'Category updated' : 'Category created')
+    } catch (err) {
+      console.error('Failed to save category:', err)
+      toast.error(err instanceof Error ? err.message : 'Failed to save category')
     } finally {
       setSaving(false)
     }
   }
 
   const handleDeleteCategory = async (id: string, title: string) => {
-    if (!confirm(`Delete category "${title}" and ALL its items? This cannot be undone.`)) return
+    if (!(await confirm({ title: 'Delete Category', message: `Delete category "${title}" and ALL its items? This cannot be undone.` }))) return
     setLoading(id)
     try {
       await deleteDocCategory({ data: { categoryId: id } })
       queryClient.invalidateQueries({ queryKey: ['admin', 'docs'] })
+      toast.success(`Category "${title}" deleted`)
+    } catch (err) {
+      console.error('Failed to delete category:', err)
+      toast.error(err instanceof Error ? err.message : 'Failed to delete category')
     } finally {
       setLoading(null)
     }
@@ -221,9 +254,9 @@ function AdminDocs() {
 
   /* ─── Item CRUD ────────────────────────────────────── */
 
-  const openCreateItem = (categoryId: string) => {
+  const openCreateItem = (categoryId: string, parentId?: string) => {
     setEditingId(null)
-    setItemForm({ ...emptyItemForm, categoryId })
+    setItemForm({ ...emptyItemForm, categoryId, parentId: parentId || '' })
     setDrawerType('item')
   }
 
@@ -235,9 +268,11 @@ function AdminDocs() {
       description: item.description,
       icon: item.icon || '',
       content: item.content || '',
+      projectUrl: item.projectUrl || '',
       keywords: item.keywords,
       sortOrder: item.sortOrder.toString(),
       categoryId: item.categoryId,
+      parentId: item.parentId || '',
     })
     setDrawerType('item')
   }
@@ -248,6 +283,7 @@ function AdminDocs() {
     try {
       const payload = {
         ...itemForm,
+        parentId: itemForm.parentId || undefined,
         sortOrder: parseInt(itemForm.sortOrder) || 0,
       }
       if (editingId) {
@@ -257,17 +293,25 @@ function AdminDocs() {
       }
       queryClient.invalidateQueries({ queryKey: ['admin', 'docs'] })
       setDrawerType(null)
+      toast.success(editingId ? 'Item updated' : 'Item created')
+    } catch (err) {
+      console.error('Failed to save item:', err)
+      toast.error(err instanceof Error ? err.message : 'Failed to save item')
     } finally {
       setSaving(false)
     }
   }
 
   const handleDeleteItem = async (id: string, title: string) => {
-    if (!confirm(`Delete doc item "${title}"? This cannot be undone.`)) return
+    if (!(await confirm({ message: `Delete doc item "${title}"? This cannot be undone.` }))) return
     setLoading(id)
     try {
       await deleteDocItem({ data: { itemId: id } })
       queryClient.invalidateQueries({ queryKey: ['admin', 'docs'] })
+      toast.success(`Item "${title}" deleted`)
+    } catch (err) {
+      console.error('Failed to delete item:', err)
+      toast.error(err instanceof Error ? err.message : 'Failed to delete item')
     } finally {
       setLoading(null)
     }
@@ -317,7 +361,7 @@ function AdminDocs() {
                     <ChevronRight className="h-4 w-4" />
                   )}
                 </button>
-                <span className="text-lg">{section.icon}</span>
+                <DynamicIcon name={section.icon} className="h-5 w-5 text-primary" />
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
                     <span className="text-sm font-semibold">{section.name}</span>
@@ -329,7 +373,7 @@ function AdminDocs() {
                 </div>
                 <div className="flex items-center gap-1">
                   <span className="mr-2 text-xs text-muted-foreground/50">
-                    {section.categories.length} cat · {section.categories.reduce((a, c) => a + c.items.length, 0)} items
+                    {section.categories.length} cat · {section.categories.reduce((a, c) => a + c._count.items, 0)} items
                   </span>
                   <button
                     onClick={() => openCreateCategory(section.id)}
@@ -391,8 +435,11 @@ function AdminDocs() {
                             <span className="flex-1 text-sm font-medium text-foreground/90">
                               {category.title}
                             </span>
+                            <span className="hidden rounded bg-foreground/[0.03] px-1 py-0.5 text-[9px] text-muted-foreground/40 sm:inline">
+                              /{category.slug}
+                            </span>
                             <span className="mr-1 text-[10px] text-muted-foreground/40">
-                              {category.items.length} item{category.items.length !== 1 ? 's' : ''}
+                              {category._count.items} item{category._count.items !== 1 ? 's' : ''}
                             </span>
                             <button
                               onClick={() => openCreateItem(category.id)}
@@ -431,56 +478,123 @@ function AdminDocs() {
                                 </button>
                               </div>
                             ) : (
-                              category.items.map((item) => (
-                                <div
-                                  key={item.id}
-                                  className="group flex items-center gap-2 border-t border-border/10 px-4 py-2 pl-16 transition-colors hover:bg-foreground/[0.02]"
-                                >
-                                  <FileText className="h-3.5 w-3.5 shrink-0 text-sky-400/50" />
-                                  <div className="min-w-0 flex-1">
-                                    <div className="flex items-center gap-2">
-                                      <span className="text-[13px] font-medium text-foreground/80">
-                                        {item.title}
-                                      </span>
-                                      <span className="hidden rounded bg-foreground/[0.03] px-1 py-0.5 text-[9px] text-muted-foreground/40 sm:inline">
-                                        /{item.slug}
-                                      </span>
-                                    </div>
-                                    <p className="truncate text-[11px] text-muted-foreground/50">
-                                      {item.description}
-                                    </p>
-                                  </div>
-                                  {item.keywords.length > 0 && (
-                                    <div className="hidden items-center gap-1 md:flex">
-                                      {item.keywords.slice(0, 2).map((kw) => (
-                                        <span
-                                          key={kw}
-                                          className="rounded bg-foreground/[0.03] px-1 py-0.5 text-[9px] text-muted-foreground/40"
+                              category.items.map((item) => {
+                                const children = item.children || []
+                                const hasChildren = children.length > 0
+                                const itemExpanded = expandedItems.has(item.id)
+                                return (
+                                  <div key={item.id}>
+                                    <div className="group flex items-center gap-2 border-t border-border/10 px-4 py-2 pl-16 transition-colors hover:bg-foreground/[0.02]">
+                                      {hasChildren ? (
+                                        <button
+                                          onClick={() => toggleItem(item.id)}
+                                          className="flex h-4 w-4 items-center justify-center rounded text-muted-foreground/50 hover:bg-foreground/[0.06]"
                                         >
-                                          {kw}
-                                        </span>
-                                      ))}
+                                          {itemExpanded ? (
+                                            <ChevronDown className="h-3 w-3" />
+                                          ) : (
+                                            <ChevronRight className="h-3 w-3" />
+                                          )}
+                                        </button>
+                                      ) : (
+                                        <span className="w-4" />
+                                      )}
+                                      <FileText className="h-3.5 w-3.5 shrink-0 text-sky-400/50" />
+                                      <div className="min-w-0 flex-1">
+                                        <div className="flex items-center gap-2">
+                                          <span className="text-[13px] font-medium text-foreground/80">
+                                            {item.title}
+                                          </span>
+                                          <span className="hidden rounded bg-foreground/[0.03] px-1 py-0.5 text-[9px] text-muted-foreground/40 sm:inline">
+                                            /{item.slug}
+                                          </span>
+                                          {hasChildren && (
+                                            <span className="rounded bg-primary/10 px-1 py-0.5 text-[9px] text-primary/70">
+                                              {children.length} sub-page{children.length !== 1 ? 's' : ''}
+                                            </span>
+                                          )}
+                                        </div>
+                                        <p className="truncate text-[11px] text-muted-foreground/50">
+                                          {item.description}
+                                        </p>
+                                      </div>
+                                      {item.keywords.length > 0 && (
+                                        <div className="hidden items-center gap-1 md:flex">
+                                          {item.keywords.slice(0, 2).map((kw) => (
+                                            <span
+                                              key={kw}
+                                              className="rounded bg-foreground/[0.03] px-1 py-0.5 text-[9px] text-muted-foreground/40"
+                                            >
+                                              {kw}
+                                            </span>
+                                          ))}
+                                        </div>
+                                      )}
+                                      <div className="flex items-center gap-0.5 opacity-0 transition-opacity group-hover:opacity-100">
+                                        <button
+                                          onClick={() => openCreateItem(category.id, item.id)}
+                                          className="flex h-6 items-center gap-0.5 rounded px-1.5 text-[11px] text-muted-foreground/40 transition-all hover:bg-foreground/[0.06] hover:text-foreground"
+                                          title="Add sub-page"
+                                        >
+                                          <Plus className="h-3 w-3" />
+                                        </button>
+                                        <button
+                                          onClick={() => openEditItem(item)}
+                                          className="flex h-6 w-6 items-center justify-center rounded text-muted-foreground/40 transition-all hover:bg-foreground/[0.06] hover:text-foreground"
+                                          title="Edit item"
+                                        >
+                                          <Pencil className="h-3 w-3" />
+                                        </button>
+                                        <button
+                                          onClick={() => handleDeleteItem(item.id, item.title)}
+                                          disabled={loading === item.id}
+                                          className="flex h-6 w-6 items-center justify-center rounded text-muted-foreground/40 transition-all hover:bg-red-500/10 hover:text-red-400 disabled:opacity-40"
+                                          title="Delete item"
+                                        >
+                                          <Trash2 className="h-3 w-3" />
+                                        </button>
+                                      </div>
                                     </div>
-                                  )}
-                                  <div className="flex items-center gap-0.5 opacity-0 transition-opacity group-hover:opacity-100">
-                                    <button
-                                      onClick={() => openEditItem(item)}
-                                      className="flex h-6 w-6 items-center justify-center rounded text-muted-foreground/40 transition-all hover:bg-foreground/[0.06] hover:text-foreground"
-                                      title="Edit item"
-                                    >
-                                      <Pencil className="h-3 w-3" />
-                                    </button>
-                                    <button
-                                      onClick={() => handleDeleteItem(item.id, item.title)}
-                                      disabled={loading === item.id}
-                                      className="flex h-6 w-6 items-center justify-center rounded text-muted-foreground/40 transition-all hover:bg-red-500/10 hover:text-red-400 disabled:opacity-40"
-                                      title="Delete item"
-                                    >
-                                      <Trash2 className="h-3 w-3" />
-                                    </button>
+
+                                    {/* Sub-items (children) */}
+                                    {itemExpanded && children.map((child: any) => (
+                                      <div
+                                        key={child.id}
+                                        className="group flex items-center gap-2 border-t border-border/5 px-4 py-1.5 pl-24 transition-colors hover:bg-foreground/[0.02]"
+                                      >
+                                        <FileText className="h-3 w-3 shrink-0 text-primary/40" />
+                                        <div className="min-w-0 flex-1">
+                                          <div className="flex items-center gap-2">
+                                            <span className="text-xs font-medium text-foreground/70">
+                                              {child.title}
+                                            </span>
+                                            <span className="hidden rounded bg-foreground/[0.03] px-1 py-0.5 text-[9px] text-muted-foreground/40 sm:inline">
+                                              /{child.slug}
+                                            </span>
+                                          </div>
+                                        </div>
+                                        <div className="flex items-center gap-0.5 opacity-0 transition-opacity group-hover:opacity-100">
+                                          <button
+                                            onClick={() => openEditItem(child)}
+                                            className="flex h-5 w-5 items-center justify-center rounded text-muted-foreground/40 transition-all hover:bg-foreground/[0.06] hover:text-foreground"
+                                            title="Edit sub-page"
+                                          >
+                                            <Pencil className="h-2.5 w-2.5" />
+                                          </button>
+                                          <button
+                                            onClick={() => handleDeleteItem(child.id, child.title)}
+                                            disabled={loading === child.id}
+                                            className="flex h-5 w-5 items-center justify-center rounded text-muted-foreground/40 transition-all hover:bg-red-500/10 hover:text-red-400 disabled:opacity-40"
+                                            title="Delete sub-page"
+                                          >
+                                            <Trash2 className="h-2.5 w-2.5" />
+                                          </button>
+                                        </div>
+                                      </div>
+                                    ))}
                                   </div>
-                                </div>
-                              ))
+                                )
+                              })
                             ))}
                         </div>
                       )
@@ -566,14 +680,6 @@ function AdminDocs() {
             />
           </FormField>
         </FormRow>
-
-        <FormField label="Project URL" hint="Link to the project this documents">
-          <FormInput
-            value={sectionForm.projectUrl}
-            onChange={(e) => setSectionForm((f) => ({ ...f, projectUrl: e.target.value }))}
-            placeholder="https://github.com/..."
-          />
-        </FormField>
       </AdminFormDrawer>
 
       {/* Category Drawer */}
@@ -585,13 +691,29 @@ function AdminDocs() {
         loading={saving}
         submitLabel={editingId ? 'Update Category' : 'Create Category'}
       >
-        <FormField label="Title" required>
-          <FormInput
-            value={categoryForm.title}
-            onChange={(e) => setCategoryForm((f) => ({ ...f, title: e.target.value }))}
-            placeholder="Installation"
-          />
-        </FormField>
+        <FormRow>
+          <FormField label="Title" required>
+            <FormInput
+              value={categoryForm.title}
+              onChange={(e) => {
+                const title = e.target.value
+                setCategoryForm((f) => ({
+                  ...f,
+                  title,
+                  ...(!editingId ? { slug: title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') } : {}),
+                }))
+              }}
+              placeholder="Scripts"
+            />
+          </FormField>
+          <FormField label="Slug" required hint="URL-friendly identifier">
+            <FormInput
+              value={categoryForm.slug}
+              onChange={(e) => setCategoryForm((f) => ({ ...f, slug: e.target.value }))}
+              placeholder="scripts"
+            />
+          </FormField>
+        </FormRow>
 
         <FormField label="Sort Order">
           <FormInput
@@ -607,11 +729,16 @@ function AdminDocs() {
       <AdminFormDrawer
         open={drawerType === 'item'}
         onClose={() => setDrawerType(null)}
-        title={editingId ? 'Edit Doc Item' : 'New Doc Item'}
+        title={editingId ? 'Edit Doc Item' : itemForm.parentId ? 'New Sub-Page' : 'New Doc Item'}
         onSubmit={handleSubmitItem}
         loading={saving}
         submitLabel={editingId ? 'Update Item' : 'Create Item'}
       >
+        {itemForm.parentId && (
+          <div className="rounded-lg bg-primary/5 border border-primary/10 px-3 py-2 text-xs text-primary/80">
+            This item is a sub-page of a parent document.
+          </div>
+        )}
         <FormRow>
           <FormField label="Title" required>
             <FormInput
@@ -677,6 +804,14 @@ function AdminDocs() {
             value={itemForm.keywords}
             onChange={(keywords) => setItemForm((f) => ({ ...f, keywords }))}
             placeholder="setup, install, config..."
+          />
+        </FormField>
+
+        <FormField label="Project URL" hint="Link to the project's GitHub, docs, or website">
+          <FormInput
+            value={itemForm.projectUrl}
+            onChange={(e) => setItemForm((f) => ({ ...f, projectUrl: e.target.value }))}
+            placeholder="https://github.com/..."
           />
         </FormField>
       </AdminFormDrawer>

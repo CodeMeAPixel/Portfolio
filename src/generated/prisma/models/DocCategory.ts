@@ -37,6 +37,7 @@ export type DocCategorySumAggregateOutputType = {
 export type DocCategoryMinAggregateOutputType = {
   id: string | null
   title: string | null
+  slug: string | null
   sortOrder: number | null
   sectionId: string | null
   createdAt: Date | null
@@ -46,6 +47,7 @@ export type DocCategoryMinAggregateOutputType = {
 export type DocCategoryMaxAggregateOutputType = {
   id: string | null
   title: string | null
+  slug: string | null
   sortOrder: number | null
   sectionId: string | null
   createdAt: Date | null
@@ -55,6 +57,7 @@ export type DocCategoryMaxAggregateOutputType = {
 export type DocCategoryCountAggregateOutputType = {
   id: number
   title: number
+  slug: number
   sortOrder: number
   sectionId: number
   createdAt: number
@@ -74,6 +77,7 @@ export type DocCategorySumAggregateInputType = {
 export type DocCategoryMinAggregateInputType = {
   id?: true
   title?: true
+  slug?: true
   sortOrder?: true
   sectionId?: true
   createdAt?: true
@@ -83,6 +87,7 @@ export type DocCategoryMinAggregateInputType = {
 export type DocCategoryMaxAggregateInputType = {
   id?: true
   title?: true
+  slug?: true
   sortOrder?: true
   sectionId?: true
   createdAt?: true
@@ -92,6 +97,7 @@ export type DocCategoryMaxAggregateInputType = {
 export type DocCategoryCountAggregateInputType = {
   id?: true
   title?: true
+  slug?: true
   sortOrder?: true
   sectionId?: true
   createdAt?: true
@@ -188,6 +194,7 @@ export type DocCategoryGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
 export type DocCategoryGroupByOutputType = {
   id: string
   title: string
+  slug: string
   sortOrder: number
   sectionId: string
   createdAt: Date
@@ -220,6 +227,7 @@ export type DocCategoryWhereInput = {
   NOT?: Prisma.DocCategoryWhereInput | Prisma.DocCategoryWhereInput[]
   id?: Prisma.StringFilter<"DocCategory"> | string
   title?: Prisma.StringFilter<"DocCategory"> | string
+  slug?: Prisma.StringFilter<"DocCategory"> | string
   sortOrder?: Prisma.IntFilter<"DocCategory"> | number
   sectionId?: Prisma.StringFilter<"DocCategory"> | string
   createdAt?: Prisma.DateTimeFilter<"DocCategory"> | Date | string
@@ -231,6 +239,7 @@ export type DocCategoryWhereInput = {
 export type DocCategoryOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   sectionId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -241,21 +250,24 @@ export type DocCategoryOrderByWithRelationInput = {
 
 export type DocCategoryWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  sectionId_slug?: Prisma.DocCategorySectionIdSlugCompoundUniqueInput
   AND?: Prisma.DocCategoryWhereInput | Prisma.DocCategoryWhereInput[]
   OR?: Prisma.DocCategoryWhereInput[]
   NOT?: Prisma.DocCategoryWhereInput | Prisma.DocCategoryWhereInput[]
   title?: Prisma.StringFilter<"DocCategory"> | string
+  slug?: Prisma.StringFilter<"DocCategory"> | string
   sortOrder?: Prisma.IntFilter<"DocCategory"> | number
   sectionId?: Prisma.StringFilter<"DocCategory"> | string
   createdAt?: Prisma.DateTimeFilter<"DocCategory"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"DocCategory"> | Date | string
   section?: Prisma.XOR<Prisma.DocSectionScalarRelationFilter, Prisma.DocSectionWhereInput>
   items?: Prisma.DocItemListRelationFilter
-}, "id">
+}, "id" | "sectionId_slug">
 
 export type DocCategoryOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   sectionId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -273,6 +285,7 @@ export type DocCategoryScalarWhereWithAggregatesInput = {
   NOT?: Prisma.DocCategoryScalarWhereWithAggregatesInput | Prisma.DocCategoryScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"DocCategory"> | string
   title?: Prisma.StringWithAggregatesFilter<"DocCategory"> | string
+  slug?: Prisma.StringWithAggregatesFilter<"DocCategory"> | string
   sortOrder?: Prisma.IntWithAggregatesFilter<"DocCategory"> | number
   sectionId?: Prisma.StringWithAggregatesFilter<"DocCategory"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"DocCategory"> | Date | string
@@ -282,6 +295,7 @@ export type DocCategoryScalarWhereWithAggregatesInput = {
 export type DocCategoryCreateInput = {
   id?: string
   title: string
+  slug: string
   sortOrder?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -292,6 +306,7 @@ export type DocCategoryCreateInput = {
 export type DocCategoryUncheckedCreateInput = {
   id?: string
   title: string
+  slug: string
   sortOrder?: number
   sectionId: string
   createdAt?: Date | string
@@ -302,6 +317,7 @@ export type DocCategoryUncheckedCreateInput = {
 export type DocCategoryUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -312,6 +328,7 @@ export type DocCategoryUpdateInput = {
 export type DocCategoryUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   sectionId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -322,6 +339,7 @@ export type DocCategoryUncheckedUpdateInput = {
 export type DocCategoryCreateManyInput = {
   id?: string
   title: string
+  slug: string
   sortOrder?: number
   sectionId: string
   createdAt?: Date | string
@@ -331,6 +349,7 @@ export type DocCategoryCreateManyInput = {
 export type DocCategoryUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -339,6 +358,7 @@ export type DocCategoryUpdateManyMutationInput = {
 export type DocCategoryUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   sectionId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -355,9 +375,15 @@ export type DocCategoryOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type DocCategorySectionIdSlugCompoundUniqueInput = {
+  sectionId: string
+  slug: string
+}
+
 export type DocCategoryCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   sectionId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -371,6 +397,7 @@ export type DocCategoryAvgOrderByAggregateInput = {
 export type DocCategoryMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   sectionId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -380,6 +407,7 @@ export type DocCategoryMaxOrderByAggregateInput = {
 export type DocCategoryMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   sectionId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -454,6 +482,7 @@ export type DocCategoryUpdateOneRequiredWithoutItemsNestedInput = {
 export type DocCategoryCreateWithoutSectionInput = {
   id?: string
   title: string
+  slug: string
   sortOrder?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -463,6 +492,7 @@ export type DocCategoryCreateWithoutSectionInput = {
 export type DocCategoryUncheckedCreateWithoutSectionInput = {
   id?: string
   title: string
+  slug: string
   sortOrder?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -501,6 +531,7 @@ export type DocCategoryScalarWhereInput = {
   NOT?: Prisma.DocCategoryScalarWhereInput | Prisma.DocCategoryScalarWhereInput[]
   id?: Prisma.StringFilter<"DocCategory"> | string
   title?: Prisma.StringFilter<"DocCategory"> | string
+  slug?: Prisma.StringFilter<"DocCategory"> | string
   sortOrder?: Prisma.IntFilter<"DocCategory"> | number
   sectionId?: Prisma.StringFilter<"DocCategory"> | string
   createdAt?: Prisma.DateTimeFilter<"DocCategory"> | Date | string
@@ -510,6 +541,7 @@ export type DocCategoryScalarWhereInput = {
 export type DocCategoryCreateWithoutItemsInput = {
   id?: string
   title: string
+  slug: string
   sortOrder?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -519,6 +551,7 @@ export type DocCategoryCreateWithoutItemsInput = {
 export type DocCategoryUncheckedCreateWithoutItemsInput = {
   id?: string
   title: string
+  slug: string
   sortOrder?: number
   sectionId: string
   createdAt?: Date | string
@@ -544,6 +577,7 @@ export type DocCategoryUpdateToOneWithWhereWithoutItemsInput = {
 export type DocCategoryUpdateWithoutItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -553,6 +587,7 @@ export type DocCategoryUpdateWithoutItemsInput = {
 export type DocCategoryUncheckedUpdateWithoutItemsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   sectionId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -562,6 +597,7 @@ export type DocCategoryUncheckedUpdateWithoutItemsInput = {
 export type DocCategoryCreateManySectionInput = {
   id?: string
   title: string
+  slug: string
   sortOrder?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -570,6 +606,7 @@ export type DocCategoryCreateManySectionInput = {
 export type DocCategoryUpdateWithoutSectionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -579,6 +616,7 @@ export type DocCategoryUpdateWithoutSectionInput = {
 export type DocCategoryUncheckedUpdateWithoutSectionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -588,6 +626,7 @@ export type DocCategoryUncheckedUpdateWithoutSectionInput = {
 export type DocCategoryUncheckedUpdateManyWithoutSectionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -627,6 +666,7 @@ export type DocCategoryCountOutputTypeCountItemsArgs<ExtArgs extends runtime.Typ
 export type DocCategorySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
+  slug?: boolean
   sortOrder?: boolean
   sectionId?: boolean
   createdAt?: boolean
@@ -639,6 +679,7 @@ export type DocCategorySelect<ExtArgs extends runtime.Types.Extensions.InternalA
 export type DocCategorySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
+  slug?: boolean
   sortOrder?: boolean
   sectionId?: boolean
   createdAt?: boolean
@@ -649,6 +690,7 @@ export type DocCategorySelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
 export type DocCategorySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
+  slug?: boolean
   sortOrder?: boolean
   sectionId?: boolean
   createdAt?: boolean
@@ -659,13 +701,14 @@ export type DocCategorySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
 export type DocCategorySelectScalar = {
   id?: boolean
   title?: boolean
+  slug?: boolean
   sortOrder?: boolean
   sectionId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type DocCategoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "sortOrder" | "sectionId" | "createdAt" | "updatedAt", ExtArgs["result"]["docCategory"]>
+export type DocCategoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "sortOrder" | "sectionId" | "createdAt" | "updatedAt", ExtArgs["result"]["docCategory"]>
 export type DocCategoryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   section?: boolean | Prisma.DocSectionDefaultArgs<ExtArgs>
   items?: boolean | Prisma.DocCategory$itemsArgs<ExtArgs>
@@ -687,6 +730,7 @@ export type $DocCategoryPayload<ExtArgs extends runtime.Types.Extensions.Interna
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     title: string
+    slug: string
     sortOrder: number
     sectionId: string
     createdAt: Date
@@ -1118,6 +1162,7 @@ export interface Prisma__DocCategoryClient<T, Null = never, ExtArgs extends runt
 export interface DocCategoryFieldRefs {
   readonly id: Prisma.FieldRef<"DocCategory", 'String'>
   readonly title: Prisma.FieldRef<"DocCategory", 'String'>
+  readonly slug: Prisma.FieldRef<"DocCategory", 'String'>
   readonly sortOrder: Prisma.FieldRef<"DocCategory", 'Int'>
   readonly sectionId: Prisma.FieldRef<"DocCategory", 'String'>
   readonly createdAt: Prisma.FieldRef<"DocCategory", 'DateTime'>

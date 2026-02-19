@@ -57,7 +57,7 @@ export function PanelNotFound({ backTo, backLabel }: { backTo: string; backLabel
 
       <div className="mb-6 w-full max-w-sm">
         <div className="overflow-hidden rounded-xl border border-border/50">
-          <div className="flex items-center gap-2 border-b border-border/50 bg-foreground/[0.02] px-3 py-2">
+          <div className="flex items-center gap-2 border-b border-border/50 bg-foreground/2px-3 py-2">
             <div className="flex gap-1.5">
               <span className="h-2 w-2 rounded-full bg-red-500/80" />
               <span className="h-2 w-2 rounded-full bg-yellow-500/80" />
