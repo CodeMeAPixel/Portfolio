@@ -1,7 +1,6 @@
 import { createFileRoute, Outlet } from '@tanstack/react-router'
 import { Nav } from '../components/Nav'
 import { Footer } from '../components/Footer'
-import { LoadingScreen } from '../components/LoadingScreen'
 
 export const Route = createFileRoute('/_site')({
   component: SiteLayout,
@@ -10,7 +9,6 @@ export const Route = createFileRoute('/_site')({
 function SiteLayout() {
   return (
     <div className="relative min-h-screen overflow-x-hidden">
-      <LoadingScreen />
 
       {/* Animated background */}
       <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
@@ -33,8 +31,8 @@ function SiteLayout() {
             transform: 'translateZ(0)',
           }}
         />
-        {/* Dot grid pattern — reduced opacity on mobile */}
-        <div className="dot-pattern absolute inset-0 opacity-20 sm:opacity-40" />
+        {/* Dot grid pattern */}
+        <div className="dot-pattern absolute inset-0 opacity-30" />
       </div>
 
       <Nav />
