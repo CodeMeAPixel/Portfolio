@@ -1653,6 +1653,8 @@ code {
   }
   .animate-float {
     animation: float-slow 6s ease-in-out infinite;
+    /* Promote to own compositing layer so animation doesn't trigger repaints */
+    will-change: transform;
   }
   .animate-glow-pulse {
     animation: glow-pulse 3s ease-in-out infinite;

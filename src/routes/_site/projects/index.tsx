@@ -34,21 +34,41 @@ function ProjectsPage() {
   const [sortOpen, setSortOpen] = useState(false)
   const [page, setPage] = useState(1)
 
+  const isFiltering = Boolean(search.trim() || filter)
+
   const allTags = useMemo(() =>
     Array.from(new Set(projects?.flatMap((p: any) => p.tags || []) || [])).sort(),
   [projects])
 
+  // Featured projects — always shown in their own section when not filtering
+  const featuredProjects = useMemo(
+    () => (projects || []).filter((p: any) => p.featured),
+    [projects],
+  )
+
+  // The main filterable/sortable list.
+  // When not filtering: excludes featured (they have their own section).
+  // When filtering: includes everything but featured always float to the top.
   const filtered = useMemo(() => {
-    let items = projects || []
+    let items = (projects || []) as any[]
 
     if (search.trim()) {
       const q = search.toLowerCase()
-      items = items.filter((p: any) => p.title?.toLowerCase().includes(q) || p.description?.toLowerCase().includes(q) || p.tags?.some((t: string) => t.toLowerCase().includes(q)))
+      items = items.filter((p) =>
+        p.title?.toLowerCase().includes(q) ||
+        p.description?.toLowerCase().includes(q) ||
+        p.tags?.some((t: string) => t.toLowerCase().includes(q)),
+      )
     }
 
-    if (filter) items = items.filter((p: any) => p.tags?.includes(filter))
+    if (filter) items = items.filter((p) => p.tags?.includes(filter))
 
-    items = [...items].sort((a: any, b: any) => {
+    items = [...items].sort((a, b) => {
+      // When search/filter is active, featured projects always surface first
+      if (isFiltering) {
+        if (a.featured && !b.featured) return -1
+        if (!a.featured && b.featured) return 1
+      }
       switch (sort) {
         case 'oldest': return new Date(a.createdAt || 0).getTime() - new Date(b.createdAt || 0).getTime()
         case 'a-z': return (a.title || '').localeCompare(b.title || '')
@@ -57,15 +77,18 @@ function ProjectsPage() {
       }
     })
 
+    // When not filtering, the featured section above handles featured projects
+    if (!isFiltering) items = items.filter((p) => !p.featured)
+
     return items
-  }, [projects, search, filter, sort])
+  }, [projects, search, filter, sort, isFiltering])
 
   // Pagination
   const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE))
   const safeCurrentPage = Math.min(page, totalPages)
   const paginatedItems = filtered.slice((safeCurrentPage - 1) * ITEMS_PER_PAGE, safeCurrentPage * ITEMS_PER_PAGE)
 
-  const featuredCount = projects?.filter((p: any) => p.featured).length || 0
+  const featuredCount = featuredProjects.length
   const sortLabels: Record<SortOption, string> = { newest: 'Newest', oldest: 'Oldest', 'a-z': 'A → Z', 'z-a': 'Z → A' }
 
   return (
@@ -155,6 +178,127 @@ function ProjectsPage() {
         </div>
       </section>
 
+      {/* ═══ FEATURED PROJECTS ═══ */}
+      {!isFiltering && featuredProjects.length > 0 && (
+        <section className="space-y-5 animate-fade-up">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
+              <Star className="h-4 w-4 fill-primary text-primary" />
+              <h2 className="text-lg font-bold">Featured Projects</h2>
+            </div>
+            <div className="h-px flex-1" style={{ background: 'color-mix(in srgb, var(--foreground) 8%, transparent)' }} />
+          </div>
+
+          <div className={
+            featuredProjects.length === 1
+              ? 'grid grid-cols-1'
+              : featuredProjects.length === 2
+                ? 'grid grid-cols-1 gap-6 md:grid-cols-2'
+                : 'grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3'
+          }>
+            {featuredProjects.map((project: any, i: number) => (
+              <Link
+                key={project.id}
+                to="/projects/$slug"
+                params={{ slug: project.slug }}
+                className="group relative overflow-hidden rounded-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl animate-fade-up"
+                style={{
+                  animationDelay: `${i * 0.08}s`,
+                  background: 'color-mix(in srgb, var(--primary) 4%, var(--card))',
+                  border: '1px solid color-mix(in srgb, var(--primary) 20%, transparent)',
+                }}
+              >
+                {/* Shimmer border accent */}
+                <div
+                  className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                  style={{ boxShadow: '0 0 0 1px color-mix(in srgb, var(--primary) 40%, transparent), 0 8px 40px -8px color-mix(in srgb, var(--glow) 30%, transparent)' }}
+                />
+
+                {/* Image */}
+                <div className="relative aspect-video overflow-hidden">
+                  {project.images && project.images.length > 0 ? (
+                    <img
+                      src={project.images[0]}
+                      alt={project.title}
+                      className="h-full w-full object-cover transition-all duration-500 group-hover:scale-105"
+                    />
+                  ) : (
+                    <ProjectPlaceholder
+                      title={project.title}
+                      className="h-full w-full object-cover transition-all duration-500 group-hover:scale-105"
+                    />
+                  )}
+                  {/* Featured pill */}
+                  <div className="absolute top-3 left-3">
+                    <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-semibold text-primary-foreground shadow-lg gradient-brand">
+                      <Star className="h-3 w-3 fill-primary-foreground" />
+                      Featured
+                    </span>
+                  </div>
+                  {/* Hover sweep */}
+                  <div
+                    className="pointer-events-none absolute inset-0 -translate-x-full transition-transform duration-700 group-hover:translate-x-full"
+                    style={{ background: 'linear-gradient(90deg, transparent, color-mix(in srgb, var(--glow-secondary) 15%, transparent), transparent)' }}
+                  />
+                </div>
+
+                {/* Content */}
+                <div className="space-y-3 p-5">
+                  <div className="flex items-start justify-between gap-3">
+                    <h3 className="text-lg font-bold transition-colors group-hover:text-primary">{project.title}</h3>
+                    <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-all group-hover:text-primary group-hover:translate-x-1" />
+                  </div>
+                  {project.description && (
+                    <p className="text-sm leading-relaxed text-muted-foreground line-clamp-2">{project.description}</p>
+                  )}
+                  {project.tags && project.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5">
+                      {project.tags.slice(0, 5).map((tag: string) => (
+                        <span
+                          key={tag}
+                          className="rounded-md px-2 py-0.5 text-[11px] font-medium text-primary"
+                          style={{ background: 'color-mix(in srgb, var(--primary) 12%, transparent)' }}
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                      {project.tags.length > 5 && (
+                        <span className="rounded-md px-2 py-0.5 text-[11px] font-medium text-muted-foreground">
+                          +{project.tags.length - 5}
+                        </span>
+                      )}
+                    </div>
+                  )}
+                  <div className="flex items-center gap-3 border-t pt-3" style={{ borderColor: 'color-mix(in srgb, var(--primary) 15%, transparent)' }}>
+                    {project.demoUrl && (
+                      <span className="inline-flex items-center gap-1.5 text-xs font-medium text-primary">
+                        <ExternalLink className="h-3 w-3" />Live Demo
+                      </span>
+                    )}
+                    {project.githubUrl && (
+                      <span className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
+                        <Github className="h-3 w-3" />Source
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Section divider + heading for the rest */}
+      {!isFiltering && filtered.length > 0 && (
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <Layers className="h-4 w-4 text-muted-foreground" />
+            <h2 className="text-lg font-bold">All Projects</h2>
+          </div>
+          <div className="h-px flex-1" style={{ background: 'color-mix(in srgb, var(--foreground) 8%, transparent)' }} />
+        </div>
+      )}
+
       {/* ═══ TOOLBAR ═══ */}
       <div className="relative z-20 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between animate-fade-up">
         <div className="relative flex-1 max-w-md">
@@ -184,7 +328,7 @@ function ProjectsPage() {
         </div>
       </div>
 
-      {(search || filter) && (
+      {isFiltering && (
         <p className="text-sm text-muted-foreground">
           {filtered.length} {filtered.length === 1 ? 'project' : 'projects'} found
           {search && <> matching "<span className="text-foreground font-medium">{search}</span>"</>}
@@ -210,7 +354,8 @@ function ProjectsPage() {
                   ) : (
                     <ProjectPlaceholder title={project.title} className="absolute inset-0 h-full w-full object-cover transition-all duration-500 group-hover:scale-105" />
                   )}
-                  {project.featured && (
+                  {/* Show featured badge in search results too */}
+                  {project.featured && isFiltering && (
                     <div className="absolute top-3 right-3">
                       <span className="glass-strong inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-semibold text-primary"><Star className="h-3 w-3 fill-primary" />Featured</span>
                     </div>
@@ -283,12 +428,12 @@ function ProjectsPage() {
             <Code2 className="h-8 w-8 text-primary" />
           </div>
           <p className="text-lg font-medium text-foreground">
-            {filter || search ? 'No matching projects' : 'No projects yet'}
+            {isFiltering ? 'No matching projects' : 'No projects yet'}
           </p>
           <p className="text-sm text-muted-foreground">
-            {filter || search ? 'Try adjusting your filters or search terms.' : 'Check back soon for new projects.'}
+            {isFiltering ? 'Try adjusting your filters or search terms.' : 'Check back soon for new projects.'}
           </p>
-          {(filter || search) && (
+          {isFiltering && (
             <button
               onClick={() => { setFilter(null); setSearch(''); setPage(1) }}
               className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 font-medium text-primary-foreground transition-all gradient-brand hover:scale-[1.02]"

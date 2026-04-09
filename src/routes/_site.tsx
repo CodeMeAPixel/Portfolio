@@ -14,10 +14,14 @@ function SiteLayout() {
 
       {/* Animated background */}
       <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-        {/* Primary glow orb */}
+        {/* Primary glow orb — translate3d promotes to own GPU layer, avoiding expensive repaints */}
         <div
           className="animate-float absolute -top-40 -right-40 h-75 w-75 rounded-full blur-[140px] sm:h-125 sm:w-125"
-          style={{ background: 'color-mix(in srgb, var(--glow) 12%, transparent)' }}
+          style={{
+            background: 'color-mix(in srgb, var(--glow) 12%, transparent)',
+            willChange: 'transform',
+            transform: 'translateZ(0)',
+          }}
         />
         {/* Secondary glow orb */}
         <div
@@ -25,12 +29,17 @@ function SiteLayout() {
           style={{
             background: 'color-mix(in srgb, var(--glow-secondary) 10%, transparent)',
             animationDelay: '-3s',
+            willChange: 'transform',
+            transform: 'translateZ(0)',
           }}
         />
-        {/* Center aurora wash */}
+        {/* Center aurora wash — static, no border-radius morphing (was the biggest paint cost) */}
         <div
-          className="animate-morph absolute top-1/3 left-1/2 h-87.5 w-87.5 -translate-x-1/2 -translate-y-1/2 rounded-full blur-[200px] opacity-60 sm:h-150 sm:w-150"
-          style={{ background: 'color-mix(in srgb, var(--glow) 6%, transparent)' }}
+          className="absolute top-1/3 left-1/2 h-87.5 w-87.5 -translate-x-1/2 -translate-y-1/2 rounded-full blur-[200px] opacity-40 sm:h-150 sm:w-150"
+          style={{
+            background: 'color-mix(in srgb, var(--glow) 6%, transparent)',
+            transform: 'translateZ(0) translate(-50%, -50%)',
+          }}
         />
         {/* Dot grid pattern */}
         <div className="dot-pattern absolute inset-0 opacity-40" />

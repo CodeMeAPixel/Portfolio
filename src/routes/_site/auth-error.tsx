@@ -64,7 +64,7 @@ export const Route = createFileRoute('/_site/auth-error')({
 })
 
 function AuthErrorPage() {
-  const { error } = useSearch({ from: '/auth-error' })
+  const { error } = useSearch({ from: '/_site/auth-error' })
 
   const errorCode = useMemo(
     () => authErrorCodes[Math.floor(Math.random() * authErrorCodes.length)],

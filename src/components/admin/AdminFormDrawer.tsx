@@ -1,4 +1,4 @@
-import { ChevronDown, X } from 'lucide-react'
+import { ChevronDown, X, Plus } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
 interface AdminFormDrawerProps {
@@ -316,4 +316,236 @@ export function FormTagInput({
 
 export function FormRow({ children }: { children: React.ReactNode }) {
   return <div className="grid gap-4 sm:grid-cols-2">{children}</div>
+}
+
+/* ─── Technology repeater ─────────────────────────────── */
+
+type TechEntry = { name: string; description: string }
+
+export function FormTechRepeater({
+  value,
+  onChange,
+}: {
+  value: TechEntry[]
+  onChange: (val: TechEntry[]) => void
+}) {
+  const [adding, setAdding] = useState(false)
+  const [newName, setNewName] = useState('')
+  const [newDesc, setNewDesc] = useState('')
+
+  const commit = () => {
+    const name = newName.trim()
+    if (!name) return
+    onChange([...value, { name, description: newDesc.trim() }])
+    setNewName('')
+    setNewDesc('')
+    setAdding(false)
+  }
+
+  const cancel = () => {
+    setAdding(false)
+    setNewName('')
+    setNewDesc('')
+  }
+
+  const remove = (i: number) => onChange(value.filter((_, idx) => idx !== i))
+
+  return (
+    <div className="space-y-2">
+      {value.map((tech, i) => (
+        <div
+          key={`tech-${i}`}
+          className="flex items-start gap-2 rounded-lg border border-border/40 bg-foreground/2 px-3 py-2"
+        >
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-medium text-foreground">{tech.name}</p>
+            {tech.description && (
+              <p className="mt-0.5 text-xs text-muted-foreground">{tech.description}</p>
+            )}
+          </div>
+          <button
+            type="button"
+            onClick={() => remove(i)}
+            className="shrink-0 rounded p-0.5 text-muted-foreground/40 transition-colors hover:text-destructive"
+          >
+            <X className="h-3.5 w-3.5" />
+          </button>
+        </div>
+      ))}
+
+      {adding ? (
+        <div className="space-y-2 rounded-lg border border-primary/30 bg-foreground/2 p-3">
+          {/* biome-ignore lint/a11y/noAutofocus: inline add form needs focus */}
+          <input
+            autoFocus
+            placeholder="Technology name *"
+            value={newName}
+            onChange={(e) => setNewName(e.target.value)}
+            className="h-8 w-full rounded-md border border-border/50 bg-transparent px-2.5 text-sm outline-none focus:border-primary/40"
+          />
+          <input
+            placeholder="Description (optional)"
+            value={newDesc}
+            onChange={(e) => setNewDesc(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault()
+                commit()
+              }
+              if (e.key === 'Escape') cancel()
+            }}
+            className="h-8 w-full rounded-md border border-border/50 bg-transparent px-2.5 text-sm outline-none focus:border-primary/40"
+          />
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={commit}
+              className="rounded-md gradient-brand px-3 py-1 text-xs font-medium text-white"
+            >
+              Add
+            </button>
+            <button
+              type="button"
+              onClick={cancel}
+              className="rounded-md border border-border/50 px-3 py-1 text-xs text-muted-foreground hover:text-foreground"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      ) : (
+        <button
+          type="button"
+          onClick={() => setAdding(true)}
+          className="flex w-full items-center gap-1.5 rounded-lg border border-dashed border-border/50 px-3 py-2 text-xs text-muted-foreground transition-colors hover:border-border hover:text-foreground"
+        >
+          <Plus className="h-3 w-3" />
+          Add Technology
+        </button>
+      )}
+    </div>
+  )
+}
+
+/* ─── Partner repeater ────────────────────────────────── */
+
+type PartnerEntry = { name: string; url: string; description: string }
+
+export function FormPartnersRepeater({
+  value,
+  onChange,
+}: {
+  value: PartnerEntry[]
+  onChange: (val: PartnerEntry[]) => void
+}) {
+  const [adding, setAdding] = useState(false)
+  const [newName, setNewName] = useState('')
+  const [newUrl, setNewUrl] = useState('')
+  const [newDesc, setNewDesc] = useState('')
+
+  const commit = () => {
+    const name = newName.trim()
+    if (!name) return
+    onChange([...value, { name, url: newUrl.trim(), description: newDesc.trim() }])
+    setNewName('')
+    setNewUrl('')
+    setNewDesc('')
+    setAdding(false)
+  }
+
+  const cancel = () => {
+    setAdding(false)
+    setNewName('')
+    setNewUrl('')
+    setNewDesc('')
+  }
+
+  const remove = (i: number) => onChange(value.filter((_, idx) => idx !== i))
+
+  return (
+    <div className="space-y-2">
+      {value.map((partner, i) => (
+        <div
+          key={`partner-${i}`}
+          className="flex items-start gap-2 rounded-lg border border-border/40 bg-foreground/2 px-3 py-2"
+        >
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-2">
+              <p className="text-sm font-medium text-foreground">{partner.name}</p>
+              {partner.url && (
+                <span className="truncate text-xs text-muted-foreground/60">{partner.url}</span>
+              )}
+            </div>
+            {partner.description && (
+              <p className="mt-0.5 text-xs text-muted-foreground">{partner.description}</p>
+            )}
+          </div>
+          <button
+            type="button"
+            onClick={() => remove(i)}
+            className="shrink-0 rounded p-0.5 text-muted-foreground/40 transition-colors hover:text-destructive"
+          >
+            <X className="h-3.5 w-3.5" />
+          </button>
+        </div>
+      ))}
+
+      {adding ? (
+        <div className="space-y-2 rounded-lg border border-primary/30 bg-foreground/2 p-3">
+          {/* biome-ignore lint/a11y/noAutofocus: inline add form needs focus */}
+          <input
+            autoFocus
+            placeholder="Partner name *"
+            value={newName}
+            onChange={(e) => setNewName(e.target.value)}
+            className="h-8 w-full rounded-md border border-border/50 bg-transparent px-2.5 text-sm outline-none focus:border-primary/40"
+          />
+          <input
+            placeholder="URL (optional)"
+            value={newUrl}
+            onChange={(e) => setNewUrl(e.target.value)}
+            className="h-8 w-full rounded-md border border-border/50 bg-transparent px-2.5 text-sm outline-none focus:border-primary/40"
+          />
+          <input
+            placeholder="Description (optional)"
+            value={newDesc}
+            onChange={(e) => setNewDesc(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault()
+                commit()
+              }
+              if (e.key === 'Escape') cancel()
+            }}
+            className="h-8 w-full rounded-md border border-border/50 bg-transparent px-2.5 text-sm outline-none focus:border-primary/40"
+          />
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={commit}
+              className="rounded-md gradient-brand px-3 py-1 text-xs font-medium text-white"
+            >
+              Add
+            </button>
+            <button
+              type="button"
+              onClick={cancel}
+              className="rounded-md border border-border/50 px-3 py-1 text-xs text-muted-foreground hover:text-foreground"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      ) : (
+        <button
+          type="button"
+          onClick={() => setAdding(true)}
+          className="flex w-full items-center gap-1.5 rounded-lg border border-dashed border-border/50 px-3 py-2 text-xs text-muted-foreground transition-colors hover:border-border hover:text-foreground"
+        >
+          <Plus className="h-3 w-3" />
+          Add Partner
+        </button>
+      )}
+    </div>
+  )
 }

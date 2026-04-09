@@ -20,6 +20,8 @@ import {
   FormCheckbox,
   FormTagInput,
   FormRow,
+  FormTechRepeater,
+  FormPartnersRepeater,
 } from '~/components/admin/AdminFormDrawer'
 
 const projectsQueryOptions = {
@@ -36,6 +38,9 @@ export const Route = createFileRoute('/admin/projects')({
 })
 
 type ProjectType = Awaited<ReturnType<typeof getAdminProjects>>[number]
+
+type TechEntry = { name: string; description: string }
+type PartnerEntry = { name: string; url: string; description: string }
 
 const emptyForm = {
   slug: '',
@@ -55,6 +60,8 @@ const emptyForm = {
   challenges: [] as string[],
   solutions: [] as string[],
   keyFeatures: [] as string[],
+  technologies: [] as TechEntry[],
+  partners: [] as PartnerEntry[],
 }
 
 function AdminProjects() {
@@ -102,6 +109,8 @@ function AdminProjects() {
       challenges: project.challenges,
       solutions: project.solutions,
       keyFeatures: project.keyFeatures,
+      technologies: Array.isArray(project.technologies) ? (project.technologies as TechEntry[]) : [],
+      partners: Array.isArray(project.partners) ? (project.partners as PartnerEntry[]) : [],
     })
     setDrawerOpen(true)
   }
@@ -197,17 +206,17 @@ function AdminProjects() {
             placeholder="Search by title or slug..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="h-9 w-full rounded-lg border border-border/50 bg-foreground/[0.02] pl-9 pr-3 text-sm outline-none transition-colors placeholder:text-muted-foreground/40 focus:border-primary/30 focus:bg-foreground/[0.04]"
+            className="h-9 w-full rounded-lg border border-border/50 bg-foreground/2 pl-9 pr-3 text-sm outline-none transition-colors placeholder:text-muted-foreground/40 focus:border-primary/30 focus:bg-foreground/4"
           />
         </div>
-        <div className="flex items-center gap-1 rounded-lg border border-border/50 bg-foreground/[0.02] p-0.5">
+        <div className="flex items-center gap-1 rounded-lg border border-border/50 bg-foreground/2 p-0.5">
           {(['ALL', 'FEATURED'] as const).map((f) => (
             <button
               key={f}
               onClick={() => setFilter(f)}
               className={`rounded-md px-3 py-1.5 text-xs font-medium transition-all ${
                 filter === f
-                  ? 'bg-foreground/[0.08] text-foreground'
+                  ? 'bg-foreground/8 text-foreground'
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
@@ -222,7 +231,7 @@ function AdminProjects() {
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-border/50 bg-foreground/[0.02]">
+              <tr className="border-b border-border/50 bg-foreground/2">
                 <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">Project</th>
                 <th className="hidden px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground md:table-cell">Tags</th>
                 <th className="hidden px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground sm:table-cell">Status</th>
@@ -231,7 +240,7 @@ function AdminProjects() {
             </thead>
             <tbody className="divide-y divide-border/30">
               {filtered.map((project) => (
-                <tr key={project.id} className="group transition-colors hover:bg-foreground/[0.02]">
+                <tr key={project.id} className="group transition-colors hover:bg-foreground/2">
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-3">
                       {project.images[0] ? (
@@ -254,7 +263,7 @@ function AdminProjects() {
                   <td className="hidden px-4 py-3 md:table-cell">
                     <div className="flex flex-wrap gap-1">
                       {project.tags.slice(0, 3).map((tag) => (
-                        <span key={tag} className="rounded-md bg-foreground/[0.04] px-1.5 py-0.5 text-[10px] text-muted-foreground/70">
+                        <span key={tag} className="rounded-md bg-foreground/4 px-1.5 py-0.5 text-[10px] text-muted-foreground/70">
                           {tag}
                         </span>
                       ))}
@@ -277,7 +286,7 @@ function AdminProjects() {
                     <div className="flex items-center justify-end gap-1">
                       <button
                         onClick={() => openEdit(project)}
-                        className="flex h-7 items-center gap-1 rounded-md px-2 text-xs text-muted-foreground transition-all hover:bg-foreground/[0.06] hover:text-foreground"
+                        className="flex h-7 items-center gap-1 rounded-md px-2 text-xs text-muted-foreground transition-all hover:bg-foreground/6 hover:text-foreground"
                         title="Edit"
                       >
                         <Pencil className="h-3.5 w-3.5" />
@@ -286,7 +295,7 @@ function AdminProjects() {
                       <Link
                         to="/projects/$slug"
                         params={{ slug: project.slug }}
-                        className="flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground/50 transition-all hover:bg-foreground/[0.06] hover:text-foreground"
+                        className="flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground/50 transition-all hover:bg-foreground/6 hover:text-foreground"
                         title="View"
                       >
                         <Eye className="h-3.5 w-3.5" />
@@ -294,7 +303,7 @@ function AdminProjects() {
                       <button
                         onClick={() => handleToggleFeatured(project.id, project.featured)}
                         disabled={loading === project.id}
-                        className="flex h-7 items-center gap-1 rounded-md px-2 text-xs text-muted-foreground transition-all hover:bg-foreground/[0.06] hover:text-foreground disabled:opacity-40"
+                        className="flex h-7 items-center gap-1 rounded-md px-2 text-xs text-muted-foreground transition-all hover:bg-foreground/6 hover:text-foreground disabled:opacity-40"
                         title={project.featured ? 'Unfeature' : 'Feature'}
                       >
                         {project.featured ? <StarOff className="h-3.5 w-3.5" /> : <Star className="h-3.5 w-3.5" />}
@@ -418,6 +427,14 @@ function AdminProjects() {
           />
         </FormField>
 
+        <FormField label="Images" hint="Press Enter to add each image URL">
+          <FormTagInput
+            value={form.images}
+            onChange={(images) => setForm((f) => ({ ...f, images }))}
+            placeholder="https://example.com/image.png"
+          />
+        </FormField>
+
         <FormField label="Key Features" hint="Press Enter to add each feature">
           <FormTagInput
             value={form.keyFeatures}
@@ -473,6 +490,22 @@ function AdminProjects() {
             value={form.solutions}
             onChange={(solutions) => setForm((f) => ({ ...f, solutions }))}
             placeholder="Implemented caching..."
+          />
+        </FormField>
+
+        <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider pt-2">Technologies</h3>
+        <FormField label="Technologies" hint="Add each technology used in this project">
+          <FormTechRepeater
+            value={form.technologies}
+            onChange={(technologies) => setForm((f) => ({ ...f, technologies }))}
+          />
+        </FormField>
+
+        <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider pt-2">Partners</h3>
+        <FormField label="Partners" hint="Add any partners or collaborators">
+          <FormPartnersRepeater
+            value={form.partners}
+            onChange={(partners) => setForm((f) => ({ ...f, partners }))}
           />
         </FormField>
       </AdminFormDrawer>

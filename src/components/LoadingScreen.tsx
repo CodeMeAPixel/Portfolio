@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useLayoutEffect, useState } from 'react'
 import { Terminal, Loader2 } from 'lucide-react'
 
 function useTypingEffect(lines: string[], speed = 30, lineDelay = 200) {
@@ -48,8 +48,9 @@ function useTypingEffect(lines: string[], speed = 30, lineDelay = 200) {
 }
 
 export function LoadingScreen() {
-  const [mounted, setMounted] = useState(false)
-  const [visible, setVisible] = useState(true)
+  // Start hidden — useLayoutEffect sets visible=true before first paint for
+  // first-time visitors only, preventing the flash for returning visitors.
+  const [visible, setVisible] = useState(false)
   const [fadeOut, setFadeOut] = useState(false)
   const [progress, setProgress] = useState(0)
 
@@ -67,56 +68,40 @@ export function LoadingScreen() {
 
   const { displayed, done } = useTypingEffect(terminalLines, 18, 120)
 
-  useEffect(() => {
-    setMounted(true)
+  // Runs synchronously before the browser paints — no flash for returning visitors
+  useLayoutEffect(() => {
+    if (!localStorage.getItem('pxl-visited')) {
+      setVisible(true)
+    }
   }, [])
 
-  // Progress bar animation
+  // Progress bar animation (only runs when the screen is showing)
   useEffect(() => {
-    if (!mounted) return
+    if (!visible) return
 
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) return 100
-        // Accelerate as typing progresses
         const increment = done ? 15 : (100 - prev) * 0.04
         return Math.min(prev + increment, done ? 100 : 92)
       })
     }, 40)
 
     return () => clearInterval(interval)
-  }, [mounted, done])
+  }, [visible, done])
 
-  // When typing is done and progress hits 100, start fade-out
+  // When typing is done and progress hits 100, start fade-out and mark visited
   useEffect(() => {
-    if (done && progress >= 100) {
-      const timer = setTimeout(() => {
-        setFadeOut(true)
-        setTimeout(() => setVisible(false), 400)
-      }, 300)
-      return () => clearTimeout(timer)
-    }
-  }, [done, progress])
-
-  // First-time vs returning visitor timing
-  useEffect(() => {
-    if (!mounted) return
-
-    const hasVisited = localStorage.getItem('pxl-visited')
-
-    if (hasVisited) {
-      // Returning visitor — skip the loading screen
-      setVisible(false)
-      return
-    }
-
-    // First-time visitor — mark as visited when done
-    if (!visible) {
+    if (!visible || !done || progress < 100) return
+    const timer = setTimeout(() => {
+      setFadeOut(true)
       localStorage.setItem('pxl-visited', 'true')
-    }
-  }, [mounted, visible])
+      setTimeout(() => setVisible(false), 400)
+    }, 300)
+    return () => clearTimeout(timer)
+  }, [visible, done, progress])
 
-  if (!mounted || !visible) return null
+  if (!visible) return null
 
   return (
     <div
@@ -128,13 +113,15 @@ export function LoadingScreen() {
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div
           className="animate-float absolute -top-40 -right-40 h-75 w-75 rounded-full blur-[140px] sm:h-125 sm:w-125"
-          style={{ background: 'color-mix(in srgb, var(--glow) 12%, transparent)' }}
+          style={{ background: 'color-mix(in srgb, var(--glow) 12%, transparent)', willChange: 'transform', transform: 'translateZ(0)' }}
         />
         <div
           className="animate-float absolute -bottom-40 -left-40 h-62.5 w-62.5 rounded-full blur-[120px] sm:h-100 sm:w-100"
           style={{
             background: 'color-mix(in srgb, var(--glow-secondary) 10%, transparent)',
             animationDelay: '-3s',
+            willChange: 'transform',
+            transform: 'translateZ(0)',
           }}
         />
         <div className="dot-pattern absolute inset-0 opacity-40" />

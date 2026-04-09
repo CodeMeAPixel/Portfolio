@@ -4,9 +4,7 @@ import {
   Scripts,
   createRootRouteWithContext,
 } from '@tanstack/react-router'
-import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
-import { TanStackDevtools } from '@tanstack/react-devtools'
-import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
+import React from 'react'
 import { themeScript } from '../lib/theme'
 import { NotFoundPage } from '../components/NotFoundPage'
 import { ErrorPage } from '../components/ErrorPage'
@@ -36,7 +34,8 @@ export const Route = createRootRouteWithContext<RouterContext>()({
       { rel: 'manifest', href: '/manifest.json' },
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap' },
+      // Preload font CSS so it starts fetching early without blocking render
+      { rel: 'preload', href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap', as: 'style' },
     ],
   }),
 
@@ -46,23 +45,48 @@ export const Route = createRootRouteWithContext<RouterContext>()({
   shellComponent: RootDocument,
 })
 
+// Devtools are dynamically imported so they are never included in the production bundle.
+const DevToolsPanel = import.meta.env.DEV
+  ? React.lazy(() =>
+      Promise.all([
+        import('@tanstack/react-devtools'),
+        import('@tanstack/react-router-devtools'),
+        import('../integrations/tanstack-query/devtools'),
+      ]).then(([{ TanStackDevtools }, { TanStackRouterDevtoolsPanel }, { default: TanStackQueryDevtools }]) => ({
+        default: () => (
+          <TanStackDevtools
+            config={{ position: 'bottom-right' }}
+            plugins={[
+              { name: 'TanStack Router', render: <TanStackRouterDevtoolsPanel /> },
+              TanStackQueryDevtools,
+            ]}
+          />
+        ),
+      })),
+    )
+  : null
+
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="dark">
       <head>
         {/* Prevent theme flash — runs before any render */}
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        {/* Async font load: appended after page becomes interactive so it never blocks render */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var l=document.createElement('link');l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap';document.head.appendChild(l);}())`,
+          }}
+        />
         <HeadContent />
       </head>
       <body className="scrollbar-thin min-h-screen overflow-x-hidden bg-background text-foreground antialiased">
         {children}
-        <TanStackDevtools
-          config={{ position: 'bottom-right' }}
-          plugins={[
-            { name: 'TanStack Router', render: <TanStackRouterDevtoolsPanel /> },
-            TanStackQueryDevtools,
-          ]}
-        />
+        {import.meta.env.DEV && DevToolsPanel && (
+          <React.Suspense fallback={null}>
+            <DevToolsPanel />
+          </React.Suspense>
+        )}
         <Scripts />
       </body>
     </html>

@@ -130,6 +130,8 @@ export const createProject = createServerFn({ method: 'POST' })
       challenges?: string[]
       solutions?: string[]
       keyFeatures?: string[]
+      technologies?: { name: string; description: string }[]
+      partners?: { name: string; url: string; description: string }[]
     }) => data,
   )
   .handler(async ({ data }) => {
@@ -153,6 +155,8 @@ export const createProject = createServerFn({ method: 'POST' })
         challenges: data.challenges || [],
         solutions: data.solutions || [],
         keyFeatures: data.keyFeatures || [],
+        technologies: data.technologies || [],
+        partners: data.partners || [],
       },
     })
   })
@@ -178,6 +182,8 @@ export const updateProject = createServerFn({ method: 'POST' })
       challenges?: string[]
       solutions?: string[]
       keyFeatures?: string[]
+      technologies?: { name: string; description: string }[]
+      partners?: { name: string; url: string; description: string }[]
     }) => data,
   )
   .handler(async ({ data }) => {
