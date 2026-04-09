@@ -17,6 +17,7 @@ const docItemQueryOptions = (
     getDocItemBySlug({
       data: { sectionSlug, categorySlug, itemSlug },
     }),
+  staleTime: 10 * 60 * 1000,
 })
 
 export const Route = createFileRoute('/_site/docs/$section/$category/$slug/')({

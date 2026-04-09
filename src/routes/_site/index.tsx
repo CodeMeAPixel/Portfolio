@@ -2,20 +2,26 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { Code2, ExternalLink, Star, ArrowRight, Mail, MapPin, Briefcase, Layers, Code } from 'lucide-react'
 import { useEffect, useState, useCallback } from 'react'
-import { getFeaturedProjects } from '~/lib/server-fns'
+import { getFeaturedProjects, lanyardQueryOptions } from '~/lib/server-fns'
 import { DiscordPresence } from '~/components/DiscordPresence'
 import { createMeta } from '~/lib/meta'
+
+const FIVE_MIN = 5 * 60 * 1000
 
 const featuredProjectsQueryOptions = {
   queryKey: ['projects', 'featured'],
   queryFn: () => getFeaturedProjects(),
+  staleTime: FIVE_MIN,
 }
 
 export const Route = createFileRoute('/_site/')({
   head: () => createMeta({ title: 'CodeMeAPixel | Fullstack Developer', rawTitle: true, path: '/' }),
   component: Home,
   loader: async ({ context: { queryClient } }) => {
-    return queryClient.ensureQueryData(featuredProjectsQueryOptions)
+    return Promise.all([
+      queryClient.ensureQueryData(featuredProjectsQueryOptions),
+      queryClient.ensureQueryData(lanyardQueryOptions),
+    ])
   },
 })
 

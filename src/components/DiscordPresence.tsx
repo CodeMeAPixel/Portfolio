@@ -1,43 +1,7 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import { Music, Gamepad2, Monitor, Clock } from 'lucide-react'
-
-const DISCORD_ID = '510065483693817867'
-const LANYARD_URL = `https://api.lanyard.rest/v1/users/${DISCORD_ID}`
-const POLL_INTERVAL = 30_000
-
-interface LanyardData {
-  discord_user: {
-    id: string
-    username: string
-    avatar: string
-    discriminator: string
-    global_name?: string
-  }
-  discord_status: 'online' | 'idle' | 'dnd' | 'offline'
-  activities: Array<{
-    name: string
-    type: number
-    state?: string
-    details?: string
-    timestamps?: { start?: number; end?: number }
-    assets?: {
-      large_image?: string
-      large_text?: string
-      small_image?: string
-      small_text?: string
-    }
-    application_id?: string
-  }>
-  listening_to_spotify: boolean
-  spotify?: {
-    song: string
-    artist: string
-    album: string
-    album_art_url: string
-    timestamps: { start: number; end: number }
-    track_id: string
-  }
-}
+import { lanyardQueryOptions, type LanyardData } from '~/lib/server-fns'
 
 const statusColors: Record<string, string> = {
   online: '#22c55e',
@@ -71,38 +35,9 @@ function getElapsed(startMs: number) {
 }
 
 export function DiscordPresence() {
-  const [data, setData] = useState<LanyardData | null>(null)
-  const [loading, setLoading] = useState(true)
-  const timerRef = useRef<ReturnType<typeof setInterval>>(null)
+  const { data, isPending } = useQuery(lanyardQueryOptions)
 
-  useEffect(() => {
-    let cancelled = false
-
-    async function fetchPresence() {
-      try {
-        const res = await fetch(LANYARD_URL)
-        if (!res.ok) return
-        const json = await res.json()
-        if (!cancelled && json.success) {
-          setData(json.data)
-        }
-      } catch {
-        // silently fail
-      } finally {
-        if (!cancelled) setLoading(false)
-      }
-    }
-
-    fetchPresence()
-    timerRef.current = setInterval(fetchPresence, POLL_INTERVAL)
-
-    return () => {
-      cancelled = true
-      if (timerRef.current) clearInterval(timerRef.current)
-    }
-  }, [])
-
-  if (loading) {
+  if (isPending) {
     return (
       <div className="glass-card rounded-xl p-5 animate-pulse">
         <div className="flex items-center gap-3">

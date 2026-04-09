@@ -23,6 +23,7 @@ const docSubItemQueryOptions = (
     getDocItemBySlug({
       data: { sectionSlug, categorySlug, itemSlug, subSlug },
     }),
+  staleTime: 10 * 60 * 1000,
 })
 
 export const Route = createFileRoute(

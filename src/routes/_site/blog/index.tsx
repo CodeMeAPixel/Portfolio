@@ -9,6 +9,7 @@ import { BlogPlaceholder } from '~/components/PlaceholderBanner'
 const blogQueryOptions = {
   queryKey: ['blog'],
   queryFn: () => getAllBlogPosts(),
+  staleTime: 5 * 60 * 1000,
 }
 
 export const Route = createFileRoute('/_site/blog/')({

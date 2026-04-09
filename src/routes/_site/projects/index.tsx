@@ -9,6 +9,7 @@ import { ProjectPlaceholder } from '~/components/PlaceholderBanner'
 const allProjectsQueryOptions = {
   queryKey: ['projects'],
   queryFn: () => getAllProjects(),
+  staleTime: 5 * 60 * 1000,
 }
 
 export const Route = createFileRoute('/_site/projects/')({

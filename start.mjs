@@ -163,6 +163,23 @@ const SECURITY_HEADERS = {
   'referrer-policy': 'strict-origin-when-cross-origin',
 }
 
+/* ─── Static File Stat Cache ──────────────────────────── */
+
+// Avoids redundant fs syscalls for the same path within a short TTL window.
+// Immutable /assets/* files effectively cache forever; public-dir files use a
+// short TTL so they re-stat after deploys without needing a server restart.
+const STAT_CACHE_TTL = 30_000 // 30 s
+const statCache = new Map()   // filePath → { s: Stats, expires: number }
+
+async function cachedStat(filePath) {
+  const now = Date.now()
+  const hit = statCache.get(filePath)
+  if (hit && hit.expires > now) return hit.s
+  const s = await stat(filePath)
+  statCache.set(filePath, { s, expires: now + STAT_CACHE_TTL })
+  return s
+}
+
 /* ─── Static File Server ──────────────────────────────── */
 
 /**
@@ -181,7 +198,7 @@ async function tryServeStatic(pathname, method, req, res, reqId) {
 
     let s
     try {
-      s = await stat(filePath)
+      s = await cachedStat(filePath)
       if (!s.isFile()) continue
     } catch {
       continue

@@ -14,6 +14,7 @@ import { createMeta } from '~/lib/meta'
 const projectQueryOptions = (slug: string) => ({
   queryKey: ['projects', slug],
   queryFn: () => getProjectBySlug({ data: { slug } }),
+  staleTime: 10 * 60 * 1000,
 })
 
 export const Route = createFileRoute('/_site/projects/$slug')({

@@ -15,7 +15,7 @@ export const getFeaturedProjects = createServerFn({ method: 'GET' }).handler(
 
 export const getAllProjects = createServerFn({ method: 'GET' }).handler(
   async () => {
-    return db.project.findMany({ orderBy: { createdAt: 'desc' } })
+    return db.project.findMany({ orderBy: { createdAt: 'desc' }, take: 200 })
   },
 )
 
@@ -34,7 +34,7 @@ export const getProjectBySlug = createServerFn({ method: 'GET' })
 
 export const getAllProducts = createServerFn({ method: 'GET' }).handler(
   async () => {
-    return db.product.findMany({ orderBy: { createdAt: 'desc' } })
+    return db.product.findMany({ orderBy: { createdAt: 'desc' }, take: 200 })
   },
 )
 
@@ -55,6 +55,7 @@ export const getAllBlogPosts = createServerFn({ method: 'GET' }).handler(
     return db.blogPost.findMany({
       where: { published: true },
       orderBy: { publishedAt: 'desc' },
+      take: 200,
     })
   },
 )
@@ -72,6 +73,7 @@ export const getAllReviews = createServerFn({ method: 'GET' }).handler(
     return db.clientReview.findMany({
       where: { status: 'APPROVED' },
       orderBy: { createdAt: 'desc' },
+      take: 200,
     })
   },
 )
@@ -92,12 +94,31 @@ export const getReferralCategories = createServerFn({ method: 'GET' }).handler(
 export const getDocSections = createServerFn({ method: 'GET' }).handler(
   async () => {
     return db.docSection.findMany({
-      include: {
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+        description: true,
+        icon: true,
+        createdAt: true,
         categories: {
-          include: {
+          select: {
+            id: true,
+            title: true,
+            slug: true,
+            icon: true,
+            sortOrder: true,
             items: {
               where: { parentId: null },
-              include: { children: { orderBy: { sortOrder: 'asc' } } },
+              select: {
+                id: true,
+                title: true,
+                slug: true,
+                description: true,
+                keywords: true,
+                sortOrder: true,
+                createdAt: true,
+              },
               orderBy: { sortOrder: 'asc' },
             },
           },
@@ -164,3 +185,62 @@ export const getDocItemBySlug = createServerFn({ method: 'GET' })
       siblings: [],
     }
   })
+
+// ── Discord / Lanyard ─────────────────────────────────────
+
+const LANYARD_DISCORD_ID = '510065483693817867'
+
+export const getLanyardPresence = createServerFn({ method: 'GET' }).handler(async () => {
+  try {
+    const res = await fetch(`https://api.lanyard.rest/v1/users/${LANYARD_DISCORD_ID}`)
+    if (!res.ok) return null
+    const json = await res.json()
+    return json.success ? (json.data as LanyardData) : null
+  } catch {
+    return null
+  }
+})
+
+/** Shared query options — used by the home loader (server prefetch) and DiscordPresence (client polling). */
+export const lanyardQueryOptions = {
+  queryKey: ['lanyard'] as const,
+  queryFn: () => getLanyardPresence(),
+  staleTime: 0,
+  refetchInterval: 30_000,
+  retry: false,
+} as const
+
+// Minimal type re-exported so DiscordPresence can import from one place.
+export interface LanyardData {
+  discord_user: {
+    id: string
+    username: string
+    avatar: string
+    discriminator: string
+    global_name?: string
+  }
+  discord_status: 'online' | 'idle' | 'dnd' | 'offline'
+  activities: Array<{
+    name: string
+    type: number
+    state?: string
+    details?: string
+    timestamps?: { start?: number; end?: number }
+    assets?: {
+      large_image?: string
+      large_text?: string
+      small_image?: string
+      small_text?: string
+    }
+    application_id?: string
+  }>
+  listening_to_spotify: boolean
+  spotify?: {
+    song: string
+    artist: string
+    album: string
+    album_art_url: string
+    timestamps: { start: number; end: number }
+    track_id: string
+  }
+}

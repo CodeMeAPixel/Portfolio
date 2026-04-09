@@ -14,6 +14,7 @@ import { createMeta } from '~/lib/meta'
 const productQueryOptions = (slug: string) => ({
   queryKey: ['products', slug],
   queryFn: () => getProductBySlug({ data: { slug } }),
+  staleTime: 10 * 60 * 1000,
 })
 
 export const Route = createFileRoute('/_site/shop/$slug')({

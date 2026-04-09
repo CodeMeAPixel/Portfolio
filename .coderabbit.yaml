@@ -1,0 +1,64 @@
+language: "en-US"
+tone_instructions: "Be direct and concise. Focus on correctness, security, and performance. Skip praise."
+early_access: false
+
+reviews:
+  profile: "chill"
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  review_status: true
+  auto_review:
+    enabled: true
+    drafts: false
+    base_branches:
+      - "master"
+      - "tanstack"
+  path_instructions:
+    - path: "src/routes/admin/**"
+      instructions: |
+        Verify that every admin route checks authentication and role ('ADMIN') before
+        returning any data. Flag any route or server fn that handles admin actions
+        without an explicit auth guard.
+    - path: "src/routes/dashboard/**"
+      instructions: |
+        Verify that dashboard routes authenticate the requesting user and scope all
+        queries to that user's own data (no IDOR vulnerabilities).
+    - path: "src/lib/server-fns.ts"
+      instructions: |
+        Review all Prisma queries for:
+        - Missing `take` / pagination on findMany calls
+        - N+1 patterns (loops containing individual DB lookups)
+        - Over-fetching via `include` where `select` would suffice
+        - Missing error handling on findUnique returning null
+    - path: "src/lib/auth.ts"
+      instructions: |
+        Review Better Auth configuration for security best practices:
+        session cookie flags, CSRF protection, and secure secret handling.
+    - path: "src/lib/admin-fns.ts"
+      instructions: |
+        Every exported server fn must verify the caller has admin role.
+        Flag any that skip this check or rely only on client-side guards.
+    - path: "src/components/**"
+      instructions: |
+        Check for: missing React list keys, missing cleanup in useEffect,
+        and components that could use useMemo/useCallback to avoid redundant work.
+    - path: "start.mjs"
+      instructions: |
+        Review for: security headers completeness (CSP missing?), error handling
+        in stream pipelines, potential path-traversal gaps, and resource leaks.
+    - path: "prisma/schema.prisma"
+      instructions: |
+        Review for missing indexes on foreign-key columns and fields used in
+        WHERE / ORDER BY clauses that are queried frequently.
+    - path: "prisma/migrations/**"
+      instructions: |
+        Check that each migration is reversible (has a down path) and that
+        any new column added NOT NULL provides a default value.
+    - path: "vite.config.ts"
+      instructions: |
+        Flag any plugin or alias that could leak server-only modules into the
+        client bundle (e.g. prisma, better-auth appearing in client chunks).
+
+chat:
+  auto_reply: true

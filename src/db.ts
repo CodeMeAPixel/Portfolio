@@ -16,11 +16,14 @@ function createClient(): PrismaClient {
   return new PrismaClient({ adapter })
 }
 
-export const db: PrismaClient = new Proxy({} as PrismaClient, {
-  get(_target, prop, receiver) {
-    if (!globalThis.__db) {
-      globalThis.__db = createClient()
-    }
-    return Reflect.get(globalThis.__db, prop, receiver)
-  },
-})
+function getOrCreateClient(): PrismaClient {
+  if (!globalThis.__db) {
+    globalThis.__db = createClient()
+    // Warm the connection pool in the background so the first real request
+    // doesn't pay cold-start TCP handshake latency.
+    globalThis.__db.$connect().catch(() => {})
+  }
+  return globalThis.__db
+}
+
+export const db: PrismaClient = getOrCreateClient()

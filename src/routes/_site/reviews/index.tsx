@@ -13,6 +13,7 @@ type Layout = 'grid' | 'list'
 const reviewsQueryOptions = {
   queryKey: ['reviews'],
   queryFn: () => getAllReviews(),
+  staleTime: 5 * 60 * 1000,
 }
 
 export const Route = createFileRoute('/_site/reviews/')({

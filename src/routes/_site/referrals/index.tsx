@@ -12,6 +12,7 @@ type Layout = 'grid' | 'list'
 const referralsQueryOptions = {
   queryKey: ['referrals'],
   queryFn: () => getReferralCategories(),
+  staleTime: 10 * 60 * 1000,
 }
 
 export const Route = createFileRoute('/_site/referrals/')({

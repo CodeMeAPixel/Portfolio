@@ -12,6 +12,7 @@ type Layout = 'grid' | 'list'
 const docsQueryOptions = {
   queryKey: ['docs'],
   queryFn: () => getDocSections(),
+  staleTime: 5 * 60 * 1000,
 }
 
 export const Route = createFileRoute('/_site/docs/')({

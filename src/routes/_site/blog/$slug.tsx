@@ -21,6 +21,7 @@ import { createMeta } from '~/lib/meta'
 const blogPostQueryOptions = (slug: string) => ({
   queryKey: ['blog', slug],
   queryFn: () => getBlogPostBySlug({ data: { slug } }),
+  staleTime: 10 * 60 * 1000,
 })
 
 export const Route = createFileRoute('/_site/blog/$slug')({

@@ -9,6 +9,7 @@ import { ProductPlaceholder } from '~/components/PlaceholderBanner'
 const productsQueryOptions = {
   queryKey: ['products'],
   queryFn: () => getAllProducts(),
+  staleTime: 5 * 60 * 1000,
 }
 
 export const Route = createFileRoute('/_site/shop/')({
