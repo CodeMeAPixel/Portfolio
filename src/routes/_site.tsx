@@ -14,18 +14,18 @@ function SiteLayout() {
 
       {/* Animated background */}
       <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-        {/* Primary glow orb — translate3d promotes to own GPU layer, avoiding expensive repaints */}
+        {/* Primary glow orb — hidden on mobile to avoid GPU-killing blur */}
         <div
-          className="animate-float absolute -top-40 -right-40 h-75 w-75 rounded-full blur-[140px] sm:h-125 sm:w-125"
+          className="animate-float absolute -top-40 -right-40 hidden rounded-full blur-[140px] sm:block sm:h-125 sm:w-125"
           style={{
             background: 'color-mix(in srgb, var(--glow) 12%, transparent)',
             willChange: 'transform',
             transform: 'translateZ(0)',
           }}
         />
-        {/* Secondary glow orb */}
+        {/* Secondary glow orb — hidden on mobile */}
         <div
-          className="animate-float absolute -bottom-40 -left-40 h-62.5 w-62.5 rounded-full blur-[120px] sm:h-100 sm:w-100"
+          className="animate-float absolute -bottom-40 -left-40 hidden rounded-full blur-[120px] sm:block sm:h-100 sm:w-100"
           style={{
             background: 'color-mix(in srgb, var(--glow-secondary) 10%, transparent)',
             animationDelay: '-3s',
@@ -33,16 +33,8 @@ function SiteLayout() {
             transform: 'translateZ(0)',
           }}
         />
-        {/* Center aurora wash — static, no border-radius morphing (was the biggest paint cost) */}
-        <div
-          className="absolute top-1/3 left-1/2 h-87.5 w-87.5 -translate-x-1/2 -translate-y-1/2 rounded-full blur-[200px] opacity-40 sm:h-150 sm:w-150"
-          style={{
-            background: 'color-mix(in srgb, var(--glow) 6%, transparent)',
-            transform: 'translateZ(0) translate(-50%, -50%)',
-          }}
-        />
-        {/* Dot grid pattern */}
-        <div className="dot-pattern absolute inset-0 opacity-40" />
+        {/* Dot grid pattern — reduced opacity on mobile */}
+        <div className="dot-pattern absolute inset-0 opacity-20 sm:opacity-40" />
       </div>
 
       <Nav />

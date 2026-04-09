@@ -103,6 +103,18 @@
   }
 }
 
+/* ─── Mobile GPU Relief ───────────────────────────────── */
+/* Phones choke on large blur() + backdrop-filter; halve the cost under 640px.
+   The blur orb divs are already hidden via `hidden sm:block` in _site.tsx,
+   but this catches any inline-blur or third-party usage site-wide. */
+@media (max-width: 639px) {
+  .glass-card,
+  .glass-nav {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+}
+
 /* ─── Selection ───────────────────────────────────────── */
 ::selection {
   background: color-mix(in srgb, var(--primary) 30%, transparent);

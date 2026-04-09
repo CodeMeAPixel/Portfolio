@@ -1,6 +1,11 @@
-import { useEffect, useLayoutEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Terminal, Loader2 } from 'lucide-react'
 
+/**
+ * Typing effect using a single requestAnimationFrame loop instead of
+ * hundreds of chained setTimeout calls.  Each frame checks elapsed time
+ * to decide whether to advance to the next character/line.
+ */
 function useTypingEffect(lines: string[], speed = 30, lineDelay = 200) {
   const [displayed, setDisplayed] = useState('')
   const [done, setDone] = useState(false)
@@ -8,48 +13,65 @@ function useTypingEffect(lines: string[], speed = 30, lineDelay = 200) {
   useEffect(() => {
     setDisplayed('')
     setDone(false)
-    let cancelled = false
+
     let lineIdx = 0
     let charIdx = 0
+    let raf = 0
+    let lastTick = 0
+    let waiting = 400 // initial delay before typing starts
 
-    function tick() {
-      if (cancelled) return
+    function tick(now: number) {
+      if (!lastTick) {
+        lastTick = now
+      }
+
+      const elapsed = now - lastTick
+
+      if (waiting > 0) {
+        if (elapsed >= waiting) {
+          waiting = 0
+          lastTick = now
+        }
+        raf = requestAnimationFrame(tick)
+        return
+      }
+
       if (lineIdx >= lines.length) {
         setDone(true)
         return
       }
 
       const currentLine = lines[lineIdx]
-      if (charIdx <= currentLine.length) {
-        setDisplayed(
-          lines
-            .slice(0, lineIdx)
-            .concat(currentLine.slice(0, charIdx))
-            .join('\n'),
-        )
-        charIdx++
-        setTimeout(tick, speed)
-      } else {
-        lineIdx++
-        charIdx = 0
-        setTimeout(tick, lineDelay)
+      const delay = charIdx > currentLine.length ? lineDelay : speed
+
+      if (elapsed >= delay) {
+        lastTick = now
+        if (charIdx > currentLine.length) {
+          lineIdx++
+          charIdx = 0
+        } else {
+          setDisplayed(
+            lines
+              .slice(0, lineIdx)
+              .concat(currentLine.slice(0, charIdx))
+              .join('\n'),
+          )
+          charIdx++
+        }
       }
+
+      raf = requestAnimationFrame(tick)
     }
 
-    // Small initial delay before typing starts
-    setTimeout(tick, 400)
+    raf = requestAnimationFrame(tick)
 
-    return () => {
-      cancelled = true
-    }
+    return () => cancelAnimationFrame(raf)
   }, [lines, speed, lineDelay])
 
   return { displayed, done }
 }
 
 export function LoadingScreen() {
-  // Start hidden — useLayoutEffect sets visible=true before first paint for
-  // first-time visitors only, preventing the flash for returning visitors.
   const [visible, setVisible] = useState(false)
   const [fadeOut, setFadeOut] = useState(false)
   const [progress, setProgress] = useState(0)
@@ -68,26 +90,34 @@ export function LoadingScreen() {
 
   const { displayed, done } = useTypingEffect(terminalLines, 18, 120)
 
-  // Runs synchronously before the browser paints — no flash for returning visitors
-  useLayoutEffect(() => {
+  // Client-only check: useEffect (not useLayoutEffect) is SSR-safe.
+  // On the server this never runs, so visible stays false and we render nothing.
+  useEffect(() => {
     if (!localStorage.getItem('pxl-visited')) {
       setVisible(true)
     }
   }, [])
 
-  // Progress bar animation (only runs when the screen is showing)
+  // Progress bar — single rAF loop instead of 40ms setInterval
   useEffect(() => {
     if (!visible) return
+    let raf = 0
+    let last = 0
 
-    const interval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) return 100
-        const increment = done ? 15 : (100 - prev) * 0.04
-        return Math.min(prev + increment, done ? 100 : 92)
-      })
-    }, 40)
+    function frame(now: number) {
+      if (now - last >= 40) {
+        last = now
+        setProgress((prev) => {
+          if (prev >= 100) return 100
+          const increment = done ? 15 : (100 - prev) * 0.04
+          return Math.min(prev + increment, done ? 100 : 92)
+        })
+      }
+      raf = requestAnimationFrame(frame)
+    }
 
-    return () => clearInterval(interval)
+    raf = requestAnimationFrame(frame)
+    return () => cancelAnimationFrame(raf)
   }, [visible, done])
 
   // When typing is done and progress hits 100, start fade-out and mark visited
@@ -109,23 +139,7 @@ export function LoadingScreen() {
         fadeOut ? 'opacity-0' : 'opacity-100'
       }`}
     >
-      {/* Background effects */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div
-          className="animate-float absolute -top-40 -right-40 h-75 w-75 rounded-full blur-[140px] sm:h-125 sm:w-125"
-          style={{ background: 'color-mix(in srgb, var(--glow) 12%, transparent)', willChange: 'transform', transform: 'translateZ(0)' }}
-        />
-        <div
-          className="animate-float absolute -bottom-40 -left-40 h-62.5 w-62.5 rounded-full blur-[120px] sm:h-100 sm:w-100"
-          style={{
-            background: 'color-mix(in srgb, var(--glow-secondary) 10%, transparent)',
-            animationDelay: '-3s',
-            willChange: 'transform',
-            transform: 'translateZ(0)',
-          }}
-        />
-        <div className="dot-pattern absolute inset-0 opacity-40" />
-      </div>
+      {/* No blur orbs or dot-pattern here — _site.tsx already provides them behind this overlay */}
 
       <div className="relative flex flex-col items-center">
         {/* Terminal card */}
