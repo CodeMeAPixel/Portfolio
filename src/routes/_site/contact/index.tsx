@@ -51,6 +51,10 @@ function ContactPage() {
     <div className="space-y-16">
       {/* ═══ HERO ═══ */}
       <section className="relative">
+        <div
+          className="pointer-events-none absolute -top-24 left-1/2 h-60 w-80 -translate-x-1/2 rounded-full blur-[120px] opacity-25 sm:h-100 sm:w-175 sm:blur-[160px]"
+          style={{ background: 'linear-gradient(135deg, var(--glow), var(--glow-secondary))' }}
+        />
         <div className="relative space-y-6 text-center">
           <div className="animate-fade-up">
             <span className="section-badge">
