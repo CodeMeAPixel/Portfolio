@@ -1,0 +1,923 @@
+"use client";
+
+import Link from 'next/link';
+import type { PostMetadata } from '../../lib/mdx';
+import { calculateReadingTime } from '../../lib/mdx';
+import {
+    IoTimeOutline, IoCalendarOutline, IoArrowForward, IoBookmarkOutline,
+    IoChevronDown, IoGridOutline, IoListOutline, IoSearch, IoClose,
+    IoSwapVertical, IoCheckmarkCircleOutline
+} from 'react-icons/io5';
+import { useState, useEffect } from 'react';
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+
+interface BlogContentProps {
+    posts: Array<{ content: string; metadata: PostMetadata }>;
+    categories: Array<{ name: string; count: number; slug: string }>;
+    tags: string[];
+}
+
+type LayoutType = 'grid' | 'list';
+type SortOption = 'date-desc' | 'date-asc' | 'alphabetical';
+
+export default function BlogContent({ posts, categories, tags }: BlogContentProps) {
+    // State for filtering and display
+    const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+    const [filterOpen, setFilterOpen] = useState(false);
+    const [sortOpen, setSortOpen] = useState(false);
+    const [activeFilter, setActiveFilter] = useState('All');
+    const [searchQuery, setSearchQuery] = useState('');
+    const [isSearching, setIsSearching] = useState(false);
+    const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
+    const [layout, setLayout] = useState<LayoutType>('list'); // Changed to 'list' as default
+    const [sortBy, setSortBy] = useState<SortOption>('date-desc');
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const itemsPerPage = 6;
+
+    // Include 'All' at the beginning of the categories and tags arrays
+    const allCategories = ['All', ...categories.map(c => c.name)];
+    const allTags = ['All', ...tags];
+
+    // Debounce search query to prevent excessive filtering during typing
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedSearchQuery(searchQuery);
+            setCurrentPage(1); // Reset to page 1 when search changes
+        }, 300);
+
+        return () => clearTimeout(timer);
+    }, [searchQuery]);
+
+    // Reset page when filter or sort changes
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [activeFilter, sortBy]);
+
+    // Filter posts based on selected category/tag and search query
+    const filteredPosts = posts
+        .filter(post => {
+            if (activeFilter === 'All') return true;
+            return post.metadata.category === activeFilter ||
+                post.metadata.tags?.includes(activeFilter);
+        })
+        .filter(post => {
+            if (!debouncedSearchQuery) return true;
+
+            const query = debouncedSearchQuery.toLowerCase();
+            return (
+                post.metadata.title.toLowerCase().includes(query) ||
+                (post.metadata.description && post.metadata.description.toLowerCase().includes(query)) ||
+                post.metadata.tags?.some(tag => tag.toLowerCase().includes(query))
+            );
+        })
+        .sort((a, b) => {
+            // Sort by selected sort option
+            switch (sortBy) {
+                case 'date-desc':
+                    return new Date(b.metadata.date).getTime() - new Date(a.metadata.date).getTime();
+                case 'date-asc':
+                    return new Date(a.metadata.date).getTime() - new Date(b.metadata.date).getTime();
+                case 'alphabetical':
+                    return a.metadata.title.localeCompare(b.metadata.title);
+                default:
+                    return 0;
+            }
+        });
+
+    // Pagination calculation
+    const totalPages = Math.ceil(filteredPosts.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const paginatedPosts = filteredPosts.slice(startIndex, endIndex);
+
+    // Get visible page numbers for pagination (show 3 pages: prev, current, next)
+    const getVisiblePages = (): number[] => {
+        const pages: number[] = [];
+        const maxPages = Math.min(3, totalPages);
+
+        if (totalPages <= 3) {
+            for (let i = 1; i <= totalPages; i++) {
+                pages.push(i);
+            }
+        } else {
+            if (currentPage === 1) {
+                pages.push(1, 2, 3);
+            } else if (currentPage === totalPages) {
+                pages.push(totalPages - 2, totalPages - 1, totalPages);
+            } else {
+                pages.push(currentPage - 1, currentPage, currentPage + 1);
+            }
+        }
+
+        return pages;
+    };
+
+    const visiblePages = getVisiblePages();
+
+    // Toggle search input visibility
+    const toggleSearch = () => {
+        setIsSearching(!isSearching);
+        if (!isSearching) {
+            // Focus the search input when it becomes visible
+            setTimeout(() => {
+                const searchInput = document.getElementById('blog-search');
+                if (searchInput) searchInput.focus();
+            }, 100);
+        } else {
+            // Clear search when closing
+            setSearchQuery('');
+        }
+    };
+
+    // Get text for the active sort option
+    const getSortOptionText = (option: SortOption): string => {
+        switch (option) {
+            case 'date-desc': return 'Newest first';
+            case 'date-asc': return 'Oldest first';
+            case 'alphabetical': return 'A-Z';
+            default: return 'Sort';
+        }
+    };
+
+    return (
+        <section className="pt-20 pb-24 md:pt-24 md:pb-32 bg-bg relative z-10 overflow-hidden">
+            {/* Premium multi-layer background */}
+            <div className="absolute inset-0">
+                <div className="absolute inset-0 bg-aurora opacity-30"></div>
+                <div className="absolute inset-0 bg-dot-pattern opacity-20"></div>
+            </div>
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"></div>
+
+            {/* Animated floating orbs */}
+            <div
+                className="absolute top-[20%] left-[5%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-primary-500/15 to-primary-600/5 blur-[100px] animate-pulse"
+            />
+            <div
+                className="absolute bottom-[30%] right-[10%] w-[400px] h-[400px] rounded-full bg-gradient-to-tl from-primary-400/10 to-transparent blur-[80px] animate-pulse"
+                style={{ animationDelay: '3s' }}
+            />
+
+            {/* Header section */}
+            <div className="container-section relative">
+                <div
+                    className="flex flex-col md:flex-row md:items-end justify-between mb-14 animate-fade-up"
+                >
+                    <div>
+                        <span
+                            className="inline-flex items-center gap-2 px-4 py-2 mb-6 text-sm font-semibold text-primary-300 glass-frost rounded-full animate-fade-in"
+                            style={{ animationDelay: '0.1s' }}
+                        >
+                            <IoBookmarkOutline className="w-4 h-4" />
+                            Articles & Insights
+                        </span>
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-center md:text-left mb-4">
+                            <span className="text-color-text">My </span>
+                            <span className="animated-gradient-text text-shadow-glow">Blog</span>
+                        </h1>
+                        <p className="text-color-text-muted text-center md:text-left text-lg">
+                            {filteredPosts.length} article{filteredPosts.length !== 1 ? 's' : ''} on web development and technology
+                        </p>
+                    </div>
+
+                    <div className="flex gap-3 mt-6 md:mt-0 justify-center md:justify-end items-center flex-wrap">
+                        {/* Layout switcher - Hidden on mobile */}
+                        <div className="hidden md:flex rounded-xl overflow-hidden glass-frost">
+                            <button
+                                onClick={() => setLayout('grid')}
+                                className={`p-2.5 flex items-center justify-center transition-all ${layout === 'grid'
+                                    ? 'bg-primary-500/30 text-primary-300'
+                                    : 'text-color-text-muted hover:text-primary-300'
+                                    }`}
+                                aria-label="Grid view"
+                                title="Grid view"
+                            >
+                                <IoGridOutline className="w-5 h-5" />
+                            </button>
+                            <button
+                                onClick={() => setLayout('list')}
+                                className={`p-2.5 flex items-center justify-center transition-all ${layout === 'list'
+                                    ? 'bg-primary-500/30 text-primary-300'
+                                    : 'text-color-text-muted hover:text-primary-300'
+                                    }`}
+                                aria-label="List view"
+                                title="List view"
+                            >
+                                <IoListOutline className="w-5 h-5" />
+                            </button>
+                        </div>
+
+                        {/* Sort dropdown - Hidden on mobile */}
+                        <div className="hidden md:block">
+                            <DropdownMenu.Root open={sortOpen} onOpenChange={setSortOpen} modal={false}>
+                                <DropdownMenu.Trigger asChild>
+                                    <button className="px-4 py-2 rounded-xl bg-primary-800/20 border border-primary-700/20 text-primary-300 text-sm flex items-center gap-2 hover:bg-primary-800/30 hover:border-primary-700/30 transition-all focus:outline-none" type="button">
+                                        <IoSwapVertical className="w-4 h-4" />
+                                        <span>{getSortOptionText(sortBy)}</span>
+                                        <IoChevronDown className="w-3 h-3 ml-1 transition-transform duration-300" style={{ transform: sortOpen ? 'rotate(180deg)' : 'none' }} />
+                                    </button>
+                                </DropdownMenu.Trigger>
+                                <DropdownMenu.Portal>
+                                    <DropdownMenu.Content
+                                        className="dropdown-animate z-[200] min-w-[220px] p-2 bg-card/95 backdrop-blur-2xl border border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.6)] rounded-2xl overflow-hidden"
+                                        align="end"
+                                        sideOffset={8}
+                                    >
+                                        <DropdownMenu.Item
+                                            className={`group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between ${sortBy === 'date-desc' ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20' : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'
+                                                }`}
+                                            onClick={() => setSortBy('date-desc')}
+                                        >
+                                            <div className="flex items-center gap-3">
+                                                <div className={`p-1.5 rounded-lg transition-colors ${sortBy === 'date-desc' ? 'bg-primary-500/20' : 'bg-white/5 group-hover:bg-white/10'}`}>
+                                                    <IoCalendarOutline className="w-4 h-4" />
+                                                </div>
+                                                <span>Newest first</span>
+                                            </div>
+                                            {sortBy === 'date-desc' && <IoCheckmarkCircleOutline className="w-4 h-4 text-primary-400" />}
+                                        </DropdownMenu.Item>
+
+                                        <DropdownMenu.Item
+                                            className={`group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between ${sortBy === 'date-asc' ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20' : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'
+                                                }`}
+                                            onClick={() => setSortBy('date-asc')}
+                                        >
+                                            <div className="flex items-center gap-3">
+                                                <div className={`p-1.5 rounded-lg transition-colors ${sortBy === 'date-asc' ? 'bg-primary-500/20' : 'bg-white/5 group-hover:bg-white/10'}`}>
+                                                    <IoCalendarOutline className="w-4 h-4" />
+                                                </div>
+                                                <span>Oldest first</span>
+                                            </div>
+                                            {sortBy === 'date-asc' && <IoCheckmarkCircleOutline className="w-4 h-4 text-primary-400" />}
+                                        </DropdownMenu.Item>
+
+                                        <DropdownMenu.Item
+                                            className={`group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between ${sortBy === 'alphabetical' ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20' : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'
+                                                }`}
+                                            onClick={() => setSortBy('alphabetical')}
+                                        >
+                                            <div className="flex items-center gap-3">
+                                                <div className={`p-1.5 rounded-lg transition-colors ${sortBy === 'alphabetical' ? 'bg-primary-500/20' : 'bg-white/5 group-hover:bg-white/10'}`}>
+                                                    <span className="w-4 h-4 flex items-center justify-center text-[10px] font-bold">AZ</span>
+                                                </div>
+                                                <span>Alphabetical</span>
+                                            </div>
+                                            {sortBy === 'alphabetical' && <IoCheckmarkCircleOutline className="w-4 h-4 text-primary-400" />}
+                                        </DropdownMenu.Item>
+                                    </DropdownMenu.Content>
+                                </DropdownMenu.Portal>
+                            </DropdownMenu.Root>
+                        </div>
+
+                        {/* Search button and input - Hidden on mobile */}
+                        <div className="hidden md:flex relative items-center">
+                            {isSearching && (
+                                <div
+                                    className="flex items-center animate-fade-in"
+                                >
+                                    <input
+                                        id="blog-search"
+                                        type="text"
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        placeholder="Search articles..."
+                                        className="w-[200px] px-3 py-2 rounded-l-xl bg-card border border-r-0 border-primary-700/20 text-color-text placeholder:text-color-text-muted text-sm focus:ring-1 focus:ring-primary-500 focus:border-primary-500 outline-none"
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Escape') {
+                                                toggleSearch();
+                                            }
+                                        }}
+                                    />
+                                    <button
+                                        onClick={toggleSearch}
+                                        className="px-3 py-2 rounded-r-xl bg-primary-800/20 border border-primary-700/20 text-primary-300 hover:bg-primary-800/30 hover:border-primary-700/30 transition-all"
+                                        aria-label="Close search"
+                                    >
+                                        <IoClose className="w-4 h-4" />
+                                    </button>
+                                </div>
+                            )}
+
+                            {!isSearching && (
+                                <button
+                                    onClick={toggleSearch}
+                                    className="px-4 py-2 rounded-xl bg-primary-800/20 border border-primary-700/20 text-primary-300 text-sm flex items-center gap-2 hover:bg-primary-800/30 hover:border-primary-700/30 hover:scale-[1.02] active:scale-[0.98] transition-all focus:outline-none"
+                                    aria-label="Search articles"
+                                >
+                                    <IoSearch className="w-4 h-4" />
+                                    <span className="hidden sm:inline">Search</span>
+                                </button>
+                            )}
+                        </div>
+
+                        {/* Category filter dropdown - Hidden on mobile */}
+                        <div className={`hidden md:block ${isSearching ? 'md:hidden' : ''}`}>
+                            <DropdownMenu.Root open={filterOpen} onOpenChange={setFilterOpen} modal={false}>
+                                <DropdownMenu.Trigger asChild>
+                                    <button className="relative px-4 py-2 rounded-xl bg-primary-800/20 border border-primary-700/20 text-primary-300 text-sm flex items-center gap-2 hover:bg-primary-800/30 hover:border-primary-700/30 transition-all focus:outline-none" type="button">
+                                        <IoBookmarkOutline className="w-4 h-4" />
+                                        <span>{activeFilter === 'All' ? 'All categories' : activeFilter}</span>
+                                        <IoChevronDown className="w-3 h-3 ml-1 transition-transform duration-300" style={{ transform: filterOpen ? 'rotate(180deg)' : 'none' }} />
+                                    </button>
+                                </DropdownMenu.Trigger>
+                                <DropdownMenu.Portal>
+                                    <DropdownMenu.Content
+                                        className="dropdown-animate z-[200] min-w-[240px] p-2 bg-card/95 backdrop-blur-2xl border border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.6)] rounded-2xl overflow-hidden"
+                                        align="end"
+                                        sideOffset={8}
+                                    >
+                                        {/* Categories section */}
+                                        <DropdownMenu.Label className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary-400 px-4 py-3">
+                                            Categories
+                                        </DropdownMenu.Label>
+
+                                        {allCategories.map(category => (
+                                            <DropdownMenu.Item
+                                                key={category}
+                                                className={`
+                                                group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between
+                                                ${activeFilter === category
+                                                        ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20'
+                                                        : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'
+                                                    }
+                                            `}
+                                                onClick={() => {
+                                                    setActiveFilter(category);
+                                                    setFilterOpen(false);
+                                                }}
+                                            >
+                                                <div className="flex items-center gap-3">
+                                                    <div className={`w-2 h-2 rounded-full transition-all ${activeFilter === category ? 'bg-primary-500 shadow-[0_0_8px_rgba(var(--color-primary),0.5)]' : 'bg-white/20 group-hover:bg-white/40'}`} />
+                                                    <span>{category}</span>
+                                                </div>
+                                                {activeFilter === category && (
+                                                    <IoCheckmarkCircleOutline className="w-4 h-4 text-primary-400" />
+                                                )}
+                                            </DropdownMenu.Item>
+                                        ))}
+
+                                        {/* Tags section - if we have tags */}
+                                        {tags.length > 0 && (
+                                            <>
+                                                <DropdownMenu.Separator className="h-px bg-white/5 my-2" asChild>
+                                                    <div />
+                                                </DropdownMenu.Separator>
+                                                <DropdownMenu.Label className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary-400 px-4 py-3">
+                                                    Tags
+                                                </DropdownMenu.Label>
+
+                                                {allTags.slice(1).map(tag => (
+                                                    <DropdownMenu.Item
+                                                        key={tag}
+                                                        className={`
+                                                        group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between
+                                                        ${activeFilter === tag
+                                                                ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20'
+                                                                : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'
+                                                            }
+                                                    `}
+                                                        onClick={() => {
+                                                            setActiveFilter(tag);
+                                                            setFilterOpen(false);
+                                                        }}
+                                                    >
+                                                        <div className="flex items-center gap-3">
+                                                            <div className={`w-2 h-2 rounded-full transition-all ${activeFilter === tag ? 'bg-primary-500 shadow-[0_0_8px_rgba(var(--color-primary),0.5)]' : 'bg-white/10 group-hover:bg-white/30'}`} />
+                                                            <span>{tag}</span>
+                                                        </div>
+                                                        {activeFilter === tag && (
+                                                            <IoCheckmarkCircleOutline className="w-4 h-4 text-primary-400" />
+                                                        )}
+                                                    </DropdownMenu.Item>
+                                                ))}
+                                            </>
+                                        )}
+                                    </DropdownMenu.Content>
+                                </DropdownMenu.Portal>
+                            </DropdownMenu.Root>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Mobile controls section */}
+                <div className="flex flex-col gap-4 mb-8 md:hidden">
+                    {/* Layout switcher for mobile */}
+                    <div className="flex justify-between items-center">
+                        <div className="flex items-center gap-2 text-sm text-color-text-muted">
+                            <span>View:</span>
+                        </div>
+                        <div className="flex rounded-xl overflow-hidden border border-primary-700/20">
+                            <button
+                                onClick={() => setLayout('grid')}
+                                className={`p-2 flex items-center justify-center transition-colors ${layout === 'grid'
+                                    ? 'bg-primary-800/40 text-primary-300'
+                                    : 'bg-primary-800/20 text-primary-400/70 hover:bg-primary-800/30 hover:text-primary-300'
+                                    }`}
+                                aria-label="Grid view"
+                            >
+                                <IoGridOutline className="w-4 h-4" />
+                            </button>
+                            <button
+                                onClick={() => setLayout('list')}
+                                className={`p-2 flex items-center justify-center transition-colors ${layout === 'list'
+                                    ? 'bg-primary-800/40 text-primary-300'
+                                    : 'bg-primary-800/20 text-primary-400/70 hover:bg-primary-800/30 hover:text-primary-300'
+                                    }`}
+                                aria-label="List view"
+                            >
+                                <IoListOutline className="w-4 h-4" />
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Search input for mobile */}
+                    <div className="relative w-full">
+                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-color-text-muted">
+                            <IoSearch className="w-4 h-4" />
+                        </div>
+                        <input
+                            type="text"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            placeholder="Search articles..."
+                            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-card border border-primary-700/20 text-color-text placeholder:text-color-text-muted text-sm focus:ring-1 focus:ring-primary-500 focus:border-primary-500 outline-none"
+                            onKeyDown={(e) => {
+                                if (e.key === 'Escape') {
+                                    setSearchQuery('');
+                                }
+                            }}
+                        />
+                        {searchQuery && (
+                            <button
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-color-text-muted hover:text-color-text"
+                                onClick={() => setSearchQuery('')}
+                                aria-label="Clear search"
+                            >
+                                <IoClose className="w-4 h-4" />
+                            </button>
+                        )}
+                    </div>
+
+                    {/* Mobile filter tabs (categories and tags) */}
+                    <div className="overflow-x-auto pb-2">
+                        <div className="flex gap-2 min-w-max">
+                            {allCategories.map(category => (
+                                <button
+                                    key={category}
+                                    className={`px-3 py-1.5 rounded-full text-sm whitespace-nowrap transition-colors ${activeFilter === category
+                                        ? 'bg-primary-800/40 text-primary-300 border border-primary-700/40'
+                                        : 'bg-card text-color-text-muted border border-color-border hover:bg-card-alt'
+                                        }`}
+                                    onClick={() => setActiveFilter(category)}
+                                >
+                                    {category}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Mobile sort options */}
+                    <div className="flex justify-between items-center">
+                        <div className="flex items-center gap-2 text-sm text-color-text-muted">
+                            <IoSwapVertical className="w-4 h-4" />
+                            <span>Sort by:</span>
+                        </div>
+                        <div className="flex gap-2">
+                            <button
+                                onClick={() => setSortBy('date-desc')}
+                                className={`px-3 py-1.5 rounded-lg text-xs transition-colors ${sortBy === 'date-desc'
+                                    ? 'bg-primary-800/40 text-primary-300 border border-primary-700/40'
+                                    : 'bg-card text-color-text-muted border border-color-border'
+                                    }`}
+                            >
+                                Newest
+                            </button>
+                            <button
+                                onClick={() => setSortBy('date-asc')}
+                                className={`px-3 py-1.5 rounded-lg text-xs transition-colors ${sortBy === 'date-asc'
+                                    ? 'bg-primary-800/40 text-primary-300 border border-primary-700/40'
+                                    : 'bg-card text-color-text-muted border border-color-border'
+                                    }`}
+                            >
+                                Oldest
+                            </button>
+                            <button
+                                onClick={() => setSortBy('alphabetical')}
+                                className={`px-3 py-1.5 rounded-lg text-xs transition-colors ${sortBy === 'alphabetical'
+                                    ? 'bg-primary-800/40 text-primary-300 border border-primary-700/40'
+                                    : 'bg-card text-color-text-muted border border-color-border'
+                                    }`}
+                            >
+                                A-Z
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Search result summary */}
+                {debouncedSearchQuery && (
+                    <div className="mb-6 p-3 bg-card border border-color-border rounded-lg flex justify-between items-center">
+                        <p className="text-color-text-muted text-sm">
+                            Found <span className="text-primary-300 font-medium">{filteredPosts.length}</span> result{filteredPosts.length !== 1 ? 's' : ''} for "<span className="text-color-text font-medium">{debouncedSearchQuery}</span>"
+                            {activeFilter !== 'All' && (
+                                <> with {allTags.includes(activeFilter) ? 'tag' : 'category'} <span className="text-primary-300 font-medium">{activeFilter}</span></>
+                            )}
+                        </p>
+                        <button
+                            onClick={() => setSearchQuery('')}
+                            className="text-color-text-muted hover:text-color-text p-1 rounded-full hover:bg-card-alt"
+                            aria-label="Clear search"
+                        >
+                            <IoClose className="w-4 h-4" />
+                        </button>
+                    </div>
+                )}
+
+                {filteredPosts.length > 0 ? (
+                    <>
+                        {layout === 'grid' ? (
+                            // Grid layout - our classic card view
+                            <div
+                                key="grid"
+                                className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 animate-fade-in"
+                            >
+                                {paginatedPosts.map((post, index) => {
+                                    const readingTime = calculateReadingTime(post.content);
+                                    const formattedDate = new Date(post.metadata.date).toLocaleDateString('en-US', {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric'
+                                    });
+
+                                    const isHovered = hoveredCard === post.metadata.slug;
+
+                                    return (
+                                        <CardItem
+                                            key={post.metadata.slug}
+                                            post={post}
+                                            index={index}
+                                            readingTime={readingTime}
+                                            formattedDate={formattedDate}
+                                            isHovered={isHovered}
+                                            onHover={setHoveredCard}
+                                            searchQuery={debouncedSearchQuery}
+                                        />
+                                    );
+                                })}
+                            </div>
+                        ) : (
+                            // List layout - more compact view
+                            <div
+                                key="list"
+                                className="flex flex-col gap-4 animate-fade-in"
+                            >
+                                {paginatedPosts.map((post, index) => {
+                                    const readingTime = calculateReadingTime(post.content);
+                                    const formattedDate = new Date(post.metadata.date).toLocaleDateString('en-US', {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric'
+                                    });
+
+                                    const isHovered = hoveredCard === post.metadata.slug;
+
+                                    return (
+                                        <ListItem
+                                            key={post.metadata.slug}
+                                            post={post}
+                                            index={index}
+                                            readingTime={readingTime}
+                                            formattedDate={formattedDate}
+                                            isHovered={isHovered}
+                                            onHover={setHoveredCard}
+                                            searchQuery={debouncedSearchQuery}
+                                        />
+                                    );
+                                })}
+                            </div>
+                        )}
+
+                        {/* Pagination controls */}
+                        {totalPages > 1 && (
+                            <div className="mt-12 flex flex-col items-center gap-6 animate-fade-in">
+                                {/* Results counter */}
+                                <div className="text-sm text-color-text-muted">
+                                    Showing <span className="font-semibold text-color-text">{startIndex + 1}</span> to <span className="font-semibold text-color-text">{Math.min(endIndex, filteredPosts.length)}</span> of <span className="font-semibold text-color-text">{filteredPosts.length}</span> article{filteredPosts.length !== 1 ? 's' : ''}
+                                </div>
+
+                                {/* Pagination buttons */}
+                                <div className="flex items-center gap-3 flex-wrap justify-center">
+                                    {/* Previous button */}
+                                    <button
+                                        onClick={() => setCurrentPage(currentPage - 1)}
+                                        disabled={currentPage === 1}
+                                        className="px-4 py-2 rounded-lg border border-primary-700/20 text-primary-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary-800/20 transition-all"
+                                        aria-label="Previous page"
+                                    >
+                                        Previous
+                                    </button>
+
+                                    {/* Page numbers */}
+                                    <div className="flex gap-2">
+                                        {visiblePages.map((page) => (
+                                            <button
+                                                key={page}
+                                                onClick={() => setCurrentPage(page)}
+                                                className={`px-4 py-2 rounded-lg transition-all font-semibold ${currentPage === page
+                                                    ? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-lg shadow-primary-500/30'
+                                                    : 'border border-primary-700/20 text-color-text hover:bg-primary-800/20'
+                                                    }`}
+                                                aria-label={`Go to page ${page}`}
+                                                aria-current={currentPage === page ? 'page' : undefined}
+                                            >
+                                                {page}
+                                            </button>
+                                        ))}
+                                    </div>
+
+                                    {/* Next button */}
+                                    <button
+                                        onClick={() => setCurrentPage(currentPage + 1)}
+                                        disabled={currentPage === totalPages}
+                                        className="px-4 py-2 rounded-lg border border-primary-700/20 text-primary-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary-800/20 transition-all"
+                                        aria-label="Next page"
+                                    >
+                                        Next
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </>
+                ) : (
+                    <div
+                        className="text-center p-10 bg-card border border-color-border rounded-xl animate-fade-in"
+                        style={{ animationDelay: '0.2s' }}
+                    >
+                        <h3 className="text-xl font-semibold mb-2">
+                            {debouncedSearchQuery
+                                ? `No articles found matching "${debouncedSearchQuery}"`
+                                : "No articles found in this category"}
+                        </h3>
+                        <p className="text-color-text-muted mb-6">
+                            {debouncedSearchQuery
+                                ? "Try different search terms or clear your search"
+                                : "Try selecting a different filter or check back later."}
+                        </p>
+                        <div className="flex flex-wrap gap-4 justify-center">
+                            {debouncedSearchQuery && (
+                                <button
+                                    onClick={() => setSearchQuery('')}
+                                    className="btn-secondary text-sm py-2"
+                                >
+                                    Clear Search
+                                </button>
+                            )}
+                            {activeFilter !== 'All' && (
+                                <button
+                                    onClick={() => setActiveFilter('All')}
+                                    className="btn-secondary text-sm py-2"
+                                >
+                                    Show All Articles
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                )}
+            </div>
+        </section>
+    );
+}
+
+interface CardItemProps {
+    post: { content: string; metadata: PostMetadata };
+    index: number;
+    readingTime: string;
+    formattedDate: string;
+    isHovered: boolean;
+    onHover: (slug: string | null) => void;
+    searchQuery: string;
+}
+
+function CardItem({ post, index, readingTime, formattedDate, isHovered, onHover, searchQuery }: CardItemProps) {
+    return (
+        <div
+            className="h-full animate-fade-up"
+            style={{ animationDelay: `${index * 0.1}s` }}
+            onMouseEnter={() => onHover(post.metadata.slug)}
+            onMouseLeave={() => onHover(null)}
+        >
+            <Link href={`/blog/${post.metadata.slug}`} className="block h-full group">
+                <div className="relative h-full overflow-hidden rounded-2xl glass-ultra transition-all duration-500 hover:scale-[1.02]">
+                    {/* Animated glow border */}
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary-500/0 via-primary-500/20 to-primary-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-[gradient-x_3s_linear_infinite]"></div>
+
+                    {/* Top gradient accent bar */}
+                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-500 to-primary-400 opacity-60 group-hover:opacity-100 transition-opacity"></div>
+
+                    {/* Spotlight effect */}
+                    <div className="absolute inset-0 spotlight opacity-0 group-hover:opacity-50 transition-opacity duration-500"></div>
+
+                    {/* Shine sweep */}
+                    <div className="absolute inset-0 shine-sweep opacity-0 group-hover:opacity-100"></div>
+
+                    <div className="pt-7 px-7 pb-6 h-full flex flex-col relative z-10">
+                        {/* Top section - Tags and badge */}
+                        <div className="flex flex-wrap justify-between items-center mb-5">
+                            <div className="flex flex-wrap gap-2">
+                                {post.metadata.tags && post.metadata.tags.slice(0, 3).map(tag => (
+                                    <span
+                                        key={tag}
+                                        className={`px-3 py-1 text-xs font-semibold rounded-full glass-frost text-primary-300 group-hover:bg-primary-500/20 transition-all ${searchQuery && tag.toLowerCase().includes(searchQuery.toLowerCase())
+                                            ? 'bg-primary-500/30 text-primary-200'
+                                            : ''
+                                            }`}
+                                    >
+                                        {highlightMatchedText(tag, searchQuery)}
+                                    </span>
+                                ))}
+                                {post.metadata.tags && post.metadata.tags.length > 3 && (
+                                    <span className="px-3 py-1 text-xs font-semibold rounded-full glass-frost text-primary-300">
+                                        +{post.metadata.tags.length - 3}
+                                    </span>
+                                )}
+                            </div>
+
+                            {/* New post badge - conditional rendering */}
+                            {isNew(post.metadata.date) && (
+                                <span className="px-3 py-1 bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-green-300 text-xs font-semibold rounded-full flex items-center gap-1">
+                                    <span className="relative flex h-1.5 w-1.5">
+                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                        <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-500"></span>
+                                    </span>
+                                    New
+                                </span>
+                            )}
+                        </div>
+
+                        {/* Title with hover effect */}
+                        <h2
+                            className={`text-xl sm:text-2xl font-bold mb-4 text-color-text group-hover:text-primary-300 transition-all duration-200 ${isHovered ? 'scale-[1.02]' : ''}`}
+                        >
+                            {highlightMatchedText(post.metadata.title, searchQuery)}
+                        </h2>
+
+                        {/* Description with line clamp */}
+                        {post.metadata.description && (
+                            <p className="text-color-text-muted mb-6 line-clamp-3 flex-grow leading-relaxed">
+                                {highlightMatchedText(post.metadata.description, searchQuery)}
+                            </p>
+                        )}
+
+                        {/* Bottom metadata section */}
+                        <div className="mt-auto pt-5 border-t border-white/10">
+                            <div className="flex items-center justify-between">
+                                <div className="flex flex-wrap items-center gap-4 text-color-text-muted">
+                                    <div className="flex items-center gap-2 text-xs font-medium">
+                                        <IoCalendarOutline className="text-primary-400 w-4 h-4 flex-shrink-0" />
+                                        <time dateTime={new Date(post.metadata.date).toISOString()}>{formattedDate}</time>
+                                    </div>
+
+                                    <div className="flex items-center gap-2 text-xs font-medium">
+                                        <IoTimeOutline className="text-primary-400 w-4 h-4 flex-shrink-0" />
+                                        <span>{readingTime}</span>
+                                    </div>
+                                </div>
+
+                                <div
+                                    className={`relative flex-shrink-0 ml-2 transition-transform duration-300 ${isHovered ? 'translate-x-[5px]' : ''}`}
+                                >
+                                    <span className="flex items-center gap-2 text-primary-400 text-sm font-semibold transition-all duration-300 whitespace-nowrap">
+                                        Read post
+                                        <IoArrowForward className={`w-4 h-4 transition-all duration-300 ${isHovered ? 'opacity-100 translate-x-0.5' : 'opacity-0'}`} />
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Decorative orb */}
+                    <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary-500/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                </div>
+            </Link>
+        </div>
+    );
+}
+
+function ListItem({ post, index, readingTime, formattedDate, isHovered, onHover, searchQuery }: CardItemProps) {
+    return (
+        <div
+            className="group animate-fade-up"
+            style={{ animationDelay: `${index * 0.05}s` }}
+            onMouseEnter={() => onHover(post.metadata.slug)}
+            onMouseLeave={() => onHover(null)}
+        >
+            <Link href={`/blog/${post.metadata.slug}`} className="block">
+                <div className="relative overflow-hidden rounded-2xl glass-ultra transition-all duration-500 hover:scale-[1.01]">
+                    {/* Animated glow border */}
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary-500/0 via-primary-500/20 to-primary-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-[gradient-x_3s_linear_infinite]"></div>
+
+                    {/* Top gradient accent bar */}
+                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-500 to-primary-400 opacity-60 group-hover:opacity-100 transition-opacity z-10"></div>
+
+                    {/* Spotlight effect */}
+                    <div className="absolute inset-0 spotlight opacity-0 group-hover:opacity-40 transition-opacity duration-500"></div>
+
+                    <div className="p-7 relative z-10">
+                        {/* Top section with date and reading time */}
+                        <div className="flex justify-between items-center mb-4">
+                            <div className="flex flex-wrap gap-4 text-color-text-muted text-xs font-medium">
+                                <div className="flex items-center gap-2">
+                                    <IoCalendarOutline className="text-primary-400 w-4 h-4 flex-shrink-0" />
+                                    <time dateTime={new Date(post.metadata.date).toISOString()}>{formattedDate}</time>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <IoTimeOutline className="text-primary-400 w-4 h-4 flex-shrink-0" />
+                                    <span>{readingTime}</span>
+                                </div>
+                            </div>
+
+                            {/* New badge */}
+                            {isNew(post.metadata.date) && (
+                                <span className="px-3 py-1 bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-green-300 text-xs font-semibold rounded-full flex items-center gap-1">
+                                    <span className="relative flex h-1.5 w-1.5">
+                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                        <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-500"></span>
+                                    </span>
+                                    New
+                                </span>
+                            )}
+                        </div>
+
+                        {/* Title with hover effect */}
+                        <h2
+                            className={`text-xl font-bold mb-3 text-color-text group-hover:text-primary-300 transition-all duration-200 ${isHovered ? 'scale-[1.01]' : ''}`}
+                        >
+                            {highlightMatchedText(post.metadata.title, searchQuery)}
+                        </h2>
+
+                        {/* Description */}
+                        {post.metadata.description && (
+                            <p className="text-color-text-muted mb-5 line-clamp-2 leading-relaxed">
+                                {highlightMatchedText(post.metadata.description, searchQuery)}
+                            </p>
+                        )}
+
+                        {/* Tags and read more */}
+                        <div className="flex flex-wrap justify-between items-center">
+                            <div className="flex flex-wrap gap-2">
+                                {post.metadata.tags && post.metadata.tags.slice(0, 4).map(tag => (
+                                    <span
+                                        key={tag}
+                                        className={`px-3 py-1 text-xs font-semibold rounded-full glass-frost text-primary-300 group-hover:bg-primary-500/20 transition-all ${searchQuery && tag.toLowerCase().includes(searchQuery.toLowerCase())
+                                            ? 'bg-primary-500/30 text-primary-200'
+                                            : ''
+                                            }`}
+                                    >
+                                        {highlightMatchedText(tag, searchQuery)}
+                                    </span>
+                                ))}
+                            </div>
+
+                            <div
+                                className={`relative flex-shrink-0 ml-2 transition-transform duration-300 ${isHovered ? 'translate-x-[5px]' : ''}`}
+                            >
+                                <span className="flex items-center gap-2 text-primary-400 text-sm font-semibold transition-all duration-300 whitespace-nowrap">
+                                    Read post
+                                    <IoArrowForward className={`w-4 h-4 transition-all duration-300 ${isHovered ? 'translate-x-1 opacity-100' : 'opacity-0'}`} />
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Decorative orb */}
+                    <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary-500/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                </div>
+            </Link>
+        </div>
+    );
+}
+
+// Helper function to check if a post is less than 2 weeks old
+function isNew(dateString: string): boolean {
+    const postDate = new Date(dateString);
+    const now = new Date();
+    const twoWeeksAgo = new Date(now.getTime() - (14 * 24 * 60 * 60 * 1000));
+    return postDate > twoWeeksAgo;
+}
+
+// Helper function to highlight matched text
+function highlightMatchedText(text: string, query: string): React.ReactNode {
+    if (!query) return text;
+
+    const parts = text.split(new RegExp(`(${query})`, 'gi'));
+
+    return (
+        <>
+            {parts.map((part, index) =>
+                part.toLowerCase() === query.toLowerCase()
+                    ? <mark key={index} className="bg-primary-900/30 text-primary-200 px-0.5 rounded">{part}</mark>
+                    : part
+            )}
+        </>
+    );
+}

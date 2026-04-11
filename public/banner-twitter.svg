@@ -1,0 +1,115 @@
+<svg width="1500" height="500" viewBox="0 0 1500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="tw-bg" x1="0" y1="0" x2="1500" y2="500" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0c0c10"/>
+      <stop offset="50%" stop-color="#101014"/>
+      <stop offset="100%" stop-color="#08080a"/>
+    </linearGradient>
+    <linearGradient id="tw-px" x1="0" y1="0" x2="120" y2="120" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#748ffc"/>
+      <stop offset="100%" stop-color="#4263eb"/>
+    </linearGradient>
+    <radialGradient id="tw-core" cx="750" cy="220" r="320" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#4263eb" stop-opacity="0.08"/>
+      <stop offset="60%" stop-color="#4263eb" stop-opacity="0.02"/>
+      <stop offset="100%" stop-color="#4263eb" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="tw-rim" cx="300" cy="100" r="500" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#5c7cfa" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#5c7cfa" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="tw-line" x1="400" y1="0" x2="1100" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#748ffc" stop-opacity="0"/>
+      <stop offset="20%" stop-color="#748ffc" stop-opacity="0.5"/>
+      <stop offset="80%" stop-color="#4263eb" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#4263eb" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="tw-glow-f">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="tw-bloom">
+      <feGaussianBlur stdDeviation="50"/>
+    </filter>
+    <filter id="tw-txt">
+      <feGaussianBlur stdDeviation="12" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1500" height="500" fill="url(#tw-bg)"/>
+  <rect width="1500" height="500" fill="url(#tw-core)"/>
+  <rect width="1500" height="500" fill="url(#tw-rim)"/>
+
+  <!-- Bloom behind center -->
+  <ellipse cx="750" cy="200" rx="280" ry="180" fill="#4263eb" opacity="0.05" filter="url(#tw-bloom)"/>
+
+  <!-- Grid -->
+  <g opacity="0.02">
+    <line x1="0" y1="62.5" x2="1500" y2="62.5" stroke="white" stroke-width="0.5"/>
+    <line x1="0" y1="125" x2="1500" y2="125" stroke="white" stroke-width="0.5"/>
+    <line x1="0" y1="187.5" x2="1500" y2="187.5" stroke="white" stroke-width="0.5"/>
+    <line x1="0" y1="250" x2="1500" y2="250" stroke="white" stroke-width="0.5"/>
+    <line x1="0" y1="312.5" x2="1500" y2="312.5" stroke="white" stroke-width="0.5"/>
+    <line x1="0" y1="375" x2="1500" y2="375" stroke="white" stroke-width="0.5"/>
+    <line x1="0" y1="437.5" x2="1500" y2="437.5" stroke="white" stroke-width="0.5"/>
+    <line x1="187.5" y1="0" x2="187.5" y2="500" stroke="white" stroke-width="0.5"/>
+    <line x1="375" y1="0" x2="375" y2="500" stroke="white" stroke-width="0.5"/>
+    <line x1="562.5" y1="0" x2="562.5" y2="500" stroke="white" stroke-width="0.5"/>
+    <line x1="750" y1="0" x2="750" y2="500" stroke="white" stroke-width="0.5"/>
+    <line x1="937.5" y1="0" x2="937.5" y2="500" stroke="white" stroke-width="0.5"/>
+    <line x1="1125" y1="0" x2="1125" y2="500" stroke="white" stroke-width="0.5"/>
+    <line x1="1312.5" y1="0" x2="1312.5" y2="500" stroke="white" stroke-width="0.5"/>
+  </g>
+
+  <!-- Scattered pixels — far left -->
+  <g opacity="0.06">
+    <rect x="60" y="80" width="8" height="8" rx="1.5" fill="#748ffc"/>
+    <rect x="90" y="120" width="6" height="6" rx="1" fill="#5c7cfa"/>
+    <rect x="40" y="160" width="10" height="10" rx="2" fill="#4263eb"/>
+    <rect x="110" y="60" width="5" height="5" rx="1" fill="#748ffc"/>
+  </g>
+
+  <!-- Scattered pixels — far right -->
+  <g opacity="0.06">
+    <rect x="1380" y="90" width="10" height="10" rx="2" fill="#748ffc"/>
+    <rect x="1420" y="140" width="6" height="6" rx="1" fill="#5c7cfa"/>
+    <rect x="1350" y="160" width="8" height="8" rx="1.5" fill="#4263eb"/>
+    <rect x="1440" y="70" width="5" height="5" rx="1" fill="#748ffc"/>
+  </g>
+
+  <!-- Scattered pixels — bottom edges -->
+  <g opacity="0.04">
+    <rect x="100" y="400" width="8" height="8" rx="1.5" fill="#748ffc"/>
+    <rect x="140" y="430" width="6" height="6" rx="1" fill="#5c7cfa"/>
+    <rect x="60" y="440" width="5" height="5" rx="1" fill="#4263eb"/>
+    <rect x="1360" y="380" width="6" height="6" rx="1" fill="#748ffc"/>
+    <rect x="1400" y="420" width="8" height="8" rx="1.5" fill="#5c7cfa"/>
+    <rect x="1430" y="400" width="5" height="5" rx="1" fill="#4263eb"/>
+  </g>
+
+  <!-- Larger accent pixels near center (depth layers) -->
+  <rect x="340" y="110" width="12" height="12" rx="2" fill="#748ffc" opacity="0.04"/>
+  <rect x="1120" y="130" width="14" height="14" rx="2.5" fill="#4263eb" opacity="0.035"/>
+  <rect x="280" y="350" width="10" height="10" rx="2" fill="#5c7cfa" opacity="0.03"/>
+  <rect x="1180" y="340" width="12" height="12" rx="2" fill="#748ffc" opacity="0.03"/>
+
+  <!-- Name -->
+  <text x="750" y="200" font-family="Geist, -apple-system, system-ui, sans-serif" font-weight="700" font-size="62" letter-spacing="-0.03em" text-anchor="middle" filter="url(#tw-txt)">
+    <tspan fill="#f4f4f5">Code</tspan><tspan fill="#f4f4f5">Me</tspan><tspan fill="#f4f4f5">A</tspan><tspan fill="#748ffc">Pixel</tspan>
+  </text>
+
+  <!-- Divider -->
+  <rect x="510" y="225" width="480" height="1.5" fill="url(#tw-line)" rx="1"/>
+
+  <!-- Tagline -->
+  <text x="750" y="265" font-family="Geist, -apple-system, system-ui, sans-serif" font-weight="400" font-size="18" fill="#71717a" letter-spacing="0.08em" text-anchor="middle">DESIGNER  ·  DEVELOPER  ·  SYSADMIN</text>
+
+  <!-- Domain badge -->
+  <rect x="670" y="298" width="160" height="32" rx="10" fill="white" fill-opacity="0.03" stroke="#748ffc" stroke-opacity="0.15" stroke-width="0.5"/>
+  <text x="750" y="319" font-family="Geist, -apple-system, system-ui, sans-serif" font-weight="500" font-size="13" fill="#748ffc" letter-spacing="0.02em" text-anchor="middle" opacity="0.6">codemeapixel.dev</text>
+
+  <!-- Top edge highlight -->
+  <rect x="0" y="0" width="1500" height="1" fill="white" opacity="0.03"/>
+</svg>

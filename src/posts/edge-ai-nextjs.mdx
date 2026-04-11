@@ -1,0 +1,87 @@
+---
+title: 'Running AI at the Edge with Next.js'
+date: '2025-06-06'
+description: 'A deep dive into deploying AI models at the edge using Next.js, Vercel Edge Functions, and ONNX.'
+tags: ['Next.js', 'AI', 'Edge Computing', 'Vercel', 'ONNX', 'Web Development']
+---
+
+# Introduction
+
+Edge computing is transforming how we deploy and scale AI-powered applications. By running inference close to the user, we can achieve lower latency, better privacy, and improved scalability. In this post, I’ll show you how to deploy a lightweight AI model at the edge using Next.js, Vercel Edge Functions, and ONNX.
+
+---
+
+## Why Edge AI?
+
+- **Low Latency:** Inference happens geographically close to the user.
+- **Privacy:** Data doesn’t need to leave the user’s region.
+- **Scalability:** Offload work from your origin servers.
+
+---
+
+## Setting Up Next.js with Edge Functions
+
+Next.js 13+ supports [Edge API Routes](https://nextjs.org/docs/app/building-your-application/routing/route-handlers#edge-and-nodejs-runtimes) for running code at the edge.
+
+```tsx
+// app/api/edge-inference/route.ts
+import { NextRequest } from 'next/server';
+import { InferenceSession } from 'onnxruntime-web';
+
+export const runtime = 'edge';
+
+export async function POST(req: NextRequest) {
+  const { input } = await req.json();
+  const session = await InferenceSession.create('/models/model.onnx');
+  const output = await session.run({ input });
+  return Response.json({ result: output });
+}
+```
+
+---
+
+## Deploying an ONNX Model
+
+1. Export your model to ONNX format.
+2. Place it in your `/public/models` directory.
+3. Use `onnxruntime-web` for inference in Edge Functions.
+
+---
+
+## Example: Sentiment Analysis at the Edge
+
+Suppose you have a small sentiment analysis model. You can expose an API route that takes user text and returns a sentiment score in milliseconds.
+
+```tsx
+// app/api/sentiment/route.ts
+import { NextRequest } from 'next/server';
+import { InferenceSession } from 'onnxruntime-web';
+
+export const runtime = 'edge';
+
+export async function POST(req: NextRequest) {
+  const { text } = await req.json();
+  // Preprocess text to tensor...
+  // Run inference...
+  // Return result
+  return Response.json({ sentiment: 'positive', confidence: 0.98 });
+}
+```
+
+---
+
+## Challenges
+
+- **Model Size:** Edge functions have strict size limits (e.g., 1MB on Vercel).
+- **Cold Starts:** Initial load may be slower due to model loading.
+- **WebAssembly:** ONNX models run via WASM, which is fast but not as fast as native.
+
+---
+
+## Conclusion
+
+Running AI at the edge with Next.js unlocks new possibilities for real-time, privacy-preserving, and scalable web applications. Experiment with small models and see how far you can push the edge!
+
+---
+
+If you have questions or want to see more edge AI demos, let me know!

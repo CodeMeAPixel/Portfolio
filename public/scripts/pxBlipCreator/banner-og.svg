@@ -1,0 +1,159 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="og-bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0e0e12"/>
+      <stop offset="40%" stop-color="#111116"/>
+      <stop offset="100%" stop-color="#09090b"/>
+    </linearGradient>
+    <linearGradient id="og-px" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#748ffc"/>
+      <stop offset="100%" stop-color="#4263eb"/>
+    </linearGradient>
+    <radialGradient id="og-radial" cx="600" cy="280" r="380" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#4263eb" stop-opacity="0.07"/>
+      <stop offset="100%" stop-color="#4263eb" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="og-line" x1="0" y1="0" x2="1200" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="white" stop-opacity="0"/>
+      <stop offset="15%" stop-color="white" stop-opacity="0.06"/>
+      <stop offset="85%" stop-color="white" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="white" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="og-glow">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="og-soft">
+      <feGaussianBlur stdDeviation="50"/>
+    </filter>
+    <clipPath id="og-clip">
+      <rect width="1200" height="630"/>
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#og-clip)">
+    <!-- Background -->
+    <rect width="1200" height="630" fill="url(#og-bg)"/>
+    <rect width="1200" height="630" fill="url(#og-radial)"/>
+
+    <!-- Large soft glow -->
+    <ellipse cx="600" cy="280" rx="320" ry="220" fill="#4263eb" opacity="0.035" filter="url(#og-soft)"/>
+
+    <!-- Grid pattern -->
+    <g opacity="0.025">
+      <line x1="0" y1="90" x2="1200" y2="90" stroke="white" stroke-width="0.5"/>
+      <line x1="0" y1="180" x2="1200" y2="180" stroke="white" stroke-width="0.5"/>
+      <line x1="0" y1="270" x2="1200" y2="270" stroke="white" stroke-width="0.5"/>
+      <line x1="0" y1="360" x2="1200" y2="360" stroke="white" stroke-width="0.5"/>
+      <line x1="0" y1="450" x2="1200" y2="450" stroke="white" stroke-width="0.5"/>
+      <line x1="0" y1="540" x2="1200" y2="540" stroke="white" stroke-width="0.5"/>
+      <line x1="150" y1="0" x2="150" y2="630" stroke="white" stroke-width="0.5"/>
+      <line x1="300" y1="0" x2="300" y2="630" stroke="white" stroke-width="0.5"/>
+      <line x1="450" y1="0" x2="450" y2="630" stroke="white" stroke-width="0.5"/>
+      <line x1="600" y1="0" x2="600" y2="630" stroke="white" stroke-width="0.5"/>
+      <line x1="750" y1="0" x2="750" y2="630" stroke="white" stroke-width="0.5"/>
+      <line x1="900" y1="0" x2="900" y2="630" stroke="white" stroke-width="0.5"/>
+      <line x1="1050" y1="0" x2="1050" y2="630" stroke="white" stroke-width="0.5"/>
+    </g>
+
+    <!-- Floating pixels - top right -->
+    <g opacity="0.06">
+      <rect x="920" y="55" width="16" height="16" rx="3" fill="#748ffc"/>
+      <rect x="960" y="75" width="12" height="12" rx="2" fill="#5c7cfa"/>
+      <rect x="1000" y="45" width="14" height="14" rx="2.5" fill="#748ffc"/>
+      <rect x="1040" y="70" width="10" height="10" rx="2" fill="#4263eb"/>
+      <rect x="940" y="95" width="8" height="8" rx="1.5" fill="#748ffc"/>
+      <rect x="1080" y="50" width="12" height="12" rx="2" fill="#5c7cfa"/>
+      <rect x="1020" y="95" width="8" height="8" rx="1.5" fill="#4263eb"/>
+    </g>
+
+    <!-- Floating pixels - bottom left -->
+    <g opacity="0.05">
+      <rect x="80" y="470" width="14" height="14" rx="2.5" fill="#748ffc"/>
+      <rect x="120" y="490" width="10" height="10" rx="2" fill="#5c7cfa"/>
+      <rect x="60" y="500" width="8" height="8" rx="1.5" fill="#4263eb"/>
+      <rect x="140" y="510" width="12" height="12" rx="2" fill="#748ffc"/>
+      <rect x="100" y="530" width="10" height="10" rx="2" fill="#5c7cfa"/>
+      <rect x="180" y="480" width="8" height="8" rx="1.5" fill="#748ffc"/>
+    </g>
+
+    <!-- Corner accents -->
+    <g opacity="0.04">
+      <rect x="160" y="90" width="10" height="10" rx="2" fill="#748ffc"/>
+      <rect x="1080" y="380" width="12" height="12" rx="2" fill="#5c7cfa"/>
+      <rect x="250" y="540" width="8" height="8" rx="1.5" fill="#4263eb"/>
+      <rect x="1000" y="480" width="10" height="10" rx="2" fill="#748ffc"/>
+    </g>
+
+    <!-- Logo Icon (centered, left of text on same line) -->
+    <g transform="translate(290, 195)">
+      <rect width="96" height="96" rx="22" fill="#18181b"/>
+      <rect width="96" height="96" rx="22" stroke="white" stroke-opacity="0.08" stroke-width="1"/>
+
+      <!-- Pixel P -->
+      <g filter="url(#og-glow)">
+        <rect x="20" y="16" width="12" height="12" rx="2" fill="url(#og-px)"/>
+        <rect x="20" y="34" width="12" height="12" rx="2" fill="url(#og-px)"/>
+        <rect x="20" y="52" width="12" height="12" rx="2" fill="url(#og-px)"/>
+        <rect x="20" y="70" width="12" height="12" rx="2" fill="url(#og-px)"/>
+        <rect x="38" y="16" width="12" height="12" rx="2" fill="url(#og-px)"/>
+        <rect x="56" y="16" width="12" height="12" rx="2" fill="url(#og-px)"/>
+        <rect x="66" y="28" width="12" height="12" rx="2" fill="url(#og-px)" opacity="0.85"/>
+        <rect x="66" y="46" width="12" height="12" rx="2" fill="url(#og-px)" opacity="0.5"/>
+        <rect x="38" y="52" width="12" height="12" rx="2" fill="url(#og-px)"/>
+        <rect x="56" y="52" width="12" height="12" rx="2" fill="url(#og-px)" opacity="0.55"/>
+      </g>
+    </g>
+
+    <!-- Title (next to icon) -->
+    <text x="410" y="248" font-family="Geist, -apple-system, system-ui, sans-serif" font-weight="700" font-size="54" letter-spacing="-0.03em">
+      <tspan fill="#f4f4f5">px</tspan><tspan fill="#a1a1aa">Blip</tspan><tspan fill="#f4f4f5">Creator</tspan>
+    </text>
+
+    <!-- Subtitle (next to icon) -->
+    <text x="412" y="280" font-family="Geist, -apple-system, system-ui, sans-serif" font-weight="400" font-size="19" fill="#71717a" letter-spacing="0.01em">
+      Elegant blip management for FiveM
+    </text>
+
+    <!-- Divider -->
+    <rect x="0" y="380" width="1200" height="1" fill="url(#og-line)"/>
+
+    <!-- Feature tags (centered) -->
+    <g transform="translate(280, 410)">
+      <rect x="0" y="0" width="110" height="36" rx="10" fill="white" fill-opacity="0.04" stroke="white" stroke-opacity="0.06" stroke-width="0.5"/>
+      <text x="55" y="23" font-family="Geist, -apple-system, system-ui, sans-serif" font-weight="500" font-size="13" fill="#a1a1aa" text-anchor="middle">ESX / QBCore</text>
+
+      <rect x="124" y="0" width="105" height="36" rx="10" fill="white" fill-opacity="0.04" stroke="white" stroke-opacity="0.06" stroke-width="0.5"/>
+      <text x="176" y="23" font-family="Geist, -apple-system, system-ui, sans-serif" font-weight="500" font-size="13" fill="#a1a1aa" text-anchor="middle">TypeScript</text>
+
+      <rect x="243" y="0" width="80" height="36" rx="10" fill="white" fill-opacity="0.04" stroke="white" stroke-opacity="0.06" stroke-width="0.5"/>
+      <text x="283" y="23" font-family="Geist, -apple-system, system-ui, sans-serif" font-weight="500" font-size="13" fill="#a1a1aa" text-anchor="middle">React</text>
+
+      <rect x="337" y="0" width="94" height="36" rx="10" fill="white" fill-opacity="0.04" stroke="white" stroke-opacity="0.06" stroke-width="0.5"/>
+      <text x="384" y="23" font-family="Geist, -apple-system, system-ui, sans-serif" font-weight="500" font-size="13" fill="#a1a1aa" text-anchor="middle">Tailwind</text>
+
+      <rect x="445" y="0" width="110" height="36" rx="10" fill="white" fill-opacity="0.04" stroke="white" stroke-opacity="0.06" stroke-width="0.5"/>
+      <text x="500" y="23" font-family="Geist, -apple-system, system-ui, sans-serif" font-weight="500" font-size="13" fill="#a1a1aa" text-anchor="middle">Open Source</text>
+    </g>
+
+    <!-- Bottom info -->
+    <text x="600" y="520" font-family="Geist, -apple-system, system-ui, sans-serif" font-weight="400" font-size="13" fill="#52525b" letter-spacing="0.06em" text-anchor="middle">
+      REAL-TIME SYNC  ·  PERSISTENT STORAGE  ·  GROUP ACCESS  ·  ITEM REQUIREMENTS
+    </text>
+
+    <!-- Version badge -->
+    <g transform="translate(1070, 570)">
+      <rect width="76" height="28" rx="8" fill="#4263eb" fill-opacity="0.12"/>
+      <rect width="76" height="28" rx="8" stroke="#4263eb" stroke-opacity="0.2" stroke-width="0.5"/>
+      <text x="38" y="19" font-family="Geist, -apple-system, system-ui, sans-serif" font-weight="600" font-size="12" fill="#748ffc" text-anchor="middle">v0.0.1</text>
+    </g>
+
+    <!-- GitHub attribution -->
+    <text x="60" y="590" font-family="Geist, -apple-system, system-ui, sans-serif" font-weight="400" font-size="12" fill="#3f3f46" letter-spacing="0.02em">
+      github.com/CodeMeAPixel/pxBlipCreator
+    </text>
+  </g>
+</svg>

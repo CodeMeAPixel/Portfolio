@@ -1,0 +1,1027 @@
+"use client";
+
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import {
+    IoArrowForward, IoFilterOutline, IoGridOutline, IoListOutline, IoSearch, IoClose,
+    IoChevronDown, IoSwapVertical, IoCalendarOutline, IoWarning, IoChevronBack, IoChevronForward
+} from 'react-icons/io5';
+import type { FivemScript } from '../../../types/fivem';
+import { FivemScriptLogo } from '../../fivem/FivemScriptLogo';
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+
+interface FivemScriptsContentProps {
+    scripts: FivemScript[];
+    allTags: string[];
+}
+
+type ViewMode = 'grid' | 'list';
+type Filter = 'All' | 'ESX' | 'QBCore' | 'Standalone' | 'Released' | 'In Development' | 'Coming Soon' | 'Deprecated';
+type SortOption = 'date-desc' | 'date-asc' | 'alphabetical' | 'price-asc' | 'price-desc';
+
+export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsContentProps) {
+    // State for filtering and display
+    const [viewMode, setViewMode] = useState<ViewMode>('list');
+    const [filter, setFilter] = useState<Filter>('All');
+    const [hoveredScript, setHoveredScript] = useState<string | null>(null);
+    const [filterOpen, setFilterOpen] = useState(false);
+    const [sortOpen, setSortOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [isSearching, setIsSearching] = useState(false);
+    const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
+    const [sortBy, setSortBy] = useState<SortOption>('date-desc');
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 12;
+
+    // Extract all frameworks and statuses
+    const frameworks = ['ESX', 'QBCore', 'Standalone'];
+    const statuses = ['Released', 'In Development', 'Coming Soon'];
+
+    // Debounce search query
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedSearchQuery(searchQuery);
+            setCurrentPage(1);
+        }, 300);
+        return () => clearTimeout(timer);
+    }, [searchQuery]);
+
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [filter, sortBy, viewMode]);
+
+    // Filter scripts
+    const filteredScripts = scripts
+        .filter(script => {
+            if (filter === 'All') return true;
+            if (filter === 'Deprecated') return script.deprecated === true;
+            if (filter === 'ESX' || filter === 'QBCore' || filter === 'Standalone') {
+                return script.framework === filter || script.framework === 'Both';
+            }
+            return script.status === filter;
+        })
+        .filter(script => {
+            if (!debouncedSearchQuery) return true;
+            const query = debouncedSearchQuery.toLowerCase();
+            return (
+                script.title.toLowerCase().includes(query) ||
+                script.description.toLowerCase().includes(query) ||
+                script.tags.some(tag => tag.toLowerCase().includes(query)) ||
+                (script.longDescription && script.longDescription.toLowerCase().includes(query))
+            );
+        })
+        .sort((a, b) => {
+            switch (sortBy) {
+                case 'date-desc':
+                    return new Date(b.lastUpdated || '').getTime() - new Date(a.lastUpdated || '').getTime();
+                case 'date-asc':
+                    return new Date(a.lastUpdated || '').getTime() - new Date(b.lastUpdated || '').getTime();
+                case 'alphabetical':
+                    return a.title.localeCompare(b.title);
+                case 'price-asc':
+                    return extractPriceNumber(a.price) - extractPriceNumber(b.price);
+                case 'price-desc':
+                    return extractPriceNumber(b.price) - extractPriceNumber(a.price);
+                default:
+                    return 0;
+            }
+        });
+
+    function extractPriceNumber(price: string): number {
+        const match = price.match(/\d+(\.\d+)?/);
+        return match ? parseFloat(match[0]) : 0;
+    }
+
+    const totalPages = Math.ceil(filteredScripts.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const paginatedScripts = filteredScripts.slice(startIndex, endIndex);
+
+    const getVisiblePages = () => {
+        const pages = [];
+        const showPages = 3; // Show 3 page numbers at a time
+        const halfShow = Math.floor(showPages / 2);
+
+        let start = Math.max(1, currentPage - halfShow);
+        let end = Math.min(totalPages, start + showPages - 1);
+
+        // Adjust start if we're near the end
+        if (end - start + 1 < showPages) {
+            start = Math.max(1, end - showPages + 1);
+        }
+
+        for (let i = start; i <= end; i++) {
+            pages.push(i);
+        }
+
+        return pages;
+    };
+
+    const toggleSearch = () => {
+        setIsSearching(!isSearching);
+        if (!isSearching) {
+            setTimeout(() => {
+                const searchInput = document.getElementById('script-search');
+                if (searchInput) searchInput.focus();
+            }, 100);
+        } else {
+            setSearchQuery('');
+        }
+    };
+
+    const getSortOptionText = (option: SortOption): string => {
+        switch (option) {
+            case 'date-desc': return 'Newest first';
+            case 'date-asc': return 'Oldest first';
+            case 'alphabetical': return 'A-Z';
+            case 'price-asc': return 'Price: Low to High';
+            case 'price-desc': return 'Price: High to Low';
+            default: return 'Sort';
+        }
+    };
+
+    return (
+        <section className="pt-20 pb-24 md:pt-24 md:pb-32 bg-bg relative overflow-hidden">
+            {/* Premium multi-layer background */}
+            <div className="absolute inset-0">
+                <div className="absolute inset-0 bg-aurora opacity-40"></div>
+                <div className="absolute inset-0 bg-dot-pattern opacity-20"></div>
+            </div>
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"></div>
+
+            {/* Animated floating orbs - CSS animations */}
+            <div className="absolute top-[10%] left-[5%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-primary-500/20 to-primary-600/5 blur-[100px] animate-float-slow" />
+            <div className="absolute bottom-[20%] right-[10%] w-[400px] h-[400px] rounded-full bg-gradient-to-tl from-primary-400/15 to-transparent blur-[80px] animate-float-medium" />
+
+            <div className="container-section relative z-10">
+                <div className="mb-14 animate-fade-in">
+                    {/* Premium Badge */}
+                    <div className="flex justify-center md:justify-start mb-8">
+                        <span className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-primary-300 glass-frost rounded-full animate-fade-in-up">
+                            <IoGridOutline className="w-4 h-4" />
+                            FiveM Resources
+                        </span>
+                    </div>
+
+                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-center md:text-left mb-6">
+                        <span className="text-color-text">FiveM </span>
+                        <span className="animated-gradient-text text-shadow-glow">Scripts</span>
+                    </h1>
+                    <p className="text-color-text-muted text-center md:text-left max-w-3xl text-lg md:text-xl leading-relaxed">
+                        Premium scripts for your FiveM roleplay server. Browse my collection of high-quality scripts
+                        compatible with ESX and QBCore frameworks.
+                    </p>
+                </div>
+
+                {/* Desktop controls */}
+                <div className="hidden md:flex justify-between items-center mb-10 gap-4 animate-fade-in-up" style={{ animationDelay: '100ms' }}>
+                    {/* Filter dropdown */}
+                    <DropdownMenu.Root open={filterOpen} onOpenChange={setFilterOpen} modal={false}>
+                        <DropdownMenu.Trigger asChild>
+                            <button className="px-4 py-2 rounded-xl bg-primary-800/20 border border-primary-700/20 text-primary-300 text-sm flex items-center gap-2 hover:bg-primary-800/30 hover:border-primary-700/30 transition-all focus:outline-none" type="button">
+                                <IoFilterOutline className="w-4 h-4" />
+                                <span>{filter === 'All' ? 'All Scripts' : filter}</span>
+                                <IoChevronDown className="w-3 h-3 ml-1 transition-transform duration-300" style={{ transform: filterOpen ? 'rotate(180deg)' : 'none' }} />
+                            </button>
+                        </DropdownMenu.Trigger>
+                        <DropdownMenu.Portal>
+                            <DropdownMenu.Content
+                                className="z-50 min-w-[180px] p-2 bg-card border border-color-border shadow-lg rounded-lg animate-fade-in"
+                                align="start"
+                                sideOffset={5}
+                            >
+                                <DropdownMenu.Label className="text-xs font-semibold uppercase tracking-wider text-color-text-muted px-2 py-1.5" asChild>
+                                    <div>Filter Options</div>
+                                </DropdownMenu.Label>
+                                <DropdownMenu.Item
+                                    className={`text-sm px-3 py-2.5 rounded-lg cursor-pointer outline-none transition-all duration-200
+                                        ${filter === 'All'
+                                            ? 'bg-primary-500/20 text-primary-300 font-medium border border-primary-500/20'
+                                            : 'text-color-text-muted hover:bg-white/10 hover:text-color-text'
+                                        }`}
+                                    onClick={() => setFilter('All')}
+                                >
+                                    <div className="flex items-center w-full">
+                                        All Scripts
+                                        {filter === 'All' && <span className="ml-2 text-xs">✓</span>}
+                                    </div>
+                                </DropdownMenu.Item>
+
+                                <DropdownMenu.Separator className="h-px bg-color-border my-1" asChild>
+                                    <div />
+                                </DropdownMenu.Separator>
+                                <DropdownMenu.Label className="text-xs font-semibold uppercase tracking-wider text-color-text-muted px-2 py-1.5" asChild>
+                                    <div>By Framework</div>
+                                </DropdownMenu.Label>
+
+                                {frameworks.map(framework => (
+                                    <DropdownMenu.Item
+                                        key={framework}
+                                        className={`text-sm px-3 py-2.5 rounded-lg cursor-pointer outline-none transition-all duration-200
+                                            ${filter === framework as Filter
+                                                ? 'bg-primary-500/20 text-primary-300 font-medium border border-primary-500/20'
+                                                : 'text-color-text-muted hover:bg-white/10 hover:text-color-text'
+                                            }`}
+                                        onClick={() => setFilter(framework as Filter)}
+                                    >
+                                        <div className="flex items-center w-full">
+                                            {framework}
+                                            {filter === framework && <span className="ml-2 text-xs">✓</span>}
+                                        </div>
+                                    </DropdownMenu.Item>
+                                ))}
+
+                                <DropdownMenu.Separator className="h-px bg-color-border my-1" asChild>
+                                    <div />
+                                </DropdownMenu.Separator>
+                                <DropdownMenu.Label className="text-xs font-semibold uppercase tracking-wider text-color-text-muted px-2 py-1.5" asChild>
+                                    <div>By Status</div>
+                                </DropdownMenu.Label>
+
+                                {statuses.map(status => (
+                                    <DropdownMenu.Item
+                                        key={status}
+                                        className={`text-sm px-3 py-2.5 rounded-lg cursor-pointer outline-none transition-all duration-200
+                                            ${filter === status as Filter
+                                                ? 'bg-primary-500/20 text-primary-300 font-medium border border-primary-500/20'
+                                                : 'text-color-text-muted hover:bg-white/10 hover:text-color-text'
+                                            }`}
+                                        onClick={() => setFilter(status as Filter)}
+                                    >
+                                        <div className="flex items-center w-full">
+                                            {status}
+                                            {filter === status && <span className="ml-2 text-xs">✓</span>}
+                                        </div>
+                                    </DropdownMenu.Item>
+                                ))}
+
+                                <DropdownMenu.Separator className="h-px bg-color-border my-1" asChild>
+                                    <div />
+                                </DropdownMenu.Separator>
+                                <DropdownMenu.Item
+                                    className={`text-sm px-3 py-2.5 rounded-lg cursor-pointer outline-none transition-all duration-200
+                                        ${filter === 'Deprecated'
+                                            ? 'bg-red-500/20 text-red-300 font-medium border border-red-500/20'
+                                            : 'text-color-text-muted hover:bg-white/10 hover:text-color-text'
+                                        }`}
+                                    onClick={() => setFilter('Deprecated')}
+                                >
+                                    <div className="flex items-center w-full">
+                                        <IoWarning className="w-4 h-4 mr-2" />
+                                        Deprecated
+                                        {filter === 'Deprecated' && <span className="ml-2 text-xs">✓</span>}
+                                    </div>
+                                </DropdownMenu.Item>
+                            </DropdownMenu.Content>
+                        </DropdownMenu.Portal>
+                    </DropdownMenu.Root>
+
+                    <div className="flex items-center gap-3">
+                        {/* Search button and input */}
+                        <div className="relative flex items-center">
+                            {isSearching && (
+                                <div className="flex items-center animate-fade-in">
+                                    <input
+                                        id="script-search"
+                                        type="text"
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        placeholder="Search scripts..."
+                                        className="w-[200px] px-3 py-2 rounded-l-xl bg-card border border-r-0 border-primary-700/20 text-color-text placeholder:text-color-text-muted text-sm focus:ring-1 focus:ring-primary-500 focus:border-primary-500 outline-none"
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Escape') {
+                                                toggleSearch();
+                                            }
+                                        }}
+                                    />
+                                    <button
+                                        onClick={toggleSearch}
+                                        className="px-3 py-2 rounded-r-xl bg-primary-800/20 border border-primary-700/20 text-primary-300 hover:bg-primary-800/30 hover:border-primary-700/30 transition-all"
+                                        aria-label="Close search"
+                                    >
+                                        <IoClose className="w-4 h-4" />
+                                    </button>
+                                </div>
+                            )}
+
+                            {!isSearching && (
+                                <button
+                                    onClick={toggleSearch}
+                                    className="px-4 py-2 rounded-xl bg-primary-800/20 border border-primary-700/20 text-primary-300 text-sm flex items-center gap-2 hover:bg-primary-800/30 hover:border-primary-700/30 hover:scale-[1.02] active:scale-[0.98] transition-all focus:outline-none"
+                                    aria-label="Search scripts"
+                                >
+                                    <IoSearch className="w-4 h-4" />
+                                    <span>Search</span>
+                                </button>
+                            )}
+                        </div>
+
+                        {/* Sort dropdown */}
+                        <DropdownMenu.Root open={sortOpen} onOpenChange={setSortOpen} modal={false}>
+                            <DropdownMenu.Trigger asChild>
+                                <button className="px-4 py-2 rounded-xl bg-primary-800/20 border border-primary-700/20 text-primary-300 text-sm flex items-center gap-2 hover:bg-primary-800/30 hover:border-primary-700/30 transition-all focus:outline-none">
+                                    <IoSwapVertical className="w-4 h-4" />
+                                    <span>{getSortOptionText(sortBy)}</span>
+                                    <IoChevronDown className="w-3 h-3 ml-1 transition-transform duration-300" style={{ transform: sortOpen ? 'rotate(180deg)' : 'none' }} />
+                                </button>
+                            </DropdownMenu.Trigger>
+                            <DropdownMenu.Content
+                                className="z-50 min-w-[220px] p-2 bg-bg/95 backdrop-blur-xl border border-white/10 shadow-2xl shadow-black/50 rounded-xl overflow-hidden animate-fade-in"
+                                align="end"
+                                sideOffset={5}
+                            >
+                                <DropdownMenu.Item
+                                    className={`text-sm px-3 py-2.5 cursor-pointer rounded-lg outline-none transition-all duration-200 ${sortBy === 'date-desc' ? 'bg-primary-500/20 text-primary-300 font-medium border border-primary-500/20' : 'text-color-text-muted hover:bg-white/10 hover:text-color-text'}`}
+                                    onClick={() => setSortBy('date-desc')}
+                                >
+                                    <div className="flex items-center">
+                                        <IoCalendarOutline className="w-4 h-4 mr-2" />
+                                        Newest first
+                                        {sortBy === 'date-desc' && <span className="ml-2 text-xs">✓</span>}
+                                    </div>
+                                </DropdownMenu.Item>
+                                <DropdownMenu.Item
+                                    className={`text-sm px-3 py-2.5 cursor-pointer rounded-lg outline-none transition-all duration-200 ${sortBy === 'date-asc' ? 'bg-primary-500/20 text-primary-300 font-medium border border-primary-500/20' : 'text-color-text-muted hover:bg-white/10 hover:text-color-text'}`}
+                                    onClick={() => setSortBy('date-asc')}
+                                >
+                                    <div className="flex items-center">
+                                        <IoCalendarOutline className="w-4 h-4 mr-2" />
+                                        Oldest first
+                                        {sortBy === 'date-asc' && <span className="ml-2 text-xs">✓</span>}
+                                    </div>
+                                </DropdownMenu.Item>
+                                <DropdownMenu.Item
+                                    className={`text-sm px-3 py-2.5 cursor-pointer rounded-lg outline-none transition-all duration-200 ${sortBy === 'alphabetical' ? 'bg-primary-500/20 text-primary-300 font-medium border border-primary-500/20' : 'text-color-text-muted hover:bg-white/10 hover:text-color-text'}`}
+                                    onClick={() => setSortBy('alphabetical')}
+                                >
+                                    <div className="flex items-center">
+                                        <span className="w-4 h-4 mr-2 flex items-center justify-center text-xs font-bold">A</span>
+                                        Alphabetical (A-Z)
+                                        {sortBy === 'alphabetical' && <span className="ml-2 text-xs">✓</span>}
+                                    </div>
+                                </DropdownMenu.Item>
+                                <DropdownMenu.Item
+                                    className={`text-sm px-3 py-2.5 cursor-pointer rounded-lg outline-none transition-all duration-200 ${sortBy === 'price-asc' ? 'bg-primary-500/20 text-primary-300 font-medium border border-primary-500/20' : 'text-color-text-muted hover:bg-white/10 hover:text-color-text'}`}
+                                    onClick={() => setSortBy('price-asc')}
+                                >
+                                    <div className="flex items-center">
+                                        <span className="w-4 h-4 mr-2 flex items-center justify-center text-xs font-bold">$</span>
+                                        Price: Low to High
+                                        {sortBy === 'price-asc' && <span className="ml-2 text-xs">✓</span>}
+                                    </div>
+                                </DropdownMenu.Item>
+                                <DropdownMenu.Item
+                                    className={`text-sm px-3 py-2.5 cursor-pointer rounded-lg outline-none transition-all duration-200 ${sortBy === 'price-desc' ? 'bg-primary-500/20 text-primary-300 font-medium border border-primary-500/20' : 'text-color-text-muted hover:bg-white/10 hover:text-color-text'}`}
+                                    onClick={() => setSortBy('price-desc')}
+                                >
+                                    <div className="flex items-center">
+                                        <span className="w-4 h-4 mr-2 flex items-center justify-center text-xs font-bold">$</span>
+                                        Price: High to Low
+                                        {sortBy === 'price-desc' && <span className="ml-2 text-xs">✓</span>}
+                                    </div>
+                                </DropdownMenu.Item>
+                            </DropdownMenu.Content>
+                        </DropdownMenu.Root>
+
+                        {/* View mode toggle */}
+                        <div className="flex items-center bg-card border border-color-border rounded-lg overflow-hidden">
+                            <button
+                                className={`p-2 ${viewMode === 'grid'
+                                    ? 'bg-primary-900/20 text-primary-300'
+                                    : 'text-color-text-muted hover:bg-card-alt hover:text-color-text'}`}
+                                onClick={() => setViewMode('grid')}
+                                aria-label="Grid view"
+                            >
+                                <IoGridOutline className="w-5 h-5" />
+                            </button>
+                            <button
+                                className={`p-2 ${viewMode === 'list'
+                                    ? 'bg-primary-900/20 text-primary-300'
+                                    : 'text-color-text-muted hover:bg-card-alt hover:text-color-text'}`}
+                                onClick={() => setViewMode('list')}
+                                aria-label="List view"
+                            >
+                                <IoListOutline className="w-5 h-5" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Mobile controls section */}
+                <div className="flex flex-col gap-4 mb-8 md:hidden">
+                    {/* Layout switcher for mobile */}
+                    <div className="flex justify-between items-center">
+                        <div className="flex items-center gap-2 text-sm text-color-text-muted">
+                            <span>View:</span>
+                        </div>
+                        <div className="flex rounded-xl overflow-hidden border border-primary-700/20">
+                            <button
+                                onClick={() => setViewMode('grid')}
+                                className={`p-2 flex items-center justify-center transition-colors ${viewMode === 'grid'
+                                    ? 'bg-primary-800/40 text-primary-300'
+                                    : 'bg-primary-800/20 text-primary-400/70 hover:bg-primary-800/30 hover:text-primary-300'
+                                    }`}
+                                aria-label="Grid view"
+                            >
+                                <IoGridOutline className="w-4 h-4" />
+                            </button>
+                            <button
+                                onClick={() => setViewMode('list')}
+                                className={`p-2 flex items-center justify-center transition-colors ${viewMode === 'list'
+                                    ? 'bg-primary-800/40 text-primary-300'
+                                    : 'bg-primary-800/20 text-primary-400/70 hover:bg-primary-800/30 hover:text-primary-300'
+                                    }`}
+                                aria-label="Table view"
+                            >
+                                <IoListOutline className="w-4 h-4" />
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Search input for mobile */}
+                    <div className="relative w-full">
+                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-color-text-muted">
+                            <IoSearch className="w-4 h-4" />
+                        </div>
+                        <input
+                            type="text"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            placeholder="Search scripts..."
+                            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-card border border-primary-700/20 text-color-text placeholder:text-color-text-muted text-sm focus:ring-1 focus:ring-primary-500 focus:border-primary-500 outline-none"
+                            onKeyDown={(e) => {
+                                if (e.key === 'Escape') {
+                                    setSearchQuery('');
+                                }
+                            }}
+                        />
+                        {searchQuery && (
+                            <button
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-color-text-muted hover:text-color-text"
+                                onClick={() => setSearchQuery('')}
+                                aria-label="Clear search"
+                            >
+                                <IoClose className="w-4 h-4" />
+                            </button>
+                        )}
+                    </div>
+
+                    {/* Mobile filter buttons */}
+                    <div className="overflow-x-auto pb-2">
+                        <div className="flex gap-2 min-w-max">
+                            <button
+                                className={`px-3 py-1.5 rounded-full text-sm whitespace-nowrap transition-colors ${filter === 'All'
+                                    ? 'bg-primary-800/40 text-primary-300 border border-primary-700/40'
+                                    : 'bg-card text-color-text-muted border border-color-border hover:bg-card-alt'
+                                    }`}
+                                onClick={() => setFilter('All')}
+                            >
+                                All Scripts
+                            </button>
+                            {frameworks.map(framework => (
+                                <button
+                                    key={framework}
+                                    className={`px-3 py-1.5 rounded-full text-sm whitespace-nowrap transition-colors ${filter === framework as Filter
+                                        ? 'bg-primary-800/40 text-primary-300 border border-primary-700/40'
+                                        : 'bg-card text-color-text-muted border border-color-border hover:bg-card-alt'
+                                        }`}
+                                    onClick={() => setFilter(framework as Filter)}
+                                >
+                                    {framework}
+                                </button>
+                            ))}
+                            {statuses.map(status => (
+                                <button
+                                    key={status}
+                                    className={`px-3 py-1.5 rounded-full text-sm whitespace-nowrap transition-colors ${filter === status as Filter
+                                        ? 'bg-primary-800/40 text-primary-300 border border-primary-700/40'
+                                        : 'bg-card text-color-text-muted border border-color-border hover:bg-card-alt'
+                                        }`}
+                                    onClick={() => setFilter(status as Filter)}
+                                >
+                                    {status}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Mobile sort options */}
+                    <div className="flex justify-between items-center">
+                        <div className="flex items-center gap-2 text-sm text-color-text-muted">
+                            <IoSwapVertical className="w-4 h-4" />
+                            <span>Sort by:</span>
+                        </div>
+                        <div className="flex gap-2 overflow-x-auto pb-1">
+                            <button
+                                onClick={() => setSortBy('date-desc')}
+                                className={`px-3 py-1.5 rounded-lg text-xs transition-colors ${sortBy === 'date-desc'
+                                    ? 'bg-primary-800/40 text-primary-300 border border-primary-700/40'
+                                    : 'bg-card text-color-text-muted border border-color-border'
+                                    }`}
+                            >
+                                Newest
+                            </button>
+                            <button
+                                onClick={() => setSortBy('alphabetical')}
+                                className={`px-3 py-1.5 rounded-lg text-xs transition-colors ${sortBy === 'alphabetical'
+                                    ? 'bg-primary-800/40 text-primary-300 border border-primary-700/40'
+                                    : 'bg-card text-color-text-muted border border-color-border'
+                                    }`}
+                            >
+                                A-Z
+                            </button>
+                            <button
+                                onClick={() => setSortBy('price-asc')}
+                                className={`px-3 py-1.5 rounded-lg text-xs transition-colors ${sortBy === 'price-asc'
+                                    ? 'bg-primary-800/40 text-primary-300 border border-primary-700/40'
+                                    : 'bg-card text-color-text-muted border border-color-border'
+                                    }`}
+                            >
+                                $ Low-High
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Search result summary */}
+                {debouncedSearchQuery && (
+                    <div className="mb-6 p-3 bg-card border border-color-border rounded-lg flex justify-between items-center animate-fade-in">
+                        <p className="text-color-text-muted text-sm">
+                            Found <span className="text-primary-300 font-medium">{filteredScripts.length}</span> result{filteredScripts.length !== 1 ? 's' : ''} for &quot;<span className="text-color-text font-medium">{debouncedSearchQuery}</span>&quot;
+                            {filter !== 'All' && (
+                                <> with filter <span className="text-primary-300 font-medium">{filter}</span></>
+                            )}
+                        </p>
+                        <button
+                            onClick={() => setSearchQuery('')}
+                            className="text-color-text-muted hover:text-color-text p-1 rounded-full hover:bg-card-alt"
+                            aria-label="Clear search"
+                        >
+                            <IoClose className="w-4 h-4" />
+                        </button>
+                    </div>
+                )}
+
+                {filteredScripts.length === 0 ? (
+                    <div className="bg-card border border-color-border rounded-xl p-8 text-center animate-fade-in">
+                        <h3 className="text-xl font-semibold mb-2">No scripts found</h3>
+                        <p className="text-color-text-muted mb-6">
+                            {debouncedSearchQuery
+                                ? "No scripts match your search query. Try different search terms or clear your search."
+                                : "No scripts match your current filter. Try selecting a different filter."}
+                        </p>
+                        <div className="flex flex-wrap gap-4 justify-center">
+                            {debouncedSearchQuery && (
+                                <button
+                                    onClick={() => setSearchQuery('')}
+                                    className="btn-secondary text-sm py-2"
+                                >
+                                    Clear Search
+                                </button>
+                            )}
+                            {filter !== 'All' && (
+                                <button
+                                    onClick={() => setFilter('All')}
+                                    className="btn-secondary text-sm py-2"
+                                >
+                                    Show All Scripts
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                ) : (
+                    <>
+                        {viewMode === 'grid' ? (
+                            <>
+                                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    {paginatedScripts.map((script, index) => (
+                                        <ScriptGridCard
+                                            key={script.id}
+                                            script={script}
+                                            index={index}
+                                            isHovered={hoveredScript === script.id}
+                                            onHover={setHoveredScript}
+                                        />
+                                    ))}
+                                </div>
+                                {totalPages > 1 && (
+                                    <div className="flex items-center justify-between mt-12 pt-8 border-t border-white/10">
+                                        <div className="text-sm text-color-text-muted">
+                                            Showing <span className="text-primary-300 font-semibold">{startIndex + 1}</span>-<span className="text-primary-300 font-semibold">{Math.min(endIndex, filteredScripts.length)}</span> of <span className="text-primary-300 font-semibold">{filteredScripts.length}</span>
+                                        </div>
+                                        <div className="flex items-center gap-3">
+                                            <button
+                                                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                                                disabled={currentPage === 1}
+                                                className={`p-2.5 rounded-lg transition-all duration-300 flex items-center gap-2 ${currentPage === 1
+                                                    ? 'text-color-text-muted/50 cursor-not-allowed bg-white/5'
+                                                    : 'text-primary-300 hover:bg-white/10 hover:text-primary-200 glass-frost border border-white/10'
+                                                    }`}
+                                                aria-label="Previous page"
+                                            >
+                                                <IoChevronBack className="w-4 h-4" />
+                                                <span className="hidden sm:inline text-sm font-medium">Previous</span>
+                                            </button>
+
+                                            <div className="flex items-center gap-2">
+                                                {getVisiblePages().map(page => (
+                                                    <button
+                                                        key={page}
+                                                        onClick={() => setCurrentPage(page)}
+                                                        className={`w-10 h-10 rounded-lg transition-all duration-300 text-sm font-medium ${currentPage === page
+                                                            ? 'bg-gradient-to-r from-primary-600 to-primary-400 text-white shadow-lg shadow-primary-500/30'
+                                                            : 'glass-frost text-color-text-muted border border-white/10 hover:bg-white/10 hover:text-primary-300'
+                                                            }`}
+                                                    >
+                                                        {page}
+                                                    </button>
+                                                ))}
+                                            </div>
+
+                                            <button
+                                                onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                                                disabled={currentPage === totalPages}
+                                                className={`p-2.5 rounded-lg transition-all duration-300 flex items-center gap-2 ${currentPage === totalPages
+                                                    ? 'text-color-text-muted/50 cursor-not-allowed bg-white/5'
+                                                    : 'text-primary-300 hover:bg-white/10 hover:text-primary-200 glass-frost border border-white/10'
+                                                    }`}
+                                                aria-label="Next page"
+                                            >
+                                                <span className="hidden sm:inline text-sm font-medium">Next</span>
+                                                <IoChevronForward className="w-4 h-4" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+                            </>
+                        ) : (
+                            <>
+                                <div className="flex flex-col gap-4">
+                                    {paginatedScripts.map((script, index) => (
+                                        <ScriptListItem
+                                            key={script.id}
+                                            script={script}
+                                            index={index}
+                                            isHovered={hoveredScript === script.id}
+                                            onHover={setHoveredScript}
+                                        />
+                                    ))}
+                                </div>
+                                {totalPages > 1 && (
+                                    <div className="flex items-center justify-between mt-12 pt-8 border-t border-white/10">
+                                        <div className="text-sm text-color-text-muted">
+                                            Showing <span className="text-primary-300 font-semibold">{startIndex + 1}</span>-<span className="text-primary-300 font-semibold">{Math.min(endIndex, filteredScripts.length)}</span> of <span className="text-primary-300 font-semibold">{filteredScripts.length}</span>
+                                        </div>
+                                        <div className="flex items-center gap-3">
+                                            <button
+                                                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                                                disabled={currentPage === 1}
+                                                className={`p-2.5 rounded-lg transition-all duration-300 flex items-center gap-2 ${currentPage === 1
+                                                    ? 'text-color-text-muted/50 cursor-not-allowed bg-white/5'
+                                                    : 'text-primary-300 hover:bg-white/10 hover:text-primary-200 glass-frost border border-white/10'
+                                                    }`}
+                                                aria-label="Previous page"
+                                            >
+                                                <IoChevronBack className="w-4 h-4" />
+                                                <span className="hidden sm:inline text-sm font-medium">Previous</span>
+                                            </button>
+
+                                            <div className="flex items-center gap-2">
+                                                {getVisiblePages().map(page => (
+                                                    <button
+                                                        key={page}
+                                                        onClick={() => setCurrentPage(page)}
+                                                        className={`w-10 h-10 rounded-lg transition-all duration-300 text-sm font-medium ${currentPage === page
+                                                            ? 'bg-gradient-to-r from-primary-600 to-primary-400 text-white shadow-lg shadow-primary-500/30'
+                                                            : 'glass-frost text-color-text-muted border border-white/10 hover:bg-white/10 hover:text-primary-300'
+                                                            }`}
+                                                    >
+                                                        {page}
+                                                    </button>
+                                                ))}
+                                            </div>
+
+                                            <button
+                                                onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                                                disabled={currentPage === totalPages}
+                                                className={`p-2.5 rounded-lg transition-all duration-300 flex items-center gap-2 ${currentPage === totalPages
+                                                    ? 'text-color-text-muted/50 cursor-not-allowed bg-white/5'
+                                                    : 'text-primary-300 hover:bg-white/10 hover:text-primary-200 glass-frost border border-white/10'
+                                                    }`}
+                                                aria-label="Next page"
+                                            >
+                                                <span className="hidden sm:inline text-sm font-medium">Next</span>
+                                                <IoChevronForward className="w-4 h-4" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+                            </>
+                        )}
+                    </>
+                )}
+            </div>
+        </section>
+    );
+}
+
+interface ScriptCardProps {
+    script: FivemScript;
+    index: number;
+    isHovered: boolean;
+    onHover: (id: string | null) => void;
+}
+
+function ScriptGridCard({ script, index, isHovered, onHover }: ScriptCardProps) {
+    return (
+        <div
+            className="h-full animate-fade-in-up"
+            style={{ animationDelay: `${index * 100}ms` }}
+            onMouseEnter={() => onHover(script.id)}
+            onMouseLeave={() => onHover(null)}
+        >
+            <Link href={`/fivem/${script.links.slug}`} className="block h-full">
+                <div className={`relative h-full overflow-hidden rounded-xl bg-card border ${script.deprecated ? 'border-red-500/30' : 'border-color-border'} animated-border transition-all duration-300 group hover:shadow-lg hover:shadow-primary-900/10 ${isHovered ? '-translate-y-2' : ''}`}>
+                    {/* Top gradient accent bar */}
+                    <div className={`absolute top-0 left-0 right-0 h-1.5 ${script.deprecated ? 'bg-gradient-to-r from-red-500 to-red-600' : 'bg-gradient-to-r from-primary-500 to-primary-400'} opacity-60 group-hover:opacity-100 transition-opacity z-10`}></div>
+
+                    {/* Status badge */}
+                    <div className="absolute top-4 right-4 z-20">
+                        <StatusBadge status={script.status} deprecated={script.deprecated} />
+                    </div>
+
+                    {/* Deprecated overlay indicator */}
+                    {script.deprecated && (
+                        <div className="absolute top-4 left-4 z-20 px-2 py-1 rounded bg-red-500/80 text-white text-xs font-bold flex items-center gap-1">
+                            <IoWarning className="w-3 h-3" />
+                            Deprecated
+                        </div>
+                    )}
+
+                    {/* Image */}
+                    <div className="relative h-48 overflow-hidden bg-gradient-to-br from-primary-900/30 to-bg">
+                        {script.images && script.images.length > 0 ? (
+                            <Image
+                                src={script.images[0]}
+                                alt={script.title}
+                                fill
+                                className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            />
+                        ) : (
+                            <FivemScriptLogo title={script.title} />
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent opacity-80"></div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="p-6 relative">
+                        {/* Framework badges */}
+                        <div className="flex gap-2 mb-4">
+                            <FrameworkBadge framework={script.framework} />
+                        </div>
+
+                        {/* Title */}
+                        <h3 className={`text-xl font-bold text-color-text group-hover:text-primary-300 transition-all mb-2 ${isHovered ? 'scale-[1.01]' : ''}`}>
+                            {script.title}
+                        </h3>
+
+                        {/* Description */}
+                        <p className="text-color-text-muted mb-4 line-clamp-2">
+                            {script.description}
+                        </p>
+
+                        {/* Price and version info */}
+                        <div className="flex justify-between items-center mb-6">
+                            <div className="text-primary-300 font-semibold">
+                                {script.price}
+                            </div>
+                            <div className="text-xs text-color-text-muted">
+                                v{script.version}
+                            </div>
+                        </div>
+
+                        {/* Tags */}
+                        <div className="flex flex-wrap gap-1.5 mb-6">
+                            {script.tags.slice(0, 3).map(tag => (
+                                <span key={tag} className="tag bg-primary-900/30 border-primary-700/30 text-xs group-hover:bg-primary-800/40 group-hover:border-primary-600/40 transition-colors">
+                                    {tag}
+                                </span>
+                            ))}
+                            {script.tags.length > 3 && (
+                                <span className="tag bg-primary-900/30 border-primary-700/30 text-xs group-hover:bg-primary-800/40 group-hover:border-primary-600/40 transition-colors">
+                                    +{script.tags.length - 3}
+                                </span>
+                            )}
+                        </div>
+
+                        {/* View details link */}
+                        <div className={`text-primary-400 hover:text-primary-300 transition-all flex items-center gap-1 text-sm font-medium ${isHovered ? 'translate-x-1' : ''}`}>
+                            <span>View details</span>
+                            <IoArrowForward className={`w-3.5 h-3.5 transition-all duration-300 ${isHovered ? 'translate-x-0.5 opacity-100' : 'opacity-80'}`} />
+                        </div>
+                    </div>
+
+                    {/* Subtle hover glow effect */}
+                    <div className={`absolute inset-0 pointer-events-none transition-opacity duration-300 rounded-xl ${isHovered ? 'opacity-100' : 'opacity-0'}`}
+                        style={{ boxShadow: 'inset 0 0 20px rgba(var(--color-primary-500), 0.1)' }}
+                    />
+
+                    {/* Subtle corner decoration */}
+                    <div className="absolute top-0 right-0 w-12 h-12 overflow-hidden opacity-20 group-hover:opacity-40 transition-opacity">
+                        <div className="absolute top-0 right-0 w-8 h-8 bg-primary-500 rotate-45 translate-x-[10px] -translate-y-[10px]"></div>
+                    </div>
+                </div>
+            </Link>
+        </div>
+    );
+}
+
+function ScriptListItem({ script, index, isHovered, onHover }: ScriptCardProps) {
+    return (
+        <div
+            className="group animate-fade-in-up"
+            style={{ animationDelay: `${index * 50}ms` }}
+            onMouseEnter={() => onHover(script.id)}
+            onMouseLeave={() => onHover(null)}
+        >
+            <Link href={`/fivem/${script.links.slug}`}>
+                <div className={`relative overflow-hidden rounded-xl bg-card border ${script.deprecated ? 'border-red-500/30' : 'border-color-border'} animated-border transition-all duration-300 hover:shadow-lg hover:shadow-primary-900/10 group-hover:border-primary-700/30 ${isHovered ? '-translate-y-1' : ''}`}>
+                    {/* Top gradient accent bar */}
+                    <div className={`absolute top-0 left-0 right-0 h-1.5 ${script.deprecated ? 'bg-gradient-to-r from-red-500 to-red-600' : 'bg-gradient-to-r from-primary-500 to-primary-400'} opacity-60 group-hover:opacity-100 transition-opacity z-10`}></div>
+
+                    <div className="flex flex-col md:flex-row">
+                        {/* Image */}
+                        <div className="relative md:w-64 h-40 md:h-auto overflow-hidden bg-gradient-to-br from-primary-900/30 to-bg">
+                            {script.images && script.images.length > 0 ? (
+                                <Image
+                                    src={script.images[0]}
+                                    alt={script.title}
+                                    fill
+                                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                    sizes="(max-width: 768px) 100vw, 256px"
+                                />
+                            ) : (
+                                <FivemScriptLogo title={script.title} />
+                            )}
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent to-card opacity-0 md:opacity-80"></div>
+
+                            {/* Status badge (mobile position) */}
+                            <div className="absolute top-4 right-4 md:hidden">
+                                <StatusBadge status={script.status} deprecated={script.deprecated} />
+                            </div>
+
+                            {/* Deprecated overlay indicator */}
+                            {script.deprecated && (
+                                <div className="absolute top-4 left-4 px-2 py-1 rounded bg-red-500/80 text-white text-xs font-bold flex items-center gap-1 z-10">
+                                    <IoWarning className="w-3 h-3" />
+                                    Deprecated
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Content */}
+                        <div className="p-6 flex-1 relative">
+                            <div className="flex flex-wrap justify-between items-start mb-2">
+                                <div className="flex flex-wrap gap-2 items-center">
+                                    <FrameworkBadge framework={script.framework} />
+
+                                    {/* Status badge (desktop position) */}
+                                    <div className="hidden md:block">
+                                        <StatusBadge status={script.status} deprecated={script.deprecated} />
+                                    </div>
+                                </div>
+
+                                <div className="flex items-center gap-3">
+                                    <div className="text-primary-300 font-semibold">
+                                        {script.price}
+                                    </div>
+                                    <div className="text-xs text-color-text-muted bg-primary-900/30 px-2 py-1 rounded-full">
+                                        v{script.version}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Title */}
+                            <h3 className={`text-xl font-bold text-color-text group-hover:text-primary-300 transition-all mb-2 ${isHovered ? 'scale-[1.01]' : ''}`}>
+                                {script.title}
+                            </h3>
+
+                            {/* Description */}
+                            <p className="text-color-text-muted mb-4 line-clamp-2">
+                                {script.description}
+                            </p>
+
+                            <div className="flex flex-wrap justify-between items-center">
+                                {/* Tags */}
+                                <div className="flex flex-wrap gap-1.5">
+                                    {script.tags.slice(0, 3).map(tag => (
+                                        <span key={tag} className="tag bg-primary-900/30 border-primary-700/30 text-xs group-hover:bg-primary-800/40 group-hover:border-primary-600/40 transition-colors">
+                                            {tag}
+                                        </span>
+                                    ))}
+                                    {script.tags.length > 3 && (
+                                        <span className="tag bg-primary-900/30 border-primary-700/30 text-xs group-hover:bg-primary-800/40 group-hover:border-primary-600/40 transition-colors">
+                                            +{script.tags.length - 3}
+                                        </span>
+                                    )}
+                                </div>
+
+                                {/* View details link */}
+                                <div className={`text-primary-400 hover:text-primary-300 transition-all flex items-center gap-1 text-sm font-medium mt-2 sm:mt-0 ${isHovered ? 'translate-x-1' : ''}`}>
+                                    <span>View details</span>
+                                    <IoArrowForward className={`w-3.5 h-3.5 transition-all duration-300 ${isHovered ? 'translate-x-0.5 opacity-100' : 'opacity-80'}`} />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Subtle hover glow effect */}
+                    <div className={`absolute inset-0 pointer-events-none transition-opacity duration-300 rounded-xl ${isHovered ? 'opacity-100' : 'opacity-0'}`}
+                        style={{ boxShadow: 'inset 0 0 20px rgba(var(--color-primary-500), 0.1)' }}
+                    />
+
+                    {/* Subtle corner decoration */}
+                    <div className="absolute top-0 right-0 w-12 h-12 overflow-hidden opacity-20 group-hover:opacity-40 transition-opacity">
+                        <div className="absolute top-0 right-0 w-8 h-8 bg-primary-500 rotate-45 translate-x-[10px] -translate-y-[10px]"></div>
+                    </div>
+                </div>
+            </Link>
+        </div>
+    );
+}
+
+function StatusBadge({ status, deprecated }: { status: FivemScript['status']; deprecated?: boolean }) {
+    if (deprecated) {
+        return (
+            <span className="px-2 py-1 rounded-full text-xs font-medium bg-red-900/30 text-red-300 border-red-700/30 border flex items-center gap-1">
+                <IoWarning className="w-3 h-3" />
+                Deprecated
+            </span>
+        );
+    }
+
+    let bgColor = 'bg-primary-900/30';
+    let textColor = 'text-primary-300';
+    let borderColor = 'border-primary-700/30';
+
+    if (status === 'Released') {
+        bgColor = 'bg-green-900/30';
+        textColor = 'text-green-300';
+        borderColor = 'border-green-700/30';
+    } else if (status === 'In Development') {
+        bgColor = 'bg-amber-900/30';
+        textColor = 'text-amber-300';
+        borderColor = 'border-amber-700/30';
+    } else if (status === 'Coming Soon') {
+        bgColor = 'bg-purple-900/30';
+        textColor = 'text-purple-300';
+        borderColor = 'border-purple-700/30';
+    } else if (status === 'Archived') {
+        bgColor = 'bg-slate-900/30';
+        textColor = 'text-slate-300';
+        borderColor = 'border-slate-700/30';
+    }
+
+    return (
+        <span className={`px-2 py-1 rounded-full text-xs font-medium ${bgColor} ${textColor} ${borderColor} border`}>
+            {status}
+        </span>
+    );
+}
+
+function FrameworkBadge({ framework }: { framework: FivemScript['framework'] }) {
+    if (framework === 'Both') {
+        return (
+            <>
+                <span className="px-2 py-1 rounded-full text-xs font-medium bg-blue-900/30 text-blue-300 border border-blue-700/30">
+                    ESX
+                </span>
+                <span className="px-2 py-1 rounded-full text-xs font-medium bg-green-900/30 text-green-300 border border-green-700/30">
+                    QBCore
+                </span>
+            </>
+        );
+    }
+
+    let bgColor = 'bg-primary-900/30';
+    let textColor = 'text-primary-300';
+    let borderColor = 'border-primary-700/30';
+
+    if (framework === 'ESX') {
+        bgColor = 'bg-blue-900/30';
+        textColor = 'text-blue-300';
+        borderColor = 'border-blue-700/30';
+    } else if (framework === 'QBCore') {
+        bgColor = 'bg-green-900/30';
+        textColor = 'text-green-300';
+        borderColor = 'border-green-700/30';
+    }
+
+    return (
+        <span className={`px-2 py-1 rounded-full text-xs font-medium ${bgColor} ${textColor} ${borderColor} border`}>
+            {framework}
+        </span>
+    );
+}
