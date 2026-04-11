@@ -21,8 +21,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-bun.lock
-bun.lockb
 
 # others
 .env
@@ -30,8 +28,6 @@ bun.lockb
 .vercel
 next-env.d.ts
 
-bun.lock
-bun.lockb
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
