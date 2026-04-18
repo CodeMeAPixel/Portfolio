@@ -13,17 +13,15 @@ import packageJson from "@/../package.json";
 import {
     IoHomeOutline, IoPersonOutline, IoNewspaperOutline, IoCodeSlashOutline,
     IoFolderOutline, IoStarOutline, IoMailOutline, IoFlashOutline,
-    IoGameControllerOutline, IoGridOutline, IoBookOutline, IoLogoGithub
+    IoGameControllerOutline, IoGridOutline, IoLogoGithub
 } from "react-icons/io5";
 
-// Primary navigation links (always visible)
 const primaryLinks = [
     { href: "/", label: "Home", icon: IoHomeOutline },
     { href: "/about", label: "About", icon: IoPersonOutline },
     { href: "/blog", label: "Blog", icon: IoNewspaperOutline },
 ];
 
-// Dropdown menu items
 const workDropdown = {
     label: "Work",
     icon: IoGridOutline,
@@ -40,11 +38,11 @@ const moreDropdown = {
     icon: IoStarOutline,
     items: [
         { href: "/referrals", label: "Referrals", icon: IoStarOutline, description: "Services I recommend" },
-        { href: "/just-ask", label: "Just Ask", icon: IoFlashOutline, description: "Chat etiquette guide" }
+        { href: "/just-ask", label: "Just Ask", icon: IoFlashOutline, description: "Chat etiquette guide" },
+        { href: '/docs', label: 'Docs', icon: IoGridOutline, description: 'Documentation for my projects' },
     ]
 };
 
-// All links for mobile menu
 const allNavLinks = [
     { href: "/", label: "Home", icon: IoHomeOutline },
     { href: "/about", label: "About", icon: IoPersonOutline },
@@ -167,21 +165,17 @@ export default function Navbar() {
             <div className="relative">
                 <button
                     onClick={() => setActiveDropdown(isOpen ? null : id)}
-                    className={`relative flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 ${hasActiveItem
-                        ? "text-white"
+                    className={`flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-md transition-colors duration-150 ${hasActiveItem
+                        ? "text-color-text"
                         : "text-color-text-muted hover:text-color-text"
                         }`}
                 >
-                    {hasActiveItem && (
-                        <div className="absolute inset-0 bg-gradient-to-r from-primary-600 to-primary-500 rounded-full" />
-                    )}
-                    <span className="relative z-10">{dropdown.label}</span>
-                    <IoChevronDown className={`relative z-10 w-3 h-3 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+                    {dropdown.label}
+                    <IoChevronDown className={`w-3.5 h-3.5 transition-transform duration-150 ${isOpen ? 'rotate-180' : ''}`} />
                 </button>
 
-                {/* Dropdown Menu */}
                 {isOpen && (
-                    <div className="absolute top-full left-0 mt-2 w-56 py-2 bg-bg border border-white/10 rounded-xl shadow-2xl shadow-black/50 animate-fade-in z-50">
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1.5 w-52 py-1 bg-card border border-color-border rounded-lg shadow-xl shadow-black/40 animate-fade-in z-50">
                         {dropdown.items.map((item) => {
                             const isActive = pathname === item.href || pathname?.startsWith(item.href + '/');
                             const Icon = item.icon;
@@ -189,23 +183,23 @@ export default function Navbar() {
                                 <Link
                                     key={item.href}
                                     href={item.href}
-                                    className={`flex items-start gap-3 px-4 py-2.5 transition-all duration-200 ${isActive
+                                    className={`flex items-start gap-3 px-3 py-2.5 mx-1 rounded-md transition-colors duration-150 ${isActive
                                         ? "bg-primary-500/10 text-primary-400"
-                                        : "text-color-text-muted hover:text-color-text hover:bg-white/5"
+                                        : "text-color-text-muted hover:text-color-text hover:bg-card-alt"
                                         }`}
                                     onClick={() => setActiveDropdown(null)}
                                 >
-                                    <Icon className={`w-4 h-4 mt-0.5 flex-shrink-0 ${isActive ? 'text-primary-400' : 'text-primary-500/70'}`} />
-                                    <div className="flex-1 min-w-0">
+                                    <Icon className={`w-4 h-4 mt-0.5 flex-shrink-0 ${isActive ? 'text-primary-400' : ''}`} />
+                                    <div className="min-w-0">
                                         <div className="flex items-center gap-2">
                                             <span className="text-sm font-medium">{item.label}</span>
                                             {item.isNew && (
-                                                <span className="px-1.5 py-0.5 text-[10px] font-bold bg-gradient-to-r from-primary-500 to-accent-500 text-white rounded-full">
+                                                <span className="px-1.5 py-0.5 text-[9px] font-bold bg-primary-500/20 text-primary-400 rounded border border-primary-500/30">
                                                     NEW
                                                 </span>
                                             )}
                                         </div>
-                                        <span className="text-[11px] text-color-text-muted/70 line-clamp-1">{item.description}</span>
+                                        <span className="text-[11px] text-color-text-muted/60 line-clamp-1">{item.description}</span>
                                     </div>
                                 </Link>
                             );
@@ -218,209 +212,143 @@ export default function Navbar() {
 
     return (
         <>
-            <header
-                className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 animate-fade-in`}
-                style={{ animationDelay: '0s' }}
-            >
-                {/* Sleek glassmorphism background */}
-                <div className={`absolute inset-0 transition-all duration-300 ${isScrolled
-                    ? "bg-bg/70 backdrop-blur-2xl border-b border-white/5"
-                    : "bg-gradient-to-b from-bg/50 to-transparent backdrop-blur-sm"
-                    }`}>
-                    {/* Subtle gradient line at bottom when scrolled */}
-                    {isScrolled && (
-                        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"></div>
-                    )}
-                </div>
+            <header className="fixed top-0 left-0 right-0 z-[100] transition-all duration-200">
+                {/* Background */}
+                <div className={`absolute inset-0 transition-all duration-200 ${isScrolled
+                    ? "bg-bg/90 backdrop-blur-xl border-b border-color-border"
+                    : "bg-transparent"
+                    }`} />
 
-                <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
-                    <div className="flex items-center justify-between h-16">
-                        {/* Logo - Compact */}
-                        <Link href="/" className="flex items-center group relative z-10">
-                            <div className="relative hover:scale-105 transition-transform duration-300">
-                                <div className="absolute inset-0 bg-primary-500/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                                <CMAP className="relative w-8 h-8 text-primary-400 fill-primary-500 group-hover:text-primary-300 transition-colors duration-300" />
-                            </div>
-                            <span className="ml-2 text-lg font-bold text-color-text group-hover:text-primary-300 transition-colors hidden sm:block">
+                <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
+                    <div className="flex items-center justify-between h-14">
+                        {/* Logo */}
+                        <Link href="/" className="flex items-center gap-2 group shrink-0">
+                            <CMAP className="w-7 h-7 text-primary-400 fill-primary-500 transition-colors duration-200 group-hover:text-primary-300" />
+                            <span className="text-sm font-semibold text-color-text hidden sm:block">
                                 CodeMeAPixel
                             </span>
                         </Link>
 
-                        {/* Desktop Navigation - Clean with Dropdowns */}
-                        <nav className="hidden lg:flex items-center absolute left-1/2 -translate-x-1/2" ref={dropdownRef}>
-                            <div className="flex items-center gap-0.5 px-1 py-1 rounded-full bg-white/5 backdrop-blur-sm border border-white/5">
-                                {/* Primary Links */}
-                                {primaryLinks.map(({ href, label }) => {
-                                    const isActive = pathname === href || (href !== '/' && pathname?.startsWith(href));
-                                    return (
-                                        <div key={href} className="relative">
-                                            <LinkComponent
-                                                href={href}
-                                                className={`relative px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-300 ${isActive
-                                                    ? "text-white"
-                                                    : "text-color-text-muted hover:text-color-text"
-                                                    }`}
-                                            >
-                                                {isActive && (
-                                                    <div className="absolute inset-0 bg-gradient-to-r from-primary-600 to-primary-500 rounded-full transition-all duration-300" />
-                                                )}
-                                                <span className="relative z-10">{label}</span>
-                                            </LinkComponent>
-                                        </div>
-                                    );
-                                })}
+                        {/* Desktop Navigation */}
+                        <nav className="hidden lg:flex items-center gap-0.5" ref={dropdownRef}>
+                            {primaryLinks.map(({ href, label }) => {
+                                const isActive = pathname === href || (href !== '/' && pathname?.startsWith(href));
+                                return (
+                                    <LinkComponent
+                                        key={href}
+                                        href={href}
+                                        className={`px-3 py-2 text-sm font-medium rounded-md transition-colors duration-150 ${isActive
+                                            ? "text-color-text"
+                                            : "text-color-text-muted hover:text-color-text"
+                                            }`}
+                                    >
+                                        {label}
+                                    </LinkComponent>
+                                );
+                            })}
 
-                                {/* Divider */}
-                                <div className="w-px h-4 bg-white/10 mx-1"></div>
+                            <div className="w-px h-4 bg-color-border mx-1" />
+                            <NavDropdown dropdown={workDropdown} id="work" />
+                            <NavDropdown dropdown={moreDropdown} id="more" />
+                            <div className="w-px h-4 bg-color-border mx-1" />
 
-                                {/* Work Dropdown */}
-                                <NavDropdown dropdown={workDropdown} id="work" />
-
-                                {/* More Dropdown */}
-                                <NavDropdown dropdown={moreDropdown} id="more" />
-
-                                {/* Divider */}
-                                <div className="w-px h-4 bg-white/10 mx-1"></div>
-
-                                {/* Contact - Always visible */}
-                                <LinkComponent
-                                    href="/contact"
-                                    className={`relative px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-300 ${pathname === '/contact'
-                                        ? "text-white"
-                                        : "text-color-text-muted hover:text-color-text"
-                                        }`}
-                                >
-                                    {pathname === '/contact' && (
-                                        <div className="absolute inset-0 bg-gradient-to-r from-primary-600 to-primary-500 rounded-full transition-all duration-300" />
-                                    )}
-                                    <span className="relative z-10">Contact</span>
-                                </LinkComponent>
-                            </div>
+                            <LinkComponent
+                                href="/contact"
+                                className={`px-3 py-2 text-sm font-medium rounded-md transition-colors duration-150 ${pathname === '/contact'
+                                    ? "text-color-text"
+                                    : "text-color-text-muted hover:text-color-text"
+                                    }`}
+                            >
+                                Contact
+                            </LinkComponent>
                         </nav>
 
-                        {/* Right side - Theme + GitHub */}
-                        <div className="hidden lg:flex items-center gap-3 relative z-10">
+                        {/* Right side */}
+                        <div className="hidden lg:flex items-center gap-2 shrink-0">
                             <a
                                 href="https://github.com/CodeMeAPixel/Portfolio"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="flex items-center gap-1.5 text-xs font-medium text-color-text-muted hover:text-primary-400 transition-colors hover:scale-102"
+                                className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-color-text-muted hover:text-color-text border border-color-border rounded-md hover:border-primary-500/30 transition-all duration-150"
                             >
-                                <FaStar className="w-3.5 h-3.5" />
-                                <span className="hidden xl:inline">Star</span>
+                                <FaStar className="w-3 h-3" />
+                                <span>Star</span>
                             </a>
-                            <div className="w-px h-4 bg-white/10"></div>
-                            <ThemeSelector />
+                            {isLoaded && <ThemeSelector />}
                         </div>
 
-                        {/* Mobile Navigation Toggle */}
-                        <div className="flex items-center lg:hidden gap-2 relative z-10">
-                            {renderThemeUI()}
-
+                        {/* Mobile controls */}
+                        <div className="flex items-center gap-2 lg:hidden">
+                            {isLoaded && <MobileThemeMenu />}
                             <button
-                                className={`relative p-2 rounded-lg transition-all duration-300 active:scale-95 ${isMenuOpen
-                                    ? 'bg-primary-500 text-white'
-                                    : 'bg-white/5 text-color-text-muted hover:text-primary-400 hover:bg-white/10'
+                                className={`p-2 rounded-md transition-colors duration-150 ${isMenuOpen
+                                    ? 'bg-primary-500/10 text-primary-400'
+                                    : 'text-color-text-muted hover:text-color-text hover:bg-card'
                                     }`}
                                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                                 aria-label={isMenuOpen ? "Close menu" : "Open menu"}
                                 aria-expanded={isMenuOpen}
                             >
-                                {!isMenuOpen ? (
-                                    <IoMenu className="w-5 h-5" />
-                                ) : (
-                                    <IoClose className="w-5 h-5" />
-                                )}
+                                {isMenuOpen ? <IoClose className="w-5 h-5" /> : <IoMenu className="w-5 h-5" />}
                             </button>
                         </div>
                     </div>
                 </div>
 
-                {/* Mobile Navigation Menu - Compact Slide */}
+                {/* Mobile Menu */}
                 {isMenuOpen && (
                     <>
-                        {/* Backdrop */}
                         <div
-                            className="fixed inset-0 bg-black/70 backdrop-blur-md lg:hidden animate-fade-in"
+                            className="fixed inset-0 bg-black/60 backdrop-blur-sm lg:hidden"
                             style={{ zIndex: 9998 }}
                             onClick={() => setIsMenuOpen(false)}
                         />
-
-                        {/* Menu Panel - Sleek */}
                         <div
-                            className="fixed top-16 left-3 right-3 lg:hidden bg-bg border border-white/10 shadow-2xl overflow-hidden animate-fade-in rounded-2xl"
-                            style={{ zIndex: 9999, maxHeight: 'calc(100vh - 80px)' }}
+                            className="fixed top-14 left-3 right-3 lg:hidden bg-card border border-color-border shadow-2xl shadow-black/50 overflow-hidden animate-fade-in rounded-xl"
+                            style={{ zIndex: 9999, maxHeight: 'calc(100vh - 72px)' }}
                         >
-                            {/* Menu Header with Close Button */}
-                            <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
-                                <span className="text-sm font-medium text-text-muted">Menu</span>
-                                <button
-                                    onClick={() => setIsMenuOpen(false)}
-                                    className="p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-text-muted hover:text-primary-400 transition-all duration-200 active:scale-95"
+                            <div className="py-2 px-1.5 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 120px)' }}>
+                                {allNavLinks.map(({ href, label, icon: Icon, isNew }) => {
+                                    const isActive = pathname === href || (href !== '/' && pathname?.startsWith(href));
+                                    return (
+                                        <LinkComponent
+                                            key={href}
+                                            href={href}
+                                            className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors duration-150 ${isActive
+                                                ? "bg-primary-500/10 text-primary-400"
+                                                : "text-color-text-muted hover:text-color-text hover:bg-card-alt"
+                                                }`}
+                                            onClick={() => setIsMenuOpen(false)}
+                                        >
+                                            {Icon && <Icon className="w-4 h-4 flex-shrink-0" />}
+                                            <span className="text-sm font-medium">{label}</span>
+                                            {isNew && (
+                                                <span className="ml-auto px-1.5 py-0.5 text-[9px] font-bold bg-primary-500/20 text-primary-400 rounded border border-primary-500/30">
+                                                    NEW
+                                                </span>
+                                            )}
+                                        </LinkComponent>
+                                    );
+                                })}
+                            </div>
+
+                            <div className="px-4 py-2.5 border-t border-color-border flex items-center justify-between">
+                                <span className="text-[11px] text-color-text-muted">v{packageJson.version}</span>
+                                <a
+                                    href="https://github.com/CodeMeAPixel/Portfolio"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-1.5 text-[11px] text-primary-400 hover:text-primary-300 transition-colors"
                                 >
-                                    <IoClose className="w-5 h-5" />
-                                </button>
-                            </div>
-
-                            <div className="py-2 px-2 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 180px)' }}>
-                                <div className="grid gap-0.5">
-                                    {allNavLinks.map(({ href, label, icon: Icon, isNew }, index) => {
-                                        const isActive = pathname === href || (href !== '/' && pathname?.startsWith(href));
-                                        return (
-                                            <div
-                                                key={href}
-                                                className="animate-fade-in"
-                                                style={{ animationDelay: `${index * 0.03}s` }}
-                                            >
-                                                <LinkComponent
-                                                    href={href}
-                                                    className={`flex items-center px-3 py-2.5 rounded-xl transition-all duration-200 ${isActive
-                                                        ? "text-white bg-gradient-to-r from-primary-600 to-primary-500"
-                                                        : "text-color-text-muted hover:text-color-text hover:bg-white/5"
-                                                        }`}
-                                                    onClick={() => setIsMenuOpen(false)}
-                                                >
-                                                    {Icon && (
-                                                        <Icon className={`w-4 h-4 mr-3 ${isActive ? 'text-white' : 'text-primary-400'}`} />
-                                                    )}
-                                                    <span className="text-sm font-medium">{label}</span>
-                                                    {isNew && (
-                                                        <span className="ml-2 px-1.5 py-0.5 text-[10px] font-bold bg-gradient-to-r from-primary-500 to-accent-500 text-white rounded-full">
-                                                            NEW
-                                                        </span>
-                                                    )}
-                                                    {isActive && (
-                                                        <div className="ml-auto w-1.5 h-1.5 rounded-full bg-white"></div>
-                                                    )}
-                                                </LinkComponent>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            </div>
-
-                            {/* Compact footer */}
-                            <div className="px-3 py-2.5 border-t border-white/5 bg-white/[0.02]">
-                                <div className="flex items-center justify-between text-[10px] text-color-text-muted">
-                                    <div className="flex items-center gap-1.5">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>
-                                        <span>v{packageJson.version}</span>
-                                    </div>
-                                    <a
-                                        href="https://github.com/CodeMeAPixel/Portfolio"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="flex items-center gap-1 text-primary-400 hover:text-primary-300 transition-colors"
-                                    >
-                                        <FaStar className="w-3 h-3" />
-                                        <span>GitHub</span>
-                                    </a>
-                                </div>
+                                    <FaStar className="w-3 h-3" />
+                                    <span>Star on GitHub</span>
+                                </a>
                             </div>
                         </div>
                     </>
                 )}
-            </header>
+
+            </header >
 
         </>
     );

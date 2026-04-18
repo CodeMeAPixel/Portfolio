@@ -140,21 +140,9 @@ export default function ProjectsContent({
 
     return (
         <section className="pt-20 pb-24 md:pt-24 md:pb-32 bg-bg relative overflow-hidden">
-            {/* Premium background */}
-            <div className="absolute inset-0">
-                <div className="absolute inset-0 bg-aurora opacity-40"></div>
-                <div className="absolute inset-0 bg-dot-pattern opacity-20"></div>
-            </div>
+            {/* Background */}
+            <div className="absolute inset-0 bg-dot-pattern opacity-20" />
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"></div>
-
-            {/* Floating orbs */}
-            <div
-                className="absolute top-[10%] right-[5%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-primary-500/20 to-primary-600/5 blur-[100px] animate-pulse"
-            />
-            <div
-                className="absolute bottom-[20%] left-[10%] w-[400px] h-[400px] rounded-full bg-gradient-to-tl from-primary-400/15 to-transparent blur-[80px] animate-pulse"
-                style={{ animationDelay: '2s' }}
-            />
 
             <div className="container-section relative z-10">
                 {/* Header */}
@@ -164,17 +152,15 @@ export default function ProjectsContent({
                     <div>
                         <div className="flex justify-center md:justify-start mb-8">
                             <span
-                                className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-primary-300 glass-ultra rounded-full border border-primary-500/20 shadow-lg shadow-primary-500/10 shine-sweep animate-fade-in"
+                                className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-primary-400 border border-color-border bg-card/50 rounded-full"
                             >
-                                <div className="p-1.5 rounded-lg bg-gradient-to-r from-primary-500/30 to-accent-500/30">
-                                    <IoSparkles className="w-4 h-4" />
-                                </div>
+                                <IoSparkles className="w-4 h-4" />
                                 Portfolio Showcase
                             </span>
                         </div>
                         <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-center md:text-left mb-4">
                             <span className="text-color-text">My </span>
-                            <span className="animated-gradient-text text-shadow-glow">Projects</span>
+                            <span className="animated-gradient-text">Projects</span>
                         </h1>
                         <p className="text-color-text-muted text-center md:text-left text-lg md:text-xl max-w-xl">
                             <span className="text-primary-400 font-semibold">{filteredProjects.length}</span> project{filteredProjects.length !== 1 ? 's' : ''} showcasing my skills and experience
@@ -184,12 +170,12 @@ export default function ProjectsContent({
                     {/* Desktop Controls */}
                     <div className="flex gap-3 mt-8 md:mt-0 justify-center md:justify-end items-center flex-wrap">
                         {/* Layout switcher */}
-                        <div className="hidden md:flex rounded-xl overflow-hidden glass-frost border border-white/10 p-1 gap-1">
+                        <div className="hidden md:flex rounded-lg overflow-hidden border border-color-border bg-card p-1 gap-1">
                             <button
                                 onClick={() => setLayout('grid')}
                                 className={`p-2.5 rounded-lg flex items-center justify-center transition-all duration-300 ${layout === 'grid'
-                                    ? 'bg-gradient-to-r from-primary-500 to-accent-500 text-white shadow-lg shadow-primary-500/30'
-                                    : 'text-color-text-muted hover:bg-white/10 hover:text-primary-300'
+                                    ? 'bg-primary-500 text-white'
+                                    : 'text-color-text-muted hover:bg-card-alt'
                                     }`}
                                 aria-label="Grid view"
                             >
@@ -198,8 +184,8 @@ export default function ProjectsContent({
                             <button
                                 onClick={() => setLayout('table')}
                                 className={`p-2.5 rounded-lg flex items-center justify-center transition-all duration-300 ${layout === 'table'
-                                    ? 'bg-gradient-to-r from-primary-500 to-accent-500 text-white shadow-lg shadow-primary-500/30'
-                                    : 'text-color-text-muted hover:bg-white/10 hover:text-primary-300'
+                                    ? 'bg-primary-500 text-white'
+                                    : 'text-color-text-muted hover:bg-card-alt'
                                     }`}
                                 aria-label="Table view"
                             >
@@ -211,7 +197,7 @@ export default function ProjectsContent({
                         <div className="hidden md:block">
                             <DropdownMenu.Root open={sortOpen} onOpenChange={setSortOpen} modal={false}>
                                 <DropdownMenu.Trigger asChild>
-                                    <button className="px-4 py-2.5 rounded-xl glass-frost border border-white/10 text-color-text text-sm flex items-center gap-2 hover:bg-white/10 hover:border-primary-500/30 transition-all duration-300 focus:outline-none" type="button">
+                                    <button className="px-4 py-2.5 rounded-xl border border-color-border bg-card text-color-text text-sm flex items-center gap-2 hover:bg-card-alt hover:border-primary-500/30 transition-all duration-300 focus:outline-none" type="button">
                                         <IoSwapVertical className="w-4 h-4 text-primary-400" />
                                         <span>{getSortOptionText(sortBy)}</span>
                                         <IoChevronDown className="w-3 h-3 ml-1 transition-transform duration-300" style={{ transform: sortOpen ? 'rotate(180deg)' : 'none' }} />
@@ -219,18 +205,18 @@ export default function ProjectsContent({
                                 </DropdownMenu.Trigger>
                                 <DropdownMenu.Portal>
                                     <DropdownMenu.Content
-                                        className="dropdown-animate z-[200] min-w-[220px] p-2 bg-card/95 backdrop-blur-2xl border border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.6)] rounded-2xl overflow-hidden"
+                                        className="dropdown-animate z-[200] min-w-[220px] p-2 bg-card/95 backdrop-blur-2xl border border-color-border shadow-[0_20px_50px_rgba(0,0,0,0.6)] rounded-2xl overflow-hidden"
                                         align="end"
                                         sideOffset={8}
                                     >
                                         {(['date-desc', 'date-asc', 'alphabetical'] as SortOption[]).map((option) => (
                                             <DropdownMenu.Item
                                                 key={option}
-                                                className={`group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between ${sortBy === option ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20' : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'}`}
+                                                className={`group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between ${sortBy === option ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20' : 'text-color-text-muted hover:bg-card-alt hover:text-color-text'}`}
                                                 onClick={() => setSortBy(option)}
                                             >
                                                 <div className="flex items-center gap-3">
-                                                    <div className={`p-1.5 rounded-lg transition-colors ${sortBy === option ? 'bg-primary-500/20' : 'bg-white/5 group-hover:bg-white/10'}`}>
+                                                    <div className={`p-1.5 rounded-lg transition-colors ${sortBy === option ? 'bg-primary-500/20' : 'bg-card-alt group-hover:bg-card-alt'}`}>
                                                         <IoCalendarOutline className="w-4 h-4" />
                                                     </div>
                                                     <span>{getSortOptionText(option)}</span>
@@ -255,12 +241,12 @@ export default function ProjectsContent({
                                         value={searchQuery}
                                         onChange={(e) => setSearchQuery(e.target.value)}
                                         placeholder="Search projects..."
-                                        className="w-[220px] px-4 py-2.5 rounded-l-xl glass-frost border border-r-0 border-white/10 text-color-text placeholder:text-color-text-muted/70 text-sm focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 outline-none transition-all duration-300"
+                                        className="w-[220px] px-4 py-2.5 rounded-l-xl border border-r-0 border-color-border bg-card text-color-text placeholder:text-color-text-muted/70 text-sm focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 outline-none transition-all duration-300"
                                         onKeyDown={(e) => e.key === 'Escape' && toggleSearch()}
                                     />
                                     <button
                                         onClick={toggleSearch}
-                                        className="px-3 py-2.5 rounded-r-xl glass-frost border border-l-0 border-white/10 text-primary-300 hover:bg-white/10 hover:text-primary-200 transition-all duration-300"
+                                        className="px-3 py-2.5 rounded-r-xl border border-l-0 border-color-border bg-card text-primary-300 hover:bg-card-alt hover:text-primary-200 transition-all duration-300"
                                         aria-label="Close search"
                                     >
                                         <IoClose className="w-4 h-4" />
@@ -269,7 +255,7 @@ export default function ProjectsContent({
                             ) : (
                                 <button
                                     onClick={toggleSearch}
-                                    className="px-4 py-2.5 rounded-xl glass-frost border border-white/10 text-primary-300 text-sm flex items-center gap-2 hover:bg-white/10 hover:border-primary-500/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 focus:outline-none"
+                                    className="px-4 py-2.5 rounded-xl border border-color-border bg-card text-primary-300 text-sm flex items-center gap-2 hover:bg-card-alt hover:border-primary-500/30 transition-all duration-300 focus:outline-none"
                                     aria-label="Search projects"
                                 >
                                     <IoSearch className="w-4 h-4" />
@@ -282,7 +268,7 @@ export default function ProjectsContent({
                         <div className={`hidden md:block ${isSearching ? 'md:hidden' : ''}`}>
                             <DropdownMenu.Root open={filterOpen} onOpenChange={setFilterOpen} modal={false}>
                                 <DropdownMenu.Trigger asChild>
-                                    <button className="relative px-4 py-2.5 rounded-xl glass-frost border border-white/10 text-primary-300 text-sm flex items-center gap-2 hover:bg-white/10 hover:border-primary-500/30 transition-all duration-300 focus:outline-none" type="button">
+                                    <button className="relative px-4 py-2.5 rounded-xl border border-color-border bg-card text-primary-300 text-sm flex items-center gap-2 hover:bg-card-alt hover:border-primary-500/30 transition-all duration-300 focus:outline-none" type="button">
                                         <IoBookmarkOutline className="w-4 h-4" />
                                         <span className="hidden sm:inline">{activeFilter === 'All' ? 'All technologies' : activeFilter}</span>
                                         <span className="sm:hidden">Filter</span>
@@ -291,7 +277,7 @@ export default function ProjectsContent({
                                 </DropdownMenu.Trigger>
                                 <DropdownMenu.Portal>
                                     <DropdownMenu.Content
-                                        className="dropdown-animate z-[200] min-w-[240px] max-h-[300px] overflow-y-auto p-2 bg-card/95 backdrop-blur-2xl border border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.6)] rounded-2xl custom-scrollbar"
+                                        className="dropdown-animate z-[200] min-w-[240px] max-h-[300px] overflow-y-auto p-2 bg-card/95 backdrop-blur-2xl border border-color-border shadow-[0_20px_50px_rgba(0,0,0,0.6)] rounded-2xl custom-scrollbar"
                                         align="end"
                                         sideOffset={8}
                                     >
@@ -303,12 +289,12 @@ export default function ProjectsContent({
                                                 key={tag}
                                                 className={`group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between ${activeFilter === tag
                                                     ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20'
-                                                    : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'
+                                                    : 'text-color-text-muted hover:bg-card-alt hover:text-color-text'
                                                     }`}
                                                 onClick={() => { setActiveFilter(tag); setFilterOpen(false); }}
                                             >
                                                 <div className="flex items-center gap-3">
-                                                    <div className={`w-2 h-2 rounded-full transition-all ${activeFilter === tag ? 'bg-primary-500 shadow-[0_0_8px_rgba(var(--color-primary),0.5)]' : 'bg-white/20 group-hover:bg-white/40'}`} />
+                                                    <div className={`w-2 h-2 rounded-full transition-all ${activeFilter === tag ? 'bg-primary-500 shadow-[0_0_8px_rgba(var(--color-primary),0.5)]' : 'bg-card-alt group-hover:bg-card-alt'}`} />
                                                     <span>{tag}</span>
                                                 </div>
                                                 {activeFilter === tag && <IoCheckmarkCircleOutline className="w-4 h-4 text-primary-400" />}
@@ -325,12 +311,12 @@ export default function ProjectsContent({
                 <div className="flex flex-col gap-4 mb-8 md:hidden">
                     <div className="flex justify-between items-center">
                         <span className="text-sm text-color-text-muted">View:</span>
-                        <div className="flex rounded-xl overflow-hidden glass-frost border border-white/10 p-1 gap-1">
+                        <div className="flex rounded-lg overflow-hidden border border-color-border bg-card p-1 gap-1">
                             <button
                                 onClick={() => setLayout('grid')}
                                 className={`p-2 rounded-lg transition-all duration-300 ${layout === 'grid'
-                                    ? 'bg-gradient-to-r from-primary-500 to-accent-500 text-white shadow-lg shadow-primary-500/30'
-                                    : 'text-color-text-muted hover:bg-white/10 hover:text-primary-300'
+                                    ? 'bg-primary-500 text-white'
+                                    : 'text-color-text-muted hover:bg-card-alt'
                                     }`}
                             >
                                 <IoGridOutline className="w-4 h-4" />
@@ -338,8 +324,8 @@ export default function ProjectsContent({
                             <button
                                 onClick={() => setLayout('table')}
                                 className={`p-2 rounded-lg transition-all duration-300 ${layout === 'table'
-                                    ? 'bg-gradient-to-r from-primary-500 to-accent-500 text-white shadow-lg shadow-primary-500/30'
-                                    : 'text-color-text-muted hover:bg-white/10 hover:text-primary-300'
+                                    ? 'bg-primary-500 text-white'
+                                    : 'text-color-text-muted hover:bg-card-alt'
                                     }`}
                             >
                                 <IoListOutline className="w-4 h-4" />
@@ -356,7 +342,7 @@ export default function ProjectsContent({
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             placeholder="Search projects..."
-                            className="w-full pl-11 pr-10 py-3 rounded-xl glass-frost border border-white/10 text-color-text placeholder:text-color-text-muted/70 text-sm focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 outline-none transition-all duration-300"
+                            className="w-full pl-11 pr-10 py-3 rounded-xl border border-color-border bg-card text-color-text placeholder:text-color-text-muted/70 text-sm focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 outline-none transition-all duration-300"
                             onKeyDown={(e) => e.key === 'Escape' && setSearchQuery('')}
                         />
                         {searchQuery && (
@@ -376,7 +362,7 @@ export default function ProjectsContent({
                                     key={tag}
                                     className={`px-4 py-2 rounded-xl text-sm whitespace-nowrap transition-all duration-300 ${activeFilter === tag
                                         ? 'bg-gradient-to-r from-primary-500/20 to-accent-500/20 text-primary-300 border border-primary-500/30 shadow-lg shadow-primary-500/10'
-                                        : 'glass-frost text-color-text-muted border border-white/10 hover:bg-white/10 hover:text-primary-300'
+                                        : 'border border-color-border bg-card text-color-text-muted hover:bg-card-alt hover:text-primary-300'
                                         }`}
                                     onClick={() => setActiveFilter(tag)}
                                 >
@@ -398,7 +384,7 @@ export default function ProjectsContent({
                                     onClick={() => setSortBy(option)}
                                     className={`px-3 py-1.5 rounded-lg text-xs transition-all duration-300 ${sortBy === option
                                         ? 'bg-gradient-to-r from-primary-500/20 to-accent-500/20 text-primary-300 border border-primary-500/30'
-                                        : 'glass-frost text-color-text-muted border border-white/10 hover:bg-white/10'
+                                        : 'border border-color-border bg-card text-color-text-muted hover:bg-card-alt'
                                         }`}
                                 >
                                     {option === 'date-desc' ? 'Newest' : option === 'date-asc' ? 'Oldest' : 'A-Z'}
@@ -411,7 +397,7 @@ export default function ProjectsContent({
                 {/* Search Results Summary */}
                 {debouncedSearchQuery && (
                     <div
-                        className="mb-8 p-4 glass-ultra rounded-xl border border-white/10 flex justify-between items-center animate-fade-in"
+                        className="mb-8 p-4 border border-color-border bg-card rounded-xl flex justify-between items-center animate-fade-in"
                     >
                         <p className="text-color-text-muted text-sm">
                             Found <span className="text-primary-300 font-semibold">{filteredProjects.length}</span> result{filteredProjects.length !== 1 ? 's' : ''} for &quot;<span className="text-color-text font-medium">{debouncedSearchQuery}</span>&quot;
@@ -419,7 +405,7 @@ export default function ProjectsContent({
                         </p>
                         <button
                             onClick={() => setSearchQuery('')}
-                            className="p-2 rounded-lg glass-frost text-color-text-muted hover:text-primary-400 hover:bg-white/10 transition-all duration-300"
+                            className="p-2 rounded-lg border border-color-border bg-card text-color-text-muted hover:text-primary-400 hover:bg-card-alt transition-all duration-300"
                         >
                             <IoClose className="w-4 h-4" />
                         </button>
@@ -465,7 +451,7 @@ export default function ProjectsContent({
 
                         {/* Pagination Controls */}
                         {totalPages > 1 && (
-                            <div className="flex items-center justify-between mt-12 pt-8 border-t border-white/10">
+                            <div className="flex items-center justify-between mt-12 pt-8 border-t border-color-border">
                                 <div className="text-sm text-color-text-muted">
                                     Showing <span className="text-primary-300 font-semibold">{startIndex + 1}</span>-<span className="text-primary-300 font-semibold">{Math.min(endIndex, filteredProjects.length)}</span> of <span className="text-primary-300 font-semibold">{filteredProjects.length}</span>
                                 </div>
@@ -475,8 +461,8 @@ export default function ProjectsContent({
                                         onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                                         disabled={currentPage === 1}
                                         className={`p-2.5 rounded-lg transition-all duration-300 flex items-center gap-2 ${currentPage === 1
-                                            ? 'text-color-text-muted/50 cursor-not-allowed bg-white/5'
-                                            : 'text-primary-300 hover:bg-white/10 hover:text-primary-200 glass-frost border border-white/10'
+                                            ? 'border border-color-border bg-card text-color-text-muted opacity-40 cursor-not-allowed'
+                                            : 'text-primary-300 hover:bg-card-alt hover:text-primary-200 border border-color-border bg-card'
                                             }`}
                                         aria-label="Previous page"
                                     >
@@ -490,8 +476,8 @@ export default function ProjectsContent({
                                                 key={page}
                                                 onClick={() => setCurrentPage(page)}
                                                 className={`w-10 h-10 rounded-lg transition-all duration-300 text-sm font-medium ${currentPage === page
-                                                    ? 'bg-gradient-to-r from-primary-600 to-primary-400 text-white shadow-lg shadow-primary-500/30'
-                                                    : 'glass-frost text-color-text-muted border border-white/10 hover:bg-white/10 hover:text-primary-300'
+                                                    ? 'bg-primary-500 text-white border border-primary-500'
+                                                    : 'border border-color-border bg-card hover:bg-card-alt text-color-text-muted'
                                                     }`}
                                             >
                                                 {page}
@@ -503,8 +489,8 @@ export default function ProjectsContent({
                                         onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
                                         disabled={currentPage === totalPages}
                                         className={`p-2.5 rounded-lg transition-all duration-300 flex items-center gap-2 ${currentPage === totalPages
-                                            ? 'text-color-text-muted/50 cursor-not-allowed bg-white/5'
-                                            : 'text-primary-300 hover:bg-white/10 hover:text-primary-200 glass-frost border border-white/10'
+                                            ? 'border border-color-border bg-card text-color-text-muted opacity-40 cursor-not-allowed'
+                                            : 'text-primary-300 hover:bg-card-alt hover:text-primary-200 border border-color-border bg-card'
                                             }`}
                                         aria-label="Next page"
                                     >
@@ -517,7 +503,7 @@ export default function ProjectsContent({
                     </>
                 ) : (
                     <div
-                        className="text-center p-12 glass-ultra border border-white/10 rounded-2xl shine-sweep animate-fade-up"
+                        className="text-center p-12 border border-color-border bg-card rounded-2xl animate-fade-up"
                     >
                         <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-r from-primary-500/20 to-accent-500/20 flex items-center justify-center">
                             <IoSearch className="w-8 h-8 text-primary-400" />
@@ -534,7 +520,7 @@ export default function ProjectsContent({
                             {debouncedSearchQuery && (
                                 <button
                                     onClick={() => setSearchQuery('')}
-                                    className="px-6 py-3 rounded-xl glass-frost border border-white/10 text-color-text hover:bg-white/10 hover:border-primary-500/30 transition-all duration-300 flex items-center gap-2"
+                                    className="px-6 py-3 rounded-xl border border-color-border bg-card text-color-text hover:bg-card-alt hover:border-primary-500/30 transition-all duration-300 flex items-center gap-2"
                                 >
                                     <IoClose className="w-4 h-4" />
                                     Clear Search

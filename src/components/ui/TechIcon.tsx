@@ -164,7 +164,7 @@ export function TechIcon({ name, size = 20, className = '' }: TechIconProps) {
     // Fallback: show a premium styled badge with the first letter
     return (
         <span
-            className={`inline-flex items-center justify-center bg-gradient-to-br from-primary-500/30 to-accent-500/20 backdrop-blur-sm rounded-lg font-bold text-primary-300 border border-primary-500/20 shadow-sm shadow-primary-500/10 ${className}`}
+            className={`inline-flex items-center justify-center bg-card rounded-lg font-bold text-primary-300 border border-color-border ${className}`}
             style={{ width: size, height: size, fontSize: size * 0.55 }}
             title={name}
         >

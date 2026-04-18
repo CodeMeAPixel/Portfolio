@@ -142,21 +142,9 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
 
     return (
         <section className="pt-20 pb-24 md:pt-24 md:pb-32 bg-bg relative z-10 overflow-hidden">
-            {/* Premium multi-layer background */}
-            <div className="absolute inset-0">
-                <div className="absolute inset-0 bg-aurora opacity-30"></div>
-                <div className="absolute inset-0 bg-dot-pattern opacity-20"></div>
-            </div>
+            {/* Background */}
+            <div className="absolute inset-0 bg-dot-pattern opacity-20" />
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"></div>
-
-            {/* Animated floating orbs */}
-            <div
-                className="absolute top-[20%] left-[5%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-primary-500/15 to-primary-600/5 blur-[100px] animate-pulse"
-            />
-            <div
-                className="absolute bottom-[30%] right-[10%] w-[400px] h-[400px] rounded-full bg-gradient-to-tl from-primary-400/10 to-transparent blur-[80px] animate-pulse"
-                style={{ animationDelay: '3s' }}
-            />
 
             {/* Header section */}
             <div className="container-section relative">
@@ -165,7 +153,7 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
                 >
                     <div>
                         <span
-                            className="inline-flex items-center gap-2 px-4 py-2 mb-6 text-sm font-semibold text-primary-300 glass-frost rounded-full animate-fade-in"
+                            className="inline-flex items-center gap-2 px-4 py-2 mb-6 text-sm font-semibold text-primary-300 border border-color-border bg-card/50 rounded-full animate-fade-in"
                             style={{ animationDelay: '0.1s' }}
                         >
                             <IoBookmarkOutline className="w-4 h-4" />
@@ -173,7 +161,7 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
                         </span>
                         <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-center md:text-left mb-4">
                             <span className="text-color-text">My </span>
-                            <span className="animated-gradient-text text-shadow-glow">Blog</span>
+                            <span className="animated-gradient-text">Blog</span>
                         </h1>
                         <p className="text-color-text-muted text-center md:text-left text-lg">
                             {filteredPosts.length} article{filteredPosts.length !== 1 ? 's' : ''} on web development and technology
@@ -182,11 +170,11 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
 
                     <div className="flex gap-3 mt-6 md:mt-0 justify-center md:justify-end items-center flex-wrap">
                         {/* Layout switcher - Hidden on mobile */}
-                        <div className="hidden md:flex rounded-xl overflow-hidden glass-frost">
+                        <div className="hidden md:flex rounded-xl overflow-hidden border border-color-border bg-card">
                             <button
                                 onClick={() => setLayout('grid')}
                                 className={`p-2.5 flex items-center justify-center transition-all ${layout === 'grid'
-                                    ? 'bg-primary-500/30 text-primary-300'
+                                    ? 'bg-primary-500 text-white'
                                     : 'text-color-text-muted hover:text-primary-300'
                                     }`}
                                 aria-label="Grid view"
@@ -197,7 +185,7 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
                             <button
                                 onClick={() => setLayout('list')}
                                 className={`p-2.5 flex items-center justify-center transition-all ${layout === 'list'
-                                    ? 'bg-primary-500/30 text-primary-300'
+                                    ? 'bg-primary-500 text-white'
                                     : 'text-color-text-muted hover:text-primary-300'
                                     }`}
                                 aria-label="List view"
@@ -224,12 +212,12 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
                                         sideOffset={8}
                                     >
                                         <DropdownMenu.Item
-                                            className={`group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between ${sortBy === 'date-desc' ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20' : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'
+                                            className={`group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between ${sortBy === 'date-desc' ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20' : 'text-color-text-muted hover:bg-card-alt hover:text-color-text'
                                                 }`}
                                             onClick={() => setSortBy('date-desc')}
                                         >
                                             <div className="flex items-center gap-3">
-                                                <div className={`p-1.5 rounded-lg transition-colors ${sortBy === 'date-desc' ? 'bg-primary-500/20' : 'bg-white/5 group-hover:bg-white/10'}`}>
+                                                <div className={`p-1.5 rounded-lg transition-colors ${sortBy === 'date-desc' ? 'bg-primary-500/20' : 'bg-card-alt group-hover:bg-card-alt'}`}>
                                                     <IoCalendarOutline className="w-4 h-4" />
                                                 </div>
                                                 <span>Newest first</span>
@@ -238,12 +226,12 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
                                         </DropdownMenu.Item>
 
                                         <DropdownMenu.Item
-                                            className={`group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between ${sortBy === 'date-asc' ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20' : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'
+                                            className={`group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between ${sortBy === 'date-asc' ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20' : 'text-color-text-muted hover:bg-card-alt hover:text-color-text'
                                                 }`}
                                             onClick={() => setSortBy('date-asc')}
                                         >
                                             <div className="flex items-center gap-3">
-                                                <div className={`p-1.5 rounded-lg transition-colors ${sortBy === 'date-asc' ? 'bg-primary-500/20' : 'bg-white/5 group-hover:bg-white/10'}`}>
+                                                <div className={`p-1.5 rounded-lg transition-colors ${sortBy === 'date-asc' ? 'bg-primary-500/20' : 'bg-card-alt group-hover:bg-card-alt'}`}>
                                                     <IoCalendarOutline className="w-4 h-4" />
                                                 </div>
                                                 <span>Oldest first</span>
@@ -252,12 +240,12 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
                                         </DropdownMenu.Item>
 
                                         <DropdownMenu.Item
-                                            className={`group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between ${sortBy === 'alphabetical' ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20' : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'
+                                            className={`group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between ${sortBy === 'alphabetical' ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20' : 'text-color-text-muted hover:bg-card-alt hover:text-color-text'
                                                 }`}
                                             onClick={() => setSortBy('alphabetical')}
                                         >
                                             <div className="flex items-center gap-3">
-                                                <div className={`p-1.5 rounded-lg transition-colors ${sortBy === 'alphabetical' ? 'bg-primary-500/20' : 'bg-white/5 group-hover:bg-white/10'}`}>
+                                                <div className={`p-1.5 rounded-lg transition-colors ${sortBy === 'alphabetical' ? 'bg-primary-500/20' : 'bg-card-alt group-hover:bg-card-alt'}`}>
                                                     <span className="w-4 h-4 flex items-center justify-center text-[10px] font-bold">AZ</span>
                                                 </div>
                                                 <span>Alphabetical</span>
@@ -301,7 +289,7 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
                             {!isSearching && (
                                 <button
                                     onClick={toggleSearch}
-                                    className="px-4 py-2 rounded-xl bg-primary-800/20 border border-primary-700/20 text-primary-300 text-sm flex items-center gap-2 hover:bg-primary-800/30 hover:border-primary-700/30 hover:scale-[1.02] active:scale-[0.98] transition-all focus:outline-none"
+                                    className="px-4 py-2 rounded-xl bg-primary-800/20 border border-primary-700/20 text-primary-300 text-sm flex items-center gap-2 hover:bg-primary-800/30 hover:border-primary-700/30 transition-all focus:outline-none"
                                     aria-label="Search articles"
                                 >
                                     <IoSearch className="w-4 h-4" />
@@ -338,7 +326,7 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
                                                 group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between
                                                 ${activeFilter === category
                                                         ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20'
-                                                        : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'
+                                                        : 'text-color-text-muted hover:bg-card-alt hover:text-color-text'
                                                     }
                                             `}
                                                 onClick={() => {
@@ -359,7 +347,7 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
                                         {/* Tags section - if we have tags */}
                                         {tags.length > 0 && (
                                             <>
-                                                <DropdownMenu.Separator className="h-px bg-white/5 my-2" asChild>
+                                                <DropdownMenu.Separator className="h-px bg-color-border my-2" asChild>
                                                     <div />
                                                 </DropdownMenu.Separator>
                                                 <DropdownMenu.Label className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary-400 px-4 py-3">
@@ -373,7 +361,7 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
                                                         group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between
                                                         ${activeFilter === tag
                                                                 ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20'
-                                                                : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'
+                                                                : 'text-color-text-muted hover:bg-card-alt hover:text-color-text'
                                                             }
                                                     `}
                                                         onClick={() => {
@@ -611,7 +599,7 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
                                     <button
                                         onClick={() => setCurrentPage(currentPage - 1)}
                                         disabled={currentPage === 1}
-                                        className="px-4 py-2 rounded-lg border border-primary-700/20 text-primary-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary-800/20 transition-all"
+                                        className="px-4 py-2 rounded-lg border border-color-border bg-card text-color-text-muted disabled:opacity-50 disabled:cursor-not-allowed hover:bg-card-alt transition-all"
                                         aria-label="Previous page"
                                     >
                                         Previous
@@ -624,8 +612,8 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
                                                 key={page}
                                                 onClick={() => setCurrentPage(page)}
                                                 className={`px-4 py-2 rounded-lg transition-all font-semibold ${currentPage === page
-                                                    ? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-lg shadow-primary-500/30'
-                                                    : 'border border-primary-700/20 text-color-text hover:bg-primary-800/20'
+                                                    ? 'bg-primary-500 text-white border-primary-500'
+                                                    : 'border border-color-border bg-card text-color-text hover:bg-card-alt'
                                                     }`}
                                                 aria-label={`Go to page ${page}`}
                                                 aria-current={currentPage === page ? 'page' : undefined}
@@ -639,7 +627,7 @@ export default function BlogContent({ posts, categories, tags }: BlogContentProp
                                     <button
                                         onClick={() => setCurrentPage(currentPage + 1)}
                                         disabled={currentPage === totalPages}
-                                        className="px-4 py-2 rounded-lg border border-primary-700/20 text-primary-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary-800/20 transition-all"
+                                        className="px-4 py-2 rounded-lg border border-color-border bg-card text-color-text-muted disabled:opacity-50 disabled:cursor-not-allowed hover:bg-card-alt transition-all"
                                         aria-label="Next page"
                                     >
                                         Next
@@ -707,18 +695,9 @@ function CardItem({ post, index, readingTime, formattedDate, isHovered, onHover,
             onMouseLeave={() => onHover(null)}
         >
             <Link href={`/blog/${post.metadata.slug}`} className="block h-full group">
-                <div className="relative h-full overflow-hidden rounded-2xl glass-ultra transition-all duration-500 hover:scale-[1.02]">
-                    {/* Animated glow border */}
-                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary-500/0 via-primary-500/20 to-primary-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-[gradient-x_3s_linear_infinite]"></div>
-
+                <div className="relative h-full overflow-hidden rounded-2xl border border-color-border bg-card transition-all duration-300">
                     {/* Top gradient accent bar */}
                     <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-500 to-primary-400 opacity-60 group-hover:opacity-100 transition-opacity"></div>
-
-                    {/* Spotlight effect */}
-                    <div className="absolute inset-0 spotlight opacity-0 group-hover:opacity-50 transition-opacity duration-500"></div>
-
-                    {/* Shine sweep */}
-                    <div className="absolute inset-0 shine-sweep opacity-0 group-hover:opacity-100"></div>
 
                     <div className="pt-7 px-7 pb-6 h-full flex flex-col relative z-10">
                         {/* Top section - Tags and badge */}
@@ -727,7 +706,7 @@ function CardItem({ post, index, readingTime, formattedDate, isHovered, onHover,
                                 {post.metadata.tags && post.metadata.tags.slice(0, 3).map(tag => (
                                     <span
                                         key={tag}
-                                        className={`px-3 py-1 text-xs font-semibold rounded-full glass-frost text-primary-300 group-hover:bg-primary-500/20 transition-all ${searchQuery && tag.toLowerCase().includes(searchQuery.toLowerCase())
+                                        className={`px-3 py-1 text-xs font-semibold rounded-full border border-color-border bg-card text-color-text-muted transition-all ${searchQuery && tag.toLowerCase().includes(searchQuery.toLowerCase())
                                             ? 'bg-primary-500/30 text-primary-200'
                                             : ''
                                             }`}
@@ -736,7 +715,7 @@ function CardItem({ post, index, readingTime, formattedDate, isHovered, onHover,
                                     </span>
                                 ))}
                                 {post.metadata.tags && post.metadata.tags.length > 3 && (
-                                    <span className="px-3 py-1 text-xs font-semibold rounded-full glass-frost text-primary-300">
+                                    <span className="px-3 py-1 text-xs font-semibold rounded-full border border-color-border bg-card text-color-text-muted">
                                         +{post.metadata.tags.length - 3}
                                     </span>
                                 )}
@@ -769,7 +748,7 @@ function CardItem({ post, index, readingTime, formattedDate, isHovered, onHover,
                         )}
 
                         {/* Bottom metadata section */}
-                        <div className="mt-auto pt-5 border-t border-white/10">
+                        <div className="mt-auto pt-5 border-t border-color-border">
                             <div className="flex items-center justify-between">
                                 <div className="flex flex-wrap items-center gap-4 text-color-text-muted">
                                     <div className="flex items-center gap-2 text-xs font-medium">
@@ -795,8 +774,6 @@ function CardItem({ post, index, readingTime, formattedDate, isHovered, onHover,
                         </div>
                     </div>
 
-                    {/* Decorative orb */}
-                    <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary-500/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
                 </div>
             </Link>
         </div>
@@ -806,91 +783,58 @@ function CardItem({ post, index, readingTime, formattedDate, isHovered, onHover,
 function ListItem({ post, index, readingTime, formattedDate, isHovered, onHover, searchQuery }: CardItemProps) {
     return (
         <div
-            className="group animate-fade-up"
+            className="group animate-fade-up border-b border-color-border last:border-0"
             style={{ animationDelay: `${index * 0.05}s` }}
             onMouseEnter={() => onHover(post.metadata.slug)}
             onMouseLeave={() => onHover(null)}
         >
-            <Link href={`/blog/${post.metadata.slug}`} className="block">
-                <div className="relative overflow-hidden rounded-2xl glass-ultra transition-all duration-500 hover:scale-[1.01]">
-                    {/* Animated glow border */}
-                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary-500/0 via-primary-500/20 to-primary-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-[gradient-x_3s_linear_infinite]"></div>
+            <Link href={`/blog/${post.metadata.slug}`} className="block py-6">
+                <div className="flex flex-wrap items-center gap-3 text-xs text-color-text-muted mb-2">
+                    <span className="flex items-center gap-1.5">
+                        <IoCalendarOutline className="text-primary-400 w-3.5 h-3.5" />
+                        <time dateTime={new Date(post.metadata.date).toISOString()}>{formattedDate}</time>
+                    </span>
+                    <span>·</span>
+                    <span className="flex items-center gap-1.5">
+                        <IoTimeOutline className="text-primary-400 w-3.5 h-3.5" />
+                        {readingTime}
+                    </span>
+                    {/* New badge */}
+                    {isNew(post.metadata.date) && (
+                        <span className="flex items-center gap-1 text-green-400">
+                            <span className="relative flex h-1.5 w-1.5">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-500"></span>
+                            </span>
+                            New
+                        </span>
+                    )}
+                </div>
 
-                    {/* Top gradient accent bar */}
-                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-500 to-primary-400 opacity-60 group-hover:opacity-100 transition-opacity z-10"></div>
+                <h2 className="text-lg font-bold mb-2 text-color-text group-hover:text-primary-300 transition-colors duration-200">
+                    {highlightMatchedText(post.metadata.title, searchQuery)}
+                </h2>
 
-                    {/* Spotlight effect */}
-                    <div className="absolute inset-0 spotlight opacity-0 group-hover:opacity-40 transition-opacity duration-500"></div>
+                {post.metadata.description && (
+                    <p className="text-color-text-muted text-sm line-clamp-2 leading-relaxed mb-3">
+                        {highlightMatchedText(post.metadata.description, searchQuery)}
+                    </p>
+                )}
 
-                    <div className="p-7 relative z-10">
-                        {/* Top section with date and reading time */}
-                        <div className="flex justify-between items-center mb-4">
-                            <div className="flex flex-wrap gap-4 text-color-text-muted text-xs font-medium">
-                                <div className="flex items-center gap-2">
-                                    <IoCalendarOutline className="text-primary-400 w-4 h-4 flex-shrink-0" />
-                                    <time dateTime={new Date(post.metadata.date).toISOString()}>{formattedDate}</time>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <IoTimeOutline className="text-primary-400 w-4 h-4 flex-shrink-0" />
-                                    <span>{readingTime}</span>
-                                </div>
-                            </div>
-
-                            {/* New badge */}
-                            {isNew(post.metadata.date) && (
-                                <span className="px-3 py-1 bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-green-300 text-xs font-semibold rounded-full flex items-center gap-1">
-                                    <span className="relative flex h-1.5 w-1.5">
-                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                        <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-500"></span>
-                                    </span>
-                                    New
-                                </span>
-                            )}
-                        </div>
-
-                        {/* Title with hover effect */}
-                        <h2
-                            className={`text-xl font-bold mb-3 text-color-text group-hover:text-primary-300 transition-all duration-200 ${isHovered ? 'scale-[1.01]' : ''}`}
-                        >
-                            {highlightMatchedText(post.metadata.title, searchQuery)}
-                        </h2>
-
-                        {/* Description */}
-                        {post.metadata.description && (
-                            <p className="text-color-text-muted mb-5 line-clamp-2 leading-relaxed">
-                                {highlightMatchedText(post.metadata.description, searchQuery)}
-                            </p>
-                        )}
-
-                        {/* Tags and read more */}
-                        <div className="flex flex-wrap justify-between items-center">
-                            <div className="flex flex-wrap gap-2">
-                                {post.metadata.tags && post.metadata.tags.slice(0, 4).map(tag => (
-                                    <span
-                                        key={tag}
-                                        className={`px-3 py-1 text-xs font-semibold rounded-full glass-frost text-primary-300 group-hover:bg-primary-500/20 transition-all ${searchQuery && tag.toLowerCase().includes(searchQuery.toLowerCase())
-                                            ? 'bg-primary-500/30 text-primary-200'
-                                            : ''
-                                            }`}
-                                    >
-                                        {highlightMatchedText(tag, searchQuery)}
-                                    </span>
-                                ))}
-                            </div>
-
-                            <div
-                                className={`relative flex-shrink-0 ml-2 transition-transform duration-300 ${isHovered ? 'translate-x-[5px]' : ''}`}
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="flex flex-wrap gap-2">
+                        {post.metadata.tags && post.metadata.tags.slice(0, 4).map(tag => (
+                            <span
+                                key={tag}
+                                className={`text-xs text-color-text-muted ${searchQuery && tag.toLowerCase().includes(searchQuery.toLowerCase()) ? 'text-primary-300' : ''}`}
                             >
-                                <span className="flex items-center gap-2 text-primary-400 text-sm font-semibold transition-all duration-300 whitespace-nowrap">
-                                    Read post
-                                    <IoArrowForward className={`w-4 h-4 transition-all duration-300 ${isHovered ? 'translate-x-1 opacity-100' : 'opacity-0'}`} />
-                                </span>
-                            </div>
-                        </div>
+                                #{highlightMatchedText(tag, searchQuery)}
+                            </span>
+                        ))}
                     </div>
-
-                    {/* Decorative orb */}
-                    <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary-500/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                    <span className={`flex items-center gap-1.5 text-primary-400 text-sm font-medium transition-transform duration-200 ${isHovered ? 'translate-x-1' : ''}`}>
+                        Read post <IoArrowForward className="w-3.5 h-3.5" />
+                    </span>
                 </div>
             </Link>
         </div>

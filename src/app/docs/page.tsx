@@ -23,7 +23,7 @@ export default function DocsPage() {
                     <Link
                         key={section.slug}
                         href={section.categories[0]?.items[0]?.href || `/docs/${section.slug}`}
-                        className="group relative flex flex-col p-6 rounded-2xl border border-white/[0.06] bg-white/[0.01] hover:bg-white/[0.03] hover:border-primary-500/15 transition-all duration-200"
+                        className="group relative flex flex-col p-6 rounded-2xl border border-color-border bg-card hover:bg-card-alt hover:border-primary-500/15 transition-all duration-200"
                     >
                         <div className="flex items-start justify-between mb-5">
                             <div className="flex items-center justify-center w-11 h-11 rounded-xl bg-primary-500/10 text-primary-400 group-hover:bg-primary-500/15 transition-colors">
@@ -36,7 +36,7 @@ export default function DocsPage() {
                                         e.stopPropagation();
                                         window.open(section.projectUrl, '_blank', 'noopener,noreferrer');
                                     }}
-                                    className="p-2 rounded-lg text-color-text-muted/30 hover:text-color-text-muted hover:bg-white/[0.04] transition-all cursor-pointer"
+                                    className="p-2 rounded-lg text-color-text-muted/30 hover:text-color-text-muted hover:bg-card-alt transition-all cursor-pointer"
                                 >
                                     <IoLogoGithub className="w-4.5 h-4.5" />
                                 </span>
@@ -64,11 +64,11 @@ export default function DocsPage() {
             </div>
 
             {/* CTA */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 py-7 px-7 rounded-2xl border border-white/[0.04] bg-white/[0.01]">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 py-7 px-7 rounded-2xl border border-color-border bg-card">
                 <div>
                     <h3 className="text-base font-semibold text-color-text mb-1.5">Looking for something specific?</h3>
                     <p className="text-sm text-color-text-muted/50">
-                        Use <kbd className="px-1.5 py-0.5 text-xs border border-white/[0.08] rounded bg-white/[0.03] font-mono mx-0.5">⌘K</kbd> to search across all documentation.
+                        Use <kbd className="px-1.5 py-0.5 text-xs border border-color-border rounded bg-card-alt font-mono mx-0.5">⌘K</kbd> to search across all documentation.
                     </p>
                 </div>
                 <div className="flex gap-3 flex-shrink-0">
@@ -80,7 +80,7 @@ export default function DocsPage() {
                     </Link>
                     <Link
                         href="/contact"
-                        className="px-5 py-2.5 rounded-xl border border-white/[0.06] text-color-text-muted text-sm font-medium hover:bg-white/[0.03] hover:text-color-text transition-all"
+                        className="px-5 py-2.5 rounded-xl border border-color-border text-color-text-muted text-sm font-medium hover:bg-card hover:text-color-text transition-all"
                     >
                         Contact
                     </Link>

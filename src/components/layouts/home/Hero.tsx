@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { IoSparkles, IoRocket, IoCodeSlash, IoLayers, IoFlash } from "react-icons/io5";
+import { IoArrowForward, IoCodeSlash } from "react-icons/io5";
 import { useEffect, useState, useRef } from "react";
 
 export default function Hero() {
@@ -20,10 +20,8 @@ export default function Hero() {
     "Bug Whisperer",
     "Pixel Perfectionist",
     "TypeScript Enthusiast",
-    "Professional Googler",
     "CEO of ByteBrush Studios",
     "Ctrl+Z Specialist",
-    "Sleep Deprived Coder",
   ];
 
   useEffect(() => {
@@ -38,9 +36,8 @@ export default function Hero() {
       setTimeout(() => {
         setTitleIndex((prev) => (prev + 1) % titles.length);
         setIsAnimating(false);
-      }, 300);
+      }, 250);
     }, 3000);
-
     return () => clearInterval(interval);
   }, [titles.length]);
 
@@ -48,203 +45,110 @@ export default function Hero() {
     <section
       ref={containerRef}
       id="home"
-      className="min-h-screen flex flex-col items-center px-4 sm:px-8 relative overflow-hidden bg-bg pt-20 md:pt-24 pb-24"
+      className="min-h-screen flex flex-col items-center justify-center px-4 sm:px-8 relative overflow-hidden bg-bg pt-16"
     >
-      {/* Multi-layer animated background */}
-      <div className="absolute inset-0 z-0">
-        {/* Base aurora gradient */}
-        <div className="absolute inset-0 bg-aurora opacity-80"></div>
-
-        {/* Animated gradient orbs with CSS animations */}
-        <div className="absolute top-[10%] left-[5%] w-[500px] h-[500px] rounded-full morph hidden md:block">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary-500/30 via-primary-600/20 to-transparent blur-[80px] animate-pulse" />
-        </div>
-
-        <div className="absolute bottom-[5%] right-[5%] w-[600px] h-[600px] rounded-full morph hidden md:block">
-          <div className="absolute inset-0 bg-gradient-to-tl from-primary-400/25 via-primary-500/15 to-transparent blur-[100px] animate-pulse"
-            style={{ animationDelay: '2s' }} />
-        </div>
-
-        <div className="absolute top-[40%] right-[20%] w-[400px] h-[400px] rounded-full hidden md:block">
-          <div className="absolute inset-0 bg-gradient-radial from-primary-300/20 to-transparent blur-[60px] animate-pulse"
-            style={{ animationDelay: '1s' }} />
-        </div>
-
-        {/* Dot pattern overlay */}
-        <div className="absolute inset-0 bg-dot-pattern opacity-30"></div>
-
-        {/* Grid pattern */}
-        <div className="absolute inset-0 bg-grid-pattern opacity-[0.03]"></div>
+      {/* Clean background layers */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Radial gradient glow from top */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[600px] bg-[radial-gradient(ellipse_at_top,rgba(var(--color-primary-600),0.12)_0%,transparent_65%)]" />
+        {/* Subtle grid */}
+        <div className="absolute inset-0 bg-grid-pattern opacity-100" />
+        {/* Bottom fade */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-bg to-transparent" />
       </div>
 
-      {/* Floating decorative elements */}
-      <div
-        className="absolute top-[15%] left-[15%] w-3 h-3 rounded-full bg-primary-400/60 animate-float"
-      />
-      <div
-        className="absolute top-[25%] right-[20%] w-2 h-2 rounded-full bg-primary-300/50 animate-float"
-        style={{ animationDelay: '0.5s' }}
-      />
-      <div
-        className="absolute bottom-[30%] left-[10%] w-4 h-4 rounded-full bg-primary-500/40 animate-float"
-        style={{ animationDelay: '1s' }}
-      />
-      <div
-        className="absolute bottom-[20%] right-[15%] w-2 h-2 rounded-full bg-primary-400/50 animate-float"
-        style={{ animationDelay: '1.5s' }}
-      />
-
       {/* Main content */}
-      <div
-        className="container-section text-center z-10 max-w-5xl relative animate-fade-in"
-      >
-        {/* Premium status badge */}
-        <div
-          className="flex justify-center w-full mb-10 animate-fade-up"
-          style={{ animationDelay: '0.2s' }}
-        >
-          <span className="relative group">
-            <span className="absolute inset-0 rounded-full bg-gradient-to-r from-primary-500 to-primary-400 blur-md opacity-50 group-hover:opacity-75 transition-opacity"></span>
-            <span className="relative px-5 py-2.5 rounded-full text-sm font-semibold glass-frost flex items-center gap-3">
-              <span className="relative flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-gradient-to-r from-primary-400 to-primary-300"></span>
-              </span>
-              <span className="text-primary-200">Available for work</span>
-              <IoSparkles className="w-4 h-4 text-primary-300" />
+      <div className="container-section text-center z-10 max-w-4xl relative">
+
+        {/* Status badge */}
+        <div className="flex justify-center mb-8 animate-fade-up" style={{ animationDelay: '0.1s' }}>
+          <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium border border-color-border bg-card text-color-text-muted">
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-400"></span>
             </span>
+            Available for work
           </span>
         </div>
 
-        {/* Main heading with spectacular gradient */}
+        {/* Main heading */}
         <h1
-          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black mb-8 leading-[1.1] tracking-tight animate-fade-up inline-flex items-center justify-center flex-wrap gap-x-4"
-          style={{ animationDelay: '0.3s' }}
+          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-6 leading-[1.05] tracking-tight animate-fade-up"
+          style={{ animationDelay: '0.2s' }}
         >
-          <span className="text-color-text">Hi, I&apos;m</span>
-          <span className="relative inline-flex items-center gap-2">
-            <span className="animated-gradient-text text-shadow-glow">Tyler</span>
-            <span
-              className="absolute -bottom-2 left-0 h-1.5 bg-gradient-to-r from-primary-500 via-primary-400 to-primary-500 rounded-full w-[calc(100%-2rem)] animate-fade-in"
-              style={{ animationDelay: '1.2s' }}
-            />
-            <IoSparkles
-              className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-primary-400 animate-fade-in"
-              style={{ animationDelay: '1.5s' }}
-            />
-          </span>
+          <span className="text-color-text">Hi, I&apos;m </span>
+          <span className="animated-gradient-text">Tyler</span>
         </h1>
 
-        {/* Animated role title */}
-        <div
-          className="mb-8 animate-fade-up"
-          style={{ animationDelay: '0.4s' }}
-        >
-          <div className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl glass-ultra min-w-[320px] sm:min-w-[400px] md:min-w-[500px] justify-center">
-            <IoCodeSlash className="w-6 h-6 text-primary-400 flex-shrink-0" />
+        {/* Animated role - clean badge */}
+        <div className="flex justify-center mb-6 animate-fade-up" style={{ animationDelay: '0.3s' }}>
+          <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-lg border border-color-border bg-card min-w-[260px] sm:min-w-[320px] justify-center">
+            <IoCodeSlash className="w-4 h-4 text-primary-400 flex-shrink-0" />
             <span
-              className={`text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary-300 via-primary-400 to-primary-300 bg-clip-text text-transparent transition-all duration-300 ${isAnimating ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'
-                }`}
+              className={`text-sm sm:text-base font-medium text-color-text-muted transition-all duration-200 ${isAnimating ? 'opacity-0 translate-y-1' : 'opacity-100 translate-y-0'}`}
             >
               {titles[titleIndex]}
             </span>
-            <IoLayers className="w-6 h-6 text-primary-400 flex-shrink-0" />
           </div>
         </div>
 
-        {/* Description with highlighted keywords */}
+        {/* Description */}
         <p
-          className="text-lg sm:text-xl md:text-2xl text-color-text-muted mb-14 max-w-3xl mx-auto leading-relaxed animate-fade-up"
-          style={{ animationDelay: '0.5s' }}
+          className="text-base sm:text-lg text-color-text-muted mb-10 max-w-2xl mx-auto leading-relaxed animate-fade-up"
+          style={{ animationDelay: '0.4s' }}
         >
-          I craft{" "}
-          <span className="relative inline-block">
-            <span className="text-primary-300 font-semibold">beautiful</span>
-            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary-400/50 rounded-full"></span>
-          </span>{" "}
-          and{" "}
-          <span className="relative inline-block">
-            <span className="text-primary-300 font-semibold">functional</span>
-            <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary-400/50 rounded-full"></span>
-          </span>{" "}
-          web experiences with modern technologies and a passion for pixel perfect design.
+          I craft <span className="text-color-text font-medium">beautiful</span> and <span className="text-color-text font-medium">functional</span> web experiences with modern technologies and a passion for pixel-perfect design.
         </p>
 
-        {/* CTA Buttons with premium styling */}
+        {/* CTA Buttons */}
         <div
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16 animate-fade-up"
-          style={{ animationDelay: '0.6s' }}
+          className="flex flex-col sm:flex-row gap-3 justify-center items-center mb-16 animate-fade-up"
+          style={{ animationDelay: '0.5s' }}
         >
           <Link
             href="#projects"
-            className="group relative px-8 py-4 rounded-2xl font-bold text-lg overflow-hidden shine-sweep"
+            className="group flex items-center gap-2 px-6 py-2.5 rounded-lg bg-primary-500 hover:bg-primary-600 text-white font-medium text-sm transition-colors duration-200"
           >
-            <span className="absolute inset-0 bg-gradient-to-r from-primary-600 via-primary-500 to-primary-600 bg-[length:200%_100%] animate-[gradient-x_3s_linear_infinite]"></span>
-            <span className="absolute inset-[2px] rounded-[14px] bg-gradient-to-r from-primary-600 to-primary-500"></span>
-            <span className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-primary-500 to-primary-400"></span>
-            <span className="relative z-10 flex items-center gap-2 text-white">
-              <IoRocket className="w-5 h-5 group-hover:rotate-12 group-hover:-translate-y-0.5 transition-transform duration-300" />
-              View My Work
-              <IoFlash className="w-4 h-4 opacity-0 -ml-2 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300" />
-            </span>
+            View My Work
+            <IoArrowForward className="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-200" />
           </Link>
 
           <Link
             href="#contact"
-            className="group relative px-8 py-4 rounded-2xl font-bold text-lg glass-frost hover-glow transition-all duration-300"
+            className="group flex items-center gap-2 px-6 py-2.5 rounded-lg border border-color-border bg-card hover:bg-card-alt hover:border-primary-500/30 text-color-text-muted hover:text-color-text font-medium text-sm transition-all duration-200"
           >
-            <span className="relative z-10 flex items-center gap-2 text-primary-300 group-hover:text-primary-200">
-              <IoSparkles className="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" />
-              Get in Touch
-            </span>
+            Get in Touch
           </Link>
         </div>
 
-        {/* Tech stack with premium glass cards */}
+        {/* Tech badges */}
         <div
-          className="flex flex-wrap justify-center gap-3 mb-20 animate-fade-up"
-          style={{ animationDelay: '0.7s' }}
+          className="flex flex-wrap justify-center gap-2 animate-fade-up"
+          style={{ animationDelay: '0.6s' }}
         >
-          {[
-            { name: 'React', delay: 0 },
-            { name: 'Next.js', delay: 0.1 },
-            { name: 'TypeScript', delay: 0.2 },
-            { name: 'Node.js', delay: 0.3 },
-            { name: 'Tailwind', delay: 0.4 }
-          ].map((tech) => (
+          {['React', 'Next.js', 'TypeScript', 'Node.js', 'Tailwind'].map((tech) => (
             <span
-              key={tech.name}
-              className="group relative px-4 py-2 text-sm font-medium rounded-xl glass-ultra cursor-default overflow-hidden hover:-translate-y-1 hover:scale-105 transition-transform duration-300 animate-fade-in"
-              style={{ animationDelay: `${0.8 + tech.delay}s` }}
+              key={tech}
+              className="px-3 py-1 text-xs font-medium rounded-md border border-color-border bg-card/40 text-color-text-muted hover:text-color-text hover:border-primary-500/30 transition-colors duration-200 cursor-default"
             >
-              <span className="absolute inset-0 bg-gradient-to-r from-primary-500/0 via-primary-500/10 to-primary-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></span>
-              <span className="relative text-color-text-muted group-hover:text-primary-300 transition-colors">
-                {tech.name}
-              </span>
+              {tech}
             </span>
           ))}
         </div>
+      </div>
 
-        {/* Scroll indicator with modern design */}
-        <div
-          className={`absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 transition-opacity duration-400 ${scrolled ? 'opacity-0' : 'opacity-100'}`}
+      {/* Scroll indicator */}
+      <div
+        className={`absolute bottom-8 left-1/2 -translate-x-1/2 z-20 transition-opacity duration-300 ${scrolled ? 'opacity-0' : 'opacity-100'}`}
+      >
+        <button
+          onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
+          className="flex flex-col items-center gap-2 text-color-text-muted hover:text-primary-400 transition-colors group"
+          aria-label="Scroll to about section"
         >
-          <div
-            className="flex flex-col items-center gap-3 cursor-pointer group"
-            onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
-          >
-            <span className="text-xs text-color-text-muted/50 tracking-[0.2em] font-medium uppercase group-hover:text-primary-400 transition-colors">
-              Scroll
-            </span>
-            <div
-              className="relative w-6 h-10 rounded-full glass-ultra flex justify-center items-start pt-2 group-hover:border-primary-400/30 transition-colors animate-bounce"
-            >
-              <div
-                className="w-1 h-2 rounded-full bg-gradient-to-b from-primary-400 to-primary-500"
-              />
-            </div>
-          </div>
-        </div>
+          <span className="text-[10px] tracking-widest uppercase font-medium">Scroll</span>
+          <div className="w-px h-8 bg-gradient-to-b from-color-border to-transparent group-hover:from-primary-500/50 transition-colors" />
+        </button>
       </div>
     </section>
   );

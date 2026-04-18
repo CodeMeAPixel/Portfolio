@@ -84,13 +84,13 @@ export default function DocsSearch({ onClose }: DocsSearchProps) {
 
     return createPortal(
         <div
-            className="fixed inset-0 bg-black/70 z-50 flex items-start justify-center pt-[15vh]"
+            className="fixed inset-0 bg-bg/80 z-50 flex items-start justify-center pt-[15vh]"
             onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
             style={{ animation: 'docs-dropdown-in 0.15s ease-out' }}
         >
-            <div className="w-full max-w-lg max-h-[60vh] overflow-hidden flex flex-col rounded-xl border border-white/[0.08] bg-bg shadow-[0_16px_64px_rgba(0,0,0,0.5)]">
+            <div className="w-full max-w-lg max-h-[60vh] overflow-hidden flex flex-col rounded-xl border border-color-border bg-bg shadow-[0_16px_64px_rgba(0,0,0,0.5)]">
                 {/* Input */}
-                <div className="flex items-center gap-3 px-4 py-3 border-b border-white/[0.06]">
+                <div className="flex items-center gap-3 px-4 py-3 border-b border-color-border">
                     <IoSearch className="w-4 h-4 text-color-text-muted/40 flex-shrink-0" />
                     <input
                         ref={inputRef}
@@ -102,7 +102,7 @@ export default function DocsSearch({ onClose }: DocsSearchProps) {
                     />
                     <button
                         onClick={onClose}
-                        className="p-1 rounded-md hover:bg-white/[0.05] transition-colors"
+                        className="p-1 rounded-md hover:bg-card transition-colors"
                     >
                         <IoClose className="w-4 h-4 text-color-text-muted/40" />
                     </button>
@@ -121,9 +121,9 @@ export default function DocsSearch({ onClose }: DocsSearchProps) {
                                     <button
                                         onClick={() => handleSelect(item.href)}
                                         onMouseEnter={() => setSelectedIndex(index)}
-                                        className={`w-full text-left px-4 py-2.5 flex items-center gap-3 transition-colors ${index === selectedIndex ? 'bg-primary-500/[0.07]' : 'hover:bg-white/[0.02]'}`}
+                                        className={`w-full text-left px-4 py-2.5 flex items-center gap-3 transition-colors ${index === selectedIndex ? 'bg-primary-500/[0.07]' : 'hover:bg-card'}`}
                                     >
-                                        <div className={`flex items-center justify-center w-7 h-7 rounded-md flex-shrink-0 transition-colors ${index === selectedIndex ? 'bg-primary-500/15 text-primary-400' : 'bg-white/[0.03] text-color-text-muted/40'}`}>
+                                        <div className={`flex items-center justify-center w-7 h-7 rounded-md flex-shrink-0 transition-colors ${index === selectedIndex ? 'bg-primary-500/15 text-primary-400' : 'bg-card text-color-text-muted/40'}`}>
                                             {item.icon && <item.icon className="w-3.5 h-3.5" />}
                                         </div>
                                         <div className="flex-1 min-w-0">
@@ -145,24 +145,24 @@ export default function DocsSearch({ onClose }: DocsSearchProps) {
                 </div>
 
                 {/* Footer */}
-                <div className="border-t border-white/[0.04] px-4 py-2.5 flex items-center justify-between text-[11px] text-color-text-muted/30">
+                <div className="border-t border-color-border px-4 py-2.5 flex items-center justify-between text-[11px] text-color-text-muted/30">
                     <div className="flex items-center gap-3">
                         <span className="flex items-center gap-1">
-                            <kbd className="px-1 py-0.5 rounded border border-white/[0.06] bg-white/[0.02] font-mono text-[10px]">↑↓</kbd>
+                            <kbd className="px-1 py-0.5 rounded border border-color-border bg-card font-mono text-[10px]">↑↓</kbd>
                             navigate
                         </span>
                         <span className="flex items-center gap-1">
-                            <kbd className="px-1 py-0.5 rounded border border-white/[0.06] bg-white/[0.02] font-mono text-[10px]">↵</kbd>
+                            <kbd className="px-1 py-0.5 rounded border border-color-border bg-card font-mono text-[10px]">↵</kbd>
                             open
                         </span>
                     </div>
                     <span className="flex items-center gap-1">
-                        <kbd className="px-1 py-0.5 rounded border border-white/[0.06] bg-white/[0.02] font-mono text-[10px]">esc</kbd>
+                        <kbd className="px-1 py-0.5 rounded border border-color-border bg-card font-mono text-[10px]">esc</kbd>
                         close
                     </span>
                 </div>
             </div>
-        </div>,
+        </div >,
         document.body
     );
 }

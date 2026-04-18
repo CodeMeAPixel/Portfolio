@@ -41,14 +41,8 @@ export function FivemScriptLogo({ title, className = "", showText = true }: Five
         <div
             className={`relative w-full h-full flex flex-col items-center justify-center overflow-hidden ${className}`}
         >
-            {/* Animated background gradient */}
+            {/* Background gradient */}
             <div className={`absolute inset-0 bg-gradient-to-br ${colorGradient} opacity-90`}></div>
-
-            {/* Decorative animated circles */}
-            <div className="absolute inset-0 overflow-hidden">
-                <div className="absolute -top-1/2 -right-1/2 w-full h-full bg-white/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '0s', animationDuration: '4s' }}></div>
-                <div className="absolute -bottom-1/2 -left-1/2 w-full h-full bg-white/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s', animationDuration: '4s' }}></div>
-            </div>
 
             {/* FiveM/FXServer themed icon */}
             <div className="relative z-10 flex flex-col items-center gap-4">
@@ -60,9 +54,6 @@ export function FivemScriptLogo({ title, className = "", showText = true }: Five
                         <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z" opacity="0.3" />
                         <path d="M12 4c3.31 0 6 2.24 6 5v5H6V9c0-2.76 2.69-5 6-5z" opacity="0.2" />
                     </svg>
-
-                    {/* Glowing pulse effect */}
-                    <div className="absolute inset-0 bg-white/20 rounded-full blur-lg animate-pulse" style={{ animationDuration: '3s' }}></div>
                 </div>
 
                 {/* Title or initials */}

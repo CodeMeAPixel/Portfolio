@@ -33,21 +33,9 @@ export default function ErrorPage({
         <>
             <Navbar />
             <div className="min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 bg-bg relative overflow-hidden">
-                {/* Premium multi-layer background */}
-                <div className="absolute inset-0">
-                    <div className="absolute inset-0 bg-aurora opacity-40"></div>
-                    <div className="absolute inset-0 bg-dot-pattern opacity-20"></div>
-                </div>
+                {/* Background */}
+                <div className="absolute inset-0 bg-dot-pattern opacity-20" />
                 <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-red-500/30 to-transparent"></div>
-
-                {/* Animated floating orbs - red tinted for error */}
-                <div
-                    className="absolute top-[10%] left-[10%] w-[400px] h-[400px] rounded-full bg-gradient-to-br from-red-500/15 to-primary-600/5 blur-[100px] animate-pulse"
-                />
-                <div
-                    className="absolute bottom-[20%] right-[10%] w-[350px] h-[350px] rounded-full bg-gradient-to-tl from-primary-400/15 to-red-500/10 blur-[80px] animate-pulse"
-                    style={{ animationDelay: '2s' }}
-                />
 
                 {/* Decorative elements */}
                 <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
@@ -63,7 +51,7 @@ export default function ErrorPage({
                     <div
                         className="animate-fade-up"
                     >
-                        <div className="inline-flex items-center justify-center mb-6 glass-frost px-5 py-2.5 rounded-full border border-red-500/20">
+                        <div className="inline-flex items-center justify-center mb-6 bg-card border border-color-border px-5 py-2.5 rounded-full">
                             <IoClose className="w-4 h-4 mr-2 text-red-400" />
                             <span className="text-sm font-semibold text-red-300">Something went wrong</span>
                         </div>
@@ -90,18 +78,15 @@ export default function ErrorPage({
                     >
                         <button
                             onClick={() => reset()}
-                            className="group relative px-6 py-3 rounded-xl font-semibold overflow-hidden glass-ultra border border-primary-500/30 hover:border-primary-500/50 transition-all duration-300"
+                            className="px-6 py-3 rounded-lg bg-primary-500 hover:bg-primary-400 text-white font-semibold transition-colors duration-150 flex items-center"
                         >
-                            <span className="absolute inset-0 bg-gradient-to-r from-primary-500/20 to-primary-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                            <span className="relative z-10 flex items-center text-primary-300 group-hover:text-primary-200">
-                                <IoReload className="mr-2 w-5 h-5 group-hover:rotate-180 transition-transform duration-500" />
-                                Try Again
-                            </span>
+                            <IoReload className="mr-2 w-5 h-5" />
+                            Try Again
                         </button>
 
                         <Link
                             href="/"
-                            className="group px-6 py-3 rounded-xl font-semibold glass-frost border border-white/10 hover:border-white/20 transition-all duration-300 flex items-center text-color-text-muted hover:text-color-text"
+                            className="px-6 py-3 rounded-xl font-semibold border border-color-border bg-card hover:bg-card-alt transition-colors duration-150 flex items-center text-color-text-muted hover:text-color-text"
                         >
                             <IoHome className="mr-2 w-5 h-5" />
                             Back to Home
@@ -113,7 +98,7 @@ export default function ErrorPage({
                         className="mx-auto max-w-xl overflow-hidden animate-fade-up"
                         style={{ animationDelay: '0.5s' }}
                     >
-                        <div className="glass-ultra rounded-2xl overflow-hidden border border-red-500/20 shadow-2xl shadow-black/20">
+                        <div className="border border-color-border bg-card rounded-2xl overflow-hidden shadow-2xl shadow-black/20">
                             <div className="flex items-center px-4 py-3 bg-red-500/5 border-b border-red-500/10">
                                 <div className="flex gap-2 mr-4">
                                     <div className="w-3 h-3 rounded-full bg-red-500/80 shadow-lg shadow-red-500/20"></div>
@@ -135,7 +120,7 @@ export default function ErrorPage({
                                     <span className="text-red-400">Location:</span>
                                     <span className="ml-2">{typeof window !== 'undefined' ? window.location.pathname : ''}</span>
                                 </div>
-                                <div className="pt-3 border-t border-white/10">
+                                <div className="pt-3 border-t border-color-border">
                                     <span className="text-primary-400">$</span>
                                     <span className="ml-2 text-color-text-muted">
                                         <TypewriterEffect text="npm run fix-errors && refresh" delay={40} />

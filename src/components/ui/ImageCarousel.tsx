@@ -24,7 +24,7 @@ export function ImageCarousel({ images, className = "", title }: ImageCarouselPr
                 ) : (
                     <div className="flex items-center justify-center w-full h-full">
                         <div className="text-center p-8">
-                            <div className="w-20 h-20 mx-auto mb-4 rounded-2xl glass-frost flex items-center justify-center">
+                            <div className="w-20 h-20 mx-auto mb-4 rounded-2xl border border-color-border bg-card flex items-center justify-center">
                                 <svg className="w-10 h-10 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                 </svg>
@@ -109,7 +109,7 @@ export function ImageCarousel({ images, className = "", title }: ImageCarouselPr
                     <div className="absolute inset-y-0 inset-x-4 flex items-center justify-between z-20 opacity-0 group-hover/carousel:opacity-100 transition-opacity duration-300">
                         <button
                             onClick={handlePrevious}
-                            className="h-10 w-10 rounded-full glass-frost text-color-text flex items-center justify-center shadow-lg shadow-black/20 border border-white/10 hover:border-primary-500/40 hover:shadow-primary-500/20 hover:scale-110 hover:-translate-x-0.5 active:scale-90 transition-all duration-300"
+                            className="h-10 w-10 rounded-lg border border-color-border bg-card text-color-text flex items-center justify-center hover:bg-card-alt transition-colors"
                             aria-label="Previous image"
                         >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -119,7 +119,7 @@ export function ImageCarousel({ images, className = "", title }: ImageCarouselPr
 
                         <button
                             onClick={handleNext}
-                            className="h-10 w-10 rounded-full glass-frost text-color-text flex items-center justify-center shadow-lg shadow-black/20 border border-white/10 hover:border-primary-500/40 hover:shadow-primary-500/20 hover:scale-110 hover:translate-x-0.5 active:scale-90 transition-all duration-300"
+                            className="h-10 w-10 rounded-lg border border-color-border bg-card text-color-text flex items-center justify-center hover:bg-card-alt transition-colors"
                             aria-label="Next image"
                         >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -129,14 +129,14 @@ export function ImageCarousel({ images, className = "", title }: ImageCarouselPr
                     </div>
 
                     {/* Image Counter for Visual Context - Premium styling */}
-                    <div className="absolute top-3 right-3 glass-frost px-3 py-1.5 rounded-full text-xs font-semibold text-primary-300 border border-white/10 z-20 shadow-lg shadow-black/20">
+                    <div className="absolute top-3 right-3 border border-color-border bg-card px-3 py-1.5 rounded-md text-xs font-semibold text-primary-300 z-20">
                         <span className="text-white/90">{currentIndex + 1}</span>
                         <span className="text-white/50 mx-1">/</span>
                         <span className="text-white/70">{images.length}</span>
                     </div>
 
                     {/* Navigation Dots - Premium glass style */}
-                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20 glass-frost px-4 py-2 rounded-full border border-white/10 shadow-xl shadow-black/30 animate-fade-in-up">
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20 border border-color-border bg-card px-4 py-2 rounded-lg animate-fade-in-up">
                         {images.map((_, index) => (
                             <button
                                 key={index}

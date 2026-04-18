@@ -69,7 +69,7 @@ export default function DocsContent({ meta, children, nextDoc, prevDoc }: DocsCo
                 </div>
 
                 {/* Subtle separator */}
-                <div className="mt-6 h-px bg-gradient-to-r from-white/[0.06] via-white/[0.04] to-transparent" />
+                <div className="mt-6 h-px bg-color-border" />
             </header>
 
             {/* Article content */}
@@ -79,11 +79,11 @@ export default function DocsContent({ meta, children, nextDoc, prevDoc }: DocsCo
 
             {/* Previous/next navigation */}
             {(prevDoc || nextDoc) && (
-                <div className="docs-pagination mt-16 pt-8 border-t border-white/[0.04] grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="docs-pagination mt-16 pt-8 border-t border-color-border grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {prevDoc ? (
                         <Link
                             href={prevDoc.href}
-                            className="docs-pagination-link group flex flex-col gap-2 p-5 rounded-xl border border-white/[0.06] bg-white/[0.01] hover:bg-white/[0.03] hover:border-primary-500/20 transition-all"
+                            className="docs-pagination-link group flex flex-col gap-2 p-5 rounded-xl border border-color-border bg-card hover:bg-card-alt hover:border-primary-500/20 transition-all"
                         >
                             <div className="flex items-center gap-1.5 text-[12px] text-color-text-muted/50 uppercase tracking-wider font-medium">
                                 <IoArrowBack className="w-3 h-3 group-hover:-translate-x-0.5 transition-transform" />
@@ -96,7 +96,7 @@ export default function DocsContent({ meta, children, nextDoc, prevDoc }: DocsCo
                     {nextDoc && (
                         <Link
                             href={nextDoc.href}
-                            className="docs-pagination-link group flex flex-col gap-2 p-5 rounded-xl border border-white/[0.06] bg-white/[0.01] hover:bg-white/[0.03] hover:border-primary-500/20 transition-all text-right sm:ml-auto"
+                            className="docs-pagination-link group flex flex-col gap-2 p-5 rounded-xl border border-color-border bg-card hover:bg-card-alt hover:border-primary-500/20 transition-all text-right sm:ml-auto"
                         >
                             <div className="flex items-center justify-end gap-1.5 text-[12px] text-color-text-muted/50 uppercase tracking-wider font-medium">
                                 Next

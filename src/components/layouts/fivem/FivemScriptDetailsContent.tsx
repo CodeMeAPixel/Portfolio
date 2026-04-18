@@ -37,25 +37,16 @@ export default function FivemScriptDetailsContent({ script }: FivemScriptDetails
 
     return (
         <section className="py-24 md:py-32 bg-bg relative z-10 overflow-hidden">
-            {/* Premium multi-layer background */}
-            <div className="absolute inset-0">
-                <div className="absolute inset-0 bg-aurora opacity-40"></div>
-                <div className="absolute inset-0 bg-dot-pattern opacity-20"></div>
-            </div>
+            {/* Background */}
+            <div className="absolute inset-0 bg-dot-pattern opacity-20" />
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"></div>
-
-            {/* Floating Orbs - CSS animations */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-20 left-1/4 w-72 h-72 bg-gradient-to-br from-primary-500/15 to-purple-500/10 rounded-full blur-3xl animate-float-slow" />
-                <div className="absolute bottom-40 right-1/4 w-96 h-96 bg-gradient-to-br from-accent-500/10 to-primary-500/15 rounded-full blur-3xl animate-float-medium" />
-            </div>
 
             <div className="relative z-10 container-section max-w-6xl py-16 md:py-24 overflow-x-hidden">
                 {/* Back Button */}
                 <div className="animate-fade-in">
                     <Link
                         href="/fivem"
-                        className="inline-flex items-center gap-2 px-4 py-2 glass-frost rounded-full text-primary-400 hover:text-primary-300 hover:bg-white/10 transition-all duration-300 mb-8 group"
+                        className="inline-flex items-center gap-2 px-4 py-2 border border-color-border bg-card rounded-lg hover:bg-card-alt text-primary-400 hover:text-primary-300 transition-all duration-150 mb-8 group"
                     >
                         <IoArrowBack className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
                         <span>Back to all scripts</span>
@@ -89,7 +80,7 @@ export default function FivemScriptDetailsContent({ script }: FivemScriptDetails
                         <div className="flex flex-wrap justify-between items-start mb-6 gap-3 md:gap-4">
                             <div className="flex items-center gap-2 md:gap-3 flex-wrap min-w-0">
                                 <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold animate-fade-in-up break-words">
-                                    <span className="animated-gradient-text text-shadow-glow">{script.title}</span>
+                                    <span className="animated-gradient-text">{script.title}</span>
                                 </h1>
                                 {script.deprecated && (
                                     <span className="px-3 py-1.5 rounded-full text-xs font-bold bg-red-500/20 text-red-400 border border-red-500/30 animate-pulse">
@@ -100,12 +91,11 @@ export default function FivemScriptDetailsContent({ script }: FivemScriptDetails
                             <StatusBadge status={script.status} deprecated={script.deprecated} />
                         </div>
 
-                        {/* Image carousel - Premium Glass Container */}
+                        {/* Image carousel */}
                         <div
-                            className="aspect-video relative w-full glass-ultra rounded-2xl overflow-hidden p-1 mb-8 animate-fade-in-up"
+                            className="aspect-video relative w-full border border-color-border bg-card rounded-2xl overflow-hidden p-1 mb-8 animate-fade-in-up"
                             style={{ animationDelay: '100ms' }}
                         >
-                            <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 via-transparent to-accent-500/5 pointer-events-none" />
                             <ImageCarousel images={script.images} title={script.title} className="w-full h-full rounded-xl" />
                             {script.deprecated && (
                                 <div className="absolute top-4 left-4 px-3 py-1.5 rounded-lg bg-red-500/80 text-white text-xs font-bold flex items-center gap-1.5 z-10">
@@ -118,13 +108,13 @@ export default function FivemScriptDetailsContent({ script }: FivemScriptDetails
                         {/* Premium Content Tabs */}
                         <div className="mb-8 animate-fade-in-up" style={{ animationDelay: '200ms' }}>
                             {/* Tab Navigation */}
-                            <div className="flex flex-wrap gap-2 p-2 glass-ultra rounded-2xl mb-6">
+                            <div className="flex flex-wrap gap-2 p-2 border border-color-border bg-card rounded-xl mb-6">
                                 {availableTabs.map((tab) => (
                                     <button
                                         key={tab.id}
                                         className={`flex items-center gap-2 px-4 py-3 font-medium text-sm rounded-xl transition-all duration-300 ${activeTab === tab.id
-                                            ? 'bg-gradient-to-r from-primary-500 to-accent-500 text-white shadow-lg shadow-primary-500/25'
-                                            : 'text-color-text-muted hover:text-color-text hover:bg-white/5'
+                                            ? 'bg-primary-500 text-white'
+                                            : 'text-color-text-muted hover:text-color-text hover:bg-card-alt'
                                             }`}
                                         onClick={() => setActiveTab(tab.id)}
                                     >
@@ -135,7 +125,7 @@ export default function FivemScriptDetailsContent({ script }: FivemScriptDetails
                             </div>
 
                             {/* Tab Content */}
-                            <div className="glass-ultra rounded-2xl p-4 sm:p-6 min-h-[300px] animate-fade-in overflow-hidden">
+                            <div className="border border-color-border bg-card rounded-2xl p-4 sm:p-6 min-h-[300px] animate-fade-in overflow-hidden">
                                 {/* Overview Tab */}
                                 {activeTab === 'overview' && (
                                     <div className="space-y-6">
@@ -150,16 +140,16 @@ export default function FivemScriptDetailsContent({ script }: FivemScriptDetails
                                         </div>
 
                                         {/* Quick highlights */}
-                                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 pt-6 border-t border-white/10">
-                                            <div className="p-3 sm:p-4 rounded-lg sm:rounded-xl bg-white/5 hover:bg-white/10 transition-colors">
+                                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 pt-6 border-t border-color-border">
+                                            <div className="p-3 sm:p-4 rounded-lg sm:rounded-xl bg-card-alt hover:bg-card transition-colors">
                                                 <div className="text-xs sm:text-sm text-color-text-muted mb-1">Framework</div>
                                                 <div className="font-semibold text-color-text text-sm sm:text-base">{script.framework}</div>
                                             </div>
-                                            <div className="p-3 sm:p-4 rounded-lg sm:rounded-xl bg-white/5 hover:bg-white/10 transition-colors">
+                                            <div className="p-3 sm:p-4 rounded-lg sm:rounded-xl bg-card-alt hover:bg-card transition-colors">
                                                 <div className="text-xs sm:text-sm text-color-text-muted mb-1">Version</div>
                                                 <div className="font-semibold text-color-text text-sm sm:text-base">v{script.version}</div>
                                             </div>
-                                            <div className="p-3 sm:p-4 rounded-lg sm:rounded-xl bg-white/5 hover:bg-white/10 transition-colors">
+                                            <div className="p-3 sm:p-4 rounded-lg sm:rounded-xl bg-card-alt hover:bg-card transition-colors">
                                                 <div className="text-xs sm:text-sm text-color-text-muted mb-1">Last Updated</div>
                                                 <div className="font-semibold text-color-text text-sm sm:text-base">{script.lastUpdated}</div>
                                             </div>
@@ -183,7 +173,7 @@ export default function FivemScriptDetailsContent({ script }: FivemScriptDetails
                                             {script.features.map((feature, index) => (
                                                 <div
                                                     key={index}
-                                                    className="flex items-start gap-3 p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-all duration-300 group animate-fade-in border border-transparent hover:border-primary-500/20"
+                                                    className="flex items-start gap-3 p-4 rounded-xl bg-card-alt hover:bg-card transition-all duration-300 group animate-fade-in border border-color-border"
                                                     style={{ animationDelay: `${index * 50}ms` }}
                                                 >
                                                     <div className="p-1.5 rounded-lg bg-green-500/20 group-hover:scale-110 transition-transform">
@@ -237,7 +227,7 @@ export default function FivemScriptDetailsContent({ script }: FivemScriptDetails
                                                 return steps.map((step, index) => (
                                                     <div
                                                         key={index}
-                                                        className="flex items-start gap-4 p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-all duration-300 group animate-fade-in border border-transparent hover:border-primary-500/20"
+                                                        className="flex items-start gap-4 p-4 rounded-xl bg-card-alt hover:bg-card transition-all duration-300 group animate-fade-in border border-color-border"
                                                         style={{ animationDelay: `${index * 75}ms` }}
                                                     >
                                                         <span className="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-gradient-to-r from-primary-500 to-accent-500 text-white text-sm font-bold flex-shrink-0 group-hover:scale-110 transition-transform">
@@ -267,7 +257,7 @@ export default function FivemScriptDetailsContent({ script }: FivemScriptDetails
                                             {script.requirements.map((req, index) => (
                                                 <div
                                                     key={index}
-                                                    className="flex items-start gap-4 p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-all duration-300 group animate-fade-in border border-transparent hover:border-amber-500/20"
+                                                    className="flex items-start gap-4 p-4 rounded-xl bg-card-alt hover:bg-card transition-all duration-300 group animate-fade-in border border-color-border"
                                                     style={{ animationDelay: `${index * 75}ms` }}
                                                 >
                                                     <div className="p-1.5 rounded-lg bg-amber-500/20 group-hover:scale-110 transition-transform">
@@ -289,10 +279,10 @@ export default function FivemScriptDetailsContent({ script }: FivemScriptDetails
                         style={{ animationDelay: '200ms' }}
                     >
                         {/* Purchase card - Premium */}
-                        <div className={`glass-ultra rounded-xl md:rounded-2xl p-4 md:p-6 shine-sweep spotlight ${script.deprecated ? 'border border-red-500/20' : ''}`}>
+                        <div className={`border bg-card rounded-xl md:rounded-2xl p-4 md:p-6 ${script.deprecated ? 'border-red-500/20' : 'border-color-border'}`}>
                             <div className="flex items-center justify-between mb-4 md:mb-6 gap-2">
                                 {script.price && <h3 className="text-xl md:text-2xl font-bold animated-gradient-text">{script.price}</h3>}
-                                <span className="px-2 md:px-3 py-1 glass-frost rounded-full text-xs font-medium text-color-text-muted flex-shrink-0">
+                                <span className="px-2 md:px-3 py-1 border border-color-border bg-card/50 rounded-full text-xs font-medium text-color-text-muted flex-shrink-0">
                                     v{script.version}
                                 </span>
                             </div>
@@ -309,7 +299,7 @@ export default function FivemScriptDetailsContent({ script }: FivemScriptDetails
                                             href={script.links.purchase}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-500 to-accent-500 text-white font-semibold rounded-xl shadow-lg shadow-primary-500/25 hover:shadow-primary-500/40 hover:scale-[1.02] transition-all duration-300 mb-4"
+                                            className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-primary-500 hover:bg-primary-400 text-white font-semibold rounded-xl transition-colors duration-150 mb-4"
                                         >
                                             <IoPricetagOutline className="w-5 h-5" />
                                             <span>Purchase Now</span>
@@ -317,7 +307,7 @@ export default function FivemScriptDetailsContent({ script }: FivemScriptDetails
                                     )}
 
                                     {script.status === 'In Development' && (
-                                        <div className="w-full flex items-center justify-center gap-2 px-6 py-3 glass-frost text-color-text-muted font-semibold rounded-xl cursor-not-allowed mb-4">
+                                        <div className="w-full flex items-center justify-center gap-2 px-6 py-3 border border-color-border bg-card text-color-text-muted font-semibold rounded-xl cursor-not-allowed mb-4">
                                             <span>Coming Soon</span>
                                         </div>
                                     )}
@@ -329,20 +319,20 @@ export default function FivemScriptDetailsContent({ script }: FivemScriptDetails
                                     href={script.links.demo}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="w-full flex items-center justify-center gap-2 px-6 py-3 glass-frost text-color-text hover:bg-white/10 font-semibold rounded-xl transition-all duration-300 mb-4"
+                                    className="w-full flex items-center justify-center gap-2 px-6 py-3 border border-color-border bg-card hover:bg-card-alt text-color-text font-semibold rounded-xl transition-all duration-150 mb-4"
                                 >
                                     <IoPlayCircle className="w-5 h-5" />
                                     <span>View Demo</span>
                                 </a>
                             )}
 
-                            <div className="space-y-3 pt-2 border-t border-white/10">
+                            <div className="space-y-3 pt-2 border-t border-color-border">
                                 {script.links.github && (
                                     <a
                                         href={script.links.github}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 text-color-text-muted hover:text-primary-400 transition-all duration-300 group"
+                                        className="flex items-center gap-3 p-3 rounded-lg hover:bg-card-alt text-color-text-muted hover:text-primary-400 transition-all duration-300 group"
                                     >
                                         <IoLogoGithub className="w-5 h-5 group-hover:scale-110 transition-transform" />
                                         <span>View on GitHub</span>
@@ -354,7 +344,7 @@ export default function FivemScriptDetailsContent({ script }: FivemScriptDetails
                                         href={script.links.documentation}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 text-color-text-muted hover:text-primary-400 transition-all duration-300 group"
+                                        className="flex items-center gap-3 p-3 rounded-lg hover:bg-card-alt text-color-text-muted hover:text-primary-400 transition-all duration-300 group"
                                     >
                                         <IoLinkOutline className="w-5 h-5 group-hover:scale-110 transition-transform" />
                                         <span>Documentation</span>
@@ -364,12 +354,12 @@ export default function FivemScriptDetailsContent({ script }: FivemScriptDetails
                         </div>
 
                         {/* Script details - Premium */}
-                        <div className="glass-ultra rounded-2xl p-6">
+                        <div className="border border-color-border bg-card rounded-2xl p-6">
                             <h3 className="font-bold text-lg text-color-text mb-6">Script Details</h3>
 
                             <div className="space-y-4">
                                 {script.author && (
-                                    <div className="flex items-start gap-4 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
+                                    <div className="flex items-start gap-4 p-3 rounded-lg bg-card-alt hover:bg-card transition-colors">
                                         <div className="p-2 rounded-lg bg-gradient-to-r from-primary-500/20 to-accent-500/20">
                                             <IoCodeSlashOutline className="w-5 h-5 text-primary-400" />
                                         </div>
@@ -380,7 +370,7 @@ export default function FivemScriptDetailsContent({ script }: FivemScriptDetails
                                     </div>
                                 )}
 
-                                <div className="flex items-start gap-4 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
+                                <div className="flex items-start gap-4 p-3 rounded-lg bg-card-alt hover:bg-card transition-colors">
                                     <div className="p-2 rounded-lg bg-gradient-to-r from-primary-500/20 to-accent-500/20">
                                         <IoCodeSlashOutline className="w-5 h-5 text-primary-400" />
                                     </div>
@@ -390,7 +380,7 @@ export default function FivemScriptDetailsContent({ script }: FivemScriptDetails
                                     </div>
                                 </div>
 
-                                <div className="flex items-start gap-4 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
+                                <div className="flex items-start gap-4 p-3 rounded-lg bg-card-alt hover:bg-card transition-colors">
                                     <div className="p-2 rounded-lg bg-gradient-to-r from-primary-500/20 to-accent-500/20">
                                         <IoCalendarOutline className="w-5 h-5 text-primary-400" />
                                     </div>
@@ -400,7 +390,7 @@ export default function FivemScriptDetailsContent({ script }: FivemScriptDetails
                                     </div>
                                 </div>
 
-                                <div className="flex items-start gap-4 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
+                                <div className="flex items-start gap-4 p-3 rounded-lg bg-card-alt hover:bg-card transition-colors">
                                     <div className="p-2 rounded-lg bg-gradient-to-r from-primary-500/20 to-accent-500/20">
                                         <IoTimeOutline className="w-5 h-5 text-primary-400" />
                                     </div>
@@ -443,7 +433,7 @@ export default function FivemScriptDetailsContent({ script }: FivemScriptDetails
 
                         {/* Migration Guide Section - Only show for deprecated scripts with successors */}
                         {script.deprecated && script.links.successor && script.migrationGuide && (
-                            <div className="glass-ultra rounded-2xl p-6 border border-amber-500/20 bg-gradient-to-r from-amber-500/5 to-transparent">
+                            <div className="border border-color-border bg-card rounded-2xl p-6">
                                 <div className="flex items-start gap-4 mb-4">
                                     <div className="p-2 rounded-lg bg-amber-500/20 flex-shrink-0">
                                         <IoSparkles className="w-5 h-5 text-amber-400" />
@@ -482,13 +472,13 @@ export default function FivemScriptDetailsContent({ script }: FivemScriptDetails
 
                         {/* Requirements (collapsible on mobile) */}
                         {script.requirements && (
-                            <div className="glass-ultra rounded-2xl p-6 md:hidden">
+                            <div className="border border-color-border bg-card rounded-2xl p-6 md:hidden">
                                 <button
                                     className="w-full flex items-center justify-between"
                                     onClick={() => setIsRequirementsExpanded(!isRequirementsExpanded)}
                                 >
                                     <h3 className="font-bold text-lg text-color-text">Requirements</h3>
-                                    <div className="p-2 rounded-lg bg-white/10">
+                                    <div className="p-2 rounded-lg bg-card-alt">
                                         {isRequirementsExpanded ? (
                                             <IoChevronUp className="w-5 h-5 text-primary-400" />
                                         ) : (
@@ -500,7 +490,7 @@ export default function FivemScriptDetailsContent({ script }: FivemScriptDetails
                                 {isRequirementsExpanded && (
                                     <div className="mt-4 space-y-2 animate-fade-in">
                                         {script.requirements.map((req, index) => (
-                                            <div key={index} className="flex items-start gap-3 p-3 rounded-lg bg-white/5">
+                                            <div key={index} className="flex items-start gap-3 p-3 rounded-lg bg-card-alt">
                                                 <IoCheckmarkCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
                                                 <span className="text-color-text-muted">{req}</span>
                                             </div>
@@ -511,13 +501,13 @@ export default function FivemScriptDetailsContent({ script }: FivemScriptDetails
                         )}
 
                         {/* Tags - Premium */}
-                        <div className="glass-ultra rounded-2xl p-6">
+                        <div className="border border-color-border bg-card rounded-2xl p-6">
                             <h3 className="font-bold text-lg text-color-text mb-4">Tags</h3>
                             <div className="flex flex-wrap gap-2">
                                 {script.tags.map(tag => (
                                     <span
                                         key={tag}
-                                        className="px-3 py-1.5 glass-frost rounded-full text-sm font-medium text-primary-300 border border-primary-500/20 hover:border-primary-500/40 transition-colors"
+                                        className="px-3 py-1.5 border border-color-border bg-card rounded-md text-sm font-medium text-primary-300 transition-colors"
                                     >
                                         {tag}
                                     </span>
@@ -534,32 +524,24 @@ export default function FivemScriptDetailsContent({ script }: FivemScriptDetails
 function StatusBadge({ status, deprecated }: { status: FivemScript['status']; deprecated?: boolean }) {
     if (deprecated) {
         return (
-            <span className="px-4 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg shadow-red-500/25">
+            <span className="px-4 py-2 rounded-full text-sm font-bold bg-red-500 text-white">
                 Deprecated
             </span>
         );
     }
 
-    let gradientFrom = 'from-primary-500';
-    let gradientTo = 'to-accent-500';
-    let shadowColor = 'shadow-primary-500/25';
+    let bgColor = 'bg-primary-500';
 
     if (status === 'Released') {
-        gradientFrom = 'from-green-500';
-        gradientTo = 'to-emerald-500';
-        shadowColor = 'shadow-green-500/25';
+        bgColor = 'bg-green-500';
     } else if (status === 'In Development') {
-        gradientFrom = 'from-amber-500';
-        gradientTo = 'to-orange-500';
-        shadowColor = 'shadow-amber-500/25';
+        bgColor = 'bg-amber-500';
     } else if (status === 'Coming Soon') {
-        gradientFrom = 'from-purple-500';
-        gradientTo = 'to-pink-500';
-        shadowColor = 'shadow-purple-500/25';
+        bgColor = 'bg-purple-500';
     }
 
     return (
-        <span className={`px-4 py-2 rounded-full text-sm font-bold bg-gradient-to-r ${gradientFrom} ${gradientTo} text-white shadow-lg ${shadowColor}`}>
+        <span className={`px-4 py-2 rounded-full text-sm font-bold ${bgColor} text-white`}>
             {status}
         </span>
     );

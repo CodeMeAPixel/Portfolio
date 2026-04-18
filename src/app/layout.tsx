@@ -82,7 +82,7 @@ export default function RootLayout({
                   var validThemes = ['blue','purple','teal','rose','amber','sunset','emerald','crimson','nord','cyberpunk','mint','indigo','violet','coral','sage','slate','peach','lavender','rust','lime','ocean','aurora','neon','blood','everforest','kanagawa','stranger','matrix','synthwave','dracula','monokai','winter-coming','tron','vaporwave','evangelion','warzone','valorant','minecraft','fortnite','gta','hacker','elden-ring','dark-souls','apex-legends','csgo','tokyo-night','gruvbox','solarized','one-dark','palenight','atom','vscode','rose-pine','catppuccin','nightfox','github-dark','flexoki'];
                   var validFonts = ['system','monospace','serif','rounded'];
                   var validDensities = ['compact','normal','spacious'];
-                  var defaultTheme = 'fortnite';
+                  var defaultTheme = 'github-dark';
                   var defaultFont = 'system';
                   var defaultDensity = 'normal';
                   
@@ -110,7 +110,7 @@ export default function RootLayout({
                     html.classList.add('animations-disabled');
                   }
                 } catch (e) {
-                  document.documentElement.setAttribute('data-theme', 'fortnite');
+                  document.documentElement.setAttribute('data-theme', 'github-dark');
                 }
               })();
             `,

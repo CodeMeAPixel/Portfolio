@@ -109,12 +109,12 @@ export default function DocsLayout({
             <aside
                 className={`
                     w-[280px] flex-shrink-0 fixed top-0 left-0 bottom-0 md:hidden
-                    overflow-y-auto z-50 bg-bg border-r border-white/[0.06]
+                    overflow-y-auto z-50 bg-bg border-r border-color-border
                     transition-transform duration-300 ease-out custom-scrollbar
                     ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
                 `}
             >
-                <div className="flex items-center justify-between px-5 h-14 border-b border-white/[0.06]">
+                <div className="flex items-center justify-between px-5 h-14 border-b border-color-border">
                     <div className="flex items-center gap-2.5">
                         <div className="p-1.5 rounded-lg bg-primary-500/15">
                             <IoBookOutline className="w-4 h-4 text-primary-400" />
@@ -123,7 +123,7 @@ export default function DocsLayout({
                     </div>
                     <button
                         onClick={() => setIsSidebarOpen(false)}
-                        className="p-1.5 rounded-lg text-color-text-muted hover:text-color-text hover:bg-white/5 transition-all"
+                        className="p-1.5 rounded-lg text-color-text-muted hover:text-color-text hover:bg-card transition-all"
                         aria-label="Close sidebar"
                     >
                         <IoClose className="w-5 h-5" />
@@ -137,8 +137,8 @@ export default function DocsLayout({
                 className={`
                     docs-header sticky top-0 z-30 transition-all duration-200
                     ${scrolled
-                        ? 'bg-bg border-b border-white/[0.06] shadow-[0_1px_3px_rgba(0,0,0,0.2)]'
-                        : 'bg-bg border-b border-white/[0.04]'
+                        ? 'bg-bg border-b border-color-border shadow-[0_1px_3px_rgba(0,0,0,0.2)]'
+                        : 'bg-bg border-b border-color-border'
                     }
                 `}
             >
@@ -147,7 +147,7 @@ export default function DocsLayout({
                         {/* Mobile sidebar toggle */}
                         <button
                             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                            className="p-2 -ml-2 rounded-lg text-color-text-muted hover:text-primary-400 hover:bg-white/5 transition-all md:hidden"
+                            className={`p-2 -ml-2 rounded-lg text-color-text-muted hover:text-primary-400 hover:bg-card transition-all md:hidden`}
                             aria-label="Toggle sidebar"
                         >
                             <IoMenu className="w-5 h-5" />
@@ -158,7 +158,7 @@ export default function DocsLayout({
                             {breadcrumbs.map((crumb, index) => (
                                 <div key={crumb.href} className="flex items-center min-w-0">
                                     {index > 0 && (
-                                        <IoChevronForward className="mx-2 text-white/20 w-3 h-3 flex-shrink-0" />
+                                        <IoChevronForward className="mx-2 text-color-border w-3 h-3 flex-shrink-0" />
                                     )}
                                     {index === breadcrumbs.length - 1 ? (
                                         <span className="text-color-text font-medium truncate">{crumb.label}</span>
@@ -177,7 +177,7 @@ export default function DocsLayout({
                         {!isDocsHome && (
                             <button
                                 onClick={() => setIsMobileTocOpen(!isMobileTocOpen)}
-                                className={`p-2 rounded-lg transition-all lg:hidden ${isMobileTocOpen ? 'text-primary-400 bg-primary-500/10' : 'text-color-text-muted hover:text-color-text hover:bg-white/5'}`}
+                                className={`p-2 rounded-lg transition-all lg:hidden ${isMobileTocOpen ? 'text-primary-400 bg-primary-500/10' : 'text-color-text-muted hover:text-color-text hover:bg-card'}`}
                                 aria-label="Toggle table of contents"
                             >
                                 <IoListOutline className="w-4.5 h-4.5" />
@@ -187,11 +187,11 @@ export default function DocsLayout({
                         {/* Search trigger */}
                         <button
                             onClick={() => setIsSearchOpen(true)}
-                            className="flex items-center gap-2.5 px-3.5 py-2 text-sm text-color-text-muted rounded-xl border border-white/[0.08] hover:border-primary-500/20 bg-white/[0.02] hover:bg-white/[0.04] transition-all group"
+                            className="flex items-center gap-2.5 px-3.5 py-2 text-sm text-color-text-muted rounded-xl border border-color-border hover:border-primary-500/20 bg-card hover:bg-card-alt transition-all group"
                         >
                             <IoSearch className="w-3.5 h-3.5 text-color-text-muted/60 group-hover:text-primary-400 transition-colors" />
                             <span className="hidden sm:inline text-[13px]">Search docs...</span>
-                            <kbd className="hidden sm:inline-flex items-center gap-0.5 text-[11px] border border-white/[0.08] rounded-md px-1.5 py-0.5 bg-white/[0.03] text-color-text-muted/50 font-mono ml-4">
+                            <kbd className="hidden sm:inline-flex items-center gap-0.5 text-[11px] border border-color-border rounded-md px-1.5 py-0.5 bg-card text-color-text-muted/50 font-mono ml-4">
                                 ⌘K
                             </kbd>
                         </button>
@@ -200,7 +200,7 @@ export default function DocsLayout({
 
                 {/* Mobile TOC dropdown */}
                 {isMobileTocOpen && !isDocsHome && (
-                    <div className="lg:hidden border-t border-white/[0.04] px-4 py-3 max-h-[40vh] overflow-y-auto docs-scrollbar docs-dropdown-enter">
+                    <div className="lg:hidden border-t border-color-border px-4 py-3 max-h-[40vh] overflow-y-auto docs-scrollbar docs-dropdown-enter">
                         <TableOfContents />
                     </div>
                 )}
@@ -209,8 +209,8 @@ export default function DocsLayout({
             {/* Main layout: sidebar + content + TOC */}
             <div className="max-w-[1800px] mx-auto flex relative z-10 min-h-[calc(100vh-3.5rem)]">
                 {/* Desktop sidebar */}
-                <aside className="docs-sidebar w-[260px] flex-shrink-0 hidden md:block sticky top-14 h-[calc(100vh-3.5rem)] overflow-y-auto docs-scrollbar">
-                    <div className="border-r border-white/[0.04] h-full">
+                <aside className="docs-sidebar w-[260px] flex-shrink-0 hidden md:block sticky top-14 h-[calc(100vh-3.5rem)] overflow-hidden">
+                    <div className="border-r border-color-border h-full">
                         <DocsSidebar />
                     </div>
                 </aside>
@@ -227,7 +227,7 @@ export default function DocsLayout({
                 {/* Desktop TOC - right column */}
                 {!isDocsHome && (
                     <aside className="docs-toc-sidebar w-[200px] flex-shrink-0 hidden lg:block sticky top-14 h-[calc(100vh-3.5rem)] overflow-y-auto docs-scrollbar">
-                        <div className="border-l border-white/[0.04] h-full py-8 pl-6 pr-4">
+                        <div className="border-l border-color-border h-full py-8 pl-6 pr-4">
                             <TableOfContents />
                         </div>
                     </aside>

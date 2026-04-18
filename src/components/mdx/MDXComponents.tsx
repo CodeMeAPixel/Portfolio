@@ -62,9 +62,9 @@ const CodeBlock = ({ children, className }: { children: React.ReactNode; classNa
                     language.charAt(0).toUpperCase() + language.slice(1);
 
     return (
-        <div className="relative group rounded-xl overflow-hidden my-8 glass-ultra border border-white/10 shadow-xl shadow-black/20">
+        <div className="relative group rounded-xl overflow-hidden my-8 border border-color-border bg-card">
             {/* Header bar */}
-            <div className="flex items-center justify-between px-4 py-2.5 border-b border-white/10 bg-white/5">
+            <div className="flex items-center justify-between px-4 py-2.5 border-b border-color-border bg-card-alt">
                 <div className="flex items-center gap-2">
                     <div className="flex gap-1.5">
                         <span className="w-3 h-3 rounded-full bg-red-500/80"></span>
@@ -88,7 +88,7 @@ const CustomImage = (props: React.ComponentPropsWithoutRef<"img"> & { width?: nu
     // If the image is served from an external domain, use the default img tag
     if (props.src && (props.src.startsWith('http://') || props.src.startsWith('https://'))) {
         return (
-            <div className="my-8 overflow-hidden rounded-xl glass-ultra border border-white/10 shadow-xl shadow-black/20 group">
+            <div className="my-8 overflow-hidden rounded-xl border border-color-border bg-card group">
                 <div className="relative">
                     <img alt={props.alt || "Image"} {...props} className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.02]" />
                     <div className="absolute inset-0 bg-gradient-to-t from-primary-900/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -99,7 +99,7 @@ const CustomImage = (props: React.ComponentPropsWithoutRef<"img"> & { width?: nu
 
     // Otherwise use Next.js optimized Image component
     return (
-        <div className="my-8 overflow-hidden rounded-xl glass-ultra border border-white/10 shadow-xl shadow-black/20 group">
+        <div className="my-8 overflow-hidden rounded-xl border border-color-border bg-card group">
             <div className="relative">
                 <Image
                     src={props.src || ''}
@@ -117,7 +117,7 @@ const CustomImage = (props: React.ComponentPropsWithoutRef<"img"> & { width?: nu
 // Custom blockquote component with premium styling
 const BlockQuote = (props: React.ComponentPropsWithoutRef<"blockquote">) => (
     <blockquote
-        className="relative border-l-4 border-gradient-to-b from-primary-400 to-accent-500 pl-6 pr-4 py-4 my-8 glass-frost rounded-r-xl italic text-color-text-muted border-primary-500 shadow-lg shadow-primary-500/10"
+        className="relative border-l-4 border-primary-500 pl-6 pr-4 py-4 my-8 bg-card rounded-r-xl italic text-color-text-muted"
         {...props}
     >
         <span className="absolute -left-3 -top-3 text-4xl text-primary-500/30 font-serif">&ldquo;</span>
@@ -139,21 +139,21 @@ const LI = (props: React.ComponentPropsWithoutRef<"li">) => (
 
 // Custom table components with premium glassmorphism
 const Table = (props: React.ComponentPropsWithoutRef<"table">) => (
-    <div className="overflow-x-auto my-8 rounded-xl glass-ultra border border-white/10 shadow-xl shadow-black/20">
+    <div className="overflow-x-auto my-8 rounded-xl border border-color-border bg-card">
         <table className="min-w-full divide-y divide-white/10" {...props} />
     </div>
 );
 
 const TH = (props: React.ComponentPropsWithoutRef<"th">) => (
     <th
-        className="px-5 py-4 bg-gradient-to-r from-primary-500/10 to-accent-500/10 text-left text-xs font-semibold text-primary-300 uppercase tracking-wider border-b border-white/10"
+        className="px-5 py-4 bg-gradient-to-r from-primary-500/10 to-accent-500/10 text-left text-xs font-semibold text-primary-300 uppercase tracking-wider border-b border-color-border"
         {...props}
     />
 );
 
 const TD = (props: React.ComponentPropsWithoutRef<"td">) => (
     <td
-        className="px-5 py-4 text-sm border-b border-white/5 text-color-text-muted transition-colors hover:bg-white/5"
+        className="px-5 py-4 text-sm border-b border-color-border text-color-text-muted transition-colors hover:bg-card-alt"
         {...props}
     />
 );

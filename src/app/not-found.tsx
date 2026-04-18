@@ -23,21 +23,9 @@ export default function NotFoundPage() {
         <>
             <Navbar />
             <div className="min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 relative bg-bg overflow-hidden">
-                {/* Premium multi-layer background */}
-                <div className="absolute inset-0">
-                    <div className="absolute inset-0 bg-aurora opacity-40"></div>
-                    <div className="absolute inset-0 bg-dot-pattern opacity-20"></div>
-                </div>
+                {/* Background */}
+                <div className="absolute inset-0 bg-dot-pattern opacity-20" />
                 <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"></div>
-
-                {/* Animated floating orbs */}
-                <div
-                    className="absolute top-[10%] left-[10%] w-[400px] h-[400px] rounded-full bg-gradient-to-br from-primary-500/20 to-primary-600/5 blur-[100px] animate-pulse"
-                />
-                <div
-                    className="absolute bottom-[20%] right-[10%] w-[350px] h-[350px] rounded-full bg-gradient-to-tl from-primary-400/15 to-transparent blur-[80px] animate-pulse"
-                    style={{ animationDelay: '2s' }}
-                />
 
                 {/* Decorative elements */}
                 <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
@@ -67,7 +55,7 @@ export default function NotFoundPage() {
                         className="absolute bottom-[25%] md:bottom-[30%] left-[10%] md:left-[15%] transform -rotate-6 animate-fade-up"
                         style={{ animationDelay: '0.7s' }}
                     >
-                        <div className="text-xs md:text-sm glass-frost px-4 py-2 rounded-xl text-primary-300 font-mono border border-primary-500/20">
+                        <div className="text-xs md:text-sm bg-card border border-color-border px-4 py-2 rounded-xl text-primary-300 font-mono">
                             {'<NotFound />'}
                         </div>
                     </div>
@@ -78,7 +66,7 @@ export default function NotFoundPage() {
                     <div
                         className="animate-fade-up"
                     >
-                        <div className="inline-flex items-center justify-center mb-6 glass-frost px-5 py-2.5 rounded-full border border-primary-500/20">
+                        <div className="inline-flex items-center justify-center mb-6 bg-card border border-color-border px-5 py-2.5 rounded-full">
                             <IoCodeSlash className="w-4 h-4 mr-2 text-primary-400" />
                             <span className="text-sm font-semibold text-primary-300">Error 404</span>
                         </div>
@@ -104,18 +92,15 @@ export default function NotFoundPage() {
                     >
                         <Link
                             href="/"
-                            className="group relative px-6 py-3 rounded-xl font-semibold overflow-hidden glass-ultra border border-primary-500/30 hover:border-primary-500/50 transition-all duration-300"
+                            className="px-6 py-3 rounded-lg bg-primary-500 hover:bg-primary-400 text-white font-semibold transition-colors duration-150 flex items-center"
                         >
-                            <span className="absolute inset-0 bg-gradient-to-r from-primary-500/20 to-primary-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                            <span className="relative z-10 flex items-center text-primary-300 group-hover:text-primary-200">
-                                <IoHome className="mr-2 w-5 h-5" />
-                                Back to Home
-                            </span>
+                            <IoHome className="mr-2 w-5 h-5" />
+                            Back to Home
                         </Link>
 
                         <button
                             onClick={() => window.history.back()}
-                            className="group px-6 py-3 rounded-xl font-semibold glass-frost border border-white/10 hover:border-white/20 transition-all duration-300 flex items-center text-color-text-muted hover:text-color-text"
+                            className="px-6 py-3 rounded-xl font-semibold border border-color-border bg-card hover:bg-card-alt transition-colors duration-150 flex items-center text-color-text-muted hover:text-color-text"
                         >
                             <IoArrowBack className="mr-2 w-5 h-5 group-hover:-translate-x-1 transition-transform" />
                             Go Back
@@ -127,8 +112,8 @@ export default function NotFoundPage() {
                         className="mx-auto max-w-xl overflow-hidden animate-fade-up"
                         style={{ animationDelay: '0.5s' }}
                     >
-                        <div className="glass-ultra rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/20">
-                            <div className="flex items-center px-4 py-3 bg-white/5 border-b border-white/10">
+                        <div className="border border-color-border bg-card rounded-2xl overflow-hidden shadow-2xl shadow-black/20">
+                            <div className="flex items-center px-4 py-3 bg-card-alt border-b border-color-border">
                                 <div className="flex gap-2 mr-4">
                                     <div className="w-3 h-3 rounded-full bg-red-500/80 shadow-lg shadow-red-500/20"></div>
                                     <div className="w-3 h-3 rounded-full bg-amber-400/80 shadow-lg shadow-amber-400/20"></div>

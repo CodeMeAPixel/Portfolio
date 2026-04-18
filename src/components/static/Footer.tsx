@@ -56,7 +56,7 @@ export default function Footer() {
                                     className="group relative p-2.5 rounded-xl text-color-text-muted hover:text-primary-400 transition-all duration-300"
                                     aria-label={social.label}
                                 >
-                                    <div className="absolute inset-0 rounded-xl bg-white/0 group-hover:bg-white/5 transition-colors duration-300"></div>
+                                    <div className="absolute inset-0 rounded-xl bg-transparent group-hover:bg-card-alt transition-colors duration-300"></div>
                                     <social.icon className="relative w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
                                 </a>
                             ))}
@@ -66,7 +66,7 @@ export default function Footer() {
                                 className="group relative p-2.5 rounded-xl text-color-text-muted hover:text-primary-400 transition-all duration-300"
                                 aria-label="Scroll to top"
                             >
-                                <div className="absolute inset-0 rounded-xl bg-white/0 group-hover:bg-white/5 transition-colors duration-300"></div>
+                                <div className="absolute inset-0 rounded-xl bg-transparent group-hover:bg-card-alt transition-colors duration-300"></div>
                                 <IoArrowUp className="relative w-4 h-4 group-hover:-translate-y-0.5 transition-transform duration-300" />
                             </button>
                         </div>

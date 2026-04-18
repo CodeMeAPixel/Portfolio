@@ -38,7 +38,7 @@ function ChatBubble({ messages, isRight = false, avatar, name, delay = 0 }: Chat
                         )}
                         <div className={`px-4 py-2.5 rounded-2xl ${isRight
                             ? 'bg-gradient-to-br from-primary-500/90 to-primary-600/90 text-white rounded-br-md'
-                            : 'glass-frost rounded-bl-md'
+                            : 'border border-color-border bg-card rounded-2xl rounded-bl-md'
                             }`}>
                             <p className="text-sm">{msg.text}</p>
                         </div>
@@ -61,30 +61,22 @@ export default function JustAskContent() {
 
     return (
         <section className="pt-20 pb-24 md:pt-24 md:pb-32 bg-bg relative z-10 overflow-hidden min-h-screen">
-            {/* Premium multi-layer background */}
-            <div className="absolute inset-0">
-                <div className="absolute inset-0 bg-aurora opacity-40"></div>
-                <div className="absolute inset-0 bg-dot-pattern opacity-20"></div>
-            </div>
+            {/* Background */}
+            <div className="absolute inset-0 bg-dot-pattern opacity-20" />
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"></div>
-
-            {/* Animated floating orbs - CSS animations */}
-            <div className="absolute top-[10%] right-[10%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-primary-500/20 to-primary-600/5 blur-[100px] animate-float-slow" />
-            <div className="absolute bottom-[20%] left-[5%] w-[400px] h-[400px] rounded-full bg-gradient-to-tl from-primary-400/15 to-transparent blur-[80px] animate-float-medium" />
-            <div className="absolute top-[50%] left-[50%] w-[300px] h-[300px] rounded-full bg-gradient-to-r from-red-500/10 to-orange-500/10 blur-[80px] animate-float-fast" />
 
             <div className="container-section max-w-4xl relative">
                 {/* Header */}
                 <div className="text-center mb-16 animate-fade-in">
                     {/* Badge */}
-                    <span className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-primary-300 glass-frost rounded-full mb-8 animate-fade-in-up">
+                    <span className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-primary-300 border border-color-border bg-card/50 rounded-full mb-8 animate-fade-in-up">
                         <IoFlashOutline className="w-4 h-4" />
                         Communication Etiquette
                     </span>
 
                     <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6">
                         <span className="text-color-text">Just </span>
-                        <span className="animated-gradient-text text-shadow-glow">Ask</span>
+                        <span className="animated-gradient-text">Ask</span>
                     </h1>
 
                     <p className="text-lg md:text-xl text-color-text-muted max-w-2xl mx-auto leading-relaxed">
@@ -95,28 +87,22 @@ export default function JustAskContent() {
 
                 {/* Why Section */}
                 <div className="mb-16 animate-fade-in-up" style={{ animationDelay: '100ms' }}>
-                    <div className="glass-ultra rounded-3xl p-8 md:p-10 relative overflow-hidden">
-                        <div className="absolute inset-0 shine-sweep"></div>
+                    <div className="flex items-center gap-3 mb-6">
+                        <IoTimeOutline className="w-5 h-5 text-primary-400" />
+                        <h2 className="text-2xl md:text-3xl font-bold text-color-text">Why?</h2>
+                    </div>
 
-                        <div className="flex items-center gap-3 mb-6">
-                            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary-500/20 to-primary-600/10 flex items-center justify-center">
-                                <IoTimeOutline className="w-6 h-6 text-primary-400" />
-                            </div>
-                            <h2 className="text-2xl md:text-3xl font-bold text-color-text">Why?</h2>
-                        </div>
-
-                        <div className="space-y-4 text-color-text-muted leading-relaxed">
-                            <p>
-                                Unnecessary pleasantries waste time in task-based conversations.
-                                When you message just &ldquo;Hello&rdquo; and wait for a response before asking your actual question,
-                                you&apos;re creating unnecessary back-and-forth that can stretch a simple exchange over hours or even days.
-                            </p>
-                            <p>
-                                If someone shared this link with you or you see it in my profile, it means
-                                <span className="text-primary-400 font-medium"> I won&apos;t be offended</span> if you skip the pleasantries
-                                and get straight to the point. Do still be polite, and feel free to have social conversations when appropriate!
-                            </p>
-                        </div>
+                    <div className="space-y-4 text-color-text-muted leading-relaxed">
+                        <p>
+                            Unnecessary pleasantries waste time in task-based conversations.
+                            When you message just &ldquo;Hello&rdquo; and wait for a response before asking your actual question,
+                            you&apos;re creating unnecessary back-and-forth that can stretch a simple exchange over hours or even days.
+                        </p>
+                        <p>
+                            If someone shared this link with you or you see it in my profile, it means
+                            <span className="text-primary-400 font-medium"> I won&apos;t be offended</span> if you skip the pleasantries
+                            and get straight to the point. Do still be polite, and feel free to have social conversations when appropriate!
+                        </p>
                     </div>
                 </div>
 
@@ -124,7 +110,7 @@ export default function JustAskContent() {
                 <div className="grid md:grid-cols-2 gap-6 mb-16">
                     {/* Bad Example */}
                     <div className="relative animate-fade-in-up" style={{ animationDelay: '200ms' }}>
-                        <div className="glass-ultra rounded-3xl p-6 md:p-8 relative overflow-hidden border border-red-500/20">
+                        <div className="border border-color-border bg-card rounded-2xl p-6 md:p-8 relative overflow-hidden">
                             <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-500 to-orange-500"></div>
 
                             <div className="flex items-center gap-3 mb-6">
@@ -210,7 +196,7 @@ export default function JustAskContent() {
 
                     {/* Good Example */}
                     <div className="relative animate-fade-in-up" style={{ animationDelay: '300ms' }}>
-                        <div className="glass-ultra rounded-3xl p-6 md:p-8 relative overflow-hidden border border-green-500/20">
+                        <div className="border border-color-border bg-card rounded-2xl p-6 md:p-8 relative overflow-hidden">
                             <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-green-500 to-emerald-500"></div>
 
                             <div className="flex items-center gap-3 mb-6">
@@ -265,105 +251,89 @@ export default function JustAskContent() {
 
                 {/* Key Points */}
                 <div className="mb-16 animate-fade-in-up" style={{ animationDelay: '400ms' }}>
-                    <div className="glass-ultra rounded-3xl p-8 md:p-10 relative overflow-hidden">
-                        <div className="absolute inset-0 shine-sweep"></div>
+                    <div className="flex items-center gap-3 mb-8">
+                        <IoChatbubblesOutline className="w-5 h-5 text-primary-400" />
+                        <h2 className="text-2xl md:text-3xl font-bold text-color-text">The Key Points</h2>
+                    </div>
 
-                        <div className="flex items-center gap-3 mb-8">
-                            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary-500/20 to-primary-600/10 flex items-center justify-center">
-                                <IoChatbubblesOutline className="w-6 h-6 text-primary-400" />
-                            </div>
-                            <h2 className="text-2xl md:text-3xl font-bold text-color-text">The Key Points</h2>
-                        </div>
-
-                        <div className="grid sm:grid-cols-2 gap-6">
-                            {[
-                                {
-                                    icon: IoFlashOutline,
-                                    title: "Include Context",
-                                    description: "Put your question in the first message. Don't make me wait to find out what you need."
-                                },
-                                {
-                                    icon: IoHeartOutline,
-                                    title: "Still Be Polite",
-                                    description: "Being efficient doesn't mean being rude. A friendly tone is always welcome."
-                                },
-                                {
-                                    icon: IoTimeOutline,
-                                    title: "Respect Time",
-                                    description: "Every unnecessary message adds delay. Context-switching has a real cost."
-                                },
-                                {
-                                    icon: IoSparkles,
-                                    title: "Be Specific",
-                                    description: "The more details you provide upfront, the faster I can give you a helpful answer."
-                                }
-                            ].map((point, i) => (
-                                <div
-                                    key={point.title}
-                                    className="flex gap-4 animate-fade-in"
-                                    style={{ animationDelay: `${500 + i * 100}ms` }}
-                                >
-                                    <div className="w-10 h-10 rounded-xl bg-primary-500/10 flex items-center justify-center flex-shrink-0">
-                                        <point.icon className="w-5 h-5 text-primary-400" />
-                                    </div>
-                                    <div>
-                                        <h3 className="font-semibold text-color-text mb-1">{point.title}</h3>
-                                        <p className="text-sm text-color-text-muted">{point.description}</p>
-                                    </div>
+                    <div className="grid sm:grid-cols-2 gap-6">
+                        {[
+                            {
+                                icon: IoFlashOutline,
+                                title: "Include Context",
+                                description: "Put your question in the first message. Don't make me wait to find out what you need."
+                            },
+                            {
+                                icon: IoHeartOutline,
+                                title: "Still Be Polite",
+                                description: "Being efficient doesn't mean being rude. A friendly tone is always welcome."
+                            },
+                            {
+                                icon: IoTimeOutline,
+                                title: "Respect Time",
+                                description: "Every unnecessary message adds delay. Context-switching has a real cost."
+                            },
+                            {
+                                icon: IoSparkles,
+                                title: "Be Specific",
+                                description: "The more details you provide upfront, the faster I can give you a helpful answer."
+                            }
+                        ].map((point, i) => (
+                            <div
+                                key={point.title}
+                                className="flex gap-4 animate-fade-in"
+                                style={{ animationDelay: `${500 + i * 100}ms` }}
+                            >
+                                <div className="w-10 h-10 rounded-xl bg-primary-500/10 flex items-center justify-center flex-shrink-0">
+                                    <point.icon className="w-5 h-5 text-primary-400" />
                                 </div>
-                            ))}
-                        </div>
+                                <div>
+                                    <h3 className="font-semibold text-color-text mb-1">{point.title}</h3>
+                                    <p className="text-sm text-color-text-muted">{point.description}</p>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
 
                 {/* CTA Section */}
                 <div className="text-center animate-fade-in-up" style={{ animationDelay: '600ms' }}>
-                    <div className="glass-ultra rounded-3xl p-8 md:p-10 relative overflow-hidden">
-                        <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 to-primary-600/5"></div>
-                        <div className="absolute inset-0 shine-sweep"></div>
+                    <h2 className="text-2xl md:text-3xl font-bold text-color-text mb-4">
+                        Share This Philosophy
+                    </h2>
+                    <p className="text-color-text-muted mb-8 max-w-lg mx-auto">
+                        Feel free to share this page with others. Let&apos;s make async communication more efficient, together.
+                    </p>
 
-                        <div className="relative">
-                            <h2 className="text-2xl md:text-3xl font-bold text-color-text mb-4">
-                                Share This Philosophy
-                            </h2>
-                            <p className="text-color-text-muted mb-8 max-w-lg mx-auto">
-                                Feel free to share this page with others. Let&apos;s make async communication more efficient, together.
-                            </p>
+                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                        <button
+                            onClick={handleCopyLink}
+                            className="px-8 py-4 rounded-2xl font-semibold border border-color-border bg-card hover:bg-card-alt transition-colors"
+                        >
+                            <span className="flex items-center justify-center gap-2 text-color-text">
+                                {copied ? (
+                                    <>
+                                        <IoCheckmark className="w-5 h-5" />
+                                        Copied!
+                                    </>
+                                ) : (
+                                    <>
+                                        <IoCopyOutline className="w-5 h-5" />
+                                        Copy Link
+                                    </>
+                                )}
+                            </span>
+                        </button>
 
-                            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                                <button
-                                    onClick={handleCopyLink}
-                                    className="group relative px-8 py-4 rounded-2xl font-semibold overflow-hidden hover:scale-[1.02] active:scale-[0.98] transition-transform"
-                                >
-                                    <div className="absolute inset-0 bg-gradient-to-r from-primary-500 to-primary-600"></div>
-                                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-r from-primary-400 to-primary-500 transition-opacity duration-300"></div>
-                                    <span className="relative flex items-center justify-center gap-2 text-white">
-                                        {copied ? (
-                                            <>
-                                                <IoCheckmark className="w-5 h-5" />
-                                                Copied!
-                                            </>
-                                        ) : (
-                                            <>
-                                                <IoCopyOutline className="w-5 h-5" />
-                                                Copy Link
-                                            </>
-                                        )}
-                                    </span>
-                                </button>
-
-                                <a
-                                    href="/contact"
-                                    className="group relative px-8 py-4 rounded-2xl font-semibold glass-frost overflow-hidden hover:scale-[1.02] active:scale-[0.98] transition-transform"
-                                >
-                                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-primary-500/10 transition-opacity duration-300"></div>
-                                    <span className="relative flex items-center justify-center gap-2 text-color-text">
-                                        <IoChatbubblesOutline className="w-5 h-5" />
-                                        Contact Me
-                                    </span>
-                                </a>
-                            </div>
-                        </div>
+                        <a
+                            href="/contact"
+                            className="px-8 py-4 rounded-2xl font-semibold border border-color-border bg-card hover:bg-card-alt transition-colors"
+                        >
+                            <span className="flex items-center justify-center gap-2 text-color-text">
+                                <IoChatbubblesOutline className="w-5 h-5" />
+                                Contact Me
+                            </span>
+                        </a>
                     </div>
                 </div>
 

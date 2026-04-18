@@ -25,7 +25,7 @@ export default function ComingSoon({
     showBackToHome = true,
     showNotification = true,
     launchDate,
-    completionPercentage = 75,
+    completionPercentage = 95,
     customBackLink,
 }: ComingSoonProps) {
     const [mounted, setMounted] = useState(false);
@@ -78,23 +78,16 @@ export default function ComingSoon({
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 relative overflow-hidden bg-bg">
-            {/* Premium multi-layer background */}
+            {/* Background */}
             <div className="absolute inset-0">
-                <div className="absolute inset-0 bg-aurora opacity-40"></div>
                 <div className="absolute inset-0 bg-dot-pattern opacity-20"></div>
             </div>
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"></div>
 
-            {/* Floating Orbs - CSS animations */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-br from-primary-500/20 to-purple-500/10 rounded-full blur-3xl animate-float-slow" />
-                <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-br from-accent-500/15 to-primary-500/20 rounded-full blur-3xl animate-float-medium" />
-            </div>
-
             {/* Main content */}
             <div className="relative z-10 w-full max-w-2xl mx-auto text-center">
                 <div className="animate-fade-in-up">
-                    <div className="inline-flex items-center justify-center mb-6 glass-frost px-4 py-2 rounded-full">
+                    <div className="inline-flex items-center justify-center mb-6 border border-color-border bg-card/50 px-4 py-2 rounded-full">
                         <IoRocketOutline className="w-4 h-4 mr-2 text-primary-400" />
                         <span className="text-xs font-medium text-primary-300">Under Construction</span>
                     </div>
@@ -104,7 +97,7 @@ export default function ComingSoon({
                     className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6 animate-fade-in-up"
                     style={{ animationDelay: '100ms' }}
                 >
-                    <span className="animated-gradient-text text-shadow-glow">{title}</span>
+                    <span className="animated-gradient-text">{title}</span>
                 </h1>
 
                 <p
@@ -137,7 +130,7 @@ export default function ComingSoon({
                             </div>
                             <p className="text-sm text-color-text">Development progress</p>
                         </div>
-                        <div className="w-full bg-white/5 rounded-full h-2 mb-2 overflow-hidden">
+                        <div className="w-full bg-card-alt rounded-full h-2 mb-2 overflow-hidden">
                             <div
                                 className="h-2 rounded-full bg-gradient-to-r from-primary-500 to-accent-500 transition-all duration-1000 ease-out"
                                 style={{ width: `${progressWidth}%` }}
@@ -172,7 +165,7 @@ export default function ComingSoon({
 // Countdown unit component - Premium Glass
 function CountdownUnit({ value, label }: { value: number; label: string }) {
     return (
-        <div className="glass-ultra rounded-xl p-4 min-w-[80px] shine-sweep">
+        <div className="border border-color-border bg-card rounded-xl p-4 min-w-[80px]">
             <div className="text-2xl sm:text-3xl font-bold animated-gradient-text mb-1">
                 {value.toString().padStart(2, '0')}
             </div>
@@ -203,13 +196,13 @@ function NotificationForm() {
             {!isSubmitted ? (
                 <button
                     onClick={() => document.getElementById('notify-form')?.classList.toggle('hidden')}
-                    className="inline-flex items-center gap-2 px-6 py-3 glass-frost text-color-text font-semibold rounded-xl hover:bg-white/10 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+                    className="inline-flex items-center gap-2 px-6 py-3 border border-color-border bg-card text-color-text font-semibold rounded-lg hover:bg-card-alt transition-colors"
                 >
                     <IoSparkles className="w-4 h-4 text-primary-400" />
                     Notify Me
                 </button>
             ) : (
-                <div className="inline-flex items-center gap-2 px-6 py-3 glass-frost text-primary-300 font-semibold rounded-xl animate-fade-in">
+                <div className="inline-flex items-center gap-2 px-6 py-3 border border-color-border bg-card text-primary-300 font-semibold rounded-lg animate-fade-in">
                     ✓ We&apos;ll notify you!
                 </div>
             )}
@@ -217,14 +210,14 @@ function NotificationForm() {
             <form
                 id="notify-form"
                 onSubmit={handleSubmit}
-                className="hidden absolute top-full mt-2 right-0 w-64 p-4 glass-ultra rounded-xl z-20 animate-fade-in"
+                className="hidden absolute top-full mt-2 right-0 w-64 p-4 border border-color-border bg-card rounded-xl z-20 animate-fade-in"
             >
                 <input
                     type="email"
                     placeholder="your@email.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-3 py-2 mb-2 rounded-lg bg-white/5 border border-white/10 text-color-text text-sm focus:ring-1 focus:ring-primary-500 focus:border-primary-500 outline-none placeholder:text-color-text-muted/50 transition-all"
+                    className="w-full px-3 py-2 mb-2 rounded-lg bg-card-alt border border-color-border text-color-text text-sm focus:ring-1 focus:ring-primary-500 focus:border-primary-500 outline-none placeholder:text-color-text-muted/50 transition-all"
                     required
                 />
                 <button

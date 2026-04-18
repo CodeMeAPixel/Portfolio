@@ -148,7 +148,7 @@ export default function DiscordPresence() {
     if (loading) {
         return (
             <div className="mb-24 animate-fade-up">
-                <div className="p-8 rounded-2xl glass-ultra border border-white/10 flex items-center justify-center">
+                <div className="p-8 rounded-2xl border border-color-border bg-card flex items-center justify-center">
                     <div className="w-8 h-8 rounded-full border-2 border-primary-500/30 border-t-primary-500 animate-spin"></div>
                 </div>
             </div>
@@ -174,24 +174,18 @@ export default function DiscordPresence() {
             style={{ animationDelay: '0.35s' }}
         >
             <div className="flex items-center gap-4 mb-10">
-                <div className="p-3 rounded-xl glass-frost">
+                <div className="p-3 rounded-xl border border-color-border bg-card">
                     <IoLogoDiscord className="w-6 h-6 text-[#5865F2]" />
                 </div>
                 <h2 className="text-2xl sm:text-3xl font-bold text-color-text">Discord Presence</h2>
                 <div className="flex-1 h-px bg-gradient-to-r from-primary-500/30 to-transparent"></div>
             </div>
 
-            <div className="relative p-6 md:p-8 rounded-2xl glass-ultra overflow-hidden transition-all duration-500 group hover:-translate-y-1.5">
-                {/* Animated glow on hover */}
-                <div className="absolute inset-0 bg-gradient-to-r from-[#5865F2]/0 via-[#5865F2]/10 to-[#5865F2]/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-                {/* Spotlight effect */}
-                <div className="absolute inset-0 spotlight opacity-0 group-hover:opacity-40 transition-opacity duration-500"></div>
-
+            <div className="p-6 md:p-8 rounded-2xl border border-color-border bg-card">
                 {/* Content */}
                 <div className="relative z-10">
                     {/* Main Discord Info */}
-                    <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-6 pb-6 border-b border-white/10">
+                    <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-6 pb-6 border-b border-color-border">
                         {/* Avatar and Status */}
                         <div className="flex items-center gap-4">
                             <div className="relative">
@@ -228,7 +222,7 @@ export default function DiscordPresence() {
                                 href="https://discord.com"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="px-5 py-2.5 rounded-lg glass-frost border border-[#5865F2]/30 text-[#5865F2] hover:bg-[#5865F2]/10 transition-all duration-300 text-sm font-semibold"
+                                className="px-5 py-2.5 rounded-lg border border-color-border bg-card text-[#5865F2] hover:bg-card-alt transition-colors text-sm font-semibold"
                             >
                                 Message
                             </a>
@@ -275,7 +269,7 @@ export default function DiscordPresence() {
 
                         {/* Custom Status */}
                         {customStatus && (
-                            <div className="p-4 rounded-xl bg-white/5 border border-primary-400 flex items-start gap-3">
+                            <div className="p-4 rounded-xl bg-card-alt border border-primary-400 flex items-start gap-3">
                                 <div className="text-lg">✨</div>
                                 <div className="flex-1 min-w-0">
                                     <div className="text-sm text-color-text">{customStatus.state}</div>
@@ -285,34 +279,34 @@ export default function DiscordPresence() {
 
                         {/* No Activity */}
                         {!mainActivity && !spotify && (
-                            <div className="p-4 rounded-xl bg-white/5 border border-white/10 flex items-center gap-3">
+                            <div className="p-4 rounded-xl bg-card-alt border border-color-border flex items-center gap-3">
                                 <span className="text-sm text-color-text-muted">No current activity</span>
                             </div>
                         )}
                     </div>
 
                     {/* Active On Badges */}
-                    <div className="flex flex-wrap gap-2 mt-6 pt-6 border-t border-white/10">
+                    <div className="flex flex-wrap gap-2 mt-6 pt-6 border-t border-color-border">
                         {data.data.active_on_discord_web && (
-                            <span className="text-xs font-semibold glass-frost text-primary-300 px-3 py-1.5 rounded-full flex items-center gap-1.5">
+                            <span className="text-xs font-semibold border border-color-border bg-card text-primary-300 px-3 py-1.5 rounded-md flex items-center gap-1.5">
                                 <IoCheckmarkCircle className="w-3 h-3" />
                                 Web
                             </span>
                         )}
                         {data.data.active_on_discord_desktop && (
-                            <span className="text-xs font-semibold glass-frost text-primary-300 px-3 py-1.5 rounded-full flex items-center gap-1.5">
+                            <span className="text-xs font-semibold border border-color-border bg-card text-primary-300 px-3 py-1.5 rounded-md flex items-center gap-1.5">
                                 <IoCheckmarkCircle className="w-3 h-3" />
                                 Desktop
                             </span>
                         )}
                         {data.data.active_on_discord_mobile && (
-                            <span className="text-xs font-semibold glass-frost text-primary-300 px-3 py-1.5 rounded-full flex items-center gap-1.5">
+                            <span className="text-xs font-semibold border border-color-border bg-card text-primary-300 px-3 py-1.5 rounded-md flex items-center gap-1.5">
                                 <IoCheckmarkCircle className="w-3 h-3" />
                                 Mobile
                             </span>
                         )}
                         {!data.data.active_on_discord_web && !data.data.active_on_discord_desktop && !data.data.active_on_discord_mobile && (
-                            <span className="text-xs font-semibold glass-frost text-color-text-muted px-3 py-1.5 rounded-full flex items-center gap-1.5">
+                            <span className="text-xs font-semibold border border-color-border bg-card text-color-text-muted px-3 py-1.5 rounded-md flex items-center gap-1.5">
                                 <IoEllipseOutline className="w-3 h-3" />
                                 Offline
                             </span>

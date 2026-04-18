@@ -50,9 +50,7 @@ export default function ProjectCard({
             onMouseLeave={() => onHover?.(null)}
         >
             <Link href={`/projects/${project.id}`}>
-                <article className="relative h-full glass-ultra border border-primary-500/10 rounded-3xl overflow-hidden transition-all duration-500 hover:border-primary-400/50 hover:shadow-2xl hover:shadow-primary-500/20 hover:-translate-y-2">
-                    {/* Animated glow on hover */}
-                    <div className="absolute -inset-1 bg-gradient-to-r from-primary-500/0 via-primary-500/20 to-primary-500/0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" />
+                <article className="relative h-full border border-color-border bg-card rounded-2xl overflow-hidden hover:border-primary-500/30 transition-colors duration-150 group">
 
                     {/* Image Section */}
                     <div className="relative aspect-video overflow-hidden bg-gradient-to-br from-primary-900/50 to-bg">
@@ -74,14 +72,14 @@ export default function ProjectCard({
 
                         {/* Featured Badge */}
                         {(project.featured || showFeaturedBadge) && (
-                            <div className="absolute top-4 left-4 px-3 py-1.5 rounded-full glass-frost border border-primary-500/30 text-xs font-semibold text-primary-300 backdrop-blur-md">
+                            <div className="absolute top-4 left-4 px-3 py-1.5 rounded-full border border-color-border bg-card text-xs font-semibold text-primary-300">
                                 Featured
                             </div>
                         )}
 
                         {/* Date Badge */}
                         {project.date && (
-                            <div className="absolute top-4 right-4 flex items-center gap-1.5 px-3 py-1.5 rounded-full glass-frost border border-white/10 text-xs text-color-text-muted backdrop-blur-md">
+                            <div className="absolute top-4 right-4 flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-color-border bg-card text-xs text-color-text-muted">
                                 <IoCalendarOutline className="w-3.5 h-3.5" />
                                 {new Date(project.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short' })}
                             </div>
@@ -105,13 +103,13 @@ export default function ProjectCard({
                             {project.tags.slice(0, 4).map((tag) => (
                                 <span
                                     key={tag}
-                                    className="px-2.5 py-1 text-xs font-medium rounded-lg glass-frost border border-white/10 text-primary-300"
+                                    className="px-2.5 py-1 text-xs font-medium rounded-lg border border-color-border bg-card text-primary-300"
                                 >
                                     {highlightText(tag, searchQuery)}
                                 </span>
                             ))}
                             {project.tags.length > 4 && (
-                                <span className="px-2.5 py-1 text-xs font-medium rounded-lg glass-frost border border-white/10 text-color-text-muted">
+                                <span className="px-2.5 py-1 text-xs font-medium rounded-lg border border-color-border bg-card text-color-text-muted">
                                     +{project.tags.length - 4}
                                 </span>
                             )}
@@ -121,17 +119,17 @@ export default function ProjectCard({
                         <div className="flex items-center justify-between pt-2">
                             <div className="flex gap-2">
                                 {project.links.demo && (
-                                    <span className="p-2 rounded-lg glass-frost border border-white/10 text-primary-300 hover:bg-primary-500/20 transition-colors">
+                                    <span className="p-2 rounded-lg border border-color-border bg-card hover:bg-card-alt text-primary-300 transition-colors">
                                         <IoRocketOutline className="w-4 h-4" />
                                     </span>
                                 )}
                                 {project.links.github && (
-                                    <span className="p-2 rounded-lg glass-frost border border-white/10 text-color-text-muted hover:text-primary-300 hover:bg-primary-500/20 transition-colors">
+                                    <span className="p-2 rounded-lg border border-color-border bg-card hover:bg-card-alt text-color-text-muted hover:text-primary-300 transition-colors">
                                         <IoLogoGithub className="w-4 h-4" />
                                     </span>
                                 )}
                                 {(project.links.docs || project.links.documentation) && (
-                                    <span className="p-2 rounded-lg glass-frost border border-white/10 text-color-text-muted hover:text-primary-300 hover:bg-primary-500/20 transition-colors">
+                                    <span className="p-2 rounded-lg border border-color-border bg-card hover:bg-card-alt text-color-text-muted hover:text-primary-300 transition-colors">
                                         <IoBookOutline className="w-4 h-4" />
                                     </span>
                                 )}
@@ -143,8 +141,6 @@ export default function ProjectCard({
                         </div>
                     </div>
 
-                    {/* Hover glow effect */}
-                    <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-gradient-to-r from-primary-500/5 via-transparent to-accent-500/5" />
                 </article>
             </Link>
         </div>
@@ -170,7 +166,7 @@ export function ProjectCardCompact({
             onMouseLeave={() => onHover?.(null)}
         >
             <Link href={project.links.slug || `/projects/${project.id}`}>
-                <article className="relative flex flex-col md:flex-row gap-4 p-4 glass-ultra border border-primary-500/20 rounded-2xl overflow-hidden transition-all duration-500 hover:border-primary-400 hover:shadow-lg hover:shadow-primary-500/30">
+                <article className="relative flex flex-col md:flex-row gap-4 p-4 border border-color-border bg-card rounded-2xl overflow-hidden transition-colors duration-150 hover:border-primary-500/30">
                     {/* Thumbnail */}
                     <div className="relative w-full md:w-40 h-28 md:h-24 flex-shrink-0 rounded-xl overflow-hidden bg-gradient-to-br from-primary-900/50 to-bg">
                         {project.images?.[0] && !imageError ? (
@@ -209,7 +205,7 @@ export function ProjectCardCompact({
                             {project.tags.slice(0, 3).map((tag) => (
                                 <span
                                     key={tag}
-                                    className="px-2 py-0.5 text-xs font-medium rounded-md glass-frost border border-white/10 text-primary-300"
+                                    className="px-2 py-0.5 text-xs font-medium rounded-md border border-color-border bg-card text-primary-300"
                                 >
                                     {tag}
                                 </span>

@@ -72,22 +72,15 @@ export default function ReferralsContent({ referrals, categories }: ReferralsCon
 
     return (
         <section className="pt-20 pb-24 md:pt-24 md:pb-32 bg-bg relative z-10 overflow-hidden">
-            {/* Premium multi-layer background */}
-            <div className="absolute inset-0">
-                <div className="absolute inset-0 bg-aurora opacity-40"></div>
-                <div className="absolute inset-0 bg-dot-pattern opacity-20"></div>
-            </div>
+            {/* Background */}
+            <div className="absolute inset-0 bg-dot-pattern opacity-20" />
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"></div>
-
-            {/* Animated floating orbs - CSS animations */}
-            <div className="absolute top-[10%] right-[5%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-primary-500/20 to-primary-600/5 blur-[100px] animate-float-slow" />
-            <div className="absolute bottom-[15%] left-[10%] w-[400px] h-[400px] rounded-full bg-gradient-to-tl from-primary-400/15 to-transparent blur-[80px] animate-float-medium" />
 
             <div className="container-section relative z-10">
                 <div className="mb-16 text-center animate-fade-in">
                     {/* Premium Badge */}
                     <div className="flex justify-center mb-8 animate-fade-in-up">
-                        <span className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-primary-300 glass-frost rounded-full">
+                        <span className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-primary-300 border border-color-border bg-card/50 rounded-full">
                             <IoGiftOutline className="w-4 h-4" />
                             Exclusive Offers
                         </span>
@@ -95,7 +88,7 @@ export default function ReferralsContent({ referrals, categories }: ReferralsCon
 
                     <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6">
                         <span className="text-color-text">Referrals & </span>
-                        <span className="animated-gradient-text text-shadow-glow">Offers</span>
+                        <span className="animated-gradient-text">Offers</span>
                     </h1>
                     <p className="text-color-text-muted max-w-3xl mx-auto text-lg md:text-xl leading-relaxed">
                         Use these referral links and promo codes to get discounts on products and services I recommend.
@@ -106,7 +99,7 @@ export default function ReferralsContent({ referrals, categories }: ReferralsCon
                 <div className="flex flex-col items-center mb-14">
                     {/* Premium Search bar */}
                     <div className="relative max-w-lg w-full mb-8 animate-fade-in-up" style={{ animationDelay: '100ms' }}>
-                        <div className="relative glass-ultra rounded-2xl overflow-hidden">
+                        <div className="relative border border-color-border bg-card rounded-xl overflow-hidden">
                             <div className="absolute left-5 top-1/2 -translate-y-1/2 text-primary-400">
                                 <IoSearchOutline className="w-5 h-5" />
                             </div>
@@ -119,7 +112,7 @@ export default function ReferralsContent({ referrals, categories }: ReferralsCon
                             />
                             {searchQuery && (
                                 <button
-                                    className="absolute right-4 top-1/2 -translate-y-1/2 p-1.5 rounded-lg glass-frost text-color-text-muted hover:text-primary-400 transition-colors"
+                                    className="absolute right-4 top-1/2 -translate-y-1/2 p-1.5 rounded-lg border border-color-border bg-card text-color-text-muted hover:text-primary-400 transition-colors"
                                     onClick={() => setSearchQuery('')}
                                     aria-label="Clear search"
                                 >
@@ -135,7 +128,7 @@ export default function ReferralsContent({ referrals, categories }: ReferralsCon
                         <div className="md:hidden" ref={dropdownRef}>
                             <button
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                className="w-full flex items-center justify-between px-5 py-3.5 text-sm font-medium glass-ultra rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500/30 text-color-text"
+                                className="w-full flex items-center justify-between px-5 py-3.5 text-sm font-medium border border-color-border bg-card rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500/30 text-color-text"
                             >
                                 <span className="flex items-center gap-2">
                                     {activeCategory === null ? (
@@ -155,12 +148,12 @@ export default function ReferralsContent({ referrals, categories }: ReferralsCon
 
                             {/* Dropdown Menu */}
                             {isDropdownOpen && (
-                                <div className="absolute left-4 right-4 mt-2 py-2 bg-card rounded-xl border border-white/10 shadow-xl shadow-black/20 z-50 max-h-80 overflow-y-auto">
+                                <div className="absolute left-4 right-4 mt-2 py-2 bg-card rounded-xl border border-color-border shadow-xl shadow-black/20 z-50 max-h-80 overflow-y-auto">
                                     <button
                                         onClick={() => { setActiveCategory(null); setIsDropdownOpen(false); }}
                                         className={`w-full flex items-center justify-between px-4 py-3 text-sm font-medium transition-colors ${activeCategory === null
                                             ? 'text-primary-300 bg-primary-500/10'
-                                            : 'text-color-text-muted hover:text-color-text hover:bg-white/5'
+                                            : 'text-color-text-muted hover:text-color-text hover:bg-card-alt'
                                             }`}
                                     >
                                         <span className="flex items-center gap-3">
@@ -175,7 +168,7 @@ export default function ReferralsContent({ referrals, categories }: ReferralsCon
                                             onClick={() => { setActiveCategory(category.id); setIsDropdownOpen(false); }}
                                             className={`w-full flex items-center justify-between px-4 py-3 text-sm font-medium transition-colors ${activeCategory === category.id
                                                 ? 'text-primary-300 bg-primary-500/10'
-                                                : 'text-color-text-muted hover:text-color-text hover:bg-white/5'
+                                                : 'text-color-text-muted hover:text-color-text hover:bg-card-alt'
                                                 }`}
                                         >
                                             <span className="flex items-center gap-3">
@@ -194,8 +187,8 @@ export default function ReferralsContent({ referrals, categories }: ReferralsCon
                             <button
                                 className={`px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-300 flex items-center gap-2.5 flex-shrink-0 group relative overflow-hidden
                                     ${activeCategory === null
-                                        ? 'bg-gradient-to-r from-primary-600 to-primary-400 text-white shadow-lg shadow-primary-500/30'
-                                        : 'text-color-text-muted hover:text-color-text border border-white/5 hover:border-primary-500/20 hover:bg-white/5'
+                                        ? 'bg-primary-500 text-white'
+                                        : 'text-color-text-muted hover:text-color-text border border-color-border hover:border-primary-500/20 hover:bg-card-alt'
                                     }`}
                                 onClick={() => setActiveCategory(null)}
                             >
@@ -209,8 +202,8 @@ export default function ReferralsContent({ referrals, categories }: ReferralsCon
                                     key={category.id}
                                     className={`px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-300 flex items-center gap-2.5 flex-shrink-0 group relative overflow-hidden
                                         ${activeCategory === category.id
-                                            ? 'bg-gradient-to-r from-primary-600 to-primary-400 text-white shadow-lg shadow-primary-500/30'
-                                            : 'text-color-text-muted hover:text-color-text border border-white/5 hover:border-primary-500/20 hover:bg-white/5'
+                                            ? 'bg-primary-500 text-white'
+                                            : 'text-color-text-muted hover:text-color-text border border-color-border hover:border-primary-500/20 hover:bg-card-alt'
                                         }`}
                                     onClick={() => setActiveCategory(category.id)}
                                 >
@@ -237,8 +230,8 @@ export default function ReferralsContent({ referrals, categories }: ReferralsCon
                         ))}
                     </div>
                 ) : (
-                    <div className="text-center p-16 glass-ultra rounded-3xl animate-fade-in">
-                        <div className="w-20 h-20 mx-auto mb-6 rounded-2xl glass-frost flex items-center justify-center">
+                    <div className="text-center p-16 border border-color-border bg-card rounded-2xl animate-fade-in">
+                        <div className="w-20 h-20 mx-auto mb-6 rounded-2xl border border-color-border bg-card flex items-center justify-center">
                             <IoSearchOutline className="w-10 h-10 text-primary-400" />
                         </div>
                         <h3 className="text-2xl font-bold mb-3">No referrals found</h3>
@@ -249,7 +242,7 @@ export default function ReferralsContent({ referrals, categories }: ReferralsCon
                             {searchQuery && (
                                 <button
                                     onClick={() => setSearchQuery('')}
-                                    className="px-6 py-3 rounded-xl font-semibold glass-frost text-primary-400 hover:scale-105 active:scale-95 transition-all duration-300"
+                                    className="px-6 py-3 rounded-xl font-semibold border border-color-border bg-card text-primary-400 hover:bg-card-alt active:scale-95 transition-all duration-300"
                                 >
                                     Clear Search
                                 </button>
@@ -257,10 +250,9 @@ export default function ReferralsContent({ referrals, categories }: ReferralsCon
                             {activeCategory !== null && (
                                 <button
                                     onClick={() => setActiveCategory(null)}
-                                    className="relative px-6 py-3 rounded-xl font-semibold overflow-hidden shine-sweep hover:scale-[1.02] active:scale-[0.98] transition-transform"
+                                    className="px-6 py-3 rounded-xl font-semibold bg-primary-500 text-white hover:bg-primary-600 transition-colors"
                                 >
-                                    <span className="absolute inset-0 bg-gradient-to-r from-primary-600 to-primary-400"></span>
-                                    <span className="relative z-10 text-white">Show All Referrals</span>
+                                    Show All Referrals
                                 </button>
                             )}
                         </div>
@@ -290,15 +282,10 @@ function ReferralCard({
             className="flex flex-col h-full animate-fade-in-up hover:-translate-y-2 transition-transform duration-300"
             style={{ animationDelay: `${index * 100}ms` }}
         >
-            <div className="relative h-full overflow-hidden rounded-2xl glass-ultra transition-all duration-500 group">
-                {/* Animated glow border on hover */}
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary-500/0 via-primary-500/20 to-primary-500/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                {/* Spotlight effect */}
-                <div className="absolute inset-0 spotlight opacity-0 group-hover:opacity-50 transition-opacity duration-500"></div>
-
+            <div className="relative h-full overflow-hidden rounded-2xl border border-color-border bg-card transition-all duration-500 group">
                 {/* New badge */}
                 {referral.new && (
-                    <div className="absolute top-4 right-4 z-20 px-3 py-1.5 glass-frost text-primary-300 text-xs font-semibold rounded-full">
+                    <div className="absolute top-4 right-4 z-20 px-3 py-1.5 border border-color-border bg-card/50 text-primary-300 text-xs font-semibold rounded-full">
                         ✨ New
                     </div>
                 )}
@@ -316,16 +303,14 @@ function ReferralCard({
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/50 to-transparent"></div>
 
-                            {/* Shine sweep effect */}
-                            <div className="absolute inset-0 shine-sweep opacity-0 group-hover:opacity-100"></div>
+
                         </>
                     ) : (
                         // Premium fallback gradient background
                         <div className="w-full h-full bg-gradient-to-br from-primary-900/40 to-bg relative">
                             <div className="absolute inset-0 bg-dot-pattern opacity-30"></div>
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-primary-500/20 rounded-full blur-3xl animate-pulse" />
                             <div className="absolute inset-0 flex items-center justify-center">
-                                <div className="px-6 py-3 rounded-xl glass-frost text-lg font-bold text-primary-300">
+                                <div className="px-6 py-3 rounded-xl border border-color-border bg-card text-lg font-bold text-primary-300">
                                     {referral.company}
                                 </div>
                             </div>
@@ -333,7 +318,7 @@ function ReferralCard({
                     )}
 
                     {/* Category badge */}
-                    <div className="absolute top-4 left-4 z-20 px-4 py-2 glass-frost text-primary-300 text-xs font-semibold rounded-full">
+                    <div className="absolute top-4 left-4 z-20 px-4 py-2 border border-color-border bg-card/50 text-primary-300 text-xs font-semibold rounded-full">
                         {referral.categoryName}
                     </div>
                 </div>
@@ -351,7 +336,7 @@ function ReferralCard({
 
                     {/* Discount highlight */}
                     {referral.discount && (
-                        <div className="mb-5 px-4 py-3 glass-frost rounded-xl relative overflow-hidden">
+                        <div className="mb-5 px-4 py-3 border border-color-border bg-card rounded-xl relative overflow-hidden">
                             <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-primary-500 to-primary-400 rounded-r"></div>
                             <p className="text-primary-300 font-semibold pl-2">{referral.discount}</p>
                         </div>
@@ -382,7 +367,7 @@ function ReferralCard({
                         <div className="mb-6">
                             <p className="text-sm text-color-text-muted mb-2 font-semibold">Promo Code:</p>
                             <div className="flex">
-                                <div className="flex-grow px-4 py-3 glass-frost rounded-l-xl font-mono text-primary-300 flex items-center justify-center tracking-wider font-semibold">
+                                <div className="flex-grow px-4 py-3 border border-color-border bg-card rounded-l-xl font-mono text-primary-300 flex items-center justify-center tracking-wider font-semibold">
                                     {referral.code}
                                 </div>
                                 <button
@@ -408,13 +393,10 @@ function ReferralCard({
                         href={referral.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group/btn relative w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-semibold overflow-hidden shine-sweep hover:scale-[1.02] active:scale-[0.98] transition-transform"
+                        className="group/btn w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-semibold border border-color-border bg-card hover:bg-card-alt text-color-text-muted transition-colors"
                     >
-                        <span className="absolute inset-0 bg-gradient-to-r from-primary-600 to-primary-400"></span>
-                        <span className="relative z-10 flex items-center gap-2 text-white">
-                            Get Offer
-                            <IoArrowForward className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-                        </span>
+                        Get Offer
+                        <IoArrowForward className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
                     </a>
                 </div>
             </div>

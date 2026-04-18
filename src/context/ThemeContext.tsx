@@ -37,7 +37,7 @@ interface ThemeContextType {
   isLoaded: boolean;
 }
 
-const defaultTheme: ThemeColor = "fortnite";
+const defaultTheme: ThemeColor = "blue";
 const defaultFont: FontChoice = "system";
 const defaultDensity: LayoutDensity = "normal";
 

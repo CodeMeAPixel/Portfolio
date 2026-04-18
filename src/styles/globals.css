@@ -362,19 +362,19 @@
     --color-primary-800: 30, 64, 175;
     --color-primary-900: 30, 58, 138;
 
-    /* Modern, sleek blue theme */
-    --color-bg: 15, 23, 42;
-    --color-bg-alt: 30, 41, 59;
-    --color-bg-accent: 17, 25, 45;
-    --color-card: 22, 31, 49;
-    --color-card-alt: 25, 39, 67;
+    /* Vercel-inspired near-black theme */
+    --color-bg: 0, 0, 0;
+    --color-bg-alt: 10, 10, 10;
+    --color-bg-accent: 5, 5, 5;
+    --color-card: 18, 18, 18;
+    --color-card-alt: 26, 26, 26;
     --color-text: 255, 255, 255;
-    --color-text-muted: 203, 213, 225;
-    --color-border: 51, 65, 85;
+    --color-text-muted: 136, 136, 136;
+    --color-border: 38, 38, 38;
     --color-glow: 37, 99, 235;
 
     /* Code block background colors */
-    --color-code-bg: 15, 35, 70;
+    --color-code-bg: 12, 12, 20;
   }
 
   [data-theme="purple"] {
@@ -2477,11 +2477,11 @@ body {
   }
 
   .card {
-    @apply p-6 sm:p-8 rounded-2xl bg-card/80 backdrop-blur-sm border border-color-border/50 shadow-xl shadow-black/10 relative z-10 transition-all duration-300 hover:border-primary-500/20;
+    @apply p-6 sm:p-8 rounded-xl bg-card border border-color-border relative z-10 transition-all duration-200 hover:border-primary-500/30;
   }
 
   .card-highlight {
-    @apply rounded-2xl bg-card-alt/50 border border-primary-500/30 shadow-xl shadow-primary-900/30 relative z-10 hover:shadow-2xl hover:shadow-primary-800/20 transition-all duration-300 backdrop-blur-sm;
+    @apply rounded-xl bg-card-alt border border-primary-500/20 relative z-10 hover:border-primary-500/40 transition-all duration-200;
   }
 
   .tag {
@@ -2579,14 +2579,13 @@ body {
     background-attachment: fixed;
   }
 
-  /* Enhanced aurora background */
+  /* Vercel-style radial gradient glow */
   .bg-aurora {
     background:
-      linear-gradient(125deg, rgba(var(--color-primary-600), 0.2) 0%, transparent 40%),
-      linear-gradient(235deg, rgba(var(--color-primary-500), 0.15) 0%, transparent 40%),
-      linear-gradient(0deg, rgba(var(--color-primary-700), 0.1) 0%, transparent 60%);
-    background-size: 200% 200%, 200% 200%, 100% 100%;
-    animation: aurora 15s ease infinite;
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(var(--color-primary-600), 0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 100%, rgba(var(--color-primary-700), 0.06) 0%, transparent 50%);
+    background-size: 100% 100%;
+    animation: none;
   }
 
   /* Noise texture overlay */
@@ -2604,16 +2603,17 @@ body {
     z-index: 1;
   }
 
+  /* Vercel-style clean grid */
   .bg-grid-pattern {
-    background-image: linear-gradient(rgba(var(--color-primary-500), 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(var(--color-primary-500), 0.03) 1px, transparent 1px);
-    background-size: 50px 50px;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
   }
 
   /* Dot pattern background */
   .bg-dot-pattern {
-    background-image: radial-gradient(rgba(var(--color-primary-500), 0.15) 1px, transparent 1px);
-    background-size: 24px 24px;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+    background-size: 32px 32px;
   }
 
   .text-shadow-sm {
@@ -2709,50 +2709,39 @@ body {
     animation: text-shine 3s linear infinite;
   }
 
-  /* Premium glass card effect */
+  /* Clean card effect */
   .glass-card {
-    background: rgba(var(--color-card), 0.4);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(var(--color-border), 0.2);
-    box-shadow:
-      0 4px 30px rgba(0, 0, 0, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    background: rgb(var(--color-card));
+    border: 1px solid rgb(var(--color-border));
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.02),
+      0 4px 24px rgba(0, 0, 0, 0.3);
   }
 
-  /* Ultra glass - more transparent */
+  /* Clean subtle card */
   .glass-ultra {
-    background: rgba(var(--color-card), 0.2);
-    backdrop-filter: blur(24px) saturate(200%);
-    -webkit-backdrop-filter: blur(24px) saturate(200%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow:
-      0 8px 32px rgba(0, 0, 0, 0.15),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+    background: rgba(var(--color-card), 0.5);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
   }
 
-  /* Frosted glass with color tint */
+  /* Clean accent card */
   .glass-frost {
-    background: linear-gradient(135deg,
-        rgba(var(--color-primary-500), 0.1) 0%,
-        rgba(var(--color-card), 0.3) 50%,
-        rgba(var(--color-primary-600), 0.1) 100%);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(var(--color-primary-500), 0.15);
+    background: rgba(var(--color-card), 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(var(--color-border), 0.8);
   }
 
-  /* Glow effect on hover */
+  /* Subtle glow on hover */
   .hover-glow {
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.2s ease;
   }
 
   .hover-glow:hover {
-    box-shadow:
-      0 0 20px rgba(var(--color-primary-500), 0.4),
-      0 0 40px rgba(var(--color-primary-500), 0.2),
-      0 0 60px rgba(var(--color-primary-500), 0.1);
+    box-shadow: 0 0 0 1px rgba(var(--color-primary-500), 0.3),
+      0 4px 20px rgba(var(--color-primary-500), 0.15);
   }
 
   /* Pulse glow animation */

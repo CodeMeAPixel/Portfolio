@@ -65,11 +65,8 @@ function RepoCard({ repo }: { repo: GitHubRepo }) {
             href={repo.html_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative glass-ultra rounded-2xl p-5 border border-white/10 hover:border-primary-500/30 transition-all duration-300 hover:shadow-xl hover:shadow-primary-500/10 shine-sweep overflow-hidden h-full flex flex-col"
+            className="group relative border border-color-border bg-card rounded-2xl p-5 hover:border-primary-500/30 transition-all duration-300 overflow-hidden h-full flex flex-col"
         >
-            {/* Hover gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 via-transparent to-accent-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
             <div className="relative flex flex-col h-full">
                 {/* Header */}
                 <div className="flex items-start justify-between mb-3 flex-shrink-0">
@@ -100,7 +97,7 @@ function RepoCard({ repo }: { repo: GitHubRepo }) {
                                 </span>
                             ))}
                             {repo.topics.length > 3 && (
-                                <span className="px-2 py-0.5 text-[10px] font-medium rounded-full bg-white/5 text-color-text-muted whitespace-nowrap">
+                                <span className="px-2 py-0.5 text-[10px] font-medium rounded-full bg-card-alt text-color-text-muted whitespace-nowrap">
                                     +{repo.topics.length - 3}
                                 </span>
                             )}
@@ -112,7 +109,7 @@ function RepoCard({ repo }: { repo: GitHubRepo }) {
                 <div className="flex-grow" />
 
                 {/* Stats */}
-                <div className="flex items-center justify-between text-xs text-color-text-muted mb-3 flex-shrink-0 border-t border-white/5 pt-3">
+                <div className="flex items-center justify-between text-xs text-color-text-muted mb-3 flex-shrink-0 border-t border-color-border pt-3">
                     <div className="flex items-center gap-3 min-w-0 flex-1">
                         {repo.language && (
                             <div className="flex items-center gap-1.5 whitespace-nowrap">
@@ -165,7 +162,7 @@ function RepoRow({ repo }: { repo: GitHubRepo }) {
             href={repo.html_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center gap-4 p-4 glass-ultra rounded-xl border border-white/10 hover:border-primary-500/30 transition-all duration-300 hover:bg-white/5"
+            className="group flex items-center gap-4 p-4 border border-color-border bg-card rounded-xl hover:border-primary-500/30 transition-all duration-300 hover:bg-card-alt"
         >
             <IoLogoGithub className="w-5 h-5 text-color-text-muted flex-shrink-0" />
 
@@ -346,37 +343,22 @@ export default function OtherWorksContent() {
 
     return (
         <section className="pt-20 pb-24 md:pt-24 md:pb-32 bg-bg relative overflow-hidden">
-            {/* Premium background */}
-            <div className="absolute inset-0">
-                <div className="absolute inset-0 bg-aurora opacity-40"></div>
-                <div className="absolute inset-0 bg-dot-pattern opacity-20"></div>
-            </div>
+            <div className="absolute inset-0 bg-dot-pattern opacity-20" />
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"></div>
-
-            {/* Floating orbs */}
-            <div
-                className="absolute top-[10%] right-[5%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-primary-500/20 to-primary-600/5 blur-[100px] animate-pulse"
-            />
-            <div
-                className="absolute bottom-[20%] left-[10%] w-[400px] h-[400px] rounded-full bg-gradient-to-tl from-primary-400/15 to-transparent blur-[80px] animate-pulse"
-                style={{ animationDelay: '2s' }}
-            />
 
             <div className="container-section relative z-10">
                 {/* Header */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 animate-fade-up">
                     <div>
                         <div className="flex justify-center md:justify-start mb-8">
-                            <span className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-primary-300 glass-ultra rounded-full border border-primary-500/20 shadow-lg shadow-primary-500/10 shine-sweep animate-fade-in">
-                                <div className="p-1.5 rounded-lg bg-gradient-to-r from-primary-500/30 to-accent-500/30">
-                                    <IoLogoGithub className="w-4 h-4" />
-                                </div>
+                            <span className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-primary-400 border border-color-border bg-card/50 rounded-full animate-fade-in">
+                                <IoLogoGithub className="w-4 h-4" />
                                 Open Source
                             </span>
                         </div>
                         <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-center md:text-left mb-4">
                             <span className="text-color-text">Other </span>
-                            <span className="animated-gradient-text text-shadow-glow">Works</span>
+                            <span className="animated-gradient-text">Works</span>
                         </h1>
                         <p className="text-color-text-muted text-center md:text-left text-lg md:text-xl max-w-xl">
                             {loading ? (
@@ -397,19 +379,19 @@ export default function OtherWorksContent() {
                             {/* Refresh button */}
                             <button
                                 onClick={fetchRepos}
-                                className="p-2.5 rounded-xl glass-frost border border-white/10 text-color-text-muted hover:text-primary-400 hover:bg-white/10 transition-all duration-300"
+                                className="p-2.5 rounded-xl border border-color-border bg-card text-color-text-muted hover:text-primary-400 hover:bg-card-alt transition-all duration-300"
                                 aria-label="Refresh"
                             >
                                 <IoRefresh className="w-5 h-5" />
                             </button>
 
                             {/* Layout switcher */}
-                            <div className="hidden md:flex rounded-xl overflow-hidden glass-frost border border-white/10 p-1 gap-1">
+                            <div className="hidden md:flex rounded-xl overflow-hidden border border-color-border bg-card p-1 gap-1">
                                 <button
                                     onClick={() => setLayout('grid')}
                                     className={`p-2.5 rounded-lg flex items-center justify-center transition-all duration-300 ${layout === 'grid'
-                                        ? 'bg-gradient-to-r from-primary-500 to-accent-500 text-white shadow-lg shadow-primary-500/30'
-                                        : 'text-color-text-muted hover:bg-white/10 hover:text-primary-300'
+                                        ? 'bg-primary-500 text-white'
+                                        : 'text-color-text-muted hover:bg-card-alt'
                                         }`}
                                     aria-label="Grid view"
                                 >
@@ -418,8 +400,8 @@ export default function OtherWorksContent() {
                                 <button
                                     onClick={() => setLayout('table')}
                                     className={`p-2.5 rounded-lg flex items-center justify-center transition-all duration-300 ${layout === 'table'
-                                        ? 'bg-gradient-to-r from-primary-500 to-accent-500 text-white shadow-lg shadow-primary-500/30'
-                                        : 'text-color-text-muted hover:bg-white/10 hover:text-primary-300'
+                                        ? 'bg-primary-500 text-white'
+                                        : 'text-color-text-muted hover:bg-card-alt'
                                         }`}
                                     aria-label="Table view"
                                 >
@@ -431,7 +413,7 @@ export default function OtherWorksContent() {
                             <div className="hidden md:block">
                                 <DropdownMenu.Root open={sortOpen} onOpenChange={setSortOpen} modal={false}>
                                     <DropdownMenu.Trigger asChild>
-                                        <button className="px-4 py-2.5 rounded-xl glass-frost border border-white/10 text-color-text text-sm flex items-center gap-2 hover:bg-white/10 hover:border-primary-500/30 transition-all duration-300 focus:outline-none" type="button">
+                                        <button className="px-4 py-2.5 rounded-xl border border-color-border bg-card text-color-text text-sm flex items-center gap-2 hover:bg-card-alt hover:border-primary-500/30 transition-all duration-300 focus:outline-none" type="button">
                                             <IoSwapVertical className="w-4 h-4 text-primary-400" />
                                             <span>{getSortOptionText(sortBy)}</span>
                                             <IoChevronDown className="w-3 h-3 ml-1 transition-transform duration-300" style={{ transform: sortOpen ? 'rotate(180deg)' : 'none' }} />
@@ -446,7 +428,7 @@ export default function OtherWorksContent() {
                                             {(['updated', 'stars', 'forks', 'created', 'alphabetical'] as SortOption[]).map((option) => (
                                                 <DropdownMenu.Item
                                                     key={option}
-                                                    className={`group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between ${sortBy === option ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20' : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'}`}
+                                                    className={`group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between ${sortBy === option ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20' : 'text-color-text-muted hover:bg-card-alt hover:text-color-text'}`}
                                                     onClick={() => setSortBy(option)}
                                                 >
                                                     <span>{getSortOptionText(option)}</span>
@@ -468,12 +450,12 @@ export default function OtherWorksContent() {
                                             value={searchQuery}
                                             onChange={(e) => setSearchQuery(e.target.value)}
                                             placeholder="Search repos..."
-                                            className="w-[200px] px-4 py-2.5 rounded-l-xl glass-frost border border-r-0 border-white/10 text-color-text placeholder:text-color-text-muted/70 text-sm focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 outline-none transition-all duration-300"
+                                            className="w-[200px] px-4 py-2.5 rounded-l-xl border border-r-0 border-color-border bg-card text-color-text placeholder:text-color-text-muted/70 text-sm focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500/50 outline-none transition-all duration-300"
                                             onKeyDown={(e) => e.key === 'Escape' && toggleSearch()}
                                         />
                                         <button
                                             onClick={toggleSearch}
-                                            className="px-3 py-2.5 rounded-r-xl glass-frost border border-l-0 border-white/10 text-primary-300 hover:bg-white/10 hover:text-primary-200 transition-all duration-300"
+                                            className="px-3 py-2.5 rounded-r-xl border border-l-0 border-color-border bg-card text-primary-300 hover:bg-card-alt hover:text-primary-200 transition-all duration-300"
                                             aria-label="Close search"
                                         >
                                             <IoClose className="w-4 h-4" />
@@ -482,7 +464,7 @@ export default function OtherWorksContent() {
                                 ) : (
                                     <button
                                         onClick={toggleSearch}
-                                        className="px-4 py-2.5 rounded-xl glass-frost border border-white/10 text-primary-300 text-sm flex items-center gap-2 hover:bg-white/10 hover:border-primary-500/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 focus:outline-none"
+                                        className="px-4 py-2.5 rounded-xl border border-color-border bg-card text-primary-300 text-sm flex items-center gap-2 hover:bg-card-alt hover:border-primary-500/30 transition-all duration-300 focus:outline-none"
                                         aria-label="Search repos"
                                     >
                                         <IoSearch className="w-4 h-4" />
@@ -496,7 +478,7 @@ export default function OtherWorksContent() {
                                 <div className="hidden md:block">
                                     <DropdownMenu.Root open={filterOpen} onOpenChange={setFilterOpen} modal={false}>
                                         <DropdownMenu.Trigger asChild>
-                                            <button className="relative px-4 py-2.5 rounded-xl glass-frost border border-white/10 text-primary-300 text-sm flex items-center gap-2 hover:bg-white/10 hover:border-primary-500/30 transition-all duration-300 focus:outline-none" type="button">
+                                            <button className="relative px-4 py-2.5 rounded-xl border border-color-border bg-card text-primary-300 text-sm flex items-center gap-2 hover:bg-card-alt hover:border-primary-500/30 transition-all duration-300 focus:outline-none" type="button">
                                                 <IoCodeSlashOutline className="w-4 h-4" />
                                                 <span className="hidden sm:inline">{languageFilter === 'All' ? 'All languages' : languageFilter}</span>
                                                 <span className="sm:hidden">Filter</span>
@@ -515,7 +497,7 @@ export default function OtherWorksContent() {
                                                 <DropdownMenu.Item
                                                     className={`group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between ${languageFilter === 'All'
                                                         ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20'
-                                                        : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'
+                                                        : 'text-color-text-muted hover:bg-card-alt hover:text-color-text'
                                                         }`}
                                                     onClick={() => { setLanguageFilter('All'); setFilterOpen(false); }}
                                                 >
@@ -527,7 +509,7 @@ export default function OtherWorksContent() {
                                                         key={name}
                                                         className={`group text-sm px-4 py-3 cursor-pointer rounded-xl outline-none transition-all duration-300 flex items-center justify-between ${languageFilter === name
                                                             ? 'bg-primary-500/15 text-primary-300 font-semibold ring-1 ring-primary-500/20'
-                                                            : 'text-color-text-muted hover:bg-white/5 hover:text-color-text'
+                                                            : 'text-color-text-muted hover:bg-card-alt hover:text-color-text'
                                                             }`}
                                                         onClick={() => { setLanguageFilter(name); setFilterOpen(false); }}
                                                     >
@@ -554,25 +536,25 @@ export default function OtherWorksContent() {
                 {/* Stats Cards */}
                 {stats && !loading && !error && (
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 animate-fade-in">
-                        <div className="glass-ultra rounded-xl p-4 border border-white/10 text-center">
+                        <div className="border border-color-border bg-card rounded-xl p-4 text-center">
                             <div className="text-2xl md:text-3xl font-bold text-primary-400">{stats.totalRepos}</div>
                             <div className="text-xs text-color-text-muted mt-1">Repositories</div>
                         </div>
-                        <div className="glass-ultra rounded-xl p-4 border border-white/10 text-center">
+                        <div className="border border-color-border bg-card rounded-xl p-4 text-center">
                             <div className="text-2xl md:text-3xl font-bold text-amber-400 flex items-center justify-center gap-1.5">
                                 <IoStarOutline className="w-5 h-5" />
                                 {stats.totalStars}
                             </div>
                             <div className="text-xs text-color-text-muted mt-1">Total Stars</div>
                         </div>
-                        <div className="glass-ultra rounded-xl p-4 border border-white/10 text-center">
+                        <div className="border border-color-border bg-card rounded-xl p-4 text-center">
                             <div className="text-2xl md:text-3xl font-bold text-green-400 flex items-center justify-center gap-1.5">
                                 <IoGitBranchOutline className="w-5 h-5" />
                                 {stats.totalForks}
                             </div>
                             <div className="text-xs text-color-text-muted mt-1">Total Forks</div>
                         </div>
-                        <div className="glass-ultra rounded-xl p-4 border border-white/10 text-center">
+                        <div className="border border-color-border bg-card rounded-xl p-4 text-center">
                             <div className="text-2xl md:text-3xl font-bold text-violet-400">{stats.languages.length}</div>
                             <div className="text-xs text-color-text-muted mt-1">Languages</div>
                         </div>
@@ -590,18 +572,18 @@ export default function OtherWorksContent() {
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 placeholder="Search repos..."
-                                className="w-full pl-10 pr-4 py-3 rounded-xl glass-frost border border-white/10 text-color-text placeholder:text-color-text-muted/70 text-sm focus:ring-2 focus:ring-primary-500/50 outline-none transition-all"
+                                className="w-full pl-10 pr-4 py-3 rounded-xl border border-color-border bg-card text-color-text placeholder:text-color-text-muted/70 text-sm focus:ring-2 focus:ring-primary-500/50 outline-none transition-all"
                             />
                         </div>
 
                         <div className="flex justify-between items-center gap-2">
                             {/* Layout toggle */}
-                            <div className="flex rounded-xl overflow-hidden glass-frost border border-white/10 p-1 gap-1">
+                            <div className="flex rounded-xl overflow-hidden border border-color-border bg-card p-1 gap-1">
                                 <button
                                     onClick={() => setLayout('grid')}
                                     className={`p-2 rounded-lg transition-all duration-300 ${layout === 'grid'
-                                        ? 'bg-gradient-to-r from-primary-500 to-accent-500 text-white'
-                                        : 'text-color-text-muted hover:bg-white/10'
+                                        ? 'bg-primary-500 text-white'
+                                        : 'text-color-text-muted hover:bg-card-alt'
                                         }`}
                                 >
                                     <IoGridOutline className="w-4 h-4" />
@@ -609,8 +591,8 @@ export default function OtherWorksContent() {
                                 <button
                                     onClick={() => setLayout('table')}
                                     className={`p-2 rounded-lg transition-all duration-300 ${layout === 'table'
-                                        ? 'bg-gradient-to-r from-primary-500 to-accent-500 text-white'
-                                        : 'text-color-text-muted hover:bg-white/10'
+                                        ? 'bg-primary-500 text-white'
+                                        : 'text-color-text-muted hover:bg-card-alt'
                                         }`}
                                 >
                                     <IoListOutline className="w-4 h-4" />
@@ -622,7 +604,7 @@ export default function OtherWorksContent() {
                                 <select
                                     value={sortBy}
                                     onChange={(e) => setSortBy(e.target.value as SortOption)}
-                                    className="px-3 py-2 rounded-xl glass-frost border border-white/10 text-color-text text-xs focus:outline-none focus:ring-2 focus:ring-primary-500/50 bg-transparent"
+                                    className="px-3 py-2 rounded-xl border border-color-border bg-card text-color-text text-xs focus:outline-none focus:ring-2 focus:ring-primary-500/50"
                                 >
                                     <option value="updated">Recently updated</option>
                                     <option value="stars">Most stars</option>
@@ -633,7 +615,7 @@ export default function OtherWorksContent() {
                                 <select
                                     value={languageFilter}
                                     onChange={(e) => setLanguageFilter(e.target.value)}
-                                    className="px-3 py-2 rounded-xl glass-frost border border-white/10 text-color-text text-xs focus:outline-none focus:ring-2 focus:ring-primary-500/50 bg-transparent"
+                                    className="px-3 py-2 rounded-xl border border-color-border bg-card text-color-text text-xs focus:outline-none focus:ring-2 focus:ring-primary-500/50"
                                 >
                                     <option value="All">All</option>
                                     {languages.map(({ name }) => (
@@ -679,7 +661,7 @@ export default function OtherWorksContent() {
                     <>
                         {filteredRepos.length === 0 ? (
                             <div className="flex flex-col items-center justify-center py-20 text-center">
-                                <div className="p-4 rounded-2xl bg-white/5 border border-white/10 mb-4">
+                                <div className="p-4 rounded-2xl bg-card-alt border border-color-border mb-4">
                                     <IoSearch className="w-12 h-12 text-color-text-muted" />
                                 </div>
                                 <h3 className="text-xl font-bold text-color-text mb-2">No Repositories Found</h3>
@@ -691,7 +673,7 @@ export default function OtherWorksContent() {
                                 {(languageFilter !== 'All' || debouncedSearchQuery) && (
                                     <button
                                         onClick={() => { setLanguageFilter('All'); setSearchQuery(''); }}
-                                        className="mt-4 px-4 py-2 rounded-xl glass-frost border border-white/10 text-primary-400 hover:bg-white/10 transition-all"
+                                        className="mt-4 px-4 py-2 rounded-xl border border-color-border bg-card text-primary-400 hover:bg-card-alt transition-all"
                                     >
                                         Clear Filters
                                     </button>
@@ -705,7 +687,7 @@ export default function OtherWorksContent() {
                                     ))}
                                 </div>
                                 {totalPages > 1 && (
-                                    <div className="flex items-center justify-between mt-12 pt-8 border-t border-white/10">
+                                    <div className="flex items-center justify-between mt-12 pt-8 border-t border-color-border">
                                         <div className="text-sm text-color-text-muted">
                                             Showing <span className="text-primary-300 font-semibold">{startIndex + 1}</span>-<span className="text-primary-300 font-semibold">{Math.min(endIndex, filteredRepos.length)}</span> of <span className="text-primary-300 font-semibold">{filteredRepos.length}</span>
                                         </div>
@@ -714,8 +696,8 @@ export default function OtherWorksContent() {
                                                 onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                                                 disabled={currentPage === 1}
                                                 className={`p-2.5 rounded-lg transition-all duration-300 flex items-center gap-2 ${currentPage === 1
-                                                    ? 'text-color-text-muted/50 cursor-not-allowed bg-white/5'
-                                                    : 'text-primary-300 hover:bg-white/10 hover:text-primary-200 glass-frost border border-white/10'
+                                                    ? 'text-color-text-muted/50 cursor-not-allowed bg-card-alt'
+                                                    : 'text-primary-300 hover:bg-card-alt border border-color-border'
                                                     }`}
                                                 aria-label="Previous page"
                                             >
@@ -729,8 +711,8 @@ export default function OtherWorksContent() {
                                                         key={page}
                                                         onClick={() => setCurrentPage(page)}
                                                         className={`w-10 h-10 rounded-lg transition-all duration-300 text-sm font-medium ${currentPage === page
-                                                            ? 'bg-gradient-to-r from-primary-600 to-primary-400 text-white shadow-lg shadow-primary-500/30'
-                                                            : 'glass-frost text-color-text-muted border border-white/10 hover:bg-white/10 hover:text-primary-300'
+                                                            ? 'bg-primary-500 text-white'
+                                                            : 'border border-color-border text-color-text-muted hover:bg-card-alt hover:text-primary-300'
                                                             }`}
                                                     >
                                                         {page}
@@ -742,8 +724,8 @@ export default function OtherWorksContent() {
                                                 onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
                                                 disabled={currentPage === totalPages}
                                                 className={`p-2.5 rounded-lg transition-all duration-300 flex items-center gap-2 ${currentPage === totalPages
-                                                    ? 'text-color-text-muted/50 cursor-not-allowed bg-white/5'
-                                                    : 'text-primary-300 hover:bg-white/10 hover:text-primary-200 glass-frost border border-white/10'
+                                                    ? 'text-color-text-muted/50 cursor-not-allowed bg-card-alt'
+                                                    : 'text-primary-300 hover:bg-card-alt border border-color-border'
                                                     }`}
                                                 aria-label="Next page"
                                             >
@@ -762,7 +744,7 @@ export default function OtherWorksContent() {
                                     ))}
                                 </div>
                                 {totalPages > 1 && (
-                                    <div className="flex items-center justify-between mt-12 pt-8 border-t border-white/10">
+                                    <div className="flex items-center justify-between mt-12 pt-8 border-t border-color-border">
                                         <div className="text-sm text-color-text-muted">
                                             Showing <span className="text-primary-300 font-semibold">{startIndex + 1}</span>-<span className="text-primary-300 font-semibold">{Math.min(endIndex, filteredRepos.length)}</span> of <span className="text-primary-300 font-semibold">{filteredRepos.length}</span>
                                         </div>
@@ -771,8 +753,8 @@ export default function OtherWorksContent() {
                                                 onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                                                 disabled={currentPage === 1}
                                                 className={`p-2.5 rounded-lg transition-all duration-300 flex items-center gap-2 ${currentPage === 1
-                                                    ? 'text-color-text-muted/50 cursor-not-allowed bg-white/5'
-                                                    : 'text-primary-300 hover:bg-white/10 hover:text-primary-200 glass-frost border border-white/10'
+                                                    ? 'text-color-text-muted/50 cursor-not-allowed bg-card-alt'
+                                                    : 'text-primary-300 hover:bg-card-alt border border-color-border'
                                                     }`}
                                                 aria-label="Previous page"
                                             >
@@ -786,8 +768,8 @@ export default function OtherWorksContent() {
                                                         key={page}
                                                         onClick={() => setCurrentPage(page)}
                                                         className={`w-10 h-10 rounded-lg transition-all duration-300 text-sm font-medium ${currentPage === page
-                                                            ? 'bg-gradient-to-r from-primary-600 to-primary-400 text-white shadow-lg shadow-primary-500/30'
-                                                            : 'glass-frost text-color-text-muted border border-white/10 hover:bg-white/10 hover:text-primary-300'
+                                                            ? 'bg-primary-500 text-white'
+                                                            : 'border border-color-border text-color-text-muted hover:bg-card-alt hover:text-primary-300'
                                                             }`}
                                                     >
                                                         {page}
@@ -799,8 +781,8 @@ export default function OtherWorksContent() {
                                                 onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
                                                 disabled={currentPage === totalPages}
                                                 className={`p-2.5 rounded-lg transition-all duration-300 flex items-center gap-2 ${currentPage === totalPages
-                                                    ? 'text-color-text-muted/50 cursor-not-allowed bg-white/5'
-                                                    : 'text-primary-300 hover:bg-white/10 hover:text-primary-200 glass-frost border border-white/10'
+                                                    ? 'text-color-text-muted/50 cursor-not-allowed bg-card-alt'
+                                                    : 'text-primary-300 hover:bg-card-alt border border-color-border'
                                                     }`}
                                                 aria-label="Next page"
                                             >
@@ -822,7 +804,7 @@ export default function OtherWorksContent() {
                             href="https://github.com/CodeMeAPixel"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-3 px-6 py-3 rounded-xl glass-ultra border border-white/10 hover:border-primary-500/30 text-color-text hover:text-primary-400 transition-all duration-300 group"
+                            className="inline-flex items-center gap-3 px-6 py-3 rounded-xl border border-color-border bg-card hover:bg-card-alt hover:border-primary-500/30 text-color-text hover:text-primary-400 transition-all duration-300 group"
                         >
                             <IoLogoGithub className="w-5 h-5" />
                             <span>View Full GitHub Profile</span>

@@ -143,22 +143,15 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
 
     return (
         <section className="pt-20 pb-24 md:pt-24 md:pb-32 bg-bg relative overflow-hidden">
-            {/* Premium multi-layer background */}
-            <div className="absolute inset-0">
-                <div className="absolute inset-0 bg-aurora opacity-40"></div>
-                <div className="absolute inset-0 bg-dot-pattern opacity-20"></div>
-            </div>
+            {/* Background */}
+            <div className="absolute inset-0 bg-dot-pattern opacity-20" />
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"></div>
-
-            {/* Animated floating orbs - CSS animations */}
-            <div className="absolute top-[10%] left-[5%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-primary-500/20 to-primary-600/5 blur-[100px] animate-float-slow" />
-            <div className="absolute bottom-[20%] right-[10%] w-[400px] h-[400px] rounded-full bg-gradient-to-tl from-primary-400/15 to-transparent blur-[80px] animate-float-medium" />
 
             <div className="container-section relative z-10">
                 <div className="mb-14 animate-fade-in">
                     {/* Premium Badge */}
                     <div className="flex justify-center md:justify-start mb-8">
-                        <span className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-primary-300 glass-frost rounded-full animate-fade-in-up">
+                        <span className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-primary-300 border border-color-border bg-card/50 rounded-full animate-fade-in-up">
                             <IoGridOutline className="w-4 h-4" />
                             FiveM Resources
                         </span>
@@ -166,7 +159,7 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
 
                     <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-center md:text-left mb-6">
                         <span className="text-color-text">FiveM </span>
-                        <span className="animated-gradient-text text-shadow-glow">Scripts</span>
+                        <span className="animated-gradient-text">Scripts</span>
                     </h1>
                     <p className="text-color-text-muted text-center md:text-left max-w-3xl text-lg md:text-xl leading-relaxed">
                         Premium scripts for your FiveM roleplay server. Browse my collection of high-quality scripts
@@ -198,7 +191,7 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                                     className={`text-sm px-3 py-2.5 rounded-lg cursor-pointer outline-none transition-all duration-200
                                         ${filter === 'All'
                                             ? 'bg-primary-500/20 text-primary-300 font-medium border border-primary-500/20'
-                                            : 'text-color-text-muted hover:bg-white/10 hover:text-color-text'
+                                            : 'text-color-text-muted hover:bg-card-alt hover:text-color-text'
                                         }`}
                                     onClick={() => setFilter('All')}
                                 >
@@ -221,7 +214,7 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                                         className={`text-sm px-3 py-2.5 rounded-lg cursor-pointer outline-none transition-all duration-200
                                             ${filter === framework as Filter
                                                 ? 'bg-primary-500/20 text-primary-300 font-medium border border-primary-500/20'
-                                                : 'text-color-text-muted hover:bg-white/10 hover:text-color-text'
+                                                : 'text-color-text-muted hover:bg-card-alt hover:text-color-text'
                                             }`}
                                         onClick={() => setFilter(framework as Filter)}
                                     >
@@ -245,7 +238,7 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                                         className={`text-sm px-3 py-2.5 rounded-lg cursor-pointer outline-none transition-all duration-200
                                             ${filter === status as Filter
                                                 ? 'bg-primary-500/20 text-primary-300 font-medium border border-primary-500/20'
-                                                : 'text-color-text-muted hover:bg-white/10 hover:text-color-text'
+                                                : 'text-color-text-muted hover:bg-card-alt hover:text-color-text'
                                             }`}
                                         onClick={() => setFilter(status as Filter)}
                                     >
@@ -263,7 +256,7 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                                     className={`text-sm px-3 py-2.5 rounded-lg cursor-pointer outline-none transition-all duration-200
                                         ${filter === 'Deprecated'
                                             ? 'bg-red-500/20 text-red-300 font-medium border border-red-500/20'
-                                            : 'text-color-text-muted hover:bg-white/10 hover:text-color-text'
+                                            : 'text-color-text-muted hover:bg-card-alt hover:text-color-text'
                                         }`}
                                     onClick={() => setFilter('Deprecated')}
                                 >
@@ -327,12 +320,12 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                                 </button>
                             </DropdownMenu.Trigger>
                             <DropdownMenu.Content
-                                className="z-50 min-w-[220px] p-2 bg-bg/95 backdrop-blur-xl border border-white/10 shadow-2xl shadow-black/50 rounded-xl overflow-hidden animate-fade-in"
+                                className="z-50 min-w-[220px] p-2 bg-card border border-color-border shadow-lg rounded-xl overflow-hidden animate-fade-in"
                                 align="end"
                                 sideOffset={5}
                             >
                                 <DropdownMenu.Item
-                                    className={`text-sm px-3 py-2.5 cursor-pointer rounded-lg outline-none transition-all duration-200 ${sortBy === 'date-desc' ? 'bg-primary-500/20 text-primary-300 font-medium border border-primary-500/20' : 'text-color-text-muted hover:bg-white/10 hover:text-color-text'}`}
+                                    className={`text-sm px-3 py-2.5 cursor-pointer rounded-lg outline-none transition-all duration-200 ${sortBy === 'date-desc' ? 'bg-primary-500/20 text-primary-300 font-medium border border-primary-500/20' : 'text-color-text-muted hover:bg-card-alt hover:text-color-text'}`}
                                     onClick={() => setSortBy('date-desc')}
                                 >
                                     <div className="flex items-center">
@@ -342,7 +335,7 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                                     </div>
                                 </DropdownMenu.Item>
                                 <DropdownMenu.Item
-                                    className={`text-sm px-3 py-2.5 cursor-pointer rounded-lg outline-none transition-all duration-200 ${sortBy === 'date-asc' ? 'bg-primary-500/20 text-primary-300 font-medium border border-primary-500/20' : 'text-color-text-muted hover:bg-white/10 hover:text-color-text'}`}
+                                    className={`text-sm px-3 py-2.5 cursor-pointer rounded-lg outline-none transition-all duration-200 ${sortBy === 'date-asc' ? 'bg-primary-500/20 text-primary-300 font-medium border border-primary-500/20' : 'text-color-text-muted hover:bg-card-alt hover:text-color-text'}`}
                                     onClick={() => setSortBy('date-asc')}
                                 >
                                     <div className="flex items-center">
@@ -352,7 +345,7 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                                     </div>
                                 </DropdownMenu.Item>
                                 <DropdownMenu.Item
-                                    className={`text-sm px-3 py-2.5 cursor-pointer rounded-lg outline-none transition-all duration-200 ${sortBy === 'alphabetical' ? 'bg-primary-500/20 text-primary-300 font-medium border border-primary-500/20' : 'text-color-text-muted hover:bg-white/10 hover:text-color-text'}`}
+                                    className={`text-sm px-3 py-2.5 cursor-pointer rounded-lg outline-none transition-all duration-200 ${sortBy === 'alphabetical' ? 'bg-primary-500/20 text-primary-300 font-medium border border-primary-500/20' : 'text-color-text-muted hover:bg-card-alt hover:text-color-text'}`}
                                     onClick={() => setSortBy('alphabetical')}
                                 >
                                     <div className="flex items-center">
@@ -362,7 +355,7 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                                     </div>
                                 </DropdownMenu.Item>
                                 <DropdownMenu.Item
-                                    className={`text-sm px-3 py-2.5 cursor-pointer rounded-lg outline-none transition-all duration-200 ${sortBy === 'price-asc' ? 'bg-primary-500/20 text-primary-300 font-medium border border-primary-500/20' : 'text-color-text-muted hover:bg-white/10 hover:text-color-text'}`}
+                                    className={`text-sm px-3 py-2.5 cursor-pointer rounded-lg outline-none transition-all duration-200 ${sortBy === 'price-asc' ? 'bg-primary-500/20 text-primary-300 font-medium border border-primary-500/20' : 'text-color-text-muted hover:bg-card-alt hover:text-color-text'}`}
                                     onClick={() => setSortBy('price-asc')}
                                 >
                                     <div className="flex items-center">
@@ -372,7 +365,7 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                                     </div>
                                 </DropdownMenu.Item>
                                 <DropdownMenu.Item
-                                    className={`text-sm px-3 py-2.5 cursor-pointer rounded-lg outline-none transition-all duration-200 ${sortBy === 'price-desc' ? 'bg-primary-500/20 text-primary-300 font-medium border border-primary-500/20' : 'text-color-text-muted hover:bg-white/10 hover:text-color-text'}`}
+                                    className={`text-sm px-3 py-2.5 cursor-pointer rounded-lg outline-none transition-all duration-200 ${sortBy === 'price-desc' ? 'bg-primary-500/20 text-primary-300 font-medium border border-primary-500/20' : 'text-color-text-muted hover:bg-card-alt hover:text-color-text'}`}
                                     onClick={() => setSortBy('price-desc')}
                                 >
                                     <div className="flex items-center">
@@ -606,7 +599,7 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                                     ))}
                                 </div>
                                 {totalPages > 1 && (
-                                    <div className="flex items-center justify-between mt-12 pt-8 border-t border-white/10">
+                                    <div className="flex items-center justify-between mt-12 pt-8 border-t border-color-border">
                                         <div className="text-sm text-color-text-muted">
                                             Showing <span className="text-primary-300 font-semibold">{startIndex + 1}</span>-<span className="text-primary-300 font-semibold">{Math.min(endIndex, filteredScripts.length)}</span> of <span className="text-primary-300 font-semibold">{filteredScripts.length}</span>
                                         </div>
@@ -615,8 +608,8 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                                                 onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                                                 disabled={currentPage === 1}
                                                 className={`p-2.5 rounded-lg transition-all duration-300 flex items-center gap-2 ${currentPage === 1
-                                                    ? 'text-color-text-muted/50 cursor-not-allowed bg-white/5'
-                                                    : 'text-primary-300 hover:bg-white/10 hover:text-primary-200 glass-frost border border-white/10'
+                                                    ? 'text-color-text-muted/50 cursor-not-allowed bg-card-alt'
+                                                    : 'text-primary-300 hover:bg-card-alt border border-color-border bg-card'
                                                     }`}
                                                 aria-label="Previous page"
                                             >
@@ -630,8 +623,8 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                                                         key={page}
                                                         onClick={() => setCurrentPage(page)}
                                                         className={`w-10 h-10 rounded-lg transition-all duration-300 text-sm font-medium ${currentPage === page
-                                                            ? 'bg-gradient-to-r from-primary-600 to-primary-400 text-white shadow-lg shadow-primary-500/30'
-                                                            : 'glass-frost text-color-text-muted border border-white/10 hover:bg-white/10 hover:text-primary-300'
+                                                            ? 'bg-primary-500 text-white'
+                                                            : 'border border-color-border bg-card text-color-text-muted hover:bg-card-alt hover:text-primary-300'
                                                             }`}
                                                     >
                                                         {page}
@@ -643,8 +636,8 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                                                 onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
                                                 disabled={currentPage === totalPages}
                                                 className={`p-2.5 rounded-lg transition-all duration-300 flex items-center gap-2 ${currentPage === totalPages
-                                                    ? 'text-color-text-muted/50 cursor-not-allowed bg-white/5'
-                                                    : 'text-primary-300 hover:bg-white/10 hover:text-primary-200 glass-frost border border-white/10'
+                                                    ? 'text-color-text-muted/50 cursor-not-allowed bg-card-alt'
+                                                    : 'text-primary-300 hover:bg-card-alt border border-color-border bg-card'
                                                     }`}
                                                 aria-label="Next page"
                                             >
@@ -669,7 +662,7 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                                     ))}
                                 </div>
                                 {totalPages > 1 && (
-                                    <div className="flex items-center justify-between mt-12 pt-8 border-t border-white/10">
+                                    <div className="flex items-center justify-between mt-12 pt-8 border-t border-color-border">
                                         <div className="text-sm text-color-text-muted">
                                             Showing <span className="text-primary-300 font-semibold">{startIndex + 1}</span>-<span className="text-primary-300 font-semibold">{Math.min(endIndex, filteredScripts.length)}</span> of <span className="text-primary-300 font-semibold">{filteredScripts.length}</span>
                                         </div>
@@ -678,8 +671,8 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                                                 onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                                                 disabled={currentPage === 1}
                                                 className={`p-2.5 rounded-lg transition-all duration-300 flex items-center gap-2 ${currentPage === 1
-                                                    ? 'text-color-text-muted/50 cursor-not-allowed bg-white/5'
-                                                    : 'text-primary-300 hover:bg-white/10 hover:text-primary-200 glass-frost border border-white/10'
+                                                    ? 'text-color-text-muted/50 cursor-not-allowed bg-card-alt'
+                                                    : 'text-primary-300 hover:bg-card-alt border border-color-border bg-card'
                                                     }`}
                                                 aria-label="Previous page"
                                             >
@@ -693,8 +686,8 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                                                         key={page}
                                                         onClick={() => setCurrentPage(page)}
                                                         className={`w-10 h-10 rounded-lg transition-all duration-300 text-sm font-medium ${currentPage === page
-                                                            ? 'bg-gradient-to-r from-primary-600 to-primary-400 text-white shadow-lg shadow-primary-500/30'
-                                                            : 'glass-frost text-color-text-muted border border-white/10 hover:bg-white/10 hover:text-primary-300'
+                                                            ? 'bg-primary-500 text-white'
+                                                            : 'border border-color-border bg-card text-color-text-muted hover:bg-card-alt hover:text-primary-300'
                                                             }`}
                                                     >
                                                         {page}
@@ -706,8 +699,8 @@ export default function FivemScriptsContent({ scripts, allTags }: FivemScriptsCo
                                                 onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
                                                 disabled={currentPage === totalPages}
                                                 className={`p-2.5 rounded-lg transition-all duration-300 flex items-center gap-2 ${currentPage === totalPages
-                                                    ? 'text-color-text-muted/50 cursor-not-allowed bg-white/5'
-                                                    : 'text-primary-300 hover:bg-white/10 hover:text-primary-200 glass-frost border border-white/10'
+                                                    ? 'text-color-text-muted/50 cursor-not-allowed bg-card-alt'
+                                                    : 'text-primary-300 hover:bg-card-alt border border-color-border bg-card'
                                                     }`}
                                                 aria-label="Next page"
                                             >
@@ -823,15 +816,6 @@ function ScriptGridCard({ script, index, isHovered, onHover }: ScriptCardProps) 
                         </div>
                     </div>
 
-                    {/* Subtle hover glow effect */}
-                    <div className={`absolute inset-0 pointer-events-none transition-opacity duration-300 rounded-xl ${isHovered ? 'opacity-100' : 'opacity-0'}`}
-                        style={{ boxShadow: 'inset 0 0 20px rgba(var(--color-primary-500), 0.1)' }}
-                    />
-
-                    {/* Subtle corner decoration */}
-                    <div className="absolute top-0 right-0 w-12 h-12 overflow-hidden opacity-20 group-hover:opacity-40 transition-opacity">
-                        <div className="absolute top-0 right-0 w-8 h-8 bg-primary-500 rotate-45 translate-x-[10px] -translate-y-[10px]"></div>
-                    </div>
                 </div>
             </Link>
         </div>
@@ -937,15 +921,6 @@ function ScriptListItem({ script, index, isHovered, onHover }: ScriptCardProps) 
                         </div>
                     </div>
 
-                    {/* Subtle hover glow effect */}
-                    <div className={`absolute inset-0 pointer-events-none transition-opacity duration-300 rounded-xl ${isHovered ? 'opacity-100' : 'opacity-0'}`}
-                        style={{ boxShadow: 'inset 0 0 20px rgba(var(--color-primary-500), 0.1)' }}
-                    />
-
-                    {/* Subtle corner decoration */}
-                    <div className="absolute top-0 right-0 w-12 h-12 overflow-hidden opacity-20 group-hover:opacity-40 transition-opacity">
-                        <div className="absolute top-0 right-0 w-8 h-8 bg-primary-500 rotate-45 translate-x-[10px] -translate-y-[10px]"></div>
-                    </div>
                 </div>
             </Link>
         </div>

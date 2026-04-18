@@ -13,23 +13,8 @@ const socialLinks = [
 export default function Contact() {
   return (
     <section id="contact" className="py-24 md:py-32 bg-bg relative z-10 overflow-hidden">
-      {/* Multi-layer background */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-aurora opacity-40"></div>
-        <div className="absolute inset-0 bg-dot-pattern opacity-20"></div>
-      </div>
-
-      {/* Decorative lines */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"></div>
-
-      {/* Animated orbs */}
-      <div
-        className="absolute top-[20%] left-[10%] w-[500px] h-[500px] rounded-full bg-gradient-to-br from-primary-500/20 to-primary-600/5 blur-[100px] animate-pulse"
-      />
-      <div
-        className="absolute bottom-[10%] right-[5%] w-[400px] h-[400px] rounded-full bg-gradient-to-tl from-primary-400/15 to-transparent blur-[80px] animate-pulse"
-        style={{ animationDelay: '2s' }}
-      />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-color-border to-transparent" />
+      <div className="absolute inset-0 bg-dot-pattern opacity-20" />
 
       <div className="container-section relative">
         <div
@@ -37,10 +22,10 @@ export default function Contact() {
         >
           {/* Badge */}
           <span
-            className="inline-flex items-center gap-2 px-4 py-2 mb-8 text-sm font-semibold text-primary-300 glass-frost rounded-full animate-fade-in"
+            className="inline-flex items-center gap-2 px-3 py-1.5 mb-8 text-sm font-medium text-primary-400 border border-color-border bg-card/50 rounded-full animate-fade-in"
             style={{ animationDelay: '0.1s' }}
           >
-            <IoMailOutline className="w-4 h-4" />
+            <IoMailOutline className="w-3.5 h-3.5" />
             Get In Touch
           </span>
 
@@ -62,93 +47,51 @@ export default function Contact() {
             Whether you have a project in mind or just want to say hello, I&apos;d love to hear from you!
           </p>
 
-          {/* Premium CTA Card */}
           <div
-            className="relative animate-fade-up"
+            className="animate-fade-up"
             style={{ animationDelay: '0.4s' }}
           >
-            {/* Glow effect */}
-            <div className="absolute -inset-4 bg-gradient-to-r from-primary-500/20 via-primary-400/10 to-primary-600/20 rounded-[40px] blur-2xl opacity-60"></div>
+            {/* Email CTA */}
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-3 px-8 py-4 rounded-xl bg-primary-500 hover:bg-primary-400 text-white font-semibold text-base transition-colors duration-150"
+            >
+              <IoMailOutline className="w-5 h-5" />
+              <span>Send me an Email</span>
+              <IoArrowForward className="w-4 h-4" />
+            </Link>
 
-            <div className="relative p-10 md:p-14 rounded-3xl glass-ultra overflow-hidden">
-              {/* Spotlight effect */}
-              <div className="absolute inset-0 spotlight opacity-50"></div>
+            {/* Divider */}
+            <div className="flex items-center gap-6 my-10">
+              <div className="flex-1 h-px bg-color-border"></div>
+              <span className="text-sm text-color-text-muted font-medium">or connect via</span>
+              <div className="flex-1 h-px bg-color-border"></div>
+            </div>
 
-              {/* Decorative elements */}
-              <div
-                className="absolute -top-20 -right-20 w-40 h-40 bg-primary-500/20 rounded-full blur-3xl animate-pulse"
-              />
-              <div
-                className="absolute -bottom-20 -left-20 w-40 h-40 bg-primary-400/15 rounded-full blur-3xl animate-pulse"
-                style={{ animationDelay: '1s' }}
-              />
-
-              <div className="relative">
-                {/* Email CTA - Premium button */}
+            {/* Social Links */}
+            <div className="flex flex-wrap justify-center gap-3">
+              {socialLinks.map((social) => (
                 <Link
-                  href="/contact"
-                  className="group relative inline-flex items-center gap-3 px-10 py-5 rounded-2xl font-bold text-lg overflow-hidden shine-sweep"
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2.5 px-4 py-2.5 rounded-lg border border-color-border bg-card-alt hover:border-primary-500/30 hover:text-color-text text-color-text-muted transition-all duration-150"
+                  aria-label={social.label}
                 >
-                  <span className="absolute inset-0 bg-gradient-to-r from-primary-600 via-primary-500 to-primary-600 bg-[length:200%_100%] animate-[gradient-x_3s_linear_infinite]"></span>
-                  <span className="absolute inset-[2px] rounded-[14px] bg-gradient-to-r from-primary-600 to-primary-500"></span>
-                  <span className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-primary-500 to-primary-400"></span>
-                  <span className="relative z-10 flex items-center gap-3 text-white">
-                    <IoMailOutline className="w-6 h-6" />
-                    <span>Send me an Email</span>
-                    <IoArrowForward className="w-5 h-5 group-hover:translate-x-2 transition-transform duration-300" />
-                  </span>
+                  <social.icon className="w-4 h-4" />
+                  <span className="text-sm font-medium">{social.label}</span>
                 </Link>
-
-                {/* Divider */}
-                <div className="flex items-center gap-6 my-10">
-                  <div className="flex-1 h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"></div>
-                  <span className="text-sm text-color-text-muted font-medium px-2">or connect via</span>
-                  <div className="flex-1 h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"></div>
-                </div>
-
-                {/* Social Links - Premium Cards */}
-                <div className="flex flex-wrap justify-center gap-3">
-                  {socialLinks.map((social, index) => (
-                    <div
-                      key={social.label}
-                      className="animate-fade-in"
-                      style={{ animationDelay: `${0.5 + index * 0.1}s` }}
-                    >
-                      <Link
-                        href={social.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group relative flex items-center gap-3 px-5 py-3 rounded-xl glass-frost overflow-hidden transition-all duration-300 hover:scale-105 hover:-translate-y-1"
-                        aria-label={social.label}
-                      >
-                        {/* Hover gradient background */}
-                        <span className={`absolute inset-0 bg-gradient-to-r ${social.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></span>
-                        {/* Shine effect */}
-                        <span className="absolute inset-0 shine-sweep opacity-0 group-hover:opacity-100"></span>
-
-                        <span className="relative z-10 flex items-center gap-3">
-                          <social.icon className="w-5 h-5 text-primary-300 group-hover:text-white transition-colors duration-300" />
-                          <span className="text-sm font-semibold text-color-text-muted group-hover:text-white transition-colors duration-300">
-                            {social.label}
-                          </span>
-                        </span>
-                      </Link>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              ))}
             </div>
           </div>
 
           {/* Location badge */}
-          <div
-            className="mt-10 inline-flex items-center gap-3 px-5 py-3 rounded-xl glass-ultra animate-fade-in"
-            style={{ animationDelay: '0.8s' }}
-          >
-            <IoLocationOutline className="w-5 h-5 text-primary-400" />
-            <span className="text-sm text-color-text-muted font-medium">Based in Canada</span>
-            <span className="w-1 h-1 rounded-full bg-color-text-muted/50"></span>
-            <span className="flex items-center gap-2 text-sm text-primary-300 font-semibold">
+          <div className="mt-8 inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-color-border bg-card/50 animate-fade-in">
+            <IoLocationOutline className="w-4 h-4 text-primary-400" />
+            <span className="text-sm text-color-text-muted">Based in Canada</span>
+            <span className="w-px h-3 bg-color-border" />
+            <span className="flex items-center gap-1.5 text-sm text-color-text">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>

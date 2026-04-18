@@ -84,7 +84,7 @@ renderer.blockquote = function (quote) {
         const config = alertConfig[alertType];
 
         return `
-            <div class="gfm-alert relative overflow-hidden rounded-lg border-l-4 ${config.borderColor} bg-gradient-to-r ${config.bgGradient} backdrop-blur-sm my-4">
+            <div class="gfm-alert relative overflow-hidden rounded-lg border-l-4 ${config.borderColor} bg-gradient-to-r ${config.bgGradient} my-4">
                 <div class="p-3 sm:p-4">
                     <div class="flex items-center gap-2 sm:gap-3 mb-2">
                         <div class="${config.accentColor} ${config.iconBg} p-1.5 sm:p-2 rounded-lg flex-shrink-0">${config.icon}</div>
@@ -118,8 +118,8 @@ renderer.code = function (code, language) {
     }
 
     return `
-        <div class="fivem-code-block rounded-lg sm:rounded-xl overflow-hidden my-4 border border-white/10 bg-black/30 -mx-2 sm:mx-0">
-            <div class="flex items-center justify-between px-3 sm:px-4 py-2 bg-white/5 border-b border-white/10">
+        <div class="fivem-code-block rounded-lg sm:rounded-xl overflow-hidden my-4 border border-color-border bg-card -mx-2 sm:mx-0">
+            <div class="flex items-center justify-between px-3 sm:px-4 py-2 bg-card-alt border-b border-color-border">
                 <div class="flex items-center gap-1.5 sm:gap-2">
                     <span class="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-red-500/60"></span>
                     <span class="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-yellow-500/60"></span>
@@ -176,15 +176,15 @@ renderer.paragraph = function (text) {
 
 // Custom horizontal rule
 renderer.hr = function () {
-    return `<hr class="border-t border-white/10 my-6" />`;
+    return `<hr class="border-t border-color-border my-6" />`;
 };
 
 // Custom table - with responsive wrapper
 renderer.table = function (header, body) {
     return `
-        <div class="table-wrapper overflow-x-auto my-4 rounded-xl border border-white/10 -mx-2 sm:mx-0">
+        <div class="table-wrapper overflow-x-auto my-4 rounded-xl border border-color-border -mx-2 sm:mx-0">
             <table class="w-full text-sm min-w-[400px]">
-                <thead class="bg-white/5">${header}</thead>
+                <thead class="bg-card-alt">${header}</thead>
                 <tbody>${body}</tbody>
             </table>
         </div>
@@ -192,7 +192,7 @@ renderer.table = function (header, body) {
 };
 
 renderer.tablerow = function (content) {
-    return `<tr class="border-b border-white/5">${content}</tr>`;
+    return `<tr class="border-b border-color-border">${content}</tr>`;
 };
 
 renderer.tablecell = function (content, flags) {

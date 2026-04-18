@@ -27,7 +27,7 @@ export default function TechBadge({
     return (
         <div className={`
             inline-flex items-center rounded-full
-            bg-white/5 backdrop-blur-sm border border-white/10
+            bg-card border border-color-border
             ${sizeClasses[size]}
             hover:bg-white/10 hover:border-primary-500/30 
             transition-all duration-300 group

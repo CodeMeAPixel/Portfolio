@@ -11,7 +11,7 @@ export const routeConfig: Record<string, RouteInfo> = {
     docs: {
         title: "Documentation Coming Soon",
         description: "My comprehensive documentation is currently under development. Check back soon for detailed guides and resources.",
-        completionPercentage: 10,
+        completionPercentage: 95,
         inDevelopment: true,
         launchDate: new Date(new Date().setDate(new Date().getDate() + 120)),
         showNotification: false

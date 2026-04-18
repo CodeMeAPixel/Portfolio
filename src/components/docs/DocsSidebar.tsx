@@ -70,7 +70,7 @@ export default function DocsSidebar() {
             <div className="mb-5 relative" ref={dropdownRef}>
                 <button
                     onClick={() => setSectionDropdownOpen(!isSectionDropdownOpen)}
-                    className="docs-section-switcher w-full flex items-center justify-between rounded-xl px-3 py-2.5 border border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.04] hover:border-primary-500/20 transition-all group"
+                    className="docs-section-switcher w-full flex items-center justify-between rounded-xl px-3 py-2.5 border border-color-border bg-card hover:bg-card-alt hover:border-primary-500/20 transition-all group"
                 >
                     <div className="flex items-center gap-2.5">
                         <div className="flex items-center justify-center w-7 h-7 rounded-lg bg-primary-500/15 text-primary-400">
@@ -83,25 +83,27 @@ export default function DocsSidebar() {
 
                 {/* Dropdown */}
                 {isSectionDropdownOpen && (
-                    <div className="absolute top-full left-0 right-0 mt-1.5 bg-bg border border-white/[0.08] rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)] z-50 py-1.5 max-h-72 overflow-y-auto docs-scrollbar docs-dropdown-enter">
+                    <div className="absolute top-full left-0 right-0 mt-1.5 bg-bg border border-color-border rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)] z-50 py-1.5 max-h-72 overflow-y-auto docs-scrollbar docs-dropdown-enter">
                         {docsConfig.sections.map((section) => {
                             const isSelected = section.slug === currentSection.slug;
                             return (
                                 <button
                                     key={section.slug}
                                     onClick={() => handleSectionChange(section.slug)}
-                                    className={`w-full text-left px-3 py-2.5 flex items-center gap-2.5 transition-colors ${isSelected ? 'text-primary-400' : 'text-color-text-muted hover:text-color-text hover:bg-white/[0.04]'}`}
+                                    className={`w-full text-left px-3 py-2.5 flex items-center gap-2.5 transition-colors ${isSelected ? 'text-primary-400' : 'text-color-text-muted hover:text-color-text hover:bg-card-alt'}`}
                                 >
-                                    <div className={`flex items-center justify-center w-7 h-7 rounded-lg transition-colors ${isSelected ? 'bg-primary-500/20 text-primary-400' : 'bg-white/[0.04]'}`}>
+                                    <div className={`flex items-center justify-center w-7 h-7 rounded-lg transition-colors ${isSelected ? 'bg-primary-500/20 text-primary-400' : 'bg-card-alt'}`}>
                                         {section.icon && <section.icon className="w-3.5 h-3.5" />}
                                     </div>
                                     <div className="flex flex-col min-w-0">
                                         <span className="text-[13px] font-medium truncate">{section.name}</span>
                                         <span className="text-[11px] opacity-50 truncate">{section.description}</span>
                                     </div>
-                                    {isSelected && (
-                                        <div className="ml-auto w-1.5 h-1.5 rounded-full bg-primary-400 flex-shrink-0" />
-                                    )}
+                                    {
+                                        isSelected && (
+                                            <div className="ml-auto w-1.5 h-1.5 rounded-full bg-primary-400 flex-shrink-0" />
+                                        )
+                                    }
                                 </button>
                             );
                         })}
@@ -110,7 +112,7 @@ export default function DocsSidebar() {
             </div>
 
             {/* Navigation */}
-            <nav className="flex-grow space-y-0.5 docs-nav">
+            <nav className="flex-1 min-h-0 overflow-y-auto docs-scrollbar space-y-0.5 docs-nav -mx-4 px-4">
                 {currentSection.categories.map((category) => {
                     const isExpanded = expandedSections[category.title];
                     const hasActiveChild = category.items.some(item => pathname === item.href);
@@ -128,7 +130,7 @@ export default function DocsSidebar() {
                             <div className={`docs-nav-items overflow-hidden transition-all duration-200 ${isExpanded ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
                                 <ul className="relative ml-2.5 mt-0.5 mb-2">
                                     {/* Tree line */}
-                                    <div className="absolute left-0 top-0 bottom-0 w-px bg-white/[0.06]" />
+                                    <div className="absolute left-0 top-0 bottom-0 w-px bg-color-border" />
 
                                     {category.items.map((item) => {
                                         const isActive = pathname === item.href;
@@ -146,7 +148,7 @@ export default function DocsSidebar() {
                                                         docs-nav-link flex items-center gap-2 py-[7px] pl-4 pr-2.5 ml-px text-[13px] rounded-md transition-all duration-150
                                                         ${isActive
                                                             ? "text-primary-400 font-medium bg-primary-500/[0.08]"
-                                                            : "text-color-text-muted hover:text-color-text hover:bg-white/[0.03]"
+                                                            : "text-color-text-muted hover:text-color-text hover:bg-card"
                                                         }
                                                     `}
                                                 >
@@ -166,7 +168,7 @@ export default function DocsSidebar() {
             </nav>
 
             {/* Quick links */}
-            <div className="mt-auto pt-5 border-t border-white/[0.04]">
+            <div className="mt-auto pt-5 border-t border-color-border">
                 <div className="text-[11px] font-semibold text-color-text-muted/40 mb-3 uppercase tracking-widest px-2.5">Links</div>
                 <div className="flex flex-col gap-0.5">
                     {docsConfig.quickLinks.map((link, index) => (
@@ -175,7 +177,7 @@ export default function DocsSidebar() {
                             href={link.href}
                             target={link.href.startsWith('http') ? '_blank' : undefined}
                             rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                            className="docs-quick-link flex items-center gap-2.5 px-2.5 py-2 text-[13px] text-color-text-muted/70 hover:text-color-text rounded-md hover:bg-white/[0.03] transition-all group"
+                            className="docs-quick-link flex items-center gap-2.5 px-2.5 py-2 text-[13px] text-color-text-muted/70 hover:text-color-text rounded-md hover:bg-card transition-all group"
                         >
                             {link.icon && <link.icon className="w-3.5 h-3.5 opacity-40 group-hover:opacity-70 transition-opacity" />}
                             <span>{link.name}</span>
@@ -183,6 +185,6 @@ export default function DocsSidebar() {
                     ))}
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
