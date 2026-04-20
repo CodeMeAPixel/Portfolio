@@ -12,6 +12,7 @@ export default defineConfig(({ command }) => ({
     port: 5099,
     host: '0.0.0.0',
     allowedHosts: [
+      'tanstack.codemeapixel.dev',
       'www.beta.codemeapixel.dev',
       'www.codemeapixel.dev',
       'www.beta.cmap.lol',
