@@ -1,4 +1,4 @@
-# CodeMeAPixel Portfolio!
+# CodeMeAPixel Portfolio
 
 [![Next.js](https://img.shields.io/badge/Next.js-15.3.0-black?logo=next.js&style=flat-square)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19.0.0-61DAFB?logo=react&style=flat-square&logoColor=white)](https://react.dev/)
