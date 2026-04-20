@@ -79,7 +79,7 @@ export function proxy(request: NextRequest) {
     // Toggle this to true if you want to test the coming soon page in development
     const forceRedirectInDev = false;
 
-    if (isUnderConstruction && (!isDevelopment || forceRedirectInDev)) {
+    if (isUnderConstruction && (isDevelopment || forceRedirectInDev)) {
         // Clone the current URL
         const url = request.nextUrl.clone();
 
