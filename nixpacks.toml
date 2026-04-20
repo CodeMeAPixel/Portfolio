@@ -6,4 +6,4 @@ includeNode = false
 cmds = ["bun install --frozen-lockfile", "bun run build"]
 
 [start]
-cmd = "node --import ./instrument.server.mjs start.mjs"
+cmd = "bun run preview"
