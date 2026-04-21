@@ -133,26 +133,17 @@ export default function AboutContent() {
 
                     <div className="grid gap-5">
                         <TimelineItem
-                            title="Chief of Operations"
+                            title="Chief Executive Officer"
                             company="NodeByte"
                             period="Present"
-                            description="Help lead the development team, contribute to daily operations within the company, and ensure the quality of our products. I also mentor junior developers."
+                            description="Driving the company's strategic vision and technical roadmap. I oversee full-stack architectural decisions, lead high-level operations, and foster a culture of excellence through direct mentorship of the engineering team."
                             delay={0.1}
                         />
-
                         <TimelineItem
                             title="System Administrator"
                             company="Purrquinox Technologies"
                             period="Present"
                             description="Manage and maintain the IT infrastructure, ensuring system reliability and security. I also handle network administration, server management, and user support."
-                            delay={0.2}
-                        />
-
-                        <TimelineItem
-                            title="Chief Executive Officer"
-                            company="ByteBrush Studios"
-                            period="2020"
-                            description="Oversee the strategic direction of the company, manage client relationships, and ensure the successful delivery of projects."
                             delay={0.2}
                         />
                     </div>
