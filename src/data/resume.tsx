@@ -122,7 +122,7 @@ export const DATA = {
       badges: [],
       location: "Remote",
       title: "Founder",
-      logoUrl: "https://purrquinox.com/_next/image?url=%2Flogo.png&w=48&q=75",
+      logoUrl: "https://avatars.githubusercontent.com/u/77776335?s=400&u=c3008f2586bdbfcd1b37657d1ce64e0b59fbfca8&v=4",
       start: "January 2019",
       end: "February 2021",
       description: "",
