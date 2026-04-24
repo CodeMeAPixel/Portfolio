@@ -27,7 +27,7 @@ export const DATA = {
   location: "Alberta, Canada",
   locationLink: "https://www.google.com/maps/place/Alberta,+Canada",
   description:
-    "Software Engineer with 15+ years of experience. Best served hot with a side of homelab experiments.",
+    "Software Engineer with over a decade of experience. Best served hot with a side of homelab experiments.",
   summary:
     "My journey in web development began over 10 years ago, driven by curiosity and a desire to build things that people love to use. I specialize in creating modern, responsive, and accessible web applications that not only look great but also deliver outstanding user experiences.\n\nI have a strong background in both frontend and backend development, and I enjoy working on projects that challenge me to learn new technologies and push the boundaries of what's possible on the web. When I'm not coding, you can find me spending time with my wife and kids, experimenting with new tech in my homelab or sharing my knowledge through blogging and open source contributions.",
   avatarUrl: "/me.png",
