@@ -67,14 +67,6 @@ export const DATA = {
         icon: Icons.github,
         navbar: true,
       },
-
-      LinkedIn: {
-        name: "LinkedIn",
-        url: "https://www.linkedin.com/in/codemeapixel",
-        icon: Icons.linkedin,
-
-        navbar: true,
-      },
       X: {
         name: "X",
         url: "https://twitter.com/codemeapixel",
