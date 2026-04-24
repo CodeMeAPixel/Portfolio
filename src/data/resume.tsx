@@ -116,6 +116,17 @@ export const DATA = {
       description:
         "Manage and maintain the IT infrastructure, ensuring system reliability and security. I also handle network administration, server management, and user support.",
     },
+    {
+      company: "Paradise Bot List",
+      href: "https://github.com/ParadiseBotLists",
+      badges: [],
+      location: "Remote",
+      title: "Founder",
+      logoUrl: "https://purrquinox.com/_next/image?url=%2Flogo.png&w=48&q=75",
+      start: "January 2019",
+      end: "February 2021",
+      description: "",
+    },
   ],
   education: [],
   projects: [
