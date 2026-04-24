@@ -99,7 +99,7 @@ export const DATA = {
       location: "Remote",
       title: "Chief Executive Officer",
       logoUrl: "https://nodebyte.co.uk/logo.png",
-      start: "2024",
+      start: "Nov 2024",
       end: "Present",
       description:
         "Driving the company's strategic vision and technical roadmap. I oversee full-stack architectural decisions, lead high-level operations, and foster a culture of excellence through direct mentorship of the engineering team.",
@@ -111,7 +111,7 @@ export const DATA = {
       location: "Remote",
       title: "System Administrator",
       logoUrl: "https://purrquinox.com/_next/image?url=%2Flogo.png&w=48&q=75",
-      start: "2025",
+      start: "Jan 2025",
       end: "Present",
       description:
         "Manage and maintain the IT infrastructure, ensuring system reliability and security. I also handle network administration, server management, and user support.",
