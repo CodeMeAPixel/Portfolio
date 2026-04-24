@@ -1,0 +1,123 @@
+---
+title: 'My Journey from Developer to Self-Taught AI Detective'
+publishedAt: "2026-02-16"
+updatedAt: "2026-02-16"
+author: "Tyler H"
+summary: 'The web is drowning in AI generated "slop." This is the story of how I learned to see the invisible patterns of synthetic content, catalogued 38 distinct signals of inhuman origin, and built Cadence to automate the hunt.'
+---
+
+## The Vibe Shift
+
+It didn’t happen overnight. It was a slow creep.
+
+About eighteen months ago, I started noticing a distinct shift in the texture of the internet. 
+
+I'd be researching a niche technical problem, reading a blog post, or reviewing a pull request from an unknown contributor, and I’d get this uncanny feeling.
+
+The text was perfect. The grammar was flawless. The code compiled. But it felt... hollow. It was _**high density content with zero density soul.**_
+
+I call it **The Infinite Beige**.
+
+As a self-taught developer, my career has depended on pattern recognition. When you don't have the theoretical padding of a CS degree, you survive by learning what "good" looks like and what "bad" smells like. 
+
+And the web was starting to smell like a massive, automated factory pumping out linguistic monotone. 
+
+I realized we were entering a new era where the "Causality Gap" had broken.
+
+Historically, if code existed, a human thought about it, typed it, and debugged it. If an article existed, a human researched it and wrote it. That causal link is now gone.
+
+I couldn't ignore it. I stopped just being a developer and became an **AI Detective**.
+
+---
+
+## Phase 1: The Manual Hunt (Training the Eye)
+
+Before I wrote a single line of code for Cadence, I spent months just observing. I stared at git logs until my eyes bled. 
+
+I read hundreds of "SEO optimized" articles. I was trying to reverse engineer the behavioural quirks of Large Language Models (LLMs).
+
+An LLM isn't a thinking machine it's a statistically probable token predictor. Because of that, it leaves fingerprints statistical anomalies that a human wouldn't typically create naturally.
+
+I started cataloging these fingerprints. My mental dossier of "slop patterns" grew into two distinct categories: The inhuman speed of Git, and the uncanny perfection of the Web.
+
+### The Git Dossier: When Velocity Breaks Physics
+
+The first place I spotted the patterns was in open-source repositories. The signals here aren't subtle they are practically violent.
+
+#### The Speed Demon (Velocity & Timing)
+Humans need time to think. We stare at the screen, we sip coffee, we refactor. LLMs do not.
+
+* **The 500 Line Sprint:** I started seeing massive commits 500+ lines of complex changes pushed minutes after a ticket was opened. A human might burst out 50 lines in a minute of inspired typing, but sustaining 100+ additions per minute over a large commit? That’s a machine.
+* **The Metronomic Committer:** Humans have irregular rhythms. We commit at 10:03 AM, then 11:15 AM, then 4:30 PM. AI agents often display suspiciously regular intervals (perfect 60-second gaps) or operate during bizarre hours (3 AM to 5 AM consistently) without ever taking a weekend off.
+
+#### The Uncanny Valley of Code Structure
+* **The Conventional Trap:** AI models *love* structure. I noticed that automated PRs almost always use perfect Conventional Commits (`feat:`, `fix:`, `chore:`) without a single typo, lazy "oops" commit, or creative description. It’s too clean.
+* **Generic Naming:** While a junior dev might use bad variable names, an AI uses *generically good* names. Everything is `temp`, `data`, `item`, or `obj`. It lacks domain specific nuance.
+* **The Copy Paste Architect:** I’d see commits that were 99% additions with zero deletions. Humans rarely write perfect code the first time we delete and rewrite as we go. A massive commit with a 99:1 add/delete ratio suggests a giant blob of generated text was pasted in without iteration.
+
+---
+
+### The Web Dossier: The Anodyne Veneer
+
+The web content side was harder to crack. It requires a more linguistic approach, looking for the desperate attempt of an LLM to sound helpful and inoffensive.
+
+#### The Linguistic Slop
+* **The Filler Phrases:** If I read "In today's fast-paced world," "It is important to note," or "Cutting-edge solutions" in the first paragraph, my suspicion jumps 50%. These are the linguistic packing peanuts LLMs use to pad out word counts.
+* **Unnatural Perfection:** Human writing is messy. We use sentence fragments. We break grammar rules for effect. We use contractions. AI writing is often suspiciously uniform perfect grammar, consistent sentence length, and an almost academically formal tone in a casual blog setting.
+* **The "Missing Nuance":** AI deals in absolutes to sound authoritative. It rarely uses hedging language like "sometimes," "perhaps," or "in certain contexts." Everything is the "ultimate guide" or the "perfect solution."
+
+#### The Shallow Implementation
+When analyzing the HTML source, the facade often cracks.
+* **Accessibility as an Afterthought:** AI generators are terrible at semantic empathy. They will generate a beautiful looking page that is an accessibility nightmare missing `alt` text on images, skipping heading levels (jumping from H1 to H3), and drowning the page in `<div>` soup instead of semantic HTML tags.
+* **The Template Trap:** You see the same structures repeated endlessly. Every section has exactly three paragraphs and five bullet points. The intro paragraph is always a generic summary leading into a "placeholder" header like "Overview" or "Benefits."
+
+---
+
+## Phase 2: Automating Intuition (Building Cadence)
+
+After months of manual detection, I had a massive catalogue of patterns, but I was just one person. I couldn't scale. I needed to codify my intuition into a tool that could run at the speed of the internet.
+
+That’s when I started building **Cadence**.
+
+I didn't want a black box that just said "AI: 98%." I wanted a forensic tool that showed its work.
+
+I took my mental dossier and translated it into **38 distinct detection strategies**.
+
+### The Philosophy of Consensus Scoring
+
+No single signal is proof of AI. A human *might* write a perfect commit message, or use the phrase "in conclusion."
+
+Cadence works on a consensus model. It’s a jury of 38 experts.
+* The **Velocity Analysis** strategy might say, "This commit is suspicious (Score: 90)."
+* The **Commit Message Analysis** strategy might say, "This is generic (Score: 60)."
+* The **Burst Pattern Analysis** might say, "These happened too fast (Score: 85)."
+
+Cadence takes these confidence weighted scores and combines them. A high final score means multiple, unrelated strategies all tripped their alarms simultaneously. That is rarely a coincidence.
+
+### Why the Architecture Matters
+
+To run these 38 strategies against massive git repositories and sprawling websites, I couldn't use a slow language. I needed raw I/O performance and massive concurrency.
+
+This is why Cadence is built in **Go**.
+
+Go allows Cadence to spin up goroutines for every strategy. I can fan out the analysis of a 10,000 commit history across dozens of parallel workers, crunch the statistical velocity anomalies, scan for linguistic patterns, and aggregate the results in seconds. 
+
+It’s the difference between searching a haystack with a magnifying glass and searching it with a powerful magnet.
+
+---
+
+## The Infinite Game
+
+Becoming an AI Detective has taught me that we aren't going to "stop" AI generated content. That genie is out of the bottle.
+
+But we can choose not to drown in it.
+
+My goal with Cadence isn't to ban AI tools. It's to bring transparency back to the web. When I look at a codebase or read an article, I want to know: *Did a human struggle with this idea, or did a GPU predict the next most likely token?*
+
+The patterns are there if you know how to look. The slop is loud, but the signal of human intent is worth defending.
+
+**The Dossier is open. Happy hunting.**
+
+- [Explore Cadence on GitHub](https://github.com/TryCadence/Cadence)
+- [Read the Documentation](https://noslop.tech)
+- [Join My Discord](https://discord.gg/5ywGhtMxWH)

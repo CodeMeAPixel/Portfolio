@@ -1,0 +1,55 @@
+---
+title: 'Why Cadence Uses Go: Scaling AI Detection for the Modern Web'
+date: '2026-02-07'
+publishedAt: "2026-02-07"
+updatedAt: "2026-02-07"
+author: "Tyler H"
+summary: 'An inside look at the architectural journey of Cadence, from planning sessions with devs and Claude to building a high performance detection engine in Go 1.24.'
+---
+
+## The New Reality of the Web
+
+As we move deeper into 2026, the "AI powered" trend has officially transitioned from a novelty to the baseline. We are no longer just using AI to write snippets we are seeing entire repositories and websites generated in seconds. While this has unlocked unprecedented speed, it has created a new challenge for developers and security teams: Provenance and Authenticity.
+
+This challenge is exactly what led me to build Cadence, a tool designed to bring transparency back to the web by detecting AI generated content in git repositories and websites.
+
+## From "Vibe Checks" to Scaling with Go
+
+When I first sat down to plan Cadence, I spent a significant amount of time discussing the approach with other developers and bouncing architectural ideas off Claude. I needed to know if my theory that AI leaves statistical "fingerprints" in commit velocity and code structure was actually sound.
+
+The feedback was clear: to scan thousands of commits or large scale websites, I needed a language that could handle massive I/O concurrency without breaking a sweat. While Python was tempting for its AI libraries, those early brainstorming sessions pointed me toward Go.
+
+### Why Go was the Secret Weapon:
+
+1. **Performance at Scale:** Detection isn't just about reading text — it's about crunching numbers. Cadence performs "Velocity Analysis" and "Statistical Anomaly" detection across thousands of data points. Go 1.24 handles these intensive calculations natively with incredible speed.
+2. **Concurrency by Default:** Processing 38 different detection strategies simultaneously requires a robust concurrency model. Using goroutines and channels allowed me to build a pipeline where a repository scan fans out across dozens of detectors and collects results into a unified report in milliseconds.
+3. **The "Single Binary" Promise:** In an era of complex environments, being able to ship Cadence as a single, static binary for Linux, macOS, and Windows is a massive win for portability.
+
+## The Roadmap to v0.3.0
+
+Cadence didn't reach its current state overnight. The initial versions focused on the core detection engine and the CLI. However, the project is currently in a massive growth phase. The v0.3.0 branch on GitHub shows the groundwork for:
+
+- **Real-Time SSE Streaming:** Moving beyond static reports to live analysis progress via Server Sent Events.
+- **Multi-Provider AI Validation:** Integrating OpenAI and Anthropic as "Expert" second opinions for flagged content.
+- **The Plugin System:** Allowing the community to register custom detection strategies at runtime.
+
+Even though these features are still in the dev branch, they prove that the decision to use Go was the right one. The language has allowed the project to scale from a simple CLI tool to a high concurrency streaming API without a total rewrite.
+
+## Technical Deep Dive: Detection Strategies
+
+Cadence doesn't just look for "AI sounding" words. It uses a Confidence Weighted Scoring system organized into several categories:
+
+| Category | What it Watches |
+| --- | --- |
+| Velocity | Code additions exceeding human norms (>100 additions/min) |
+| Structural | Unnatural consistency in addition/deletion ratios or heading hierarchies |
+| Linguistic | AI characteristic word choices and filler phrases |
+| Behavioral | "Burst" patterns suggesting batch processing rather than human iteration |
+
+## Conclusion
+
+Building Cadence has taught me that the future of web development isn't just about using AI it's about building the infrastructure to verify it. As we see more machine generated content, tools that provide transparency should become part of the standard developer stack.
+
+I never thought I'd build something this large with Go, but with a bit of planning, a few peer reviews, and the right language, it's been a game changer.
+
+**Try Cadence:** [noslop.tech](https://noslop.tech) | [GitHub](https://github.com/TryCadence/Cadence)
