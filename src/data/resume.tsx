@@ -151,6 +151,7 @@ export const DATA = {
       title: "Mocha",
       href: "https://mocha.embrly.ca",
       dates: "April 2026",
+      description: "",
       active: true,
       technologies: [
         "Docker",
@@ -176,6 +177,7 @@ export const DATA = {
       title: "ByteSend",
       href: "https://bytesend.cloud",
       dates: "April 2026",
+      description: "",
       active: true,
       technologies: [
         "Docker",
@@ -201,6 +203,7 @@ export const DATA = {
       title: "Emberly",
       href: "https://embrly.ca",
       dates: "2022 - Present",
+      description: "",
       active: true,
       technologies: [
         "Next.js",
@@ -227,6 +230,7 @@ export const DATA = {
       title: "NodeByte Hosting",
       href: "https://nodebyte.host",
       dates: "2024 - Present",
+      description: "",
       active: true,
       technologies: [
         "Next.js",
