@@ -7,6 +7,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Badge } from "@/components/ui/badge";
 import { DATA } from "@/data/resume";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -77,7 +78,25 @@ export default function WorkSection() {
             </div>
           </AccordionTrigger>
           <AccordionContent className="p-0 ml-13 text-xs sm:text-sm text-muted-foreground">
-            {work.description}
+            <div className="space-y-3 pb-1">
+              {work.badges.length > 0 ? (
+                <div className="flex flex-wrap gap-2">
+                  {work.badges.map((badge) => (
+                    <Badge
+                      key={`${work.company}-${badge}`}
+                      variant="secondary"
+                      className="text-[11px]"
+                    >
+                      {badge}
+                    </Badge>
+                  ))}
+                </div>
+              ) : null}
+              <div className="text-xs uppercase tracking-[0.16em] text-muted-foreground/80">
+                {work.location}
+              </div>
+              <p>{work.description}</p>
+            </div>
           </AccordionContent>
         </AccordionItem>
       ))}

@@ -19,9 +19,7 @@ export default function HackathonsSection() {
           <div className="flex flex-col gap-y-3 items-center justify-center">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">I like building things</h2>
             <p className="text-muted-foreground md:text-lg/relaxed lg:text-base/relaxed xl:text-lg/relaxed text-balance text-center">
-              During my time in university, I attended {DATA.hackathons.length}+
-              hackathons. People from around the country would come together and
-              build incredible things in 2-3 days. It was eye-opening to see the endless possibilities brought to life by a group of motivated and passionate individuals.
+              I&apos;ve participated in several hackathons over the years, both in-person and online. It&apos;s a great way to learn new technologies, meet new people, and build cool projects in a short amount of time. Here are some of the hackathons I&apos;ve participated in.
             </p>
           </div>
         </div>
