@@ -133,7 +133,7 @@ export const DATA = {
         "Built and launched a Discord bot discovery platform from the ground up, covering product direction, branding, platform development, and community growth. The project gave me early experience shipping user-facing features, running an online service, and iterating quickly based on feedback from bot developers and server owners.",
     },
     {
-      company: "South America Roleplay (SARP)",
+      company: "South America Roleplay",
       href: "",
       badges: ["Lead Developer", "Sysadmin", "FiveM"],
       location: "Remote",
