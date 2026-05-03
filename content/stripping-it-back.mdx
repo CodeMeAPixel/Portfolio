@@ -77,4 +77,24 @@ Nine times out of ten, the answer is no, and I deleted it.
 
 That's the discipline. Not knowing how to build impressive things, but knowing when not to.
 
+### Rethinking the Projects Section
+
+The project cards section got a full pass too. The original was a 2-column grid of cards, each with a `h-48` screenshot, a description block, and a pile of tech stack badges. Fine as a starting point, but it scaled badly. Four cards is manageable. Ten cards is a scrollathon.
+
+The solution was a hybrid layout: the two most important projects get featured cards at the top (same 2-col grid, but tightened up — `h-36` thumbnails, `p-4` padding, tags capped at 4 with a `+N` overflow counter), and everything else falls into a compact list below. Each list row is just title, date, a few tag chips, and an arrow. No images, no descriptions. The information density is completely different without feeling like a downgrade.
+
+For the link badges that used to float over the screenshot, I dropped the solid black `Badge` and replaced them with `bg-background/90 border border-border` backed pills with `backdrop-blur-sm`. They match the surface language of the rest of the page instead of looking like an afterthought.
+
+**The "show more" pattern** was the final piece. Rather than dumping all 12 projects on the page at once, the list starts at 2 visible rows. A `Show N more` button (just a `text-xs text-muted-foreground` label with a `ChevronDown`, no border, no box) reveals 2 more at a time. Once expanded, a `Show less` appears alongside it. Both buttons are inline, separated by a `·` dot. They disappear entirely when you're at the default state. It's the Vercel pattern: progressive disclosure, no clutter until you ask for it.
+
+### The Part Nobody Talks About
+
+Rebuilding your own portfolio is a weird experience. There's no client, no deadline, and no brief. You're the worst client you'll ever work with because you have opinions about everything and the scope creeps every five minutes.
+
+But there's something honest about it too. The decisions you make on your own project when nobody is watching and nobody is paying you are the most direct reflection of what you actually believe. The temptation to add another animation or another frosted glass panel is real. Every time I felt that pull, I asked: *does Vercel ship this?* 
+
+Nine times out of ten, the answer is no, and I deleted it.
+
+That's the discipline. Not knowing how to build impressive things, but knowing when not to.
+
 Stay caffeinated. Stay real.
