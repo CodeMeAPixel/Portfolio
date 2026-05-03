@@ -1,143 +1,197 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import Markdown from "react-markdown";
 
 function ProjectImage({ src, alt }: { src: string; alt: string }) {
   const [imageError, setImageError] = useState(false);
 
   if (!src || imageError) {
-    return <div className="w-full h-48 bg-muted" />;
+    return <div className="w-full h-36 bg-muted" />;
   }
 
   return (
     <img
       src={src}
       alt={alt}
-      className="w-full h-48 object-cover"
+      className="w-full h-36 object-cover"
       onError={() => setImageError(true)}
     />
   );
 }
 
-interface Props {
+interface ProjectLinkItem {
+  icon: React.ReactNode;
+  type: string;
+  href: string;
+}
+
+interface BaseProps {
   title: string;
   href?: string;
   description: string;
   dates: string;
   tags: readonly string[];
-  link?: string;
-  image?: string;
-  video?: string;
-  links?: readonly {
-    icon: React.ReactNode;
-    type: string;
-    href: string;
-  }[];
+  links?: readonly ProjectLinkItem[];
   className?: string;
 }
 
+interface CardProps extends BaseProps {
+  image?: string;
+  video?: string;
+}
+
+// Featured card — image + metadata
 export function ProjectCard({
   title,
   href,
   description,
   dates,
   tags,
-  link,
+  links,
   image,
   video,
-  links,
   className,
-}: Props) {
+}: CardProps) {
+  const visibleTags = tags.slice(0, 4);
+  const overflow = tags.length - visibleTags.length;
+
   return (
     <div
       className={cn(
-        "flex flex-col h-full border border-border bg-card/90 backdrop-blur-3xl shadow-[0_0_10px_3px] shadow-primary/5 rounded-xl overflow-hidden hover:ring-2 cursor-pointer hover:ring-muted transition-all duration-200",
+        "flex flex-col h-full border border-border bg-card rounded-lg overflow-hidden hover:border-foreground/25 transition-colors duration-200 group",
         className
       )}
     >
-      <div className="relative shrink-0">
-        <Link
-          href={href || "#"}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block"
-        >
-          {video ? (
-            <video
-              src={video}
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="w-full h-48 object-cover"
-            />
-          ) : image ? (
-            <ProjectImage src={image} alt={title} />
-          ) : (
-            <div className="w-full h-48 bg-muted" />
-          )}
-        </Link>
+      {/* Thumbnail */}
+      <Link
+        href={href || "#"}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="relative block shrink-0"
+      >
+        {video ? (
+          <video
+            src={video}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-36 object-cover"
+          />
+        ) : image ? (
+          <ProjectImage src={image} alt={title} />
+        ) : (
+          <div className="w-full h-36 bg-muted" />
+        )}
+        {/* Link badges overlay */}
         {links && links.length > 0 && (
-          <div className="absolute top-2 right-2 flex flex-wrap gap-2">
+          <div className="absolute top-2 right-2 flex gap-1.5">
             {links.map((link, idx) => (
-              <Link
-                href={link.href}
+              <a
                 key={idx}
+                href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
+                className="flex items-center gap-1 h-6 px-2 rounded-md bg-background/90 border border-border text-[11px] font-medium text-foreground backdrop-blur-sm hover:bg-background transition-colors"
               >
-                <Badge
-                  className="flex items-center gap-1.5 text-xs bg-black text-white hover:bg-black/90"
-                  variant="default"
-                >
-                  {link.icon}
-                  {link.type}
-                </Badge>
-              </Link>
+                {link.icon}
+                {link.type}
+              </a>
             ))}
           </div>
         )}
-      </div>
-      <div className="p-6 flex flex-col gap-3 flex-1">
+      </Link>
+
+      {/* Info */}
+      <div className="p-4 flex flex-col gap-2.5 flex-1">
         <div className="flex items-start justify-between gap-2">
-          <div className="flex flex-col gap-1">
-            <h3 className="font-semibold">{title}</h3>
-            <time className="text-xs text-muted-foreground">{dates}</time>
+          <div>
+            <h3 className="text-sm font-semibold leading-snug">{title}</h3>
+            <time className="text-[11px] text-muted-foreground">{dates}</time>
           </div>
           <Link
             href={href || "#"}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm"
+            className="text-muted-foreground hover:text-foreground transition-colors shrink-0 mt-0.5"
             aria-label={`Open ${title}`}
           >
-            <ArrowUpRight className="h-4 w-4" aria-hidden />
+            <ArrowUpRight className="size-4" aria-hidden />
           </Link>
         </div>
-        <div className="text-xs flex-1 prose max-w-full text-pretty font-sans leading-relaxed text-muted-foreground dark:prose-invert">
-          <Markdown>{description}</Markdown>
+
+        {/* Tags */}
+        <div className="flex flex-wrap gap-1 mt-auto">
+          {visibleTags.map((tag) => (
+            <span
+              key={tag}
+              className="h-5 px-1.5 rounded border border-border text-[11px] text-muted-foreground font-medium"
+            >
+              {tag}
+            </span>
+          ))}
+          {overflow > 0 && (
+            <span className="h-5 px-1.5 rounded border border-border text-[11px] text-muted-foreground font-medium">
+              +{overflow}
+            </span>
+          )}
         </div>
-        {tags && tags.length > 0 && (
-          <div className="flex flex-wrap gap-1 mt-auto">
-            {tags.map((tag) => (
-              <Badge
-                key={tag}
-                className="text-[11px] font-medium border border-border h-6 w-fit px-2"
-                variant="outline"
-              >
-                {tag}
-              </Badge>
-            ))}
-          </div>
-        )}
       </div>
     </div>
+  );
+}
+
+// Compact row — no image, for list view
+export function ProjectRow({
+  title,
+  href,
+  dates,
+  tags,
+  links,
+  className,
+}: BaseProps) {
+  const visibleTags = tags.slice(0, 3);
+  const overflow = tags.length - visibleTags.length;
+
+  return (
+    <Link
+      href={href || "#"}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={cn(
+        "group flex items-center gap-4 py-3 border-b border-border last:border-0 hover:bg-muted/30 -mx-3 px-3 rounded-md transition-colors",
+        className
+      )}
+    >
+      {/* Title + date */}
+      <div className="min-w-0 flex-1">
+        <p className="text-sm font-medium truncate">{title}</p>
+        <time className="text-[11px] text-muted-foreground">{dates}</time>
+      </div>
+
+      {/* Tags */}
+      <div className="hidden sm:flex items-center gap-1 shrink-0">
+        {visibleTags.map((tag) => (
+          <span
+            key={tag}
+            className="h-5 px-1.5 rounded border border-border text-[11px] text-muted-foreground font-medium"
+          >
+            {tag}
+          </span>
+        ))}
+        {overflow > 0 && (
+          <span className="h-5 px-1.5 rounded border border-border text-[11px] text-muted-foreground font-medium">
+            +{overflow}
+          </span>
+        )}
+      </div>
+
+      <ArrowUpRight className="size-3.5 text-muted-foreground group-hover:text-foreground transition-colors shrink-0" />
+    </Link>
   );
 }
