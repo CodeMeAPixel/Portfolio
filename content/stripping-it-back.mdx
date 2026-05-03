@@ -81,7 +81,7 @@ That's the discipline. Not knowing how to build impressive things, but knowing w
 
 The project cards section got a full pass too. The original was a 2-column grid of cards, each with a `h-48` screenshot, a description block, and a pile of tech stack badges. Fine as a starting point, but it scaled badly. Four cards is manageable. Ten cards is a scrollathon.
 
-The solution was a hybrid layout: the two most important projects get featured cards at the top (same 2-col grid, but tightened up — `h-36` thumbnails, `p-4` padding, tags capped at 4 with a `+N` overflow counter), and everything else falls into a compact list below. Each list row is just title, date, a few tag chips, and an arrow. No images, no descriptions. The information density is completely different without feeling like a downgrade.
+The solution was a hybrid layout: the two most important projects get featured cards at the top (same 2-col grid, but tightened up `h-36` thumbnails, `p-4` padding, tags capped at 4 with a `+N` overflow counter), and everything else falls into a compact list below. Each list row is just title, date, a few tag chips, and an arrow. No images, no descriptions. The information density is completely different without feeling like a downgrade.
 
 For the link badges that used to float over the screenshot, I dropped the solid black `Badge` and replaced them with `bg-background/90 border border-border` backed pills with `backdrop-blur-sm`. They match the surface language of the rest of the page instead of looking like an afterthought.
 
