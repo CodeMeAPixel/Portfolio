@@ -1,0 +1,100 @@
+---
+title: "Why I Rebuilt My Portfolio Around the Vercel Aesthetic"
+publishedAt: "2026-05-03"
+updatedAt: "2026-05-03"
+author: "Tyler H"
+summary: "A look at the decisions behind my latest portfolio redesign removing the visual noise, leaning into Tailwind v4, and why 'boring' design is often the most honest kind."
+image: ""
+---
+
+I rebuilt my portfolio today. Not because it was broken it worked fine but because every time I looked at it, something felt off. It wasn't one thing. It was the accumulation of small decisions made over months of iteration that had slowly added up to a design that felt cluttered, compensating, and tired.
+
+So I stripped it back. Here's why, and what I actually changed.
+
+### The Problem With "Impressive" Design
+
+There's a trap that most developers fall into when they build their own portfolio. It's the same trap I fell into. You want it to *look* like you know what you're doing, so you reach for motion, glow effects, aggressive gradients, and glass morphism whatever is trending on Dribbble that month. The result is a portfolio that screams "I can copy a tutorial" more than it demonstrates actual craft.
+
+My old dark mode was `oklch(0.18)`. That's not dark. That's "we're scared of the dark." Genuine dark mode backgrounds should make your monitor feel like it's off when you're not looking at it. Vercel ships at near-true black `oklch(0.08)` and it's one of the first things that jumps out when you land on their site. The content doesn't fight the background for attention. The background just... disappears.
+
+That's the whole game.
+
+### What "Vercel Aesthetic" Actually Means
+
+People throw this phrase around a lot, but very few actually break down what makes it work. It's not just "dark background, white text." It's a system of deliberate restraint:
+
+- **No glow shadows.** The old version had `shadow-[0_0_10px_3px] shadow-primary/5` on basically everything. It's subtle, but it adds up to a constant low-level visual hum that tires the eye.
+- **Flat surfaces.** Cards shouldn't float. `backdrop-blur-3xl` + `bg-card/90` is a hack that makes a flat element look like a depth illusion. Real depth comes from border contrast, not blur.
+- **Tight radius.** I dropped from `0.625rem` to `0.5rem` on the border radius. It sounds pointless. The difference is immediately visible everything snaps from "friendly SaaS" to "professional tooling."
+- **Honest borders.** Light mode borders at `oklch(0.88)` instead of the near-invisible `oklch(0.922)`. You should be able to see the edge of a card. It's not a mystery box.
+
+The Vercel design language works because it communicates *confidence*. It doesn't need to impress you. It assumes you're already paying attention.
+
+### Tailwind v4 Gotchas I Hit Along the Way
+
+Since the redesign was built in **Tailwind v4**, a few things bit me that are worth documenting.
+
+**Arbitrary values have new shorthand.** `gap-[3px]` is now `gap-0.75`. `min-h-[72px]` is `min-h-18`. The compiler will flag these, but only at runtime in Next.js, not at write time unless you have the right LSP setup. Expect a wave of lint errors on first load if you're migrating.
+
+**`@layer utilities` doesn't register animation classes the way v3 did.** I spent longer than I should admit trying to get a custom marquee component to scroll. The fix was bypassing Tailwind's class generation entirely for the animation property define your `@keyframes` in the CSS, then apply them via inline `style` props in the component. Let the browser handle it directly.
+
+```css
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+```
+
+```tsx
+style={{ animation: `marquee ${duration}s linear infinite` }}
+```
+
+Not elegant, but it works every time. Sometimes the right answer is to stop fighting the abstraction.
+
+**`[mask-image:...]` arbitrary properties use a different syntax now.** The correct form in v4 is `mask-[linear-gradient(...)]`, not `[mask-image:linear-gradient(...)]`. Small thing, but it'll silently break your fade-edge effects if you miss it.
+
+### The Skills Section Problem
+
+One of the bigger structural changes was the skills section. The original version was a flat list of ~20 technology pills. Fine for 20. Absolutely unusable when you have 80+ skills across 9 categories.
+
+I went through a few iterations:
+
+1. **Two-row marquee.** Looked dynamic, but with 80 items the rows move too fast to read, and slow enough to read means it takes forever to see everything. Dropped.
+2. **Categorized grid.** Technically correct, visually overwhelming. Four columns of dense pills with small category headers is just a wall.
+3. **Tabbed interface with level indicators.** This is what I shipped.
+
+The final version uses category tabs Frontend, Backend, Database, DevOps, etc. and inside each tab, each skill pill has five dot indicators showing proficiency level. Hover any pill and a tooltip confirms the label: *Beginner* through *Expert*. It's clean, scannable, and actually communicates something useful rather than just listing every technology I've ever touched.
+
+The dots are dead simple five `size-1 rounded-full` spans, filled vs unfilled. No libraries, no charts, no radial progress rings. The simplest solution is usually the right one.
+
+### The Part Nobody Talks About
+
+Rebuilding your own portfolio is a weird experience. There's no client, no deadline, and no brief. You're the worst client you'll ever work with because you have opinions about everything and the scope creeps every five minutes.
+
+But there's something honest about it too. The decisions you make on your own project when nobody is watching and nobody is paying you are the most direct reflection of what you actually believe. The temptation to add another animation or another frosted glass panel is real. Every time I felt that pull, I asked: *does Vercel ship this?* 
+
+Nine times out of ten, the answer is no, and I deleted it.
+
+That's the discipline. Not knowing how to build impressive things, but knowing when not to.
+
+### Rethinking the Projects Section
+
+The project cards section got a full pass too. The original was a 2-column grid of cards, each with a `h-48` screenshot, a description block, and a pile of tech stack badges. Fine as a starting point, but it scaled badly. Four cards is manageable. Ten cards is a scrollathon.
+
+The solution was a hybrid layout: the two most important projects get featured cards at the top (same 2-col grid, but tightened up `h-36` thumbnails, `p-4` padding, tags capped at 4 with a `+N` overflow counter), and everything else falls into a compact list below. Each list row is just title, date, a few tag chips, and an arrow. No images, no descriptions. The information density is completely different without feeling like a downgrade.
+
+For the link badges that used to float over the screenshot, I dropped the solid black `Badge` and replaced them with `bg-background/90 border border-border` backed pills with `backdrop-blur-sm`. They match the surface language of the rest of the page instead of looking like an afterthought.
+
+**The "show more" pattern** was the final piece. Rather than dumping all 12 projects on the page at once, the list starts at 2 visible rows. A `Show N more` button (just a `text-xs text-muted-foreground` label with a `ChevronDown`, no border, no box) reveals 2 more at a time. Once expanded, a `Show less` appears alongside it. Both buttons are inline, separated by a `·` dot. They disappear entirely when you're at the default state. It's the Vercel pattern: progressive disclosure, no clutter until you ask for it.
+
+### The Part Nobody Talks About
+
+Rebuilding your own portfolio is a weird experience. There's no client, no deadline, and no brief. You're the worst client you'll ever work with because you have opinions about everything and the scope creeps every five minutes.
+
+But there's something honest about it too. The decisions you make on your own project when nobody is watching and nobody is paying you are the most direct reflection of what you actually believe. The temptation to add another animation or another frosted glass panel is real. Every time I felt that pull, I asked: *does Vercel ship this?* 
+
+Nine times out of ten, the answer is no, and I deleted it.
+
+That's the discipline. Not knowing how to build impressive things, but knowing when not to.
+
+Stay caffeinated. Stay real.
