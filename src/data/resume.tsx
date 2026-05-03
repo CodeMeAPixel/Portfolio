@@ -411,7 +411,7 @@ export const DATA = {
     {
       title: "NodeByte LTD",
       href: "https://nodebyte.co.uk",
-      dates: "2022 - Present",
+      dates: "2024 - Present",
       description: "Company website for NodeByte LTD — helping businesses transform their digital presence.",
       active: true,
       technologies: [
