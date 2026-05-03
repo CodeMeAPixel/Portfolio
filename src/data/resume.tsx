@@ -433,7 +433,7 @@ export const DATA = {
     },
     {
       title: "Lexicon",
-      href: "https://lexicon.embrly.ca",
+      href: "https://lexiapp.space",
       dates: "2025 - Present",
       description: "AI-powered writing assistant for rephrasing and enhancing text with ease.",
       active: true,
@@ -449,7 +449,7 @@ export const DATA = {
       links: [
         {
           type: "Website",
-          href: "https://lexicon.embrly.ca",
+          href: "https://lexiapp.space",
           icon: <Icons.globe className="size-3" />,
         },
       ],
